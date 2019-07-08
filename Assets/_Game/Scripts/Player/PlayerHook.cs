@@ -63,6 +63,7 @@ public class PlayerHook : MonoBehaviour
 
     Vector2 CurrentJoystickDirection;
     Vector2 TargetPoint;
+    Vector2 TargetPosition;
     Vector3 MousePositionForVisualization;
     // Start is called before the first frame update
     void Start()
@@ -84,9 +85,12 @@ public class PlayerHook : MonoBehaviour
                 ActiveTime += Time.deltaTime;
                 if (VisualizeLines)
                 {
-                    RadiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
-                    RadiusVisualization.GetComponent<DrawCircle>().radius = HookRadius;
-                    RadiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+                    if (RadiusVisualization != null)
+                    {
+                        RadiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
+                        RadiusVisualization.GetComponent<DrawCircle>().radius = HookRadius;
+                        RadiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+                    }
                     if (controlls == ControllType.Keyboard)
                     {
                         Visualize();
@@ -105,18 +109,24 @@ public class PlayerHook : MonoBehaviour
                     CurrentSelectedPoint = FindTargetHookPointForController();
                 }
                 Time.timeScale = MaxTimeSlow;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
             }
             else if (Input.GetButtonUp("Hook") || ActiveTime > MaxActiveTime || Input.GetAxis("ControllerHook") == 0 && HookActivated == true) //für controller ist das blöd
             {
                 HookActivated = false;
                 ActiveTime = 0;
                 ResetHookPoints();
-                RadiusVisualization.GetComponent<LineRenderer>().enabled = false;
+                if (RadiusVisualization != null)
+                {
+                    RadiusVisualization.GetComponent<LineRenderer>().enabled = false;
+                }
                 Time.timeScale = NormalTimeScale;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
                 if (CurrentSelectedPoint != null)
                 {
                     HookActive = true;
                     TargetHookPoint = CurrentSelectedPoint;
+                    TargetPosition = TargetHookPoint.transform.position;
                     CancelDistance = CalculateCancelDistance(); //distanz vom spieler bis zum target (beachtet die extra distanz nicht)
                     //MoveTowardsHookPoint(TargetHookPoint);
                 }
@@ -153,6 +163,12 @@ public class PlayerHook : MonoBehaviour
             if (CancelCondition)
             {
                 DeactivatePullToTarget();
+            }
+            if(TargetPosition != (Vector2)TargetHookPoint.transform.position)
+            {
+                TargetPosition = (Vector2)TargetHookPoint.transform.position;
+                Vector2 test = CalculateTargetPoint(transform.position, TargetHookPoint.transform.position, AdditionalTravelDistance); //evlt muss gar nicht mehrfach berechnet werden
+                MoveTowardsHookPoint(test);
             }
         }
     }
