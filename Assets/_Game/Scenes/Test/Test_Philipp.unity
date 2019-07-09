@@ -2639,6 +2639,16 @@ PrefabInstance:
       propertyPath: stick
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1239240796463517990, guid: 3f718b878a4b9164284dba522abfbe1a,
+        type: 3}
+      propertyPath: FormOfTimeSlow
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239240796463517990, guid: 3f718b878a4b9164284dba522abfbe1a,
+        type: 3}
+      propertyPath: MaxTimeActive
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1239240796527836246, guid: 3f718b878a4b9164284dba522abfbe1a,
         type: 3}
       propertyPath: m_Layer
