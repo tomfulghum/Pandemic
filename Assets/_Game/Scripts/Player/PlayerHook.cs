@@ -29,6 +29,8 @@ using UnityEngine;
 //throw hook in direction --> even if theres no target point --> fist attempt at cooldown
 //cancel with time funktioniert aktuell nur mit 60 fps
 //cooldown errechnet sich aus hook range und repeat time
+//vllt immer in facing direction hooken --> um das controller input axis = 0,0 zu beheben
+//immer überprüfen ob sich die tags geändert haben
 public class PlayerHook : MonoBehaviour
 {
     public enum ControllType { Keyboard, Controller }
@@ -64,6 +66,7 @@ public class PlayerHook : MonoBehaviour
     float FramesTillTarget;
     bool AdditionalTravelTest;
     bool PullBackActive;
+    bool PullToBigEnemy;
 
     float timeslowTest;
     float currentTimeActive;
@@ -149,7 +152,7 @@ public class PlayerHook : MonoBehaviour
                         }
                 }
                 currentTimeActive += Time.deltaTime / Time.timeScale;
-                Debug.Log(currentTimeActive);
+               // Debug.Log(currentTimeActive);
                 if (currentTimeActive > MaxTimeActive)
                 {
                     ActivateHook(ControllerDirection);
@@ -167,7 +170,7 @@ public class PlayerHook : MonoBehaviour
             {
                 AdditionalTravelTest = false;
             }
-            if (TargetPosition != (Vector2)TargetHookPoint.transform.position && AdditionalTravelTest)
+            if (TargetPosition != (Vector2)TargetHookPoint.transform.position && AdditionalTravelTest) //bei big enemy funktioniert das nicht
             {
                 /*
                 TargetPosition = TargetHookPoint.transform.position;
@@ -226,8 +229,17 @@ public class PlayerHook : MonoBehaviour
             TargetHookPoint = CurrentSelectedPoint;
             TargetPosition = TargetHookPoint.transform.position;
             CancelDistance = CalculateCancelDistance(); //distanz vom spieler bis zum target (beachtet die extra distanz nicht)
+            if (TargetHookPoint.transform.parent != null && TargetHookPoint.transform.parent.CompareTag("BigEnemy"))
+            {
+                PullToBigEnemy = true;
+                TargetPoint = TargetPosition;
+            }
+            else
+            {
+                PullToBigEnemy = false;
+                TargetPoint = CalculateTargetPoint(transform.position, TargetPosition, AdditionalTravelDistance);
+            }
 
-            TargetPoint = CalculateTargetPoint(transform.position, TargetPosition, AdditionalTravelDistance);
             MoveTowardsHookPoint(TargetPoint);
             FramesTillTarget = CalculateTravelTime(Vector2.Distance(transform.position, TargetPoint), HookSpeed);
             /*
@@ -304,13 +316,6 @@ public class PlayerHook : MonoBehaviour
         currentTimeActive = 0;
     }
 
-    void AdditionalTravel()
-    {
-        Vector2 NewTarget = CalculateTargetPoint(transform.position, TargetPosition, AdditionalTravelDistance);
-        MoveTowardsHookPoint(NewTarget);
-    }
-
-
     Vector2 CalculateTargetPoint(Vector2 _start, Vector2 _end, float _additionalDistance) //ändern
     {
         float totalDistance = Vector2.Distance(_start, _end) + AdditionalTravelDistance;
@@ -352,9 +357,34 @@ public class PlayerHook : MonoBehaviour
 
     void DeactivatePullToTarget() //just for testing
     {
-        HookActive = false;
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        if (PullToBigEnemy == true)
+        {
+            StartCoroutine(JumpBack());
+        }
+        else
+        {
+            GetComponent<PlayerMovement>().DisableUserInput(false);
+        }
+        HookActive = false; //evtl woanders besser
         TargetHookPoint = null;
+        Physics2D.IgnoreLayerCollision(10, 11, false);
+    }
+
+    IEnumerator JumpBack()
+    {
+        int x = 1;
+        if(transform.position.x > TargetHookPoint.transform.parent.transform.position.x)
+        {
+            x = 1;
+        }
+        else
+        {
+            x = -1;
+        }
+        Vector2 JumpBackvelocity = new Vector2(0.5f*x, 0.5f).normalized * HookSpeed; //evtl jump speed
+        GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity);
+        yield return new WaitForSeconds(0.4f); //bessere lösung finden
+        GetComponent<PlayerMovement>().DisableUserInput(false);
     }
 
     void MoveTowardsHookPoint(Vector2 _targetPoint) //rename
@@ -362,6 +392,7 @@ public class PlayerHook : MonoBehaviour
         Vector2 NewCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * HookSpeed;
         GetComponent<PlayerMovement>().DisableUserInput(true);
         GetComponent<PlayerMovement>().SetExternalVelocity(NewCharacterVelocity);
+        Physics2D.IgnoreLayerCollision(10, 11, true);
     }
 
     Collider2D FindTargetHookPoint(Vector2 _direction)
