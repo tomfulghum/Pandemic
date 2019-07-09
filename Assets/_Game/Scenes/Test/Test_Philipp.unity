@@ -1090,8 +1090,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dad9e5fd74c6c14ba968cb08d1479b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MovementPattern: 0
   speed: 1
-  height: 2
+  height: 3
 --- !u!1 &646947783
 GameObject:
   m_ObjectHideFlags: 0
@@ -2541,7 +2542,7 @@ PrefabInstance:
     - target: {fileID: 1239240796463517916, guid: 3f718b878a4b9164284dba522abfbe1a,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1239240796463517984, guid: 3f718b878a4b9164284dba522abfbe1a,
         type: 3}
@@ -2623,10 +2624,25 @@ PrefabInstance:
       propertyPath: HookSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1239240796463517990, guid: 3f718b878a4b9164284dba522abfbe1a,
+        type: 3}
+      propertyPath: layer_mask.m_Bits
+      value: 768
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239240796463517990, guid: 3f718b878a4b9164284dba522abfbe1a,
+        type: 3}
+      propertyPath: controlls
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239240796463517990, guid: 3f718b878a4b9164284dba522abfbe1a,
+        type: 3}
+      propertyPath: stick
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1239240796527836246, guid: 3f718b878a4b9164284dba522abfbe1a,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f718b878a4b9164284dba522abfbe1a, type: 3}

@@ -28,6 +28,7 @@ using UnityEngine;
 //cancel with jump bug
 //throw hook in direction --> even if theres no target point --> fist attempt at cooldown
 //cancel with time funktioniert aktuell nur mit 60 fps
+//cooldown errechnet sich aus hook range und repeat time
 public class PlayerHook : MonoBehaviour
 {
     public enum ControllType { Keyboard, Controller }
@@ -47,6 +48,8 @@ public class PlayerHook : MonoBehaviour
     public bool UseCancelThroughTravelTime;
     public bool UseTimeSlow;
     public GameObject RadiusVisualization; //rename
+    public LayerMask layer_mask;
+
 
     List<Collider2D> TotalHookPoints;
 
@@ -58,7 +61,6 @@ public class PlayerHook : MonoBehaviour
     float FramesTillTarget;
     bool AdditionalTravelTest;
     bool PullBackActive;
-    int layer_mask;
 
     Collider2D TargetHookPoint;
     Collider2D CurrentSelectedPoint;
@@ -66,11 +68,12 @@ public class PlayerHook : MonoBehaviour
     Vector2 CurrentJoystickDirection;
     Vector2 TargetPoint;
     Vector2 TargetPosition;
-  
+
+    Coroutine HookCooldown = null;
+
     // Start is called before the first frame update
     void Start()
     {
-        layer_mask = LayerMask.GetMask("HookPoint");
         NormalTimeScale = Time.timeScale;
         TotalHookPoints = new List<Collider2D>();
     }
@@ -78,6 +81,19 @@ public class PlayerHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 ControllerDirection = Vector2.zero;
+        if (stick == ControllStick.Left)
+        {
+            ControllerDirection.x = Input.GetAxis("Horizontal");
+            ControllerDirection.y = Input.GetAxis("Vertical");
+            ControllerDirection = ControllerDirection.normalized;
+        }
+        if (stick == ControllStick.Right)
+        {
+            ControllerDirection.x = Input.GetAxis("RightHorizontal");
+            ControllerDirection.y = Input.GetAxis("RightVertical");
+            ControllerDirection = ControllerDirection.normalized;
+        }
         //Debug.Log(Input.GetAxis("ControllerHook"));
         if ((HookActive == false || CanUseHook()) && PullBackActive == false) //vllt hook erst auf nicht active wetzen wenn ziel erreicht ist &&hookNotThrown
         {
@@ -92,13 +108,15 @@ public class PlayerHook : MonoBehaviour
                 }
                 if (controlls == ControllType.Keyboard)
                 {
-                    CurrentSelectedPoint = FindTargetHookPoint();
+                    Vector2 MousePositionForVisualization = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector2 DirectionLine = (MousePositionForVisualization - (Vector2)transform.position).normalized;
+                    CurrentSelectedPoint = FindTargetHookPoint(DirectionLine);
                     Visualize();
                 }
                 else
                 {
-                    CurrentSelectedPoint = FindTargetHookPointForController();
-                    VisualizeForController();
+                    CurrentSelectedPoint = FindTargetHookPoint(ControllerDirection);
+                    VisualizeForController(ControllerDirection);
                 }
                 if (UseTimeSlow)
                 {
@@ -133,16 +151,25 @@ public class PlayerHook : MonoBehaviour
                     FramesTillTarget = CalculateTravelTime(Vector2.Distance(transform.position, TargetPosition), HookSpeed);
                     */
                 }
-                else if(TargetHookPoint == null)
+                else if (TargetHookPoint == null)
                 {
-                    StartCoroutine("throwHook");
+                    if (controlls == ControllType.Keyboard)
+                    {
+                        Vector2 MousePositionForVisualization = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Vector2 DirectionLine = (MousePositionForVisualization - (Vector2)transform.position).normalized;
+                        HookCooldown = StartCoroutine(throwHook(DirectionLine));
+                    }
+                    if (controlls == ControllType.Controller)
+                    {
+                        HookCooldown = StartCoroutine(throwHook(ControllerDirection));
+                    }
                 }
             }
         }
 
         if (HookActive)
         {
-            if(Vector2.Distance(transform.position, TargetPosition) < TargetReachedTolerance)
+            if (Vector2.Distance(transform.position, TargetPosition) < TargetReachedTolerance)
             {
                 AdditionalTravelTest = false;
             }
@@ -158,7 +185,7 @@ public class PlayerHook : MonoBehaviour
                 //FramesTillTarget = CalculateTravelTime(Vector2.Distance(transform.position, TargetPoint), HookSpeed); //brauch ich das? --> eigentlich schon
             }
             FramesTillTarget -= 1 * Time.timeScale;
-           // Debug.Log(FramesTillTarget);
+            // Debug.Log(FramesTillTarget);
             Debug.DrawLine(transform.position, TargetPosition);
             bool CancelCondition = false;
             if (Vector2.Distance(transform.position, TargetPoint) < TargetReachedTolerance) //wenn man sein ziel erreicht hat
@@ -178,7 +205,7 @@ public class PlayerHook : MonoBehaviour
 
             if (CancelCondition)
             {
-               // Invoke("DeactivatePullToTarget", 0.2f);
+                // Invoke("DeactivatePullToTarget", 0.2f);
                 //HookActive = false;
                 DeactivatePullToTarget();
                 //additionalTravel;
@@ -187,55 +214,35 @@ public class PlayerHook : MonoBehaviour
     }
 
 
-    IEnumerator throwHook()
+    IEnumerator throwHook(Vector2 _direction)
     {
         PullBackActive = true;
-        Vector2 MousePositionForVisualization = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 DirectionLine = (MousePositionForVisualization - (Vector2)transform.position).normalized;
-        /*
-        for (int i = 0; i < (int)HookRadius; i++)
-        {
-            Vector2 temp = DirectionLine*i;
-            Debug.DrawLine(transform.position, (Vector2)transform.position + temp);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionLine, i);
-            if(hit.collider != null)
-            {
-                Debug.Log("i hit smth");
-                StartCoroutine(pullBackHook(DirectionLine, i));
-                i = 100;
-            }
-            yield return new WaitForSeconds(0.1f);
-        }
-        */
+        //Vector2 MousePositionForVisualization = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector2 DirectionLine = (MousePositionForVisualization - (Vector2)transform.position).normalized;
+
         int test = 0;
-        while(test < HookRadius)
+        while (test < HookRadius)
         {
-            Vector2 temp = DirectionLine * test;
+            Vector2 temp = _direction * test;
             Debug.DrawLine(transform.position, (Vector2)transform.position + temp);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, DirectionLine, test);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, _direction, test, layer_mask); //weil player nichtmehr auf dem ignore raycast layer ist
             if (hit.collider != null)
             {
                 Debug.Log("i hit smth");
-                StartCoroutine(pullBackHook(DirectionLine, test));
-                StopCoroutine("throwHook");
-                test = 100;
+                StartCoroutine(pullBackHook(_direction, test));
+                StopCoroutine(HookCooldown);
             }
             test++;
             yield return new WaitForSeconds(0.03f);
         }
-        StartCoroutine(pullBackHook(DirectionLine, (int)HookRadius));
+        StartCoroutine(pullBackHook(_direction, (int)HookRadius));
     }
 
-    IEnumerator pullBackHook(Vector2 _temp, int x)
+    IEnumerator pullBackHook(Vector2 _direction, int _numberOfRepeats)
     {
-        //PullBackActive = true;
-        Debug.Log("hier");
-        Vector2 vectortest = _temp;
-        Debug.Log(x);
-        for (int i = x; i > 0; i--)
+        for (int i = _numberOfRepeats; i > 0; i--)
         {
-            //Debug.Log(i);
-            Vector2 temp = vectortest * i;
+            Vector2 temp = _direction * i;
             Debug.DrawLine(transform.position, (Vector2)transform.position + temp, Color.red);
             yield return new WaitForSeconds(0.03f);
         }
@@ -274,10 +281,10 @@ public class PlayerHook : MonoBehaviour
         Vector2 AdditionalVelocity = ((Vector2)TargetHookPoint.transform.position - (Vector2)transform.position).normalized * HookSpeed;
         //Debug.Log(Distance);
         //Debug.Log(AdditionalVelocity.magnitude);
-        float FramesTillTarget = Distance / (AdditionalVelocity.magnitude / 60) ;//*Time.deltaTime
-        float Test = Distance / (AdditionalVelocity.magnitude * (Time.deltaTime*10));
-        Debug.Log(FramesTillTarget);
-        Debug.Log(Test);
+        float FramesTillTarget = Distance / (AdditionalVelocity.magnitude / 60);//*Time.deltaTime
+        float Test = Distance / (AdditionalVelocity.magnitude * (Time.deltaTime * 10)); //evtl die richtige lösung/bessere?
+        //Debug.Log(FramesTillTarget);
+        //Debug.Log(Test);
         return FramesTillTarget;
     }
 
@@ -302,7 +309,7 @@ public class PlayerHook : MonoBehaviour
         GetComponent<PlayerMovement>().SetExternalVelocity(NewCharacterVelocity);
     }
 
-    Collider2D FindTargetHookPoint()
+    Collider2D FindTargetHookPoint(Vector2 _direction)
     {
         Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, HookRadius);
         Collider2D NearestHookPoint = new Collider2D();
@@ -317,7 +324,6 @@ public class PlayerHook : MonoBehaviour
             }
         }
         ResetHookPoints();
-
         for (int i = 0; i < ColliderInRange.Length; i++)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), HookRadius, layer_mask);
@@ -326,9 +332,9 @@ public class PlayerHook : MonoBehaviour
                 VisualizeLines(transform.position, hit.collider.transform.position);
                 hit.collider.GetComponent<SpriteRenderer>().color = Color.red;
                 Vector2 PlayerToCollider = (ColliderInRange[i].transform.position - transform.position).normalized;
-                Vector2 PlayerToMouse = (MousePosition - transform.position).normalized;
+                //Vector2 PlayerToMouse = (MousePosition - transform.position).normalized;
 
-                float angleInDeg = Vector2.Angle(PlayerToCollider, PlayerToMouse);
+                float angleInDeg = Vector2.Angle(PlayerToCollider, _direction);
                 if (angleInDeg < Angle && angleInDeg < LowestAngle)
                 {
                     LowestAngle = angleInDeg;
@@ -343,57 +349,6 @@ public class PlayerHook : MonoBehaviour
         return NearestHookPoint;
     }
 
-    Collider2D FindTargetHookPointForController() //return gameObject/Collider //nur zum test ColliderZurückgeben
-    {
-        Collider2D[] HookPointsInRange = Physics2D.OverlapCircleAll(transform.position, HookRadius);
-        Collider2D NearestHookPoint = new Collider2D();
-        Vector2 Direction;
-        float x = Input.GetAxis("Horizontal"); //check controller axis --> left or right joystick
-        float y = Input.GetAxis("Vertical");
-        Direction.x = x;
-        Direction.y = y;
-        Direction = Direction.normalized;
-        float LowestAngle = Mathf.Infinity;
-        for (int i = 0; i < TotalHookPoints.Count; i++)
-        {
-            if (TotalHookPoints[i].CompareTag("HookPoint"))
-            {
-                TotalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
-            }
-        }
-        for (int i = 0; i < HookPointsInRange.Length; i++)
-        {
-            if (!TotalHookPoints.Contains(HookPointsInRange[i]))
-            {
-                TotalHookPoints.Add(HookPointsInRange[i]);
-            }
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (HookPointsInRange[i].transform.position - transform.position), HookRadius);
-            if (hit.collider != null && hit.collider.CompareTag("HookPoint"))
-            {
-                Debug.DrawLine(transform.position, hit.collider.transform.position);
-                float VisualDistance = Vector2.Distance(transform.position, hit.collider.transform.position) * CancelDistancePercentage;
-                Debug.DrawLine(transform.position, transform.position + (hit.collider.transform.position - transform.position).normalized * VisualDistance, Color.red);
-                hit.collider.GetComponent<SpriteRenderer>().color = Color.red;
-                Vector2 PlayerToCollider = (HookPointsInRange[i].transform.position - transform.position).normalized;
-                float angleInDeg = Vector2.Angle(PlayerToCollider, Direction);
-                if (angleInDeg < Angle)
-                {
-                    if (angleInDeg < LowestAngle)
-                    {
-                        LowestAngle = angleInDeg;
-                        NearestHookPoint = hit.collider;
-                    }
-                }
-            }
-        }
-        if (NearestHookPoint != null)
-        {
-            NearestHookPoint.GetComponent<SpriteRenderer>().color = Color.green;
-            //Debug.Log(Vector2.Distance(transform.position, NearestHookPoint.transform.position));
-        }
-        return NearestHookPoint;
-    }
-
     void ResetHookPoints() //resets only visualization
     {
         for (int i = 0; i < TotalHookPoints.Count; i++)
@@ -404,8 +359,6 @@ public class PlayerHook : MonoBehaviour
             }
         }
     }
-    //time slow ramp up/down
-
     Vector2 RotateVector(Vector2 v, float degrees)
     {
         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
@@ -430,13 +383,9 @@ public class PlayerHook : MonoBehaviour
         Debug.DrawLine(transform.position, (Vector2)transform.position + RightArc);
     }
 
-    void VisualizeForController()
+    void VisualizeForController(Vector2 _direction)
     {
-        Vector2 Direction;
-        Direction.x = Input.GetAxis("Horizontal"); //auch hier den joystick überprüfen
-        Direction.y = Input.GetAxis("Vertical");
-
-        Vector2 DirectionLine = Direction.normalized * HookRadius;
+        Vector2 DirectionLine = _direction * HookRadius;
         Vector2 LeftArc = RotateVector(DirectionLine, Angle);
         Vector2 RightArc = RotateVector(DirectionLine, -Angle);
 
@@ -451,6 +400,8 @@ public class PlayerHook : MonoBehaviour
         float VisualDistance = Vector2.Distance(_start, _end) * CancelDistancePercentage;
         Debug.DrawLine(_start, _start + (_end - _start).normalized * VisualDistance, Color.red);
     }
+
+    //time slow ramp up/down
 }
 
 
