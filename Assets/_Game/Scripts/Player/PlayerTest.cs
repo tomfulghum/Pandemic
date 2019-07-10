@@ -31,5 +31,9 @@ public class PlayerTest : MonoBehaviour
 
         float x = Input.GetAxisRaw("Horizontal");
         actor.velocity = new Vector2(x * 8f, actor.velocity.y);
+
+        if (Input.GetButtonDown("Jump")) {
+            actor.velocity = new Vector2(actor.velocity.x, 10f);
+        }
     }
 }

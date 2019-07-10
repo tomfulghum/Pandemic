@@ -8,21 +8,13 @@ public class Actor2D : MonoBehaviour
     //    Internal Types    //
     //**********************//
 
+    [System.Serializable]
     struct RayBounds
     {
         public Vector2 bottomLeft;
         public Vector2 bottomRight;
         public Vector2 topLeft;
         public Vector2 topRight;
-    }
-
-    [System.Serializable]
-    public struct CollisionInfo
-    {
-        public bool above;
-        public bool below;
-        public bool left;
-        public bool right;
     }
 
     //**********************//
@@ -91,12 +83,14 @@ public class Actor2D : MonoBehaviour
         }
 
         transform.Translate(deltaPosition);
+        Physics2D.SyncTransforms();
     }
 
     //*************************//
     //    Private Functions    //
     //*************************//
 
+    // Updates the raycast bounds and the ray spacing
     private void UpdateRayOrigins()
     {
         Bounds collBounds = coll.bounds;
@@ -114,11 +108,12 @@ public class Actor2D : MonoBehaviour
         verticalRaySpacing = collBounds.size.y / (verticalRayCount - 1);
     }
 
+    // Modifies the deltaPosition based on horizontal collisions
     private void CalculateHorizontalCollisions(ref Vector2 _deltaPosition)
     {
-        if (_deltaPosition.x == 0f) {
-            return;
-        }
+        //if (_deltaPosition.x == 0f) {
+        //    return;
+        //}
 
         Vector2 rayOriginCorner = _deltaPosition.x < 0 ? rayBounds.bottomLeft : rayBounds.bottomRight;
         float rayDirection = Mathf.Sign(_deltaPosition.x);
@@ -129,7 +124,6 @@ public class Actor2D : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * rayDirection, rayLength, collisionMask);
 
             if (hit) {
-                Debug.Log("Horizontal Collision!");
                 float deltaX = (hit.distance - rayInset) * rayDirection;
                 _deltaPosition.x = Mathf.Abs(deltaX) >= deltaPositionThreshold ? deltaX : 0f;
                 rayLength = hit.distance;
@@ -138,15 +132,16 @@ public class Actor2D : MonoBehaviour
                 m_collisions.left = rayDirection == -1;
             }
 
-            Debug.DrawRay(rayOrigin + new Vector2(_deltaPosition.x, 0), Vector2.right * rayDirection * rayLength, Color.red);
+            Debug.DrawRay(rayOrigin + _deltaPosition, Vector2.right * rayDirection * rayLength, Color.red);
         }
     }
 
+    // Modifies the deltaPosition based on vertical collisions
     private void CalculateVerticalCollisions(ref Vector2 _deltaPosition)
     {
-        if (_deltaPosition.y == 0f) {
-            return;
-        }
+        //if (_deltaPosition.y == 0f) {
+        //    return;
+        //}
 
         Vector2 rayOriginCorner = _deltaPosition.y < 0 ? rayBounds.bottomLeft : rayBounds.topLeft;
         float rayDirection = Mathf.Sign(_deltaPosition.y);
@@ -157,7 +152,6 @@ public class Actor2D : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * rayDirection, rayLength, collisionMask);
 
             if (hit) {
-                Debug.Log("Vertical Collision!");
                 float deltaY = (hit.distance - rayInset) * rayDirection;
                 _deltaPosition.y = Mathf.Abs(deltaY) >= deltaPositionThreshold ? deltaY : 0f;
                 rayLength = hit.distance;
@@ -166,10 +160,11 @@ public class Actor2D : MonoBehaviour
                 m_collisions.below = rayDirection == -1;
             }
 
-            Debug.DrawRay(rayOrigin + new Vector2(0, _deltaPosition.y), Vector2.up * rayDirection * rayLength, Color.red);
+            Debug.DrawRay(rayOrigin + _deltaPosition, Vector2.up * rayDirection * rayLength, Color.red);
         }
     }
 
+    // Sets all collision variables to false
     private void ResetCollisionInfo()
     {
         m_collisions.above = false;
