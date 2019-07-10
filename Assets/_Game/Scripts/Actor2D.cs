@@ -75,13 +75,6 @@ public class Actor2D : MonoBehaviour
         CalculateHorizontalCollisions(ref deltaPosition);
         CalculateVerticalCollisions(ref deltaPosition);
 
-        if (m_collisions.above || m_collisions.below) {
-            m_velocity.y = 0;
-        }
-        if (m_collisions.left || m_collisions.right) {
-            m_velocity.x = 0;
-        }
-
         transform.Translate(deltaPosition);
         Physics2D.SyncTransforms();
     }
@@ -111,9 +104,9 @@ public class Actor2D : MonoBehaviour
     // Modifies the deltaPosition based on horizontal collisions
     private void CalculateHorizontalCollisions(ref Vector2 _deltaPosition)
     {
-        //if (_deltaPosition.x == 0f) {
-        //    return;
-        //}
+        if (_deltaPosition.x == 0f) {
+            return;
+        }
 
         Vector2 rayOriginCorner = _deltaPosition.x < 0 ? rayBounds.bottomLeft : rayBounds.bottomRight;
         float rayDirection = Mathf.Sign(_deltaPosition.x);
@@ -139,9 +132,9 @@ public class Actor2D : MonoBehaviour
     // Modifies the deltaPosition based on vertical collisions
     private void CalculateVerticalCollisions(ref Vector2 _deltaPosition)
     {
-        //if (_deltaPosition.y == 0f) {
-        //    return;
-        //}
+        if (_deltaPosition.y == 0f) {
+            return;
+        }
 
         Vector2 rayOriginCorner = _deltaPosition.y < 0 ? rayBounds.bottomLeft : rayBounds.topLeft;
         float rayDirection = Mathf.Sign(_deltaPosition.y);

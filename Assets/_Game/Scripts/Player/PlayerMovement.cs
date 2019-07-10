@@ -76,6 +76,14 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(GroundToleranceCoroutine());
         }
 
+        // Collisions
+        if (actor.collisions.above || actor.collisions.below) {
+            actor.velocity = new Vector2(actor.velocity.x, 0);
+        }
+        if (actor.collisions.left || actor.collisions.right) {
+            actor.velocity = new Vector2(0, actor.velocity.y);
+        }
+
         // Apply movement data
         if (!inputDisabled) {
             Move(CalculateVelocity());
