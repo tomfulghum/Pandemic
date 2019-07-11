@@ -9,15 +9,19 @@ public class PlayerCombat : MonoBehaviour
     public float AttackAngle;
     public float smashSpeed;
     public LayerMask layerMask;
+    public float ControllerTolerance;
     bool Attacking;
     bool Smashing;
     bool FacingLeft;
-    bool HitEnemy; //besser in enemy weil es für jeden enemy einzeln gelten muss
+   // bool HitEnemy; //besser in enemy weil es für jeden enemy einzeln gelten muss
     Vector3 lastPosition;
+    Vector2 attackDirection;
+    List<Collider2D> enemiesHit;
     float xAxis;
     // Start is called before the first frame update
     void Start()
     {
+        enemiesHit = new List<Collider2D>();
         lastPosition = transform.position;
         xAxis = Input.GetAxis("Horizontal");
     }
@@ -25,21 +29,31 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1") && Attacking == false)
+        if (Input.GetButtonDown("Fire1") && Attacking == false)
         {
-            SetFacingDirection();
-            StartCoroutine(Attack());
+            StartCoroutine(AttackSequence());
         }
         if(Attacking)
         {
-            VisualizeAttack();
-            CheckEnemyHit();
+            VisualizeAttack(attackDirection);
+            foreach(Collider2D enemy in CheckEnemyHit(attackDirection))
+            {
+                if(!enemiesHit.Contains(enemy))
+                {
+                    enemiesHit.Add(enemy);
+                }
+            }
+        } else
+        {
+            SetFacingDirection();
+            enemiesHit.Clear();
+            //attackDirection = Vector2.zero; //nötig?
         }
         if (Input.GetButtonDown("Fire1") && Input.GetAxis("Vertical") == -1)
         {
             if(!Smashing)
             {
-                StartMeteorSmash();
+                //StartMeteorSmash();
             }
             //Debug.Log("hello there");
         }
@@ -51,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
                 StopMeteorSmash();
                 if(hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
                 {
-                    hit.collider.GetComponent<Enemy>().GetHit();
+                    //hit.collider.GetComponent<Enemy>().GetHit();
                     //Debug.Log("i hit an enemy");
                 }
             }
@@ -61,6 +75,20 @@ public class PlayerCombat : MonoBehaviour
 
     void SetFacingDirection()
     {
+        float CurrentJoystickDirection = Input.GetAxis("Horizontal");
+        if(CurrentJoystickDirection != xAxis)
+        {
+            if(CurrentJoystickDirection < 0)
+            {
+                FacingLeft = true;
+            }
+            else if(CurrentJoystickDirection > 0)
+            {
+                FacingLeft = false;
+            }
+            xAxis = CurrentJoystickDirection;
+        }
+        /*
         if(lastPosition == transform.position)
         {
             return;
@@ -72,17 +100,20 @@ public class PlayerCombat : MonoBehaviour
         {
             FacingLeft = true;
         }
+        */
     }
 
-    void CheckEnemyHit()
+    List<Collider2D> CheckEnemyHit(Vector2 _direction) //return list with all enemies hit?
     {
         Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, AttackRange);
+        List<Collider2D> EnemiesHit = new List<Collider2D>();
         for(int i = 0; i < ColliderInRange.Length; i++)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), AttackRange, layerMask);
             if(hit.collider != null && hit.collider.CompareTag("Enemy"))
             {
                 Vector2 PlayerToCollider = (ColliderInRange[i].transform.position - transform.position).normalized;
+                /*
                 Vector2 Direction;
                 if (FacingLeft)
                 {
@@ -92,26 +123,69 @@ public class PlayerCombat : MonoBehaviour
                 {
                     Direction = Vector2.right;
                 }
+                */
+                Vector2 Direction = _direction.normalized;
                 float angleInDeg = Vector2.Angle(PlayerToCollider, Direction);
                 if(angleInDeg < AttackAngle)
                 {
-                    if (HitEnemy == false)
+                    if (hit.collider.GetComponent<Enemy>().CurrentlyHit == false)
                     {
-                        hit.collider.GetComponent<Enemy>().GetHit();
+                        if (transform.position.x < hit.collider.transform.position.x)
+                        {
+                            hit.collider.GetComponent<Enemy>().GetHit(false);
+                        }
+                        else
+                        {
+                            hit.collider.GetComponent<Enemy>().GetHit(true);
+                        }
+                        EnemiesHit.Add(hit.collider);
                     }
-                    HitEnemy = true;
                 }
             }
         }
-
+        return EnemiesHit;
     }
 
-    IEnumerator Attack() //darauf achten während dem air attack etwas gravity dazuzurechnen
+    Vector2 GetAttackDirection(float xInput, float yInput) //evlt auf 8 directions erweitern --> besseren weg dafür finden
+    {
+        Vector2 Direction;
+        if(FacingLeft)
+        {
+            Direction = Vector2.left;
+        }
+        else
+        {
+            Direction = Vector2.right;
+        }
+        if(Input.GetAxis("Vertical") < -ControllerTolerance)
+        {
+            Direction = Vector2.down;
+        }
+        if (Input.GetAxis("Vertical") > ControllerTolerance)
+        {
+            Direction = Vector2.up;
+        }
+        if (Input.GetAxis("Horizontal") < -ControllerTolerance)
+        {
+            Direction = Vector2.left;
+        }
+        if (Input.GetAxis("Horizontal") > ControllerTolerance)
+        {
+            Direction = Vector2.right;
+        }
+        return Direction;
+    }
+    IEnumerator AttackSequence() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
         Attacking = true;
-        if(AllowMovingWhileAttacking)
+        attackDirection = GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (!GetComponent<Actor2D>().collision.below)
         {
-            Vector3 currentVelocity = GetComponent<Rigidbody2D>().velocity.normalized * 2;
+            //Debug.Log("in air");
+        }
+        if(AllowMovingWhileAttacking || !GetComponent<Actor2D>().collision.below)
+        {
+            Vector3 currentVelocity = GetComponent<Actor2D>().velocity.normalized * 4;
             GetComponent<PlayerMovement>().DisableUserInput(true);
             GetComponent<PlayerMovement>().SetExternalVelocity(currentVelocity);
         }
@@ -119,15 +193,47 @@ public class PlayerCombat : MonoBehaviour
         {
             GetComponent<PlayerMovement>().DisableUserInput(true);
         }
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(FirstAttack());
         GetComponent<PlayerMovement>().DisableUserInput(false);
         Attacking = false;
-        HitEnemy = false;
     }
 
-    void VisualizeAttack()
+
+    IEnumerator FirstAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
-        Vector2 DirectionLine;
+        yield return new WaitForSeconds(0.1f);
+        foreach(Collider2D enemy in enemiesHit)
+        {
+            enemy.GetComponent<Enemy>().CurrentlyHit = false;
+        }
+        yield return StartCoroutine(SecondAttack()); 
+    }
+
+    IEnumerator SecondAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
+    {
+        attackDirection = RotateVector(attackDirection, Random.Range(10, 15));
+        yield return new WaitForSeconds(0.3f);
+        foreach (Collider2D enemy in enemiesHit)
+        {
+            enemy.GetComponent<Enemy>().CurrentlyHit = false;
+        }
+        yield return StartCoroutine(ThirdAttack());
+    }
+    IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
+    {
+        attackDirection = RotateVector(attackDirection, Random.Range(-15, -20));
+        yield return new WaitForSeconds(0.2f);
+        foreach (Collider2D enemy in enemiesHit)
+        {
+            enemy.GetComponent<Enemy>().CurrentlyHit = false;
+        }
+    }
+
+    void VisualizeAttack(Vector2 _direction)
+    {
+        //Vector2 DirectionLine;
+        /*
         if (FacingLeft)
         {
             DirectionLine = Vector2.left * AttackRange;
@@ -136,6 +242,8 @@ public class PlayerCombat : MonoBehaviour
         {
             DirectionLine = Vector2.right * AttackRange;
         }
+        */
+        Vector2 DirectionLine = _direction.normalized * AttackRange;
         Vector2 LeftArc = RotateVector(DirectionLine, AttackAngle);
         Vector2 RightArc = RotateVector(DirectionLine, -AttackAngle);
 

@@ -31,6 +31,7 @@ using UnityEngine;
 //cooldown errechnet sich aus hook range und repeat time
 //vllt immer in facing direction hooken --> um das controller input axis = 0,0 zu beheben
 //immer überprüfen ob sich die tags geändert haben
+//hook state --> nur checken wenn hook nicht active ist
 public class PlayerHook : MonoBehaviour
 {
     public enum ControllType { Keyboard, Controller }
@@ -191,7 +192,7 @@ public class PlayerHook : MonoBehaviour
                 CancelCondition = true;
             }
 
-            if (CancelHookWithSpace && Input.GetKey("space") && Vector2.Distance(transform.position, TargetHookPoint.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
+            if (CancelHookWithSpace && Input.GetButton("Jump") && Vector2.Distance(transform.position, TargetHookPoint.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
             {
                 CancelCondition = true;
                 HookCancelled = true;
