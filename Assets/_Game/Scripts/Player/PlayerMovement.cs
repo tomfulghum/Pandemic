@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Actor2D))]
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,85 +11,84 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     [Tooltip("Horizontal movement speed (u/s).")]
-    [SerializeField] float movementSpeed = 6f;
+    [SerializeField] float movementSpeed = 7f;
     [Tooltip("Time it takes for the player to reach maximum movement speed while grounded (s).")]
     [SerializeField] float groundAccelerationTime = 0.1f;
     [Tooltip("Time it takes for the player to reach maximum movement speed while in the air (s).")]
     [SerializeField] float airAccelerationTime = 0.3f;
     [Tooltip("Maximum jump height (u).")]
-    [SerializeField] float maxJumpHeight = 3f;
+    [SerializeField] float maxJumpHeight = 4f;
     [Tooltip("Vertical upward speed while jumping (u/s).")]
-    [SerializeField] float jumpSpeed = 6f;
+    [SerializeField] float jumpSpeed = 10f;
     [Tooltip("Factor by which the upward speed is multiplied when canceling a jump.")]
     [Range(0f, 1f)]
     [SerializeField] float jumpCancelSpeedMultiplier = 0.25f;
     [Tooltip("Downward acceleration (u/s²).")]
     [SerializeField] float gravity = 30f;
     [Tooltip("Maximum vertical downward speed while falling (u/s).")]
-    [SerializeField] float maxFallingSpeed = 10f;
+    [SerializeField] float maxFallingSpeed = 20f;
     [Tooltip("Time after losing ground during which jumping is still possible (s).")]
     [SerializeField] float groundToleranceTime = 0.05f;
-
-    [Header("Vertical collision checks")]
-    [SerializeField] LayerMask collisionCheckLayers = default;
-    [SerializeField] Vector2 groundCheckOffset = Vector2.zero;
-    [SerializeField] Vector2 groundCheckSize = Vector2.one;
-    [SerializeField] Vector2 ceilingCheckOffset = Vector2.zero;
-    [SerializeField] Vector2 ceilingCheckSize = Vector2.one;
-
-    //******************//
-    //    Properties    //
-    //******************//
 
     //**********************//
     //    Private Fields    //
     //**********************//
 
-    private Rigidbody2D rb;
+    private Actor2D actor;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lastMoveDirection = Vector2.zero;
     private Vector2 externalVelocity = Vector2.zero;
 
-    private bool ground = false;
-    private bool ceiling = false;
+    private Coroutine jumpCoroutine = null;
+    private CollisionInfo lastCollision;
+
     private bool groundTolerance = false;
     private bool jumping = false;
     private bool jumpCanceled = false;
     private bool inputDisabled = false;
 
-    private Coroutine jumpCoroutine = null;
-
-    //-----------------------//
-    //    Unity Functions    //
-    //-----------------------//
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
+        actor = GetComponent<Actor2D>();
     }
 
     private void Update()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        moveDirection = new Vector2(x, 0).normalized;
+        // Movement input
+        float inputX = Input.GetAxisRaw("Horizontal");
+        moveDirection = new Vector2(inputX, 0).normalized;
 
-        if ((ground || groundTolerance) && !ceiling && !inputDisabled && Input.GetButtonDown("Jump") ) {
+        // Jump
+        if ((actor.collision.below || groundTolerance) && !actor.collision.above && !inputDisabled && Input.GetButtonDown("Jump") ) {
             jumpCoroutine = StartCoroutine(JumpCoroutine());
         }
-        if (jumping && (Input.GetButtonUp("Jump") || ceiling)) {
+        if (jumping && (Input.GetButtonUp("Jump") || actor.collision.above)) {
             jumpCanceled = true;
         }
-    }
 
-    private void FixedUpdate()
-    {
-        CheckCollisions();
+        // Ground tolerance
+        if (!actor.collision.below && lastCollision.below && !jumping) {
+            StartCoroutine(GroundToleranceCoroutine());
+        }
 
+        // Collisions
+        if (actor.collision.above || actor.collision.below) {
+            actor.velocity = new Vector2(actor.velocity.x, 0);
+        }
+        if (actor.collision.left || actor.collision.right) {
+            actor.velocity = new Vector2(0, actor.velocity.y);
+        }
+
+        foreach (var data in actor.collisionData) {
+            Debug.Log(data.direction + " " + data.transform);
+        }
+
+        // Apply movement data
         if (!inputDisabled) {
             Move(CalculateVelocity());
 
@@ -98,37 +97,23 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // Clamp velocity to maximum horizontal and vertical movement speeds.
-            rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -movementSpeed, movementSpeed), Mathf.Clamp(rb.velocity.y, -maxFallingSpeed, jumpSpeed));
+            actor.velocity = new Vector2(Mathf.Clamp(actor.velocity.x, -movementSpeed, movementSpeed), Mathf.Clamp(actor.velocity.y, -maxFallingSpeed, jumpSpeed));
         } else {
-            rb.velocity = externalVelocity;
+            actor.velocity = externalVelocity;
         }
+
+        lastCollision = actor.collision;
     }
 
-    //-------------------------//
+    //*************************//
     //    Private Functions    //
-    //-------------------------//
-
-    // Checks if the character is touching the ground/ceiling and sets the ground/ceiling flags accordingly.
-    private void CheckCollisions()
-    {
-        Vector2 position = transform.position;
-        Collider2D groundHit = Physics2D.OverlapBox(position + groundCheckOffset, groundCheckSize, 0, collisionCheckLayers);
-        Collider2D ceilingHit = Physics2D.OverlapBox(position + ceilingCheckOffset, ceilingCheckSize, 0, collisionCheckLayers);
-
-        bool newGround = groundHit;
-        if (ground && !newGround && !jumping) {
-            StartCoroutine(GroundToleranceCoroutine());
-        }
-
-        ground = newGround;
-        ceiling = ceilingHit;
-    }
+    //*************************//
 
     // Calculates the current normalized horizontal velocity based on input direction and acceleration times.
     Vector2 CalculateVelocity()
     {
         float directionChangeModifier = Util.SameSign(moveDirection.x, lastMoveDirection.x) ? 1f : 0f;
-        float accelerationTime = ground ? groundAccelerationTime : airAccelerationTime;
+        float accelerationTime = actor.collision.below ? groundAccelerationTime : airAccelerationTime;
         accelerationTime = accelerationTime > 0 ? accelerationTime : 0.001f;
 
         Vector2 velocity = Vector2.MoveTowards(lastMoveDirection * directionChangeModifier, moveDirection, 1f / accelerationTime * Time.deltaTime);
@@ -139,20 +124,20 @@ public class PlayerMovement : MonoBehaviour
     // Moves the character in a specified direction.
     private void Move(Vector2 _direction)
     {
-        rb.velocity = new Vector2(_direction.x * movementSpeed, rb.velocity.y);
+        actor.velocity = new Vector2(_direction.x * movementSpeed, actor.velocity.y);
     }
 
     // Applies gravity to the character.
     private void ApplyGravity()
     {
-        rb.velocity += Vector2.up * (-gravity * Time.fixedDeltaTime);
+        actor.velocity += Vector2.up * (-gravity * Time.fixedDeltaTime);
     }
     
     // Cancels an ongoing jump.
     private void CancelJump()
     {
-        Vector2 velocity = rb.velocity;
-        rb.velocity = new Vector2(velocity.x, velocity.y * jumpCancelSpeedMultiplier);
+        Vector2 velocity = actor.velocity;
+        actor.velocity = new Vector2(velocity.x, velocity.y * jumpCancelSpeedMultiplier);
         jumpCanceled = false;
         jumping = false;
         jumpCoroutine = null;
@@ -171,18 +156,18 @@ public class PlayerMovement : MonoBehaviour
         float jumpEndTime = Time.fixedTime + accelerationTime + floatingTime;
 
         while (Time.fixedTime <= jumpEndTime) {
-            if (jumpCanceled || ceiling) {
+            if (jumpCanceled || actor.collision.above) {
                 CancelJump();
                 yield break;
             }
 
             if (Time.fixedTime <= accelerationEndTime) {
-                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+                actor.velocity = new Vector2(actor.velocity.x, jumpSpeed);
             } else {
                 ApplyGravity();
             }
 
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
 
         jumping = false;
@@ -197,10 +182,10 @@ public class PlayerMovement : MonoBehaviour
         groundTolerance = false;
     }
 
-    //------------------------//
+    //************************//
     //    Public Functions    //
-    //------------------------//
-    
+    //************************//
+
     // _freeze = true: Cancels all movement and prevents all input.
     // _freeze = false: Sets external velocity to zero and enables all input.
     public void DisableUserInput(bool _disable)
@@ -212,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
                 StopCoroutine(jumpCoroutine);
             }
             externalVelocity = Vector2.zero;
-            rb.velocity = Vector2.zero;
+            actor.velocity = Vector2.zero;
         } else {
             externalVelocity = Vector2.zero;
         }
@@ -222,18 +207,5 @@ public class PlayerMovement : MonoBehaviour
     public void SetExternalVelocity(Vector2 _velocity)
     {
         externalVelocity = _velocity;
-    }
-
-    //-----------------------//
-    //    Debug Functions    //
-    //-----------------------//
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        Vector3 position = transform.position;
-        Gizmos.DrawWireCube(position + (Vector3)groundCheckOffset, groundCheckSize);
-        Gizmos.DrawWireCube(position + (Vector3)ceilingCheckOffset, ceilingCheckSize);
     }
 }
