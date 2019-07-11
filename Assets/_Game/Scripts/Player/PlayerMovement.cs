@@ -71,22 +71,7 @@ public class PlayerMovement : MonoBehaviour
             jumpCanceled = true;
         }
 
-        // Ground tolerance
-        if (!actor.collision.below && lastCollision.below && !jumping) {
-            StartCoroutine(GroundToleranceCoroutine());
-        }
-
-        // Collisions
-        if (actor.collision.above || actor.collision.below) {
-            actor.velocity = new Vector2(actor.velocity.x, 0);
-        }
-        if (actor.collision.left || actor.collision.right) {
-            actor.velocity = new Vector2(0, actor.velocity.y);
-        }
-
-        //foreach (var data in actor.collisionData) {
-        //    Debug.Log(data.direction + " " + data.transform);
-        //}
+        HandleCollisions();
 
         // Apply movement data
         if (!inputDisabled) {
@@ -130,9 +115,26 @@ public class PlayerMovement : MonoBehaviour
     // Applies gravity to the character.
     private void ApplyGravity()
     {
-        actor.velocity += Vector2.up * (-gravity * Time.fixedDeltaTime);
+        actor.velocity += Vector2.up * (-gravity * Time.deltaTime);
     }
-    
+
+    // Handles collisions and sets velocity accordingly
+    private void HandleCollisions()
+    {
+        // Ground tolerance
+        if (!actor.collision.below && lastCollision.below && !jumping) {
+            StartCoroutine(GroundToleranceCoroutine());
+        }
+
+        // Collisions
+        if (actor.collision.above || actor.collision.below) {
+            actor.velocity = new Vector2(actor.velocity.x, 0);
+        }
+        if (actor.collision.left || actor.collision.right) {
+            actor.velocity = new Vector2(0, actor.velocity.y);
+        }
+    }
+
     // Cancels an ongoing jump.
     private void CancelJump()
     {
@@ -152,16 +154,16 @@ public class PlayerMovement : MonoBehaviour
         float floatingDistance = (jumpSpeed * jumpSpeed) / (2f * gravity);
         float floatingTime = jumpSpeed / gravity;
         float accelerationTime = (maxJumpHeight - floatingDistance) / jumpSpeed;
-        float accelerationEndTime = Time.fixedTime + accelerationTime;
-        float jumpEndTime = Time.fixedTime + accelerationTime + floatingTime;
+        float accelerationEndTime = Time.time + accelerationTime;
+        float jumpEndTime = Time.time + accelerationTime + floatingTime;
 
-        while (Time.fixedTime <= jumpEndTime) {
+        while (Time.time <= jumpEndTime) {
             if (jumpCanceled || actor.collision.above) {
                 CancelJump();
                 yield break;
             }
 
-            if (Time.fixedTime <= accelerationEndTime) {
+            if (Time.time <= accelerationEndTime) {
                 actor.velocity = new Vector2(actor.velocity.x, jumpSpeed);
             } else {
                 ApplyGravity();
