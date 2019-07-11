@@ -84,9 +84,9 @@ public class PlayerMovement : MonoBehaviour
             actor.velocity = new Vector2(0, actor.velocity.y);
         }
 
-        foreach (var data in actor.collisionData) {
-            Debug.Log(data.direction + " " + data.transform);
-        }
+        //foreach (var data in actor.collisionData) {
+        //    Debug.Log(data.direction + " " + data.transform);
+        //}
 
         // Apply movement data
         if (!inputDisabled) {
@@ -193,8 +193,8 @@ public class PlayerMovement : MonoBehaviour
         inputDisabled = _disable;
         if (inputDisabled) {
             if (jumpCoroutine != null) {
-                CancelJump();
                 StopCoroutine(jumpCoroutine);
+                CancelJump();
             }
             externalVelocity = Vector2.zero;
             actor.velocity = Vector2.zero;
