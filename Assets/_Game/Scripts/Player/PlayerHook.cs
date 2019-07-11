@@ -221,7 +221,7 @@ public class PlayerHook : MonoBehaviour
         }
         Time.timeScale = NormalTimeScale;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
-        Debug.Log(CurrentSelectedPoint);
+        //Debug.Log(CurrentSelectedPoint);
         if (CurrentSelectedPoint != null)
         {
             AdditionalTravelTest = true;
@@ -294,7 +294,7 @@ public class PlayerHook : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, _direction, test, layer_mask); //weil player nichtmehr auf dem ignore raycast layer ist
             if (hit.collider != null)
             {
-                Debug.Log("i hit smth");
+                //Debug.Log("i hit smth");
                 StartCoroutine(pullBackHook(_direction, test));
                 StopCoroutine(HookCooldown);
             }

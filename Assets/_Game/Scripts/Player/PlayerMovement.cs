@@ -190,6 +190,10 @@ public class PlayerMovement : MonoBehaviour
     // _freeze = false: Sets external velocity to zero and enables all input.
     public void DisableUserInput(bool _disable)
     {
+        if (inputDisabled == _disable) {
+            return;
+        }
+
         inputDisabled = _disable;
         if (inputDisabled) {
             if (jumpCoroutine != null) {

@@ -20,7 +20,7 @@ public class CrawlingEnemy : MonoBehaviour
     void Update()
     {
         ChasePlayer();
-        Debug.Log(chasingPlayer);
+        //Debug.Log(chasingPlayer);
         if (!chasingPlayer)
         {
             counter++;
@@ -47,10 +47,10 @@ public class CrawlingEnemy : MonoBehaviour
         Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, ChaseRadius);
         for (int i = 0; i < ColliderInRange.Length; i++)
         {
-            Debug.Log("test2");
+            //Debug.Log("test2");
             if (ColliderInRange[i].CompareTag("Player"))
             {
-                Debug.Log("test");
+                //Debug.Log("test");
                 chasingPlayer = true;
                 if(ColliderInRange[i].transform.position.x > transform.position.x)
                 {
