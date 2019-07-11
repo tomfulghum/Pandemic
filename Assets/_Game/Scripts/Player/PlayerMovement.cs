@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 externalVelocity = Vector2.zero;
 
     private Coroutine jumpCoroutine = null;
-    private CollisionInfo lastCollisions;
+    private CollisionInfo lastCollision;
 
     private bool groundTolerance = false;
     private bool jumping = false;
@@ -64,24 +64,28 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = new Vector2(inputX, 0).normalized;
 
         // Jump
-        if ((actor.collisions.below || groundTolerance) && !actor.collisions.above && !inputDisabled && Input.GetButtonDown("Jump") ) {
+        if ((actor.collision.below || groundTolerance) && !actor.collision.above && !inputDisabled && Input.GetButtonDown("Jump") ) {
             jumpCoroutine = StartCoroutine(JumpCoroutine());
         }
-        if (jumping && (Input.GetButtonUp("Jump") || actor.collisions.above)) {
+        if (jumping && (Input.GetButtonUp("Jump") || actor.collision.above)) {
             jumpCanceled = true;
         }
 
         // Ground tolerance
-        if (!actor.collisions.below && lastCollisions.below && !jumping) {
+        if (!actor.collision.below && lastCollision.below && !jumping) {
             StartCoroutine(GroundToleranceCoroutine());
         }
 
         // Collisions
-        if (actor.collisions.above || actor.collisions.below) {
+        if (actor.collision.above || actor.collision.below) {
             actor.velocity = new Vector2(actor.velocity.x, 0);
         }
-        if (actor.collisions.left || actor.collisions.right) {
+        if (actor.collision.left || actor.collision.right) {
             actor.velocity = new Vector2(0, actor.velocity.y);
+        }
+
+        foreach (var data in actor.collisionData) {
+            Debug.Log(data.direction + " " + data.transform);
         }
 
         // Apply movement data
@@ -98,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
             actor.velocity = externalVelocity;
         }
 
-        lastCollisions = actor.collisions;
+        lastCollision = actor.collision;
     }
 
     //*************************//
@@ -109,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 CalculateVelocity()
     {
         float directionChangeModifier = Util.SameSign(moveDirection.x, lastMoveDirection.x) ? 1f : 0f;
-        float accelerationTime = actor.collisions.below ? groundAccelerationTime : airAccelerationTime;
+        float accelerationTime = actor.collision.below ? groundAccelerationTime : airAccelerationTime;
         accelerationTime = accelerationTime > 0 ? accelerationTime : 0.001f;
 
         Vector2 velocity = Vector2.MoveTowards(lastMoveDirection * directionChangeModifier, moveDirection, 1f / accelerationTime * Time.deltaTime);
@@ -152,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         float jumpEndTime = Time.fixedTime + accelerationTime + floatingTime;
 
         while (Time.fixedTime <= jumpEndTime) {
-            if (jumpCanceled || actor.collisions.above) {
+            if (jumpCanceled || actor.collision.above) {
                 CancelJump();
                 yield break;
             }

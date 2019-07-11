@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 [RequireComponent(typeof(BoxCollider2D))]
 
@@ -37,9 +39,14 @@ public class Actor2D : MonoBehaviour
         set { m_velocity = value; }
     }
 
-    public CollisionInfo collisions
+    public CollisionInfo collision
     {
         get { return m_collisions; }
+    }
+
+    public ReadOnlyCollection<CollisionData> collisionData
+    {
+        get { return m_roCollisionData; }
     }
 
     //**********************//
@@ -56,6 +63,8 @@ public class Actor2D : MonoBehaviour
     // Backing fields
     private Vector2 m_velocity;
     private CollisionInfo m_collisions;
+    private List<CollisionData> m_collisionData = new List<CollisionData>();
+    private ReadOnlyCollection<CollisionData> m_roCollisionData = null;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -69,11 +78,13 @@ public class Actor2D : MonoBehaviour
     private void Update()
     {
         UpdateRayOrigins();
-        ResetCollisionInfo();
+        ResetCollisions();
 
         Vector2 deltaPosition = m_velocity * Time.deltaTime;
         CalculateHorizontalCollisions(ref deltaPosition);
         CalculateVerticalCollisions(ref deltaPosition);
+
+        m_roCollisionData = new ReadOnlyCollection<CollisionData>(m_collisionData);
 
         transform.Translate(deltaPosition);
         Physics2D.SyncTransforms();
@@ -121,6 +132,10 @@ public class Actor2D : MonoBehaviour
                 _deltaPosition.x = Mathf.Abs(deltaX) >= deltaPositionThreshold ? deltaX : 0f;
                 rayLength = hit.distance;
 
+                CollisionDirection dir = rayDirection == 1 ? CollisionDirection.RIGHT : CollisionDirection.LEFT;
+                CollisionData data = new CollisionData() { direction = dir, transform = hit.transform };
+                m_collisionData.Add(data);
+
                 m_collisions.right = rayDirection == 1;
                 m_collisions.left = rayDirection == -1;
             }
@@ -149,6 +164,10 @@ public class Actor2D : MonoBehaviour
                 _deltaPosition.y = Mathf.Abs(deltaY) >= deltaPositionThreshold ? deltaY : 0f;
                 rayLength = hit.distance;
 
+                CollisionDirection dir = rayDirection == 1 ? CollisionDirection.ABOVE : CollisionDirection.BELOW;
+                CollisionData data = new CollisionData() { direction = dir, transform = hit.transform };
+                m_collisionData.Add(data);
+
                 m_collisions.above = rayDirection == 1;
                 m_collisions.below = rayDirection == -1;
             }
@@ -158,8 +177,9 @@ public class Actor2D : MonoBehaviour
     }
 
     // Sets all collision variables to false
-    private void ResetCollisionInfo()
+    private void ResetCollisions()
     {
+        m_collisionData.Clear();
         m_collisions.above = false;
         m_collisions.below = false;
         m_collisions.right = false;
