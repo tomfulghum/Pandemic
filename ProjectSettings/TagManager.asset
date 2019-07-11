@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - HookPoint
+  - Enemy
+  - BigEnemy
   layers:
   - Default
   - TransparentFX
@@ -17,8 +19,8 @@ TagManager:
   - Ground
   - HookPoint
   - Player
-  - 
-  - 
+  - SmallEnemy
+  - BigEnemy
   - 
   - 
   - 

@@ -6224,21 +6224,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlls: 1
+  stick: 0
   HookRadius: 5
   Angle: 20
-  MaxTimeSlow: 0.1
-  MaxActiveTime: 10
   HookSpeed: 10
-  HookCancelDistance: 0.5
+  MaxTimeSlow: 0.1
+  TargetReachedTolerance: 0.2
   CancelHookWithSpace: 1
   CancelHookWithNewHook: 1
   CancelDistancePercentage: 0.5
   AdditionalTravelDistance: 2
   UseCancelThroughTravelTime: 1
-  VisualizeLines: 1
-  InterpolateBetweenColors: 1
-  FirstColor: {r: 0, g: 0, b: 0, a: 1}
-  SecondColor: {r: 1, g: 0.82623184, b: 0, a: 1}
+  UseTimeSlow: 0
   RadiusVisualization: {fileID: 1468857675}
 --- !u!114 &730015064
 MonoBehaviour:
