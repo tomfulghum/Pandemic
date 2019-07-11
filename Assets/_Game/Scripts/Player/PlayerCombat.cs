@@ -30,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken
     {
-        if (Input.GetButtonDown("Fire1") && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing)
+        if (Input.GetButtonDown("Fire1") && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false)
         {
             StartCoroutine(AttackSequence());
         }
