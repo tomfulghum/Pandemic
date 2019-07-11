@@ -59,7 +59,7 @@ public class PlayerHook : MonoBehaviour
     
     List<Collider2D> TotalHookPoints;
 
-    bool HookActive;
+    [HideInInspector] public bool HookActive;
     float NormalTimeScale;
     float CancelDistance;
     float ActiveTime;
@@ -106,7 +106,7 @@ public class PlayerHook : MonoBehaviour
             ControllerDirection = ControllerDirection.normalized;
         }
         //Debug.Log(Input.GetAxis("ControllerHook"));
-        if ((HookActive == false || CanUseHook()) && PullBackActive == false) //vllt hook erst auf nicht active wetzen wenn ziel erreicht ist &&hookNotThrown
+        if ((HookActive == false || CanUseHook()) && PullBackActive == false && GetComponent<PlayerCombat>().Smashing == false) //vllt hook erst auf nicht active wetzen wenn ziel erreicht ist &&hookNotThrown
         {
             if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1) // && time variable < max time active --> max time active macht am meisten sinn wenn es einen cooldown gibt
             {

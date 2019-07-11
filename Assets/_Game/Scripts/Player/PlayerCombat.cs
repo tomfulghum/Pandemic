@@ -11,7 +11,7 @@ public class PlayerCombat : MonoBehaviour
     public LayerMask layerMask;
     public float ControllerTolerance;
     bool Attacking;
-    bool Smashing;
+    [HideInInspector] public bool Smashing;
     bool FacingLeft;
    // bool HitEnemy; //besser in enemy weil es für jeden enemy einzeln gelten muss
     Vector3 lastPosition;
@@ -27,9 +27,9 @@ public class PlayerCombat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken
     {
-        if (Input.GetButtonDown("Fire1") && Attacking == false)
+        if (Input.GetButtonDown("Fire1") && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing)
         {
             StartCoroutine(AttackSequence());
         }
@@ -49,11 +49,11 @@ public class PlayerCombat : MonoBehaviour
             enemiesHit.Clear();
             //attackDirection = Vector2.zero; //nötig?
         }
-        if (Input.GetButtonDown("Fire1") && Input.GetAxis("Vertical") == -1)
+        if (!GetComponent<Actor2D>().collision.below && Input.GetAxis("MeteorSmash") > ControllerTolerance) //verhindern das man während einem smash hooked
         {
-            if(!Smashing)
+            if(!Smashing && !Attacking)
             {
-                //StartMeteorSmash();
+                StartMeteorSmash();
             }
             //Debug.Log("hello there");
         }
@@ -65,9 +65,20 @@ public class PlayerCombat : MonoBehaviour
                 StopMeteorSmash();
                 if(hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
                 {
-                    //hit.collider.GetComponent<Enemy>().GetHit();
+                    if (transform.position.x < hit.collider.transform.position.x)
+                    {
+                        hit.collider.GetComponent<Enemy>().GetHit(false);
+                    }
+                    else
+                    {
+                        hit.collider.GetComponent<Enemy>().GetHit(true);
+                    }
                     //Debug.Log("i hit an enemy");
                 }
+            }
+            if(GetComponent<Actor2D>().collision.below)
+            {
+                StopMeteorSmash();
             }
         }
         lastPosition = transform.position;
@@ -263,6 +274,10 @@ public class PlayerCombat : MonoBehaviour
     {
         GetComponent<PlayerMovement>().DisableUserInput(false);
         Smashing = false;
+        foreach (Collider2D enemy in enemiesHit)
+        {
+            enemy.GetComponent<Enemy>().CurrentlyHit = false;
+        }
     }
 
     Vector2 RotateVector(Vector2 v, float degrees)
