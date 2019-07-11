@@ -384,7 +384,7 @@ public class PlayerHook : MonoBehaviour
         Vector2 JumpBackvelocity = new Vector2(0.5f*x, 0.5f).normalized * HookSpeed; //evtl jump speed
         GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity);
         yield return new WaitForSeconds(0.4f); //bessere lösung finden
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        GetComponent<PlayerMovement>().DisableUserInput(false); //wahrscheinlich irgendwo einmal zu oft aufgerufen
     }
 
     void MoveTowardsHookPoint(Vector2 _targetPoint) //rename
