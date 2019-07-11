@@ -4,33 +4,45 @@ using UnityEngine;
 
 public class RollingCredits : MonoBehaviour
 {
-    [SerializeField] int ScrollSpeedPerSecond;
-    [SerializeField] int Delay;
-    RectTransform Credits;
-    Vector3 maxVector;
+    //**********************//
+    //   Inspector Fields   //
+    //**********************//
+
+    [SerializeField] int scrollSpeedPerSecond;
+    [SerializeField] int delay;
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private RectTransform credits;
+    private Vector3 maxVector;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
 
     private void Awake()
     {
-        Credits = GetComponent<RectTransform>();
+        credits = GetComponent<RectTransform>();
     }
 
     private void Start()
     {
-        maxVector = new Vector3(0, Delay, 0);
+        maxVector = new Vector3(0, delay, 0);
     }
 
     void OnEnable()
     {
-        Credits.anchoredPosition3D = new Vector3(0, -2900, 0);
+        credits.anchoredPosition3D = new Vector3(0, -2900, 0);
     }
 
     void Update()
     {
-        Credits.anchoredPosition3D += new Vector3(0, ScrollSpeedPerSecond * Time.deltaTime, 0);
+        credits.anchoredPosition3D += new Vector3(0, scrollSpeedPerSecond * Time.deltaTime, 0);
 
-        if (Credits.anchoredPosition3D.y > maxVector.y)
-        {
-            Credits.anchoredPosition3D = new Vector3(0, -2530, 0);
+        if (credits.anchoredPosition3D.y > maxVector.y) {
+            credits.anchoredPosition3D = new Vector3(0, -2530, 0);
         }
     }
 }

@@ -5,56 +5,50 @@ using UnityEngine.UI;
 
 public class ButtonIndex : MonoBehaviour
 {
-    public int index;
+    //**********************//
+    //   Inspector Fields   //
+    //**********************//
+
     [SerializeField] bool keyDown;
     [SerializeField] int maxIndex;
-    public AudioSource audioSource;
-    [SerializeField] Button BackButton;
+    [SerializeField] Button backButton;
 
-    // Update is called once per frame
+    //*******************//
+    //   Public Fields   //
+    //*******************//
+
+    public int index;
+    public AudioSource audioSource;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     void Update()
     {
         //Set Menu Button Index
-        if (Input.GetAxis("Vertical") != 0)
-        {
-            if (!keyDown)
-            {
-                if (Input.GetAxis("Vertical") < 0)
-                {
-                    if (index < maxIndex)
-                    {
+        if (Input.GetAxis("Vertical") != 0) {
+            if (!keyDown) {
+                if (Input.GetAxis("Vertical") < 0) {
+                    if (index < maxIndex) {
                         index++;
-                    }
-                    else
-                    {
+                    } else {
                         index = 0;
                     }
-                }
-                else if (Input.GetAxis("Vertical") > 0)
-                {
-                    if (index > 0)
-                    {
+                } else if (Input.GetAxis("Vertical") > 0) {
+                    if (index > 0) {
                         index--;
-                    }
-                    else
-                    {
+                    } else {
                         index = maxIndex;
                     }
                 }
                 keyDown = true;
             }
-        }
-        else
-        {
+        } else {
             keyDown = false;
         }
-
-
-        if (Input.GetButtonDown("Cancel") && BackButton != null)
-        {
+        if (Input.GetButtonDown("Cancel") && BackButton != null) {
             BackButton.onClick.Invoke();
-
         }
-
     }
 }
