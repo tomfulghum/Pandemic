@@ -14,10 +14,12 @@ public class PlayerCombat : MonoBehaviour
     bool FacingLeft;
     bool HitEnemy; //besser in enemy weil es für jeden enemy einzeln gelten muss
     Vector3 lastPosition;
+    float xAxis;
     // Start is called before the first frame update
     void Start()
     {
         lastPosition = transform.position;
+        xAxis = Input.GetAxis("Horizontal");
     }
 
     // Update is called once per frame

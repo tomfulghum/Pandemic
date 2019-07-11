@@ -67,6 +67,7 @@ public class PlayerHook : MonoBehaviour
     bool AdditionalTravelTest;
     bool PullBackActive;
     bool PullToBigEnemy;
+    bool HookCancelled;
 
     float timeslowTest;
     float currentTimeActive;
@@ -193,6 +194,7 @@ public class PlayerHook : MonoBehaviour
             if (CancelHookWithSpace && Input.GetKey("space") && Vector2.Distance(transform.position, TargetHookPoint.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
             {
                 CancelCondition = true;
+                HookCancelled = true;
             }
 
             if (UseCancelThroughTravelTime && FramesTillTarget < 0)
@@ -357,7 +359,7 @@ public class PlayerHook : MonoBehaviour
 
     void DeactivatePullToTarget() //just for testing
     {
-        if (PullToBigEnemy == true)
+        if (PullToBigEnemy == true && HookCancelled == false)
         {
             StartCoroutine(JumpBack());
         }
@@ -366,6 +368,7 @@ public class PlayerHook : MonoBehaviour
             GetComponent<PlayerMovement>().DisableUserInput(false);
         }
         HookActive = false; //evtl woanders besser
+        HookCancelled = false;
         TargetHookPoint = null;
         Physics2D.IgnoreLayerCollision(10, 11, false);
     }
