@@ -11,7 +11,16 @@ public class Actor2D : MonoBehaviour
     //**********************//
 
     [System.Serializable]
-    struct RayBounds
+    private struct CollisionMasks
+    {
+        public LayerMask above;
+        public LayerMask below;
+        public LayerMask left;
+        public LayerMask right;
+    }
+    
+    [System.Serializable]
+    private struct RayBounds
     {
         public Vector2 bottomLeft;
         public Vector2 bottomRight;
@@ -19,19 +28,19 @@ public class Actor2D : MonoBehaviour
         public Vector2 topRight;
     }
 
-    //**********************//
-    //   Inspector Fields   //
-    //**********************//
+    //************************//
+    //    Inspector Fields    //
+    //************************//
 
-    [SerializeField] private LayerMask collisionMask = default;
+    [SerializeField] private CollisionMasks collisionMasks = new CollisionMasks{ above = default, below = default, left = default, right = default };
     [SerializeField] private float rayInset = 0.015f;
     [SerializeField] private int horizontalRayCount = 4;
     [SerializeField] private int verticalRayCount = 4;
     [SerializeField] private float deltaPositionThreshold = 0.001f;
 
-    //****************//
-    //   Properties   //
-    //****************//
+    //******************//
+    //    Properties    //
+    //******************//
 
     public Vector2 velocity
     {
@@ -39,14 +48,9 @@ public class Actor2D : MonoBehaviour
         set { m_velocity = value; }
     }
 
-    public CollisionInfo collision
+    public CollisionData collision
     {
         get { return m_collisions; }
-    }
-
-    public ReadOnlyCollection<CollisionData> collisionData
-    {
-        get { return m_roCollisionData; }
     }
 
     //**********************//
@@ -62,9 +66,7 @@ public class Actor2D : MonoBehaviour
 
     // Backing fields
     private Vector2 m_velocity;
-    private CollisionInfo m_collisions;
-    private List<CollisionData> m_collisionData = new List<CollisionData>();
-    private ReadOnlyCollection<CollisionData> m_roCollisionData = null;
+    private CollisionData m_collisions;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -83,8 +85,6 @@ public class Actor2D : MonoBehaviour
         Vector2 deltaPosition = m_velocity * Time.deltaTime;
         CalculateHorizontalCollisions(ref deltaPosition);
         CalculateVerticalCollisions(ref deltaPosition);
-
-        m_roCollisionData = new ReadOnlyCollection<CollisionData>(m_collisionData);
 
         transform.Translate(deltaPosition);
         Physics2D.SyncTransforms();
@@ -122,22 +122,22 @@ public class Actor2D : MonoBehaviour
         Vector2 rayOriginCorner = _deltaPosition.x < 0 ? rayBounds.bottomLeft : rayBounds.bottomRight;
         float rayDirection = Mathf.Sign(_deltaPosition.x);
         float rayLength = Mathf.Abs(_deltaPosition.x) + rayInset;
+        LayerMask mask = rayDirection == 1 ? collisionMasks.right : collisionMasks.left;
 
         for (int i = 0; i < horizontalRayCount; i++) {
             Vector2 rayOrigin = rayOriginCorner + Vector2.up * (i * verticalRaySpacing);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * rayDirection, rayLength, collisionMask);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * rayDirection, rayLength, mask);
 
             if (hit) {
                 float deltaX = (hit.distance - rayInset) * rayDirection;
                 _deltaPosition.x = Mathf.Abs(deltaX) >= deltaPositionThreshold ? deltaX : 0f;
                 rayLength = hit.distance;
 
-                CollisionDirection dir = rayDirection == 1 ? CollisionDirection.RIGHT : CollisionDirection.LEFT;
-                CollisionData data = new CollisionData() { direction = dir, transform = hit.transform };
-                m_collisionData.Add(data);
-
-                m_collisions.right = rayDirection == 1;
-                m_collisions.left = rayDirection == -1;
+                if (rayDirection == 1) {
+                    m_collisions.right = hit.transform;
+                } else {
+                    m_collisions.left = hit.transform;
+                }
             }
 
             Debug.DrawRay(rayOrigin + _deltaPosition, Vector2.right * rayDirection * rayLength, Color.red);
@@ -154,22 +154,22 @@ public class Actor2D : MonoBehaviour
         Vector2 rayOriginCorner = _deltaPosition.y < 0 ? rayBounds.bottomLeft : rayBounds.topLeft;
         float rayDirection = Mathf.Sign(_deltaPosition.y);
         float rayLength = Mathf.Abs(_deltaPosition.y) + rayInset;
+        LayerMask mask = rayDirection == 1 ? collisionMasks.above : collisionMasks.below;
 
         for (int i = 0; i < horizontalRayCount; i++) {
             Vector2 rayOrigin = rayOriginCorner + Vector2.right * (i * horizontalRaySpacing);
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * rayDirection, rayLength, collisionMask);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * rayDirection, rayLength, mask);
 
             if (hit) {
                 float deltaY = (hit.distance - rayInset) * rayDirection;
                 _deltaPosition.y = Mathf.Abs(deltaY) >= deltaPositionThreshold ? deltaY : 0f;
                 rayLength = hit.distance;
 
-                CollisionDirection dir = rayDirection == 1 ? CollisionDirection.ABOVE : CollisionDirection.BELOW;
-                CollisionData data = new CollisionData() { direction = dir, transform = hit.transform };
-                m_collisionData.Add(data);
-
-                m_collisions.above = rayDirection == 1;
-                m_collisions.below = rayDirection == -1;
+                if (rayDirection == 1) {
+                    m_collisions.above = hit.transform;
+                } else {
+                    m_collisions.below = hit.transform;
+                }
             }
 
             Debug.DrawRay(rayOrigin + _deltaPosition, Vector2.up * rayDirection * rayLength, Color.red);
@@ -179,11 +179,10 @@ public class Actor2D : MonoBehaviour
     // Sets all collision variables to false
     private void ResetCollisions()
     {
-        m_collisionData.Clear();
-        m_collisions.above = false;
-        m_collisions.below = false;
-        m_collisions.right = false;
-        m_collisions.left = false;
+        m_collisions.above = null;
+        m_collisions.below = null;
+        m_collisions.right = null;
+        m_collisions.left = null;
     }
 }
 

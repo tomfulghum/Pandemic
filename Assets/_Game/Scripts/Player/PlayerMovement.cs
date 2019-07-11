@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 externalVelocity = Vector2.zero;
 
     private Coroutine jumpCoroutine = null;
-    private CollisionInfo lastCollision;
+    private CollisionData lastCollision;
 
     private bool groundTolerance = false;
     private bool jumping = false;
