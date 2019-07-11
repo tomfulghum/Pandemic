@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public bool AllowMovingWhileAttacking;
+    public bool AllowMovingWhileAttacking; //aktuell noch nicht sogut
     public float AttackRange;
     public float AttackAngle;
     public float smashSpeed;
@@ -18,6 +18,7 @@ public class PlayerCombat : MonoBehaviour
     Vector2 attackDirection;
     List<Collider2D> enemiesHit;
     float xAxis;
+    Coroutine MovementSlowDown;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,11 +68,11 @@ public class PlayerCombat : MonoBehaviour
                 {
                     if (transform.position.x < hit.collider.transform.position.x)
                     {
-                        hit.collider.GetComponent<Enemy>().GetHit(false);
+                        hit.collider.GetComponent<Enemy>().GetHit(false, 0.4f);
                     }
                     else
                     {
-                        hit.collider.GetComponent<Enemy>().GetHit(true);
+                        hit.collider.GetComponent<Enemy>().GetHit(true, 0.4f);
                     }
                     //Debug.Log("i hit an enemy");
                 }
@@ -143,11 +144,11 @@ public class PlayerCombat : MonoBehaviour
                     {
                         if (transform.position.x < hit.collider.transform.position.x)
                         {
-                            hit.collider.GetComponent<Enemy>().GetHit(false);
+                            hit.collider.GetComponent<Enemy>().GetHit(false, 0.2f);
                         }
                         else
                         {
-                            hit.collider.GetComponent<Enemy>().GetHit(true);
+                            hit.collider.GetComponent<Enemy>().GetHit(true, 0.2f);
                         }
                         EnemiesHit.Add(hit.collider);
                     }
@@ -186,6 +187,21 @@ public class PlayerCombat : MonoBehaviour
         }
         return Direction;
     }
+
+    IEnumerator SlowMovementDown(Vector2 _startvelocity)
+    {
+       // Debug.Log(_startvelocity.magnitude);
+        float MovingSpeed = _startvelocity.magnitude;
+        while (_startvelocity.magnitude*MovingSpeed > 0.1f)
+        {
+            MovingSpeed *= 0.8f;
+            Vector2 newVelocity = _startvelocity.normalized * MovingSpeed * 0.99f;
+            //Debug.Log(newVelocity.magnitude);
+            GetComponent<PlayerMovement>().SetExternalVelocity(newVelocity);
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
     IEnumerator AttackSequence() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
         Attacking = true;
@@ -194,6 +210,7 @@ public class PlayerCombat : MonoBehaviour
         {
             //Debug.Log("in air");
         }
+        /*
         if(AllowMovingWhileAttacking || !GetComponent<Actor2D>().collision.below)
         {
             Vector3 currentVelocity = GetComponent<Actor2D>().velocity.normalized * 4;
@@ -204,10 +221,15 @@ public class PlayerCombat : MonoBehaviour
         {
             GetComponent<PlayerMovement>().DisableUserInput(true);
         }
+        */
+        Vector3 currentVelocity = GetComponent<Actor2D>().velocity;
+        GetComponent<PlayerMovement>().DisableUserInput(true);
+        MovementSlowDown =  StartCoroutine(SlowMovementDown(currentVelocity));
         //yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FirstAttack());
         GetComponent<PlayerMovement>().DisableUserInput(false);
         Attacking = false;
+        StopCoroutine(MovementSlowDown);
     }
 
 

@@ -36,10 +36,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetHit(bool knockBackLeft) //bandaid fix for knockbackdirectino
+    public void GetHit(bool knockBackLeft, float _strength) //bandaid fix for knockbackdirectino
     {
         StopAllCoroutines();
-        StartCoroutine(KnockBack(10, knockBackLeft, 5));
+        StartCoroutine(KnockBack(10, knockBackLeft, _strength));
         CurrentlyHit = true;
         //EnemyFreeze = true
     }
@@ -58,10 +58,10 @@ public class Enemy : MonoBehaviour
             //Debug.Log(test);
             if(_knockBackLeft)
             {
-                transform.position = new Vector2(transform.position.x - 0.2f * test, transform.position.y);
+                transform.position = new Vector2(transform.position.x - _knockBackStrength * test, transform.position.y);
             } else
             {
-                transform.position = new Vector2(transform.position.x + 0.2f * test, transform.position.y);
+                transform.position = new Vector2(transform.position.x + _knockBackStrength * test, transform.position.y);
             }
             yield return new WaitForSeconds(0.03f);
         }

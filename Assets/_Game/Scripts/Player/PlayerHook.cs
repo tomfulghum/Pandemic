@@ -34,9 +34,13 @@ using UnityEngine;
 //hook state --> nur checken wenn hook nicht active ist
 public class PlayerHook : MonoBehaviour
 {
+    //enum HookState {Targeting, Hooking, usw...} 
     public enum ControllType { Keyboard, Controller }
     public enum ControllStick { Left, Right }
     public enum TimeSlow { NoSlow, Instant, SlowFast, FastSlow }
+
+    enum TargetType { Static, Enemy, Movable, Pullable } // besseres naming finden //vllt noch ein nichts gehooked einbauen
+    TargetType HookedObject;
 
     public ControllType controlls;
     public ControllStick stick;
