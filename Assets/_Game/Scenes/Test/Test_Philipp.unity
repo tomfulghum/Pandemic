@@ -2181,6 +2181,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1851508273}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1121002059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121002058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1b21e6ae325fd418e0821bc75baf12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NumOfVisualDots: 50
+  DotPrefab: {fileID: 991937809109260029, guid: c393b68217dcca1458e79330a80bb970,
+    type: 3}
 --- !u!114 &1121002064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3210,6 +3225,23 @@ PrefabInstance:
     - target: {fileID: 3474901, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
       propertyPath: ControllerTolerance
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474901, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
+      propertyPath: NumOfVisualDots
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474901, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
+      propertyPath: Gravity.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3474901, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
+      propertyPath: DotPrefab
+      value: 
+      objectReference: {fileID: 991937809109260029, guid: c393b68217dcca1458e79330a80bb970,
+        type: 3}
+    - target: {fileID: 3474901, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
+      propertyPath: Gravity
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}

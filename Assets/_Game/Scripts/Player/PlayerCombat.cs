@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//smash down stärke von der spieler höhe/falllänge abhängig machen
 public class PlayerCombat : MonoBehaviour
 {
     public bool AllowMovingWhileAttacking; //aktuell noch nicht sogut
     public float AttackRange;
     public float AttackAngle;
+    //public int NumberOfAttacks;
     public float smashSpeed;
     public LayerMask layerMask;
     public float ControllerTolerance;
@@ -227,11 +230,26 @@ public class PlayerCombat : MonoBehaviour
         MovementSlowDown =  StartCoroutine(SlowMovementDown(currentVelocity));
         //yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FirstAttack());
+       // yield return StartCoroutine(Attack(NumberOfAttacks, attackDirection)); //funktioniert noch nicht
         GetComponent<PlayerMovement>().DisableUserInput(false);
         Attacking = false;
         StopCoroutine(MovementSlowDown);
     }
 
+    IEnumerator Attack(int _numOfRepeats, Vector2 _startDirection)
+    {
+        attackDirection = RotateVector(_startDirection, Random.Range(-15,15));
+        Debug.Log("attackDirection: " + attackDirection);
+        yield return new WaitForSeconds(0.1f + Random.Range(0.0f, 0.2f)); //vllt ohne random
+        foreach (Collider2D enemy in enemiesHit)
+        {
+            enemy.GetComponent<Enemy>().CurrentlyHit = false;
+        }
+        if (_numOfRepeats > 0)
+        {
+            StartCoroutine(Attack(_numOfRepeats - 1, _startDirection));
+        }
+    }
 
     IEnumerator FirstAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
@@ -251,7 +269,7 @@ public class PlayerCombat : MonoBehaviour
         {
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
         }
-        yield return StartCoroutine(ThirdAttack());
+        yield return StartCoroutine(ThirdAttack()); //ThirdAttack()
     }
     IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {

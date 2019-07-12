@@ -64,6 +64,10 @@ public class PlayerHook : MonoBehaviour
     public LayerMask layer_mask;
     public float ControllerTolerance;
 
+    public float MinThrowVelocity;
+    public float MaxThrowVelocity;
+    public float Gravity; //here only for visual purpose, should have the same value as gravity in the thrown object script //gravity sollte am besten von dem throwable object genommen werden
+
 
 
     List<Collider2D> TotalHookPoints;
@@ -136,7 +140,11 @@ public class PlayerHook : MonoBehaviour
                     if(Input.GetButtonDown("Fire1"))
                     {
                         TargetToPull = null;
+                        GetComponent<PlayerMovement>().DisableUserInput(false);
+                        GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
                     }
+                    AimThrow();
+                    //AimThrowableObject --> else if (Aim == ture) { GetComponent<ThrowableObject>().Launch() } //braucht noch eine variable --> currently thrown --> behandelt dann selbst alle physik berechnungen
                 }
             }
             else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && HookActivated == true) //für controller ist das blöd //evtl nicht == 0 sondern ungleich 1
@@ -162,6 +170,13 @@ public class PlayerHook : MonoBehaviour
                 TargetToPull.transform.position += (Vector3)objectVelocity * Time.deltaTime / Time.timeScale;
             }
         }
+    }
+
+    void AimThrow() //evlt während aim den spieler anhalten oder bewegung verlangsamen
+    {
+        GetComponent<PlayerMovement>().DisableUserInput(true);
+        Vector2 throwVelocity = new Vector2(-ControllerDirection.x, -ControllerDirection.y).normalized * HookSpeed;
+        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, Gravity);
     }
 
     void ActivateHook(Vector2 _direction)
@@ -223,7 +238,6 @@ public class PlayerHook : MonoBehaviour
             }
         }
     }
-
 
     void StartAiming()
     {
