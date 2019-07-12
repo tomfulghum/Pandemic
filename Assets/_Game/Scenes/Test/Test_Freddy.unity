@@ -1130,7 +1130,7 @@ GameObject:
   - component: {fileID: 671645007}
   - component: {fileID: 671645006}
   - component: {fileID: 671645005}
-  m_Layer: 17
+  m_Layer: 0
   m_Name: Platform3 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3239,7 +3239,7 @@ PrefabInstance:
     - target: {fileID: 78747465047189639, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
         type: 3}
       propertyPath: collisionMasks.below.m_Bits
-      value: 131328
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 78747465047189639, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
         type: 3}

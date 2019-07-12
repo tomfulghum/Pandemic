@@ -187,7 +187,7 @@ Transform:
   m_GameObject: {fileID: 78747465047189637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.58, y: 1.4, z: 1}
+  m_LocalScale: {x: 0.58000004, y: 1.4, z: 1}
   m_Children:
   - {fileID: 1468857676}
   m_Father: {fileID: 0}
@@ -282,16 +282,16 @@ MonoBehaviour:
   collisionMasks:
     above:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
     below:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 262400
     left:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
     right:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
   rayInset: 0.015
   horizontalRayCount: 5
   verticalRayCount: 5
@@ -330,8 +330,8 @@ MonoBehaviour:
   groundAccelerationTime: 0.1
   airAccelerationTime: 0.3
   maxJumpHeight: 4
-  jumpSpeed: 10
-  jumpCancelSpeedMultiplier: 0.25
+  jumpSpeed: 9
+  jumpCancelSpeedMultiplier: 0
   gravity: 30
   maxFallingSpeed: 20
   groundToleranceTime: 0.05
@@ -353,15 +353,15 @@ MonoBehaviour:
   Angle: 20
   HookSpeed: 10
   MaxTimeSlow: 0.1
-  MaxTimeActive: 0
-  TargetReachedTolerance: 0
+  MaxTimeActive: 2
+  TargetReachedTolerance: 0.2
   CancelHookWithSpace: 1
   CancelHookWithNewHook: 1
   CancelDistancePercentage: 0.5
   AdditionalTravelDistance: 2
   UseCancelThroughTravelTime: 1
-  FormOfTimeSlow: 0
+  FormOfTimeSlow: 1
   RadiusVisualization: {fileID: 1468857675}
   layer_mask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 768
