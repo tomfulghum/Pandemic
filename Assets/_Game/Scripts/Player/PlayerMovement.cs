@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Actor2D))]
 
 public class PlayerMovement : MonoBehaviour
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
+    private PlayerInput input;
     private Actor2D actor;
 
     private Vector2 moveDirection = Vector2.zero;
@@ -54,20 +56,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        input = GetComponent<PlayerInput>();
         actor = GetComponent<Actor2D>();
     }
 
     private void Update()
     {
         // Movement input
-        float inputX = Input.GetAxisRaw("Horizontal");
+        float inputX = input.player.GetAxisRaw(input.moveHorizontalAxis);
         moveDirection = new Vector2(inputX, 0).normalized;
 
         // Jump
-        if ((actor.collision.below || groundTolerance) && !actor.collision.above && !inputDisabled && Input.GetButtonDown("Jump") ) {
+        if ((actor.collision.below || groundTolerance) && !actor.collision.above && !inputDisabled && input.player.GetButtonDown(input.jumpButton)) {
             jumpCoroutine = StartCoroutine(JumpCoroutine());
         }
-        if (jumping && (Input.GetButtonUp("Jump") || actor.collision.above)) {
+        if (jumping && (input.player.GetButtonUp(input.jumpButton) || actor.collision.above)) {
             jumpCanceled = true;
         }
 
