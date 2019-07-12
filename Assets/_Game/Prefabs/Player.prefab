@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 78747465047189633}
   - component: {fileID: 78747465047189632}
   - component: {fileID: 78747465047189639}
+  - component: {fileID: 2333473149671533686}
   - component: {fileID: 78747465047189638}
   - component: {fileID: 3474901}
   m_Layer: 10
@@ -278,13 +279,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 256
+  collisionMasks:
+    above:
+      serializedVersion: 2
+      m_Bits: 0
+    below:
+      serializedVersion: 2
+      m_Bits: 0
+    left:
+      serializedVersion: 2
+      m_Bits: 0
+    right:
+      serializedVersion: 2
+      m_Bits: 0
   rayInset: 0.015
   horizontalRayCount: 5
   verticalRayCount: 5
   deltaPositionThreshold: 0.001
+--- !u!114 &2333473149671533686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78747465047189637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b14ddc26aade244d976be71281dd8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerId: 0
+  jumpButtonName: Jump
+  hookButtonName: Hook
+  moveHorizontalAxisName: MoveHorizontal
+  aimHorizontalAxisName: AimHorizontal
+  aimVerticalAxisName: AimVertical
 --- !u!114 &78747465047189638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,19 +348,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlls: 0
+  stick: 0
   HookRadius: 5
   Angle: 20
-  MaxTimeSlow: 0.1
-  MaxActiveTime: 10
   HookSpeed: 10
-  HookCancelDistance: 0.5
+  MaxTimeSlow: 0.1
+  MaxTimeActive: 0
+  TargetReachedTolerance: 0
   CancelHookWithSpace: 1
   CancelHookWithNewHook: 1
   CancelDistancePercentage: 0.5
   AdditionalTravelDistance: 2
   UseCancelThroughTravelTime: 1
-  VisualizeLines: 1
-  InterpolateBetweenColors: 1
-  FirstColor: {r: 0, g: 0, b: 0, a: 1}
-  SecondColor: {r: 1, g: 0.82623184, b: 0, a: 1}
+  FormOfTimeSlow: 0
   RadiusVisualization: {fileID: 1468857675}
+  layer_mask:
+    serializedVersion: 2
+    m_Bits: 0
