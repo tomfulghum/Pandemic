@@ -2052,6 +2052,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1052638679
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6806636620529482783, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_Name
+      value: Rewired Input Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6806636620529482781, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0fc993bd5d1d8a847afcf2df4421151c, type: 3}
 --- !u!1 &1083893179
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2369,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentlyHit: 0
   ContactDamage: 0
+  layer_mask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1121002058 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 78747465047189637, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
@@ -2346,8 +2418,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2304
   ControllerTolerance: 0.5
-  DashSpeed: 10
-  DashDuration: 0.5
+  DashSpeed: 20
+  DashDuration: 0.2
   DashCooldown: 0.5
   Smashing: 0
 --- !u!1 &1141281004
@@ -2460,9 +2532,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 256
+  collisionMasks:
+    above:
+      serializedVersion: 2
+      m_Bits: 256
+    below:
+      serializedVersion: 2
+      m_Bits: 256
+    left:
+      serializedVersion: 2
+      m_Bits: 256
+    right:
+      serializedVersion: 2
+      m_Bits: 256
   rayInset: 0.015
   horizontalRayCount: 4
   verticalRayCount: 4
@@ -3087,14 +3169,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517843537}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 0
+  collisionMasks:
+    above:
+      serializedVersion: 2
+      m_Bits: 0
+    below:
+      serializedVersion: 2
+      m_Bits: 0
+    left:
+      serializedVersion: 2
+      m_Bits: 0
+    right:
+      serializedVersion: 2
+      m_Bits: 0
   rayInset: 0.015
   horizontalRayCount: 4
   verticalRayCount: 4
@@ -3175,7 +3267,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentlyHit: 0
-  ContactDamage: 0
+  ContactDamage: 1
+  layer_mask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!61 &1517843543
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3382,6 +3477,26 @@ PrefabInstance:
         type: 3}
       propertyPath: collisionMask.m_Bits
       value: 2304
+      objectReference: {fileID: 0}
+    - target: {fileID: 78747465047189639, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: collisionMasks.left.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 78747465047189639, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: collisionMasks.above.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 78747465047189639, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: collisionMasks.below.m_Bits
+      value: 262400
+      objectReference: {fileID: 0}
+    - target: {fileID: 78747465047189639, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: collisionMasks.right.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 3474901, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
       propertyPath: layer_mask.m_Bits

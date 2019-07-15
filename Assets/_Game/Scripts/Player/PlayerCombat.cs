@@ -50,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (DisableAllInput == false)
         {
-            if (Input.GetButtonDown("Fire3") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
+            if (Input.GetButtonDown("Jump") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
             {
                 if (Input.GetAxis("Horizontal") < 0)
                 {
@@ -66,7 +66,7 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Fire1") && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
+            if (Input.GetButtonDown("Fire3") && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
             {
                 StartCoroutine(AttackSequence());
             }
@@ -425,10 +425,11 @@ public class PlayerCombat : MonoBehaviour
         CurrentlyHit = true;
     }
 
-    IEnumerator KnockBack(float _repetissions, bool _knockBackLeft, float _knockBackStrength) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh
+    IEnumerator KnockBack(float _repetissions, bool _knockBackLeft, float _knockBackStrength) //knock back direction als Parameter übergeben
     {
         KnockBackActive = true;
         DisableAllInput = true;
+        GetComponent<PlayerMovement>().DisableUserInput(true);
         for (int i = 0; i < _repetissions; i++)
         {
             float test = 1 - Mathf.Pow((i), 3) / 100;
@@ -452,6 +453,7 @@ public class PlayerCombat : MonoBehaviour
         GetComponent<SpriteRenderer>().color = originalColor;
         colorChangeCounter = 0;
         DisableAllInput = false;
+        GetComponent<PlayerMovement>().DisableUserInput(false);
     }
 
     //GetHit //Stagger ...

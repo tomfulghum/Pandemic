@@ -241,7 +241,7 @@ public class PlayerHook : MonoBehaviour
                     RopeFight = false;
                     GetComponent<PlayerMovement>().DisableUserInput(false);
                     PlayerWonRopeFight = true;
-                    Debug.Log("Player won the rope fight");
+                    //Debug.Log("Player won the rope fight");
                     if (CurrentSelectedPoint.transform.parent.GetComponent<Enemy>() != null)
                     {
                         if (transform.position.x < CurrentSelectedPoint.transform.position.x)
@@ -263,11 +263,11 @@ public class PlayerHook : MonoBehaviour
                     GetComponent<PlayerMovement>().DisableUserInput(false);
                     if (PlayerWonRopeFight)
                     {
-                        Debug.Log("PlayerWon"); //eigentlich unnötig wird nie eintreten
+                        //Debug.Log("PlayerWon"); //eigentlich unnötig wird nie eintreten
                     }
                     else
                     {
-                        Debug.Log("Player lost");
+                       // Debug.Log("Player lost");
                         bool KnockBackLeft;
                         if(transform.position.x < CurrentSelectedPoint.transform.position.x)
                         {

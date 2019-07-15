@@ -8,23 +8,32 @@ public class Enemy : MonoBehaviour
     public bool ContactDamage;
     bool KnockBackActive;
     int colorChangeCounter;
+    public LayerMask layer_mask;
     Color originalColor;
-    Actor2D actor;
     // Start is called before the first frame update
     void Start()
     {
         originalColor = GetComponent<SpriteRenderer>().color;
-        actor = GetComponent<Actor2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ContactDamage && actor != null)
+        if(ContactDamage)
         {
-            if(actor.collision.below  || actor.collision.above || actor.collision.left || actor.collision.right)
+            bool KnockBackLeft;
+            //Debug.Log("here");
+            Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, new Vector2(41 * transform.localScale.x, 41 * transform.localScale.y), 0, layer_mask);
+            foreach(Collider2D collider in col)
             {
-               
+                if(collider.CompareTag("Player"))
+                {
+                    if (collider.transform.position.x < transform.position.x)
+                        KnockBackLeft = true;
+                    else
+                        KnockBackLeft = false;
+                    collider.gameObject.GetComponent<PlayerCombat>().GetHit(KnockBackLeft, 0.3f);
+                }
             }
         }
         if (KnockBackActive)
