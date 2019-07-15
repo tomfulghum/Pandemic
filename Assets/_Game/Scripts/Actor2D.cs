@@ -100,18 +100,7 @@ public class Actor2D : MonoBehaviour
             deltaPosition += masterDelta;
         }
 
-        Bounds collBounds = coll.bounds;
-        Vector2 overlapSize = new Vector2(collBounds.max.x - collBounds.min.x, collBounds.max.y - collBounds.min.y);
-        Collider2D overlap = Physics2D.OverlapBox(transform.position, overlapSize, 0, collisionMasks.moving);
-        if (overlap) {
-            MovingObject movingObject = overlap.GetComponent<MovingObject>();
-            ColliderDistance2D colliderDistance = coll.Distance(overlap);
-            if (movingObject.velocity.y > 0 && colliderDistance.distance < 0) {
-                transform.Translate(colliderDistance.distance * colliderDistance.normal);
-                Physics2D.SyncTransforms();
-            }
-        }
-
+        CorrectVerticalOverlap();
         UpdateRayOrigins();
 
         CalculateHorizontalCollisions(ref deltaPosition);
@@ -209,6 +198,21 @@ public class Actor2D : MonoBehaviour
             }
 
             Debug.DrawRay(rayOrigin, Vector2.up * rayDirection * rayLength, Color.red);
+        }
+    }
+
+    private void CorrectVerticalOverlap()
+    {
+        Bounds collBounds = coll.bounds;
+        Vector2 overlapSize = new Vector2(collBounds.max.x - collBounds.min.x, collBounds.max.y - collBounds.min.y);
+        Collider2D overlap = Physics2D.OverlapBox(transform.position, overlapSize, 0, collisionMasks.moving);
+        if (overlap) {
+            MovingObject movingObject = overlap.GetComponent<MovingObject>();
+            ColliderDistance2D colliderDistance = coll.Distance(overlap);
+            if (movingObject.velocity.y > 0 && colliderDistance.distance < 0) {
+                transform.Translate(colliderDistance.distance * colliderDistance.normal);
+                Physics2D.SyncTransforms();
+            }
         }
     }
 

@@ -2,20 +2,35 @@
 
 public class MovingPlatform : MonoBehaviour
 {
+    //**********************//
+    //   Inspector Fields   //
+    //**********************//
+
     [SerializeField] private MovingObject platform = default;
     [SerializeField] private float speed = 1f;
     [SerializeField] private bool cyclic = false;
     [SerializeField] private bool smooth = false;
     [SerializeField] private Transform[] waypoints = default;
 
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
     private int lastWaypoint = 0;
     private float progress = 0;
 
-    // Update is called once per frame
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     void Update()
     {
         platform.Translate(CalculateDeltaPosition());
     }
+
+    //*************************//
+    //    Private Functions    //
+    //*************************//
 
     private Vector2 CalculateDeltaPosition()
     {
@@ -32,7 +47,6 @@ public class MovingPlatform : MonoBehaviour
         }
 
         Vector3 newPosition = Vector3.Lerp(waypoints[lastWaypoint].position, waypoints[nextWaypoint].position, progress);
-
         return (newPosition - platform.transform.position);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(EdgeCollider2D))]
-
 public class MovingObject : MonoBehaviour
 {
     //******************//
@@ -11,18 +9,36 @@ public class MovingObject : MonoBehaviour
     public Vector2 velocity { get; set; }
     public Vector2 deltaPosition { get; private set; }
 
-    private Vector2 translation;
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private MovingObjectManager manager = null;
+    private Vector2 translation = Vector2.zero;
 
     //*******************************//
     //    MonoBehaviour Functions    //
     //*******************************//
 
-    private void Update()
+    private void Start()
+    {
+        manager = MovingObjectManager.Instance;
+        manager.Register(this);
+    }
+
+    private void OnDestroy()
+    {
+        manager.Deregister(this);
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void UpdateTransform()
     {
         deltaPosition = velocity * Time.deltaTime + translation;
-
         transform.Translate(deltaPosition);
-        Physics2D.SyncTransforms();
 
         translation = Vector2.zero;
     }
