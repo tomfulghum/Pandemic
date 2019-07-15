@@ -420,7 +420,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void GetHit(bool knockBackLeft, float _strength) //bandaid fix for knockbackdirectino
     {
-        StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
+        StopCoroutine("KnockBack");
+        //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
         StartCoroutine(KnockBack(10, knockBackLeft, _strength));
         CurrentlyHit = true;
     }
