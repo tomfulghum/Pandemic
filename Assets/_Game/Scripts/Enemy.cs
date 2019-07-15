@@ -32,7 +32,10 @@ public class Enemy : MonoBehaviour
                         KnockBackLeft = true;
                     else
                         KnockBackLeft = false;
-                    collider.gameObject.GetComponent<PlayerCombat>().GetHit(KnockBackLeft, 0.3f);
+                    if (collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false && collider.gameObject.GetComponent<PlayerCombat>().Smashing == false)
+                    {
+                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(KnockBackLeft, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude*0.05f + 0.2f);
+                    }
                 }
             }
         }

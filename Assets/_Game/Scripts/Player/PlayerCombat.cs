@@ -34,7 +34,7 @@ public class PlayerCombat : MonoBehaviour
     Coroutine MovementSlowDown;
     Color originalColor;
     int colorChangeCounter;
-    bool CurrentlyHit;
+    [HideInInspector] public bool CurrentlyHit;
     bool KnockBackActive;
     // Start is called before the first frame update
     void Start()
@@ -114,7 +114,7 @@ public class PlayerCombat : MonoBehaviour
                         //Debug.Log("i hit an enemy");
                     }
                 }
-                if (GetComponent<Actor2D>().collision.below)
+                if (GetComponent<Actor2D>().collision.below && !GetComponent<Actor2D>().collision.below.CompareTag("Enemy"))
                 {
                     StopMeteorSmash();
                 }

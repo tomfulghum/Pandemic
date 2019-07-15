@@ -31,6 +31,23 @@ public class ThrowableObject : MonoBehaviour
                 CurrentlyThrown = false;
                 GetComponent<SpriteRenderer>().color = Color.blue;
             }
+            Transform enemy = null;
+            if (actor.collision.below && actor.collision.below.CompareTag("Enemy"))
+                enemy = actor.collision.below;
+            if (actor.collision.above && actor.collision.above.CompareTag("Enemy"))
+                enemy = actor.collision.above;
+            if (actor.collision.left && actor.collision.left.CompareTag("Enemy"))
+                enemy = actor.collision.left;
+            if (actor.collision.right && actor.collision.right.CompareTag("Enemy"))
+                enemy = actor.collision.right;
+            if(enemy != null)
+            {
+                Debug.Log("hit enemy");
+                bool KnockBackLeft = true;
+                if (transform.position.x < enemy.position.x)
+                    KnockBackLeft = false;
+                enemy.GetComponent<Enemy>().GetHit(KnockBackLeft, 0.3f);
+            }
         } 
         if (!PickedUp)
         {
