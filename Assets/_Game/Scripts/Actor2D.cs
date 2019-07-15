@@ -13,6 +13,7 @@ public class Actor2D : MonoBehaviour
     [System.Serializable]
     private struct CollisionMasks
     {
+        public LayerMask moving;
         public LayerMask above;
         public LayerMask below;
         public LayerMask left;
@@ -32,7 +33,7 @@ public class Actor2D : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private CollisionMasks collisionMasks = new CollisionMasks{ above = default, below = default, left = default, right = default };
+    [SerializeField] private CollisionMasks collisionMasks = new CollisionMasks{ moving = default, above = default, below = default, left = default, right = default };
     [SerializeField] private float rayInset = 0.015f;
     [SerializeField] private int horizontalRayCount = 4;
     [SerializeField] private int verticalRayCount = 4;
@@ -53,6 +54,12 @@ public class Actor2D : MonoBehaviour
         get { return m_collisions; }
     }
 
+    public MovingObject master
+    {
+        private get { return m_master; }
+        set { m_master = value; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -67,6 +74,7 @@ public class Actor2D : MonoBehaviour
     // Backing fields
     private Vector2 m_velocity;
     private CollisionData m_collisions;
+    private MovingObject m_master;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -79,15 +87,43 @@ public class Actor2D : MonoBehaviour
 
     private void Update()
     {
-        UpdateRayOrigins();
         ResetCollisions();
 
         Vector2 deltaPosition = m_velocity * Time.deltaTime;
+        if (master) {
+            Vector2 masterDelta = master.deltaPosition;
+            if (masterDelta.y > 0) {
+                transform.Translate(new Vector2(0, masterDelta.y));
+                Physics2D.SyncTransforms();
+                masterDelta.y = 0;
+            }
+            deltaPosition += masterDelta;
+        }
+
+        Bounds collBounds = coll.bounds;
+        Vector2 overlapSize = new Vector2(collBounds.max.x - collBounds.min.x, collBounds.max.y - collBounds.min.y);
+        Collider2D overlap = Physics2D.OverlapBox(transform.position, overlapSize, 0, collisionMasks.moving);
+        if (overlap) {
+            MovingObject movingObject = overlap.GetComponent<MovingObject>();
+            ColliderDistance2D colliderDistance = coll.Distance(overlap);
+            if (movingObject.velocity.y > 0 && colliderDistance.distance < 0) {
+                transform.Translate(colliderDistance.distance * colliderDistance.normal);
+                Physics2D.SyncTransforms();
+            }
+        }
+
+        UpdateRayOrigins();
+
         CalculateHorizontalCollisions(ref deltaPosition);
         CalculateVerticalCollisions(ref deltaPosition);
 
         transform.Translate(deltaPosition);
         Physics2D.SyncTransforms();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.transform);
     }
 
     //*************************//
@@ -140,7 +176,7 @@ public class Actor2D : MonoBehaviour
                 }
             }
 
-            Debug.DrawRay(rayOrigin + _deltaPosition, Vector2.right * rayDirection * rayLength, Color.red);
+            Debug.DrawRay(rayOrigin, Vector2.right * rayDirection * rayLength, Color.red);
         }
     }
 
@@ -172,7 +208,7 @@ public class Actor2D : MonoBehaviour
                 }
             }
 
-            Debug.DrawRay(rayOrigin + _deltaPosition, Vector2.up * rayDirection * rayLength, Color.red);
+            Debug.DrawRay(rayOrigin, Vector2.up * rayDirection * rayLength, Color.red);
         }
     }
 
@@ -184,5 +220,9 @@ public class Actor2D : MonoBehaviour
         m_collisions.right = null;
         m_collisions.left = null;
     }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
 }
 

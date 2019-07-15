@@ -84,8 +84,8 @@ public class PlayerMovement : MonoBehaviour
                 ApplyGravity();
             }
 
-            // Clamp velocity to maximum horizontal and vertical movement speeds.
-            actor.velocity = new Vector2(Mathf.Clamp(actor.velocity.x, -movementSpeed, movementSpeed), Mathf.Clamp(actor.velocity.y, -maxFallingSpeed, jumpSpeed));
+            // Clamp velocity to maximum vertical movement speed.
+            actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -maxFallingSpeed, float.MaxValue));
         } else {
             actor.velocity = externalVelocity;
         }
@@ -127,6 +127,12 @@ public class PlayerMovement : MonoBehaviour
         // Ground tolerance
         if (!actor.collision.below && lastCollision.below && !jumping) {
             StartCoroutine(GroundToleranceCoroutine());
+        }
+
+        if (actor.collision.below && actor.collision.below.CompareTag("MovingObject")) {
+            actor.master = actor.collision.below.GetComponent<MovingObject>();
+        } else if (!actor.collision.below || (actor.collision.below && !actor.collision.below.CompareTag("MovingObject"))) {
+            actor.master = null;
         }
 
         // Collisions
