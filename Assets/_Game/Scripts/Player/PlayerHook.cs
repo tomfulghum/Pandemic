@@ -35,6 +35,7 @@ using UnityEngine;
 //pull object to player --> object stays with player --> throw object
 //vllt während das object auf den spieler zufliegt layer collission ausmachen damit es nirgendwo hängen bleiben kann
 //evtl passen visuals bei dem wurf nicht zusammen weil die visuals andere werte haben als der wurf
+//default values für alles einstellen
 public class PlayerHook : MonoBehaviour
 {
     //enum HookState {Targeting, Hooking, usw...} 
@@ -69,6 +70,15 @@ public class PlayerHook : MonoBehaviour
     public float MaxThrowVelocity;
     public float Gravity; //here only for visual purpose, should have the same value as gravity in the thrown object script //gravity sollte am besten von dem throwable object genommen werden
 
+    public float MaxTimeToWinRopeFight;
+    public int NumOfButtonPresses;
+    public float ContrAdditionalPullAngle;
+    public float PullPositionChange;
+
+    float currentTimeActiveRope;
+    int ButtonPresses;
+    bool PlayerWonRopeFight;
+    Color RopeColor = Color.white;
 
 
     List<Collider2D> TotalHookPoints;
@@ -87,6 +97,8 @@ public class PlayerHook : MonoBehaviour
     [HideInInspector] public bool PullTargetToPlayer;
     bool AimingObject;
 
+    [HideInInspector] public bool RopeFight;
+
     float timeslowTest;
     float currentTimeActive;
 
@@ -98,6 +110,7 @@ public class PlayerHook : MonoBehaviour
     Vector2 TargetPosition;
     Vector2 ControllerDirection;
     Vector2 ContDirWithoutDeadzone;
+    Vector2 RopePointPosition;
 
     Coroutine HookCooldown = null;
 
@@ -114,98 +127,178 @@ public class PlayerHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // Debug.Log(TargetToPull);
-        //Debug.Log(CurrentSelectedPoint);
-        if (Input.GetAxis("Horizontal") < -ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance || Input.GetAxis("Vertical") < -ControllerTolerance || Input.GetAxis("Vertical") > ControllerTolerance)
+        if (PlayerCombat.DisableAllInput == false)
         {
-            if (stick == ControllStick.Left)
+            // Debug.Log(TargetToPull);
+            //Debug.Log(CurrentSelectedPoint);
+            if (Input.GetAxis("Horizontal") < -ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance || Input.GetAxis("Vertical") < -ControllerTolerance || Input.GetAxis("Vertical") > ControllerTolerance)
             {
-                ControllerDirection.x = Input.GetAxis("Horizontal");
-                ControllerDirection.y = Input.GetAxis("Vertical");
-                ControllerDirection = ControllerDirection.normalized;
-            }
-            if (stick == ControllStick.Right)
-            {
-                ControllerDirection.x = Input.GetAxis("RightHorizontal");
-                ControllerDirection.y = Input.GetAxis("RightVertical");
-                ControllerDirection = ControllerDirection.normalized;
-            }
-        }
-        if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-        {
-            ContDirWithoutDeadzone.x = Input.GetAxis("Horizontal");
-            ContDirWithoutDeadzone.y = Input.GetAxis("Vertical");
-        }
-        //Debug.Log(Input.GetAxis("ControllerHook"));
-        if ((HookActive == false || CanUseHook()) && PullBackActive == false && GetComponent<PlayerCombat>().Smashing == false && PullTargetToPlayer == false) //vllt hook erst auf nicht active wetzen wenn ziel erreicht ist &&hookNotThrown
-        {
-            if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1) // && time variable < max time active --> max time active macht am meisten sinn wenn es einen cooldown gibt
-            {
-                CurrentlyAiming = true;
-                if (TargetToPull == null)
+                if (stick == ControllStick.Left)
                 {
-                    StartAiming();
+                    ControllerDirection.x = Input.GetAxis("Horizontal");
+                    ControllerDirection.y = Input.GetAxis("Vertical");
+                    ControllerDirection = ControllerDirection.normalized;
                 }
-                else
+                if (stick == ControllStick.Right)
                 {
-                    if (Input.GetButtonDown("Fire1"))
+                    ControllerDirection.x = Input.GetAxis("RightHorizontal");
+                    ControllerDirection.y = Input.GetAxis("RightVertical");
+                    ControllerDirection = ControllerDirection.normalized;
+                }
+            }
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                ContDirWithoutDeadzone.x = Input.GetAxis("Horizontal");
+                ContDirWithoutDeadzone.y = Input.GetAxis("Vertical");
+            }
+            //Debug.Log(Input.GetAxis("ControllerHook"));
+            if ((HookActive == false || CanUseHook()) && PullBackActive == false && GetComponent<PlayerCombat>().Smashing == false && PullTargetToPlayer == false && RopeFight == false) //vllt hook erst auf nicht active wetzen wenn ziel erreicht ist &&hookNotThrown
+            {
+                if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1) // && time variable < max time active --> max time active macht am meisten sinn wenn es einen cooldown gibt
+                {
+                    CurrentlyAiming = true;
+                    if (TargetToPull == null)
                     {
-                        //Debug.Log("object drop");
+                        StartAiming();
+                    }
+                    else
+                    {
+                        if (Input.GetButtonDown("Fire1"))
+                        {
+                            //Debug.Log("object drop");
+                            TargetToPull.GetComponent<ThrowableObject>().PickedUp = false;
+                            TargetToPull.GetComponent<ThrowableObject>().ObjectToFollow = null;
+                            TargetToPull = null;
+                            CurrentSelectedPoint = null;
+                            GetComponent<PlayerMovement>().DisableUserInput(false);
+                            GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
+                        }
+                        else
+                        {
+                            AimThrow(ContDirWithoutDeadzone);
+                        }
+                        HookActivated = true;
+                        //AimThrowableObject --> else if (Aim == ture) { GetComponent<ThrowableObject>().Launch() } //braucht noch eine variable --> currently thrown --> behandelt dann selbst alle physik berechnungen
+                    }
+                }
+                else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && HookActivated == true) //für controller ist das blöd //evtl nicht == 0 sondern ungleich 1
+                {
+                    CurrentlyAiming = false;
+                    if (AimingObject && TargetToPull != null)
+                    {
+                        GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
+                        // float xDir = Input.GetAxis("Horizontal"); //kein null check biser
+                        //float yDir = Input.GetAxis("Vertical"); //--> evtl überprüfen ob wir eine deadzone wollen
+
+                        float strength = Mathf.Lerp(MinThrowVelocity, MaxThrowVelocity, (Mathf.Abs(ContDirWithoutDeadzone.x) + Mathf.Abs(ContDirWithoutDeadzone.y)));
+                        //Debug.Log(TargetToPull);
+                        Vector2 velocity = new Vector2(-ContDirWithoutDeadzone.x, -ContDirWithoutDeadzone.y).normalized * strength;
+                        TargetToPull.GetComponent<ThrowableObject>().Throw(velocity);
                         TargetToPull.GetComponent<ThrowableObject>().PickedUp = false;
                         TargetToPull.GetComponent<ThrowableObject>().ObjectToFollow = null;
                         TargetToPull = null;
                         CurrentSelectedPoint = null;
+                        TargetHookPoint = null;
                         GetComponent<PlayerMovement>().DisableUserInput(false);
-                        GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
+                    }
+                    ActivateHook(ControllerDirection);
+                    AimingObject = false;
+                }
+            }
+
+
+            if (RopeFight)
+            {
+                Debug.DrawLine(transform.position, CurrentSelectedPoint.transform.position, RopeColor);
+                Vector2 RopeDirection = (RopePointPosition - (Vector2)transform.position).normalized;
+                //Debug.Log("Rope Opposite Direction: " + RopeDirection);
+                RopeDirection *= -RopeDirection.magnitude; //opposite direction?
+               //Debug.Log("Rope Direction: " + RopeDirection);
+               //Debug.Log("Joystick Direction: " + ControllerDirection.normalized);
+               // Debug.Log(Vector2.Angle(RopeDirection, ControllerDirection.normalized));
+               /*
+                if(Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle)
+                {
+                    Debug.Log("still able to pull");
+                }
+                */
+                if (Input.GetButtonDown("Fire3") && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle)
+                {
+                    ButtonPresses--;
+                    if (transform.position.x < CurrentSelectedPoint.transform.position.x)
+                    {
+                        transform.position = new Vector3(transform.position.x - PullPositionChange, transform.position.y, transform.position.z);
                     }
                     else
                     {
-                        AimThrow(ContDirWithoutDeadzone);
+                        transform.position = new Vector3(transform.position.x + PullPositionChange, transform.position.y, transform.position.z);
                     }
-                    HookActivated = true;
-                    //AimThrowableObject --> else if (Aim == ture) { GetComponent<ThrowableObject>().Launch() } //braucht noch eine variable --> currently thrown --> behandelt dann selbst alle physik berechnungen
+                    RopeColor = Random.ColorHSV();
                 }
-            }
-            else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && HookActivated == true) //für controller ist das blöd //evtl nicht == 0 sondern ungleich 1
-            {
-                CurrentlyAiming = false;
-                if (AimingObject && TargetToPull != null)
+                if (ButtonPresses <= 0)
                 {
-                    GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
-                   // float xDir = Input.GetAxis("Horizontal"); //kein null check biser
-                    //float yDir = Input.GetAxis("Vertical"); //--> evtl überprüfen ob wir eine deadzone wollen
-                    
-                    float strength = Mathf.Lerp(MinThrowVelocity, MaxThrowVelocity, (Mathf.Abs(ContDirWithoutDeadzone.x) + Mathf.Abs(ContDirWithoutDeadzone.y)));
-                    //Debug.Log(TargetToPull);
-                    Vector2 velocity = new Vector2(-ContDirWithoutDeadzone.x, -ContDirWithoutDeadzone.y).normalized * strength;
-                    TargetToPull.GetComponent<ThrowableObject>().Throw(velocity);
-                    TargetToPull.GetComponent<ThrowableObject>().PickedUp = false;
-                    TargetToPull.GetComponent<ThrowableObject>().ObjectToFollow = null;
-                    TargetToPull = null;
-                    CurrentSelectedPoint = null;
-                    TargetHookPoint = null;
+                    //Debug.Log("i pulled");
+                    RopeFight = false;
                     GetComponent<PlayerMovement>().DisableUserInput(false);
+                    PlayerWonRopeFight = true;
+                    Debug.Log("Player won the rope fight");
+                    if (CurrentSelectedPoint.transform.parent.GetComponent<Enemy>() != null)
+                    {
+                        if (transform.position.x < CurrentSelectedPoint.transform.position.x)
+                        {
+                            CurrentSelectedPoint.transform.parent.GetComponent<Enemy>().GetHit(false, 0.3f);
+                        }
+                        else
+                        {
+                            CurrentSelectedPoint.transform.parent.GetComponent<Enemy>().GetHit(false, 0.3f);
+                        }
+                    }
+                    CurrentSelectedPoint = null;
                 }
-                ActivateHook(ControllerDirection);
-                AimingObject = false;
+                currentTimeActiveRope += Time.deltaTime / Time.timeScale;
+                if (currentTimeActiveRope > MaxTimeToWinRopeFight)
+                {
+                    // Debug.Log("i pulled");
+                    RopeFight = false;
+                    GetComponent<PlayerMovement>().DisableUserInput(false);
+                    if (PlayerWonRopeFight)
+                    {
+                        Debug.Log("PlayerWon"); //eigentlich unnötig wird nie eintreten
+                    }
+                    else
+                    {
+                        Debug.Log("Player lost");
+                        bool KnockBackLeft;
+                        if(transform.position.x < CurrentSelectedPoint.transform.position.x)
+                        {
+                            KnockBackLeft = true;
+                        }
+                        else
+                        {
+                            KnockBackLeft = false;
+                        }
+                        GetComponent<PlayerCombat>().GetHit(KnockBackLeft, 0.3f);
+                    }
+                    CurrentSelectedPoint = null;
+                }
             }
-        }
 
-        if (HookActive)
-        {
-            HookToTarget();
-        }
-        if (PullTargetToPlayer)
-        {
-            if (Vector2.Distance(transform.position, TargetToPull.transform.position) < TargetReachedTolerance)
+            if (HookActive)
             {
-                DeactivatePullToTarget();
-                //TargetToPull.GetComponent<ThrowableObject>().ObjectToFollow = transform;
+                HookToTarget();
             }
-            else
+            if (PullTargetToPlayer)
             {
-                Vector2 objectVelocity = (transform.position - TargetToPull.transform.position).normalized * HookSpeed;
-                TargetToPull.transform.position += (Vector3)objectVelocity * Time.deltaTime / Time.timeScale;
+                if (Vector2.Distance(transform.position, TargetToPull.transform.position) < TargetReachedTolerance)
+                {
+                    DeactivatePullToTarget();
+                    //TargetToPull.GetComponent<ThrowableObject>().ObjectToFollow = transform;
+                }
+                else
+                {
+                    Vector2 objectVelocity = (transform.position - TargetToPull.transform.position).normalized * HookSpeed;
+                    TargetToPull.transform.position += (Vector3)objectVelocity * Time.deltaTime / Time.timeScale;
+                }
             }
         }
     }
@@ -272,8 +365,12 @@ public class PlayerHook : MonoBehaviour
         else if(CurrentSelectedPoint != null && CurrentSelectedPoint.CompareTag("RopePoint"))
         {
             Debug.Log("start rope fight");
+            ButtonPresses = NumOfButtonPresses;
             GetComponent<PlayerMovement>().DisableUserInput(true);
-            //Debug.DrawLine(transform.position, CurrentSelectedPoint.transform.position);
+            RopeFight = true;
+            RopePointPosition = CurrentSelectedPoint.transform.position;
+            currentTimeActiveRope = 0;
+            PlayerWonRopeFight = false;
         }
         else if (TargetHookPoint == null && AimingObject == false)
         {

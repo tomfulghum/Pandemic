@@ -5,21 +5,34 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public bool CurrentlyHit;
+    public bool ContactDamage;
     bool KnockBackActive;
     int colorChangeCounter;
     Color originalColor;
+    Actor2D actor;
     // Start is called before the first frame update
     void Start()
     {
         originalColor = GetComponent<SpriteRenderer>().color;
+        actor = GetComponent<Actor2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(ContactDamage && actor != null)
+        {
+            if(actor.collision.below  || actor.collision.above || actor.collision.left || actor.collision.right)
+            {
+               
+            }
+        }
         if (KnockBackActive)
         {
-            GetComponent<CrawlingEnemy>().Moving = false;
+            if (GetComponent<CrawlingEnemy>() != null)
+            {
+                GetComponent<CrawlingEnemy>().Moving = false; //anders lösen
+            }
             colorChangeCounter++;
             if (colorChangeCounter % 5 == 0)
             {
@@ -32,7 +45,10 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            GetComponent<CrawlingEnemy>().Moving = true;
+            if (GetComponent<CrawlingEnemy>() != null)
+            {
+                GetComponent<CrawlingEnemy>().Moving = true; //anders lösen
+            }
         }
     }
 
@@ -46,7 +62,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator KnockBack(float _repetissions, bool _knockBackLeft, float _knockBackStrength) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh
     {
-        Physics2D.IgnoreLayerCollision(10, 11, true);
+        Physics2D.IgnoreLayerCollision(10, 11, true); //geht wegen freddys script nichtmehr
         KnockBackActive = true;
         for (int i = 0; i < _repetissions; i++)
         {
