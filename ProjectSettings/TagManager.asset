@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - BigEnemy
   - Throwable
+  - RopePoint
   layers:
   - Default
   - TransparentFX
