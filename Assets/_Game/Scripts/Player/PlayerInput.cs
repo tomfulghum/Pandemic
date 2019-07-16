@@ -25,7 +25,7 @@ public class PlayerInput : MonoBehaviour
     //    MonoBehaviour Functions    //
     //*******************************//
 
-    private void Awake()
+    private void Start()
     {
         player = ReInput.players.GetPlayer(playerId);
     }
