@@ -280,19 +280,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionMasks:
+    moving:
+      serializedVersion: 2
+      m_Bits: 524288
     above:
       serializedVersion: 2
       m_Bits: 256
     below:
       serializedVersion: 2
-      m_Bits: 262400
+      m_Bits: 786688
     left:
       serializedVersion: 2
       m_Bits: 256
     right:
       serializedVersion: 2
       m_Bits: 256
-  rayInset: 0.015
+  rayInset: 0.02
   horizontalRayCount: 5
   verticalRayCount: 5
   deltaPositionThreshold: 0.001
@@ -309,11 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
-  jumpButtonName: Jump
-  hookButtonName: Hook
-  moveHorizontalAxisName: MoveHorizontal
-  aimHorizontalAxisName: AimHorizontal
-  aimVerticalAxisName: AimVertical
+  bindings: {fileID: 11400000, guid: da884599587a0a447976d433beabc957, type: 2}
 --- !u!114 &78747465047189638
 MonoBehaviour:
   m_ObjectHideFlags: 0
