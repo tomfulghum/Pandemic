@@ -9,6 +9,7 @@ TagManager:
   - BigEnemy
   - Throwable
   - RopePoint
+  - MovingObject
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - 
   - 
   - Platform
-  - 
+  - MovingPlatform
   - 
   - 
   - 

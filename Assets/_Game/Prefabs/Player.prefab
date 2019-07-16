@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 2333473149671533686}
   - component: {fileID: 78747465047189638}
   - component: {fileID: 3474901}
+  - component: {fileID: 8948056491589839718}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -280,19 +281,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionMasks:
+    moving:
+      serializedVersion: 2
+      m_Bits: 524288
     above:
       serializedVersion: 2
       m_Bits: 256
     below:
       serializedVersion: 2
-      m_Bits: 262400
+      m_Bits: 786688
     left:
       serializedVersion: 2
       m_Bits: 256
     right:
       serializedVersion: 2
       m_Bits: 256
-  rayInset: 0.015
+  rayInset: 0.02
   horizontalRayCount: 5
   verticalRayCount: 5
   deltaPositionThreshold: 0.001
@@ -309,11 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
-  jumpButtonName: Jump
-  hookButtonName: Hook
-  moveHorizontalAxisName: MoveHorizontal
-  aimHorizontalAxisName: AimHorizontal
-  aimVerticalAxisName: AimVertical
+  bindings: {fileID: 11400000, guid: da884599587a0a447976d433beabc957, type: 2}
 --- !u!114 &78747465047189638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +351,7 @@ MonoBehaviour:
   stick: 0
   HookRadius: 5
   Angle: 20
+  PullAngle: 0
   HookSpeed: 10
   MaxTimeSlow: 0.1
   MaxTimeActive: 2
@@ -365,3 +366,41 @@ MonoBehaviour:
   layer_mask:
     serializedVersion: 2
     m_Bits: 768
+  ControllerTolerance: 0.25
+  MinThrowVelocity: 5
+  MaxThrowVelocity: 15
+  Gravity: 10
+  MaxTimeToWinRopeFight: 3
+  NumOfButtonPresses: 10
+  ContrAdditionalPullAngle: 30
+  PullPositionChange: 0.2
+  HookActive: 0
+  CurrentlyAiming: 0
+  PullTargetToPlayer: 0
+  RopeFight: 0
+--- !u!114 &8948056491589839718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78747465047189637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1eaedf8bd7bbb439b39e9c6e028cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllowMovingWhileAttacking: 0
+  AttackRange: 3
+  AttackAngle: 25
+  EightDirectionalInput: 1
+  smashSpeed: 25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 2304
+  ControllerTolerance: 0.5
+  DashSpeed: 20
+  DashDuration: 0.2
+  DashCooldown: 0.5
+  Smashing: 0
+  CurrentlyHit: 0
