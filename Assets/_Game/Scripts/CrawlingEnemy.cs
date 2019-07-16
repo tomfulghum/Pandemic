@@ -6,6 +6,7 @@ public class CrawlingEnemy : MonoBehaviour
 {
     public float MovementSpeed;
     public float ChaseRadius;
+    public bool Moving;
     bool movingLeft;
     int counter;
     int maxcounter;
@@ -18,6 +19,14 @@ public class CrawlingEnemy : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if(Moving)
+        {
+            EnemyMovement();
+        }
+    }
+
+    void EnemyMovement()
     {
         ChasePlayer();
         //Debug.Log(chasingPlayer);
