@@ -50,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (DisableAllInput == false)
         {
-            if (Input.GetButtonDown("Jump") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
+            if (Input.GetButtonDown("Dash") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
             {
                 if (Input.GetAxis("Horizontal") < 0)
                 {
