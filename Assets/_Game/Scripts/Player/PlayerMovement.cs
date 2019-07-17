@@ -212,6 +212,7 @@ public class PlayerMovement : MonoBehaviour
                 CancelJump();
             }
             externalVelocity = Vector2.zero;
+            lastMoveDirection = Vector2.zero;
             actor.velocity = Vector2.zero;
         } else {
             externalVelocity = Vector2.zero;

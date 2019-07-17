@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Cinemachine;
+
+[RequireComponent(typeof(CanvasGroupFader))]
 
 public class AreaTransitionManager : MonoBehaviour
 {
@@ -9,13 +10,19 @@ public class AreaTransitionManager : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private GameObject playerFollowCamera = default;
+    [SerializeField] private float transitionTime = 1f;
 
     //******************//
     //    Properties    //
     //******************//
 
     public static AreaTransitionManager Instance { get; private set; }
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private CanvasGroupFader fader;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -29,6 +36,8 @@ public class AreaTransitionManager : MonoBehaviour
         } else {
             Destroy(this);
         }
+
+        fader = GetComponent<CanvasGroupFader>();
     }
 
     //*************************//
@@ -37,6 +46,12 @@ public class AreaTransitionManager : MonoBehaviour
 
     private IEnumerator TransitionCoroutine(string _from, string _to, int _transitionId, GameObject _player)
     {
+        float halfTransitionTime = transitionTime / 2f;
+
+        _player.GetComponent<PlayerMovement>().DisableUserInput(true);
+        fader.FadeIn(halfTransitionTime);
+        yield return new WaitForSeconds(halfTransitionTime);
+
         AsyncOperation loadSceneAsync = null;
         if (!SceneManager.GetSceneByName(_to).isLoaded) {
             loadSceneAsync = SceneManager.LoadSceneAsync(_to, LoadSceneMode.Additive);
@@ -46,9 +61,10 @@ public class AreaTransitionManager : MonoBehaviour
             yield return null;
         }
 
+        _player.GetComponent<PlayerMovement>().DisableUserInput(false);
+
         Scene to = SceneManager.GetSceneByName(_to);
         SceneManager.SetActiveScene(to);
-        //SceneManager.MoveGameObjectToScene(_player, to);
 
         AsyncOperation unloadSceneAsync = null;
         if (SceneManager.GetSceneByName(_from).isLoaded) {
@@ -60,10 +76,9 @@ public class AreaTransitionManager : MonoBehaviour
         }
 
         AreaController controller = FindObjectOfType<AreaController>();
-        AreaTransition transition = controller.GetTransition(_transitionId);
-        _player.transform.position = transition.spawnPoint.position;
-        CinemachineVirtualCamera cam = Instantiate(playerFollowCamera, _player.transform.position, Quaternion.identity).GetComponent<CinemachineVirtualCamera>();
-        cam.Follow = _player.transform;
+        controller.InitializeArea(_player, _transitionId);
+
+        fader.FadeOut(halfTransitionTime);
     }
 
     //************************//

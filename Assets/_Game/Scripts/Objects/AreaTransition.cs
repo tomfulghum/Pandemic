@@ -8,22 +8,23 @@ public class AreaTransition : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private AreaController m_controller = default;
-    [SerializeField] private int m_id = 0;
-    [SerializeField] private Area m_area = default;
+    [SerializeField] private int m_transitionId = 0;
+    [SerializeField] private Area m_transitionArea = default;
     [SerializeField] private Transform m_spawnPoint = default;
 
     //******************//
     //    Properties    //
     //******************//
 
-    public int id { get { return m_id; } }
+    public AreaController controller { set { m_controller = value; } }
+    public int transitionId { get { return m_transitionId; } }
     public Transform spawnPoint { get { return m_spawnPoint; } }
 
     //**********************//
     //    Private Fields    //
     //**********************//
 
+    private AreaController m_controller = default;
     private AreaTransitionManager manager;
     private bool transitioning = false;
 
@@ -39,7 +40,7 @@ public class AreaTransition : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!transitioning) {
-            manager.Transition(m_controller.area, m_area, m_id);
+            manager.Transition(m_controller.area, m_transitionArea, m_transitionId);
             transitioning = true;
         }
     }
