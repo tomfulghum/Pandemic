@@ -1,8 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingObjectManager : Singleton<MovingObjectManager>
+public class MovingObjectManager : MonoBehaviour
 {
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public static MovingObjectManager Instance { get; private set; }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -12,6 +18,16 @@ public class MovingObjectManager : Singleton<MovingObjectManager>
     //*******************************//
     //    MonoBehaviour Functions    //
     //*******************************//
+
+    private void Awake()
+    {
+        if (Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else {
+            Destroy(this);
+        }
+    }
 
     void Update()
     {
