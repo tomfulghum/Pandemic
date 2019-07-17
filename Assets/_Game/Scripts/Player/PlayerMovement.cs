@@ -166,13 +166,13 @@ public class PlayerMovement : MonoBehaviour
         float accelerationEndTime = Time.time + accelerationTime;
         float jumpEndTime = Time.time + accelerationTime + floatingTime;
 
-        while (Time.time <= jumpEndTime) {
+        while (Time.time < jumpEndTime) {
             if (jumpCanceled || actor.collision.above) {
                 CancelJump();
                 yield break;
             }
 
-            if (Time.time <= accelerationEndTime) {
+            if (Time.time < accelerationEndTime) {
                 actor.velocity = new Vector2(actor.velocity.x, jumpSpeed);
             } else {
                 ApplyGravity();
