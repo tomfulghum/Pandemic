@@ -1,24 +1,44 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Cinemachine;
-
-[RequireComponent(typeof(SpriteRenderer))]
 
 public class BackgroundParallax : MonoBehaviour
 {
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
     [SerializeField] private float parallaxFactor = 0f;
 
-    private Vector2 lastCameraPosition = Vector2.zero;
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private List<BackgroundParallaxElement> elements = new List<BackgroundParallaxElement>();
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
+    private void Start()
+    {
+        foreach (Transform child in transform) {
+            var element = child.GetComponent<BackgroundParallaxElement>();
+            if (element) {
+                elements.Add(element);
+            }
+        }
+    }
 
     private void Update()
     {
         CinemachineVirtualCamera activeCamera = (CinemachineVirtualCamera)Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
 
-        if (activeCamera) {
-            if (lastCameraPosition != Vector2.zero) {
-                transform.position += (Vector3)((Vector2)activeCamera.transform.position - lastCameraPosition) * parallaxFactor;
+        foreach (var element in elements) {
+            if (activeCamera) {
+                Vector3 parallaxPos = element.initialPosition + ((activeCamera.transform.position - transform.position) * parallaxFactor);
+                element.transform.localPosition = new Vector3(parallaxPos.x, parallaxPos.y, element.transform.localPosition.z);
             }
-
-            lastCameraPosition = activeCamera.transform.position;
         }
     }
 }

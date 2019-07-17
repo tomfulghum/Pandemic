@@ -5,17 +5,15 @@ using UnityEngine.UI;
 
 public class CanvasGroupFader : MonoBehaviour
 {
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
     [SerializeField] private CanvasGroup canvasGroup = default;
 
-    public void FadeOut(float _duration)
-    {
-        StartCoroutine(FadeCoroutine(0f, _duration));
-    }
-
-    public void FadeIn(float _duration)
-    {
-        StartCoroutine(FadeCoroutine(1f, _duration));
-    }
+    //*************************//
+    //    Private Functions    //
+    //*************************//
 
     private IEnumerator FadeCoroutine(float _target, float _duration)
     {
@@ -32,5 +30,19 @@ public class CanvasGroupFader : MonoBehaviour
         }
 
         canvasGroup.alpha = _target;
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void FadeOut(float _duration)
+    {
+        StartCoroutine(FadeCoroutine(0f, _duration));
+    }
+
+    public void FadeIn(float _duration)
+    {
+        StartCoroutine(FadeCoroutine(1f, _duration));
     }
 }
