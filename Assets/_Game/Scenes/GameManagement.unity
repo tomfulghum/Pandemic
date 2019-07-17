@@ -126,6 +126,54 @@ CanvasGroup:
     type: 3}
   m_PrefabInstance: {fileID: 809897309692127648}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &241310503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 241310505}
+  - component: {fileID: 241310504}
+  m_Layer: 30
+  m_Name: Global Post Processing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &241310504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241310503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 53a1366e2bb4a8d44a3073c383e97939, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+--- !u!4 &241310505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241310503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &632309308 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 78747465047189637, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
@@ -212,6 +260,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Manager Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 809897309881386114, guid: 9ce4af597040d6a459de4361c24595ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 809897309881386119, guid: 9ce4af597040d6a459de4361c24595ed,
         type: 3}
@@ -538,6 +591,21 @@ PrefabInstance:
     - target: {fileID: 5403070520701746060, guid: c66e232c2219393418b3e2076035f555,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5403070520701746063, guid: c66e232c2219393418b3e2076035f555,
+        type: 3}
+      propertyPath: far clip plane
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700091414673777555, guid: c66e232c2219393418b3e2076035f555,
+        type: 3}
+      propertyPath: m_ShowCustomSorter
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700091414673777555, guid: c66e232c2219393418b3e2076035f555,
+        type: 3}
+      propertyPath: m_ShowToolkit
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

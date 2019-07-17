@@ -41,9 +41,18 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - PostProcessing
   - Background
   m_SortingLayers:
+  - name: ParallaxLevel3
+    uniqueID: 1402944261
+    locked: 0
+  - name: ParallaxLevel2
+    uniqueID: 440290151
+    locked: 0
+  - name: ParallaxLevel1
+    uniqueID: 2324558739
+    locked: 0
   - name: Background
     uniqueID: 693606343
     locked: 0

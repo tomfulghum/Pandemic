@@ -7,18 +7,18 @@ public class BackgroundParallax : MonoBehaviour
 {
     [SerializeField] private float parallaxFactor = 0f;
 
-    private float lastCameraPosition = 0;
+    private Vector2 lastCameraPosition = Vector2.zero;
 
     private void Update()
     {
         CinemachineVirtualCamera activeCamera = (CinemachineVirtualCamera)Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera;
 
         if (activeCamera) {
-            if (lastCameraPosition != 0) {
-                transform.position += Vector3.left * (lastCameraPosition - activeCamera.transform.position.x) * parallaxFactor;
+            if (lastCameraPosition != Vector2.zero) {
+                transform.position += (Vector3)((Vector2)activeCamera.transform.position - lastCameraPosition) * parallaxFactor;
             }
 
-            lastCameraPosition = activeCamera.transform.position.x;
+            lastCameraPosition = activeCamera.transform.position;
         }
     }
 }
