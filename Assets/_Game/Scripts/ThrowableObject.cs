@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//requires Component Actor2d
 public class ThrowableObject : MonoBehaviour
 {
     // Start is called before the first frame update
+    public enum CurrentState { Inactive, TravellingToPlayer, PickedUp, Thrown } // getter
+    //enum OnImpact
+    public CurrentState CurrentObjectState;
+
     Vector2 CurrentVelocity;
     public float Gravity;
     public bool PickedUp;
     public bool CurrentlyThrown;
     public Transform ObjectToFollow;
+    float Speed;
+    float TargetReachedTolerance;
     Vector2 _gravity;
     Actor2D actor;
     void Start()
@@ -21,62 +29,96 @@ public class ThrowableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CurrentlyThrown)
+        switch (CurrentObjectState)
         {
-            GetComponent<SpriteRenderer>().color = Color.yellow;
-            if (actor.collision.above || actor.collision.below || actor.collision.left || actor.collision.right)
-            {
-                actor.velocity = new Vector2(0, 0);
-                CurrentVelocity = Vector2.zero;
-                CurrentlyThrown = false;
-                GetComponent<SpriteRenderer>().color = Color.blue;
-            }
-            Transform enemy = null;
-            if (actor.collision.below && actor.collision.below.CompareTag("Enemy"))
-                enemy = actor.collision.below;
-            if (actor.collision.above && actor.collision.above.CompareTag("Enemy"))
-                enemy = actor.collision.above;
-            if (actor.collision.left && actor.collision.left.CompareTag("Enemy"))
-                enemy = actor.collision.left;
-            if (actor.collision.right && actor.collision.right.CompareTag("Enemy"))
-                enemy = actor.collision.right;
-            if(enemy != null)
-            {
-                Debug.Log("hit enemy");
-                bool KnockBackLeft = true;
-                if (transform.position.x < enemy.position.x)
-                    KnockBackLeft = false;
-                enemy.GetComponent<Enemy>().GetHit(KnockBackLeft, 0.3f);
-            }
-        } 
-        if (!PickedUp)
-        {
-            if (actor.collision.above || actor.collision.below)
-            {
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            }
-            if (actor.collision.left || actor.collision.right)
-            {
-                actor.velocity = new Vector2(0, actor.velocity.y);
-            }
-
-            CurrentVelocity += Vector2.up * (-_gravity * Time.deltaTime);
-            //transform.position += (Vector3)CurrentVelocity * Time.deltaTime;
-            actor.velocity = CurrentVelocity;
-        } else
-        {
-            actor.velocity = Vector2.zero;
-           // Debug.Log("picked Up");
-            if (ObjectToFollow != null && ObjectToFollow.gameObject.GetComponent<PlayerHook>().PullTargetToPlayer == false) 
-            {
-                transform.position = ObjectToFollow.position;
-            }
+            case CurrentState.TravellingToPlayer:
+                {
+                    Vector2 objectVelocity = (ObjectToFollow.transform.position - transform.position).normalized * Speed;
+                    GetComponent<Actor2D>().velocity = objectVelocity;
+                    if (Vector2.Distance(transform.position, ObjectToFollow.transform.position) < TargetReachedTolerance)
+                    {
+                        CurrentObjectState = CurrentState.PickedUp;
+                    }
+                    break;
+                }
+            case CurrentState.PickedUp:
+                {
+                    transform.position = ObjectToFollow.transform.position;
+                    break;
+                }
+            case CurrentState.Inactive:
+                {
+                    if (actor.collision.above || actor.collision.below)
+                    {
+                        actor.velocity = new Vector2(actor.velocity.x, 0);
+                    }
+                    if (actor.collision.left || actor.collision.right)
+                    {
+                        actor.velocity = new Vector2(0, actor.velocity.y);
+                    }
+                    ApplyGravity();
+                    break;
+                }
+            case CurrentState.Thrown:
+                {
+                    CheckEnemyHit();
+                    GetComponent<SpriteRenderer>().color = Color.yellow;
+                    if (actor.collision.above || actor.collision.below || actor.collision.left || actor.collision.right)
+                    { 
+                        CurrentVelocity = Vector2.zero;
+                        actor.velocity = CurrentVelocity;
+                        CurrentObjectState = CurrentState.Inactive;
+                        GetComponent<SpriteRenderer>().color = Color.blue;
+                    }
+                    ApplyGravity();
+                    break;
+                }
         }
+    }
+
+    void ApplyGravity()
+    {
+        CurrentVelocity += Vector2.up * (-_gravity * Time.deltaTime);
+        actor.velocity = CurrentVelocity;
+        actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -Gravity, float.MaxValue));
+    }
+
+    void CheckEnemyHit()
+    {
+        Transform enemy = null;
+        if (actor.collision.below && actor.collision.below.CompareTag("Enemy"))
+            enemy = actor.collision.below;
+        if (actor.collision.above && actor.collision.above.CompareTag("Enemy"))
+            enemy = actor.collision.above;
+        if (actor.collision.left && actor.collision.left.CompareTag("Enemy"))
+            enemy = actor.collision.left;
+        if (actor.collision.right && actor.collision.right.CompareTag("Enemy"))
+            enemy = actor.collision.right;
+        if (enemy != null)
+        {
+            //Debug.Log("hit enemy");
+            enemy.GetComponent<Enemy>().GetHit(transform, 0.3f);
+        }
+    }
+
+    public void PickUp(Transform _target, float _speed, float _targetReachedTolerance)
+    {
+        ObjectToFollow = _target;
+        CurrentObjectState = CurrentState.TravellingToPlayer;
+        Speed = _speed;
+        TargetReachedTolerance = _targetReachedTolerance;
     }
 
     public void Throw(Vector2 _velocity) // nur ein parameter 
     {
         CurrentVelocity = _velocity;
-        CurrentlyThrown = true;
+        CurrentObjectState = CurrentState.Thrown; 
+    }
+
+    public void Drop()
+    {
+        CurrentObjectState = CurrentState.Inactive;
+        ObjectToFollow = null;
+        actor.velocity = Vector2.zero;
     }
 }

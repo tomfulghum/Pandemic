@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+//enemy in eine elternklasse umwandeln die für alle kind enemys deren movementpattern funktion im update aufruft
+public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script schreiben was auch für den player anwendbar ist
 {
     public bool CurrentlyHit;
     public bool ContactDamage;
@@ -28,13 +29,9 @@ public class Enemy : MonoBehaviour
             {
                 if(collider.CompareTag("Player"))
                 {
-                    if (collider.transform.position.x < transform.position.x)
-                        KnockBackLeft = true;
-                    else
-                        KnockBackLeft = false;
                     if (collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false && collider.gameObject.GetComponent<PlayerCombat>().Smashing == false)
                     {
-                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(KnockBackLeft, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude*0.05f + 0.2f);
+                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude*0.05f + 0.2f);
                     }
                 }
             }
@@ -64,15 +61,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void GetHit(bool knockBackLeft, float _strength) //bandaid fix for knockbackdirectino
+    public void GetHit(Transform _knockBackOrigin, float _strength) //bandaid fix for knockbackdirectino
     {
         StopAllCoroutines();
-        StartCoroutine(KnockBack(10, knockBackLeft, _strength));
+        StartCoroutine(KnockBack(10, _knockBackOrigin, _strength));
         CurrentlyHit = true;
         //EnemyFreeze = true
     }
 
-    IEnumerator KnockBack(float _repetissions, bool _knockBackLeft, float _knockBackStrength) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh
+    IEnumerator KnockBack(float _repetissions,  Transform _knockBackOrigin, float _knockBackStrength) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
     {
         Physics2D.IgnoreLayerCollision(10, 11, true); //geht wegen freddys script nichtmehr
         KnockBackActive = true;
@@ -84,7 +81,7 @@ public class Enemy : MonoBehaviour
                 test = 0;
             }
             //Debug.Log(test);
-            if(_knockBackLeft)
+            if(_knockBackOrigin.transform.position.x > transform.position.x)
             {
                 transform.position = new Vector2(transform.position.x - _knockBackStrength * test, transform.position.y);
             } else

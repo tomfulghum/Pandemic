@@ -8,7 +8,7 @@ using UnityEngine;
 //dash // 8 direction dash? --> oder wenigstens 6? also nicht nach oben und nicht nach unten?
 public class PlayerCombat : MonoBehaviour
 {
-    public static bool DisableAllInput = false;
+    //public static bool DisableAllInput = false;
     public bool AllowMovingWhileAttacking; //aktuell noch nicht sogut
     public float AttackRange;
     public float AttackAngle;
@@ -48,9 +48,9 @@ public class PlayerCombat : MonoBehaviour
     // Update is called once per frame
     void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken
     {
-        if (DisableAllInput == false)
+        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Waiting || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Attacking)
         {
-            if (Input.GetButtonDown("Dash") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
+            if (Input.GetButtonDown("Dash") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && !Smashing)
             {
                 if (Input.GetAxis("Horizontal") < 0)
                 {
@@ -66,7 +66,7 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Fire3") && Attacking == false && GetComponent<PlayerHook>().HookActive == false && !Smashing && GetComponent<PlayerHook>().CurrentlyAiming == false && GetComponent<PlayerHook>().RopeFight == false)
+            if (Input.GetButtonDown("Fire3") && Attacking == false && !Smashing)
             {
                 StartCoroutine(AttackSequence());
             }
@@ -87,7 +87,7 @@ public class PlayerCombat : MonoBehaviour
                 enemiesHit.Clear();
                 //attackDirection = Vector2.zero; //nötig?
             }
-            if (!GetComponent<Actor2D>().collision.below && Input.GetAxis("MeteorSmash") > ControllerTolerance && GetComponent<PlayerHook>().RopeFight == false && GetComponent<PlayerHook>().CurrentlyAiming == false) //verhindern das man während einem smash hooked
+            if (!GetComponent<Actor2D>().collision.below && Input.GetAxis("MeteorSmash") > ControllerTolerance) //verhindern das man während einem smash hooked
             {
                 if (!Smashing && !Attacking)
                 {
@@ -103,14 +103,7 @@ public class PlayerCombat : MonoBehaviour
                     StopMeteorSmash();
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
                     {
-                        if (transform.position.x < hit.collider.transform.position.x)
-                        {
-                            hit.collider.GetComponent<Enemy>().GetHit(false, 0.4f);
-                        }
-                        else
-                        {
-                            hit.collider.GetComponent<Enemy>().GetHit(true, 0.4f);
-                        }
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 0.4f);
                         //Debug.Log("i hit an enemy");
                     }
                 }
@@ -212,14 +205,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     if (hit.collider.GetComponent<Enemy>().CurrentlyHit == false)
                     {
-                        if (transform.position.x < hit.collider.transform.position.x)
-                        {
-                            hit.collider.GetComponent<Enemy>().GetHit(false, 0.2f);
-                        }
-                        else
-                        {
-                            hit.collider.GetComponent<Enemy>().GetHit(true, 0.2f);
-                        }
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 0.2f);
                         EnemiesHit.Add(hit.collider);
                     }
                 }
@@ -295,9 +281,12 @@ public class PlayerCombat : MonoBehaviour
     {
         Attacking = true;
         attackDirection = GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if (!GetComponent<Actor2D>().collision.below)
+        if (GetComponent<Actor2D>().collision.below)
         {
             //Debug.Log("in air");
+            GetComponent<PlayerMovement>().DisableUserInput(true);
+            Vector3 currentVelocity = GetComponent<Actor2D>().velocity;
+            MovementSlowDown = StartCoroutine(SlowMovementDown(currentVelocity));
         }
         /*
         if(AllowMovingWhileAttacking || !GetComponent<Actor2D>().collision.below)
@@ -311,15 +300,15 @@ public class PlayerCombat : MonoBehaviour
             GetComponent<PlayerMovement>().DisableUserInput(true);
         }
         */
-        Vector3 currentVelocity = GetComponent<Actor2D>().velocity;
-        GetComponent<PlayerMovement>().DisableUserInput(true);
-        MovementSlowDown =  StartCoroutine(SlowMovementDown(currentVelocity));
         //yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FirstAttack());
        // yield return StartCoroutine(Attack(NumberOfAttacks, attackDirection)); //funktioniert noch nicht
         GetComponent<PlayerMovement>().DisableUserInput(false);
         Attacking = false;
-        StopCoroutine(MovementSlowDown);
+        if (MovementSlowDown != null)
+        {
+            StopCoroutine(MovementSlowDown);
+        }
     }
 
     IEnumerator Attack(int _numOfRepeats, Vector2 _startDirection)
@@ -400,6 +389,7 @@ public class PlayerCombat : MonoBehaviour
     {
         GetComponent<PlayerMovement>().DisableUserInput(false);
         Smashing = false;
+        Debug.Log(enemiesHit.Count);
         foreach (Collider2D enemy in enemiesHit)
         {
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
@@ -418,18 +408,18 @@ public class PlayerCombat : MonoBehaviour
         return v;
     }
 
-    public void GetHit(bool knockBackLeft, float _strength) //bandaid fix for knockbackdirectino
+    public void GetHit(Transform _knockBackOrigin, float _strength) //bandaid fix for knockbackdirectino
     {
         StopCoroutine("KnockBack");
         //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
-        StartCoroutine(KnockBack(10, knockBackLeft, _strength));
+        StartCoroutine(KnockBack(10, _knockBackOrigin, _strength));
         CurrentlyHit = true;
     }
 
-    IEnumerator KnockBack(float _repetissions, bool _knockBackLeft, float _knockBackStrength) //knock back direction als Parameter übergeben
+    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _knockBackStrength) //knock back direction als Parameter übergeben
     {
         KnockBackActive = true;
-        DisableAllInput = true;
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
         GetComponent<PlayerMovement>().DisableUserInput(true);
         for (int i = 0; i < _repetissions; i++)
         {
@@ -439,7 +429,7 @@ public class PlayerCombat : MonoBehaviour
                 test = 0;
             }
             //Debug.Log(test);
-            if (_knockBackLeft)
+            if (_knockBackOrigin.transform.position.x > transform.position.x)
             {
                 transform.position = new Vector2(transform.position.x - _knockBackStrength * test, transform.position.y);
             }
@@ -453,7 +443,7 @@ public class PlayerCombat : MonoBehaviour
         CurrentlyHit = false;
         GetComponent<SpriteRenderer>().color = originalColor;
         colorChangeCounter = 0;
-        DisableAllInput = false;
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         GetComponent<PlayerMovement>().DisableUserInput(false);
     }
 
