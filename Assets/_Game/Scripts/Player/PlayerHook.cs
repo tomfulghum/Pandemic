@@ -52,12 +52,12 @@ public class PlayerHook : MonoBehaviour
     enum HookType { None, Throw, Pull, Hook, BigEnemy }
 
     public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
-    public float HookRadius = 5f;
+    public float HookRadius = 6f;
     public float SafetyRadius = 1f; //besseren namen finden
     public float Angle = 20f;
     public float PullAngle = 5f; //renamen
-    public float HookSpeed = 10f;
-    public float PullSpeed = 10f;
+    public float HookSpeed = 15f;
+    public float PullSpeed = 15f;
     public float MaxTimeSlow = 0.1f; //TimeSlowPercent
     public float MaxTimeActive = 2;
     public float TargetReachedTolerance = 0.2f; //wie nah muss man am ziel sein damit der hook abbricht
@@ -220,8 +220,13 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
+    public void CancelHook()
+    {
+        //StopAllCoroutines(); --> brauch ich das? jump back?
+        DeactivateHook();
+    }
 
-    public void SetPlayerState() //vllt muss man die nochmal überarbeiten
+    void SetPlayerState() //vllt muss man die nochmal überarbeiten
     {
         if (CurrentHookState != HookState.Inactive) // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?
         {                                           //oder globale function check player state die den aktuellen state überprüft
@@ -673,8 +678,8 @@ public class PlayerHook : MonoBehaviour
         GetComponent<PlayerMovement>().DisableUserInput(true);
         CurrentHookState = HookState.JumpBack;
         Vector2 JumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * HookSpeed; //evtl jump speed
-        GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity);
-        yield return new WaitForSeconds(0.4f); //bessere lösung finden
+        GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity); 
+        yield return new WaitForSeconds(0.4f * 10/HookSpeed); //bessere lösung finden --> passt fürs erste
         DeactivateHook();
     }
 

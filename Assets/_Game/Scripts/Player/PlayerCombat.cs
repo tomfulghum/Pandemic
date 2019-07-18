@@ -12,7 +12,6 @@ public class PlayerCombat : MonoBehaviour
     public bool AllowMovingWhileAttacking; //aktuell noch nicht sogut
     public float AttackRange;
     public float AttackAngle;
-    public bool EightDirectionalInput;
     //public int NumberOfAttacks;
     public float smashSpeed;
     public LayerMask layerMask;
@@ -218,48 +217,17 @@ public class PlayerCombat : MonoBehaviour
     {
         Vector2 Direction;
         if(FacingLeft)
-        {
             Direction = Vector2.left;
-        }
         else
-        {
             Direction = Vector2.right;
-        }
         if(Input.GetAxis("Vertical") < -ControllerTolerance)
-        {
             Direction = Vector2.down;
-        }
         if (Input.GetAxis("Vertical") > ControllerTolerance)
-        {
             Direction = Vector2.up;
-        }
         if (Input.GetAxis("Horizontal") < -ControllerTolerance)
-        {
             Direction = Vector2.left;
-        }
         if (Input.GetAxis("Horizontal") > ControllerTolerance)
-        {
             Direction = Vector2.right;
-        }
-        if(EightDirectionalInput)
-        {
-            if(Input.GetAxis("Vertical") < -ControllerTolerance && Input.GetAxis("Horizontal") < -ControllerTolerance)
-            {
-                Direction = new Vector2(-0.5f, -0.5f).normalized;
-            }
-            if (Input.GetAxis("Vertical") > ControllerTolerance && Input.GetAxis("Horizontal") > ControllerTolerance)
-            {
-                Direction = new Vector2(0.5f, 0.5f).normalized;
-            }
-            if (Input.GetAxis("Vertical") < -ControllerTolerance && Input.GetAxis("Horizontal") > ControllerTolerance)
-            {
-                Direction = new Vector2(0.5f, -0.5f).normalized;
-            }
-            if (Input.GetAxis("Vertical") > ControllerTolerance && Input.GetAxis("Horizontal") < -ControllerTolerance)
-            {
-                Direction = new Vector2(-0.5f, 0.5f).normalized;
-            }
-        }
         return Direction;
     }
 

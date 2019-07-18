@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                     if (collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false && collider.gameObject.GetComponent<PlayerCombat>().Smashing == false)
                     {
                         collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude*0.05f + 0.2f);
+                        collider.gameObject.GetComponent<PlayerHook>().CancelHook();
                     }
                 }
             }
