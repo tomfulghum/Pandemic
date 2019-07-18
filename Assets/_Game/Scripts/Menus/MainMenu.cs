@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        //TODO
+        MenuManager.Instance.LoadGame();
     }
 
     //Exit the game to desktop

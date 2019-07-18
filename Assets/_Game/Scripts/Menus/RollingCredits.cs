@@ -8,8 +8,8 @@ public class RollingCredits : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
-    [SerializeField] int scrollSpeedPerSecond;
-    [SerializeField] int delay;
+    [SerializeField] int scrollSpeedPerSecond = 100;
+    [SerializeField] int delay = 1;
 
     //**********************//
     //    Private Fields    //

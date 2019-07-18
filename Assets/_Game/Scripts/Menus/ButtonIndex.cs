@@ -9,9 +9,9 @@ public class ButtonIndex : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
-    [SerializeField] bool keyDown;
-    [SerializeField] int maxIndex;
-    [SerializeField] Button backButton;
+    [SerializeField] bool keyDown = false;
+    [SerializeField] int maxIndex = 0;
+    [SerializeField] Button backButton = default;
 
     //*******************//
     //   Public Fields   //
@@ -47,8 +47,8 @@ public class ButtonIndex : MonoBehaviour
         } else {
             keyDown = false;
         }
-        if (Input.GetButtonDown("Cancel") && BackButton != null) {
-            BackButton.onClick.Invoke();
+        if (Input.GetButtonDown("Cancel") && backButton != null) {
+            backButton.onClick.Invoke();
         }
     }
 }

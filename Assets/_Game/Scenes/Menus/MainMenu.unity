@@ -2532,11 +2532,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3aaafd6154281449bf127b4598a040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0
   keyDown: 0
   maxIndex: 0
+  backButton: {fileID: 0}
+  index: 0
   audioSource: {fileID: 0}
-  BackButton: {fileID: 0}
 --- !u!1 &770390333
 GameObject:
   m_ObjectHideFlags: 0
@@ -3413,8 +3413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a4e46e9df54c84689f8716846e5daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScrollSpeedPerSecond: 110
-  Delay: 1000
+  scrollSpeedPerSecond: 100
+  delay: 1
 --- !u!114 &995576739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4315,7 +4315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1143598642}
   - component: {fileID: 1143598641}
-  - component: {fileID: 1143598640}
+  - component: {fileID: 1143598643}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -4323,25 +4323,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1143598640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143598639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &1143598641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4371,6 +4352,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1143598643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143598639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10efa70eea88e69459c632aac286892d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewiredInputManager: {fileID: 6806636620529482782, guid: 0fc993bd5d1d8a847afcf2df4421151c,
+    type: 3}
+  useAllRewiredGamePlayers: 0
+  useRewiredSystemPlayer: 0
+  rewiredPlayerIds: 00000000
+  usePlayingPlayersOnly: 0
+  playerMice: []
+  moveOneElementPerAxisPress: 0
+  setActionsById: 0
+  horizontalActionId: -1
+  verticalActionId: -1
+  submitActionId: -1
+  cancelActionId: -1
+  m_HorizontalAxis: UIHorizontal
+  m_VerticalAxis: UIVertical
+  m_SubmitButton: UISubmit
+  m_CancelButton: UICancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0
+  m_allowMouseInput: 1
+  m_allowMouseInputIfTouchSupported: 1
+  m_allowTouchInput: 1
+  m_ForceModuleActive: 0
 --- !u!1 &1191272977
 GameObject:
   m_ObjectHideFlags: 0
@@ -8486,7 +8502,7 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 100
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295

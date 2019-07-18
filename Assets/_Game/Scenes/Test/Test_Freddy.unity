@@ -2795,6 +2795,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: AreaController
       objectReference: {fileID: 0}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_areaTransitions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_areaTransitions.Array.data[0]
+      value: 
+      objectReference: {fileID: 1528942457}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_area
+      value: 
+      objectReference: {fileID: 11400000, guid: d6f10ab0c2a0e574fa7bdf76ed423f7c,
+        type: 2}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_areaTransitions.Array.data[1]
+      value: 
+      objectReference: {fileID: 1256712701}
     - target: {fileID: 4539053430607678169, guid: 03c61d6974fb13549842843e3633b0bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2850,22 +2871,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
-        type: 3}
-      propertyPath: m_areaTransitions.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
-        type: 3}
-      propertyPath: m_areaTransitions.Array.data[0]
-      value: 
-      objectReference: {fileID: 1256712701}
-    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
-        type: 3}
-      propertyPath: m_area
-      value: 
-      objectReference: {fileID: 11400000, guid: d6f10ab0c2a0e574fa7bdf76ed423f7c,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03c61d6974fb13549842843e3633b0bf, type: 3}
 --- !u!1001 &6457576293986795018
@@ -2939,22 +2944,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6457576292827469815, guid: eb3eff49dca98f841aa2beceb900e998,
-        type: 3}
-      propertyPath: m_controller
-      value: 
-      objectReference: {fileID: 1783362796}
-    - target: {fileID: 6457576292827469815, guid: eb3eff49dca98f841aa2beceb900e998,
-        type: 3}
-      propertyPath: m_transitionArea
-      value: 
-      objectReference: {fileID: 11400000, guid: d8c135e42439c894cb9559e569916b08,
-        type: 2}
-    - target: {fileID: 6457576292827469815, guid: eb3eff49dca98f841aa2beceb900e998,
-        type: 3}
-      propertyPath: m_transitionId
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb3eff49dca98f841aa2beceb900e998, type: 3}
