@@ -98,7 +98,7 @@ public class ThrowableObject : MonoBehaviour
         if (enemy != null)
         {
             //Debug.Log("hit enemy");
-            enemy.GetComponent<Enemy>().GetHit(transform, 0.3f);
+            enemy.GetComponent<Enemy>().GetHit(transform, 10); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen
         }
     }
 

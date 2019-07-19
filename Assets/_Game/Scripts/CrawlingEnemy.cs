@@ -5,7 +5,7 @@ using UnityEngine;
 //requires component enemy
 public class CrawlingEnemy : MonoBehaviour
 {
-    public enum MovementState { Decide, Move, Jump, InAir, Chase }
+    public enum MovementState { Decide, Move, Jump, Falling, Chase } //in air in falling umändern --> wenn noch ground below --> nichts tun nur gravity applyn
     public enum MovementDirection { None, Left, Right } //brauch ich none überhaupt?
 
     public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
@@ -21,7 +21,9 @@ public class CrawlingEnemy : MonoBehaviour
     Vector2 CurrentVelocity;
 
     Actor2D actor;
+    //was passiert wenn du den gegner in der luft triffst?
     // Start is called before the first frame update
+    //jump values noch anpassen
     void Start()
     {
         actor = GetComponent<Actor2D>();
@@ -32,9 +34,9 @@ public class CrawlingEnemy : MonoBehaviour
     {
         if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Moving)
         {
-            if (CurrentMovementState == MovementState.Decide && CurrentMovementState != MovementState.InAir)
+            if (CurrentMovementState == MovementState.Decide)// && CurrentMovementState != MovementState.Falling)
                 SetNextMove();
-            if (CurrentMovementState != MovementState.Decide) 
+            if (CurrentMovementState != MovementState.Decide)
                 SetMovementPattern();
             Movement();
         }
@@ -45,15 +47,17 @@ public class CrawlingEnemy : MonoBehaviour
         ObjectToChase = PlayerInSight();
         if (ObjectToChase != null)
             CurrentMovementState = MovementState.Chase;
+        else if (!GroundBelow())
+            CurrentMovementState = MovementState.Falling;
         else if (CheckGroundAhead())
             CurrentMovementState = MovementState.Move;
         else if (CheckGroundAhead() == false)
         {
             float rnd = Random.Range(0f, 1f);
-            if (rnd > 0.9f) 
+            if (rnd > 0.9f)
                 CurrentMovementState = MovementState.Jump;
             else
-            { 
+            {
                 ChangeDirection();
                 CurrentMovementState = MovementState.Move;
             }
@@ -77,7 +81,7 @@ public class CrawlingEnemy : MonoBehaviour
                         CurrentMovementDirection = MovementDirection.Left;
                         CurrentVelocity = Vector2.left * MovementSpeed + new Vector2(0, CurrentVelocity.y);
                     }
-                    CurrentMovementState = MovementState.Decide; 
+                    CurrentMovementState = MovementState.Decide;
                     break;
                 }
 
@@ -96,12 +100,12 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Jump:
                 {
                     Jump();
-                    CurrentMovementState = MovementState.InAir;
+                    CurrentMovementState = MovementState.Decide; //Falling
                     break;
                 }
-            case MovementState.InAir:
+            case MovementState.Falling:
                 {
-                    if (actor.collision.below || actor.collision.above)
+                   // if (actor.collision.below)
                         CurrentMovementState = MovementState.Decide;
                     break;
                 }
@@ -154,6 +158,12 @@ public class CrawlingEnemy : MonoBehaviour
         return null;
     }
 
+    bool GroundBelow()
+    {
+        if (actor.collision.below)
+            return true;
+        return false;
+    }
     void Jump()
     {
         if (CurrentMovementDirection == MovementDirection.Left)

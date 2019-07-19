@@ -238,7 +238,7 @@ public class PlayerHook : MonoBehaviour
 
     void ThrowObject(Vector2 _ThrowVelocity)
     {
-        //GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
+        GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
         PickedUpObject.GetComponent<ThrowableObject>().Throw(_ThrowVelocity);
         PickedUpObject = null;
         DeactivateHook();
@@ -336,14 +336,14 @@ public class PlayerHook : MonoBehaviour
         if (ButtonPresses <= 0)
         {
             if (CurrentSelectedTarget.transform.parent.GetComponent<Enemy>() != null) //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
-                CurrentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 0.3f);
+                CurrentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 10);
             CancelCondition = true;
         }
 
         CurrentTimeActiveRope += Time.deltaTime / Time.timeScale;
         if (CurrentTimeActiveRope > MaxTimeToWinRopeFight)
         {
-            GetComponent<PlayerCombat>().GetHit(CurrentSelectedTarget.transform, 0.3f);
+            GetComponent<PlayerCombat>().GetHit(CurrentSelectedTarget.transform, 10);
             CancelCondition = true;
         }
         if (CancelCondition)

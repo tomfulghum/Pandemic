@@ -13,25 +13,39 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     int colorChangeCounter;
     public LayerMask layer_mask;
     Color originalColor;
+
+    Actor2D actor; // vllt reich der actor auf crawling enemy
     // Start is called before the first frame update
     void Start()
     {
+        actor = GetComponent<Actor2D>();
         originalColor = GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GetComponent<CrawlingEnemy>() == null) //zwischen lösung für enemies ohne eigenes script
+        {
+            if (actor.collision.above || actor.collision.below)
+                actor.velocity = new Vector2(actor.velocity.x, 0);
+            if (actor.collision.left || actor.collision.right)
+                actor.velocity = new Vector2(0, actor.velocity.y);
+
+            actor.velocity += Vector2.up * (-10 * Time.deltaTime);
+            actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
+        }
         if (ContactDamage)
         {
-            Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, new Vector2(41 * transform.localScale.x, 41 * transform.localScale.y), 0, layer_mask); //hitbox anpassen
+            Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
+            Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
             foreach (Collider2D collider in col)
             {
                 if (collider.CompareTag("Player"))
                 {
                     if (collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false && collider.gameObject.GetComponent<PlayerCombat>().Smashing == false)
                     {
-                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude * 0.05f + 0.2f);
+                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude * 0.3f + 10);
                         collider.gameObject.GetComponent<PlayerHook>().CancelHook();
                     }
                 }
@@ -56,34 +70,34 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         }
     }
 
-    public void GetHit(Transform _knockBackOrigin, float _strength) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
+    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
     {
+        //vllt die überprüfung ob der hit gilt hier rein machen
         StopAllCoroutines();
-        StartCoroutine(KnockBack(10, _knockBackOrigin, _strength));
+        StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
         CurrentlyHit = true;
         //EnemyFreeze = true
     }
 
-    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _knockBackStrength) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
+    //besser machen und die schwerkraft usw alles mitberechnen --> evtl in ein anderes script //check collissions evtl auch woanders rein
+    //was soll passieren wenn man den gegner / spieler in die wand knockt?
+    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
     {
-        Physics2D.IgnoreLayerCollision(10, 11, true); //geht wegen freddys script nichtmehr
+        //Physics2D.IgnoreLayerCollision(10, 11, true); //geht wegen freddys script nichtmehr
         KnockBackActive = true;
         for (int i = 0; i < _repetissions; i++)
         {
-            float test = 1 - Mathf.Pow((i), 3) / 100;
+            float test = 1 - Mathf.Pow((i), 3) / 100; //warum?
             if (test < 0)
-            {
                 test = 0;
-            }
             //Debug.Log(test);
-            if (_knockBackOrigin.transform.position.x > transform.position.x)
-            {
-                transform.position = new Vector2(transform.position.x - _knockBackStrength * test, transform.position.y);
-            }
-            else
-            {
-                transform.position = new Vector2(transform.position.x + _knockBackStrength * test, transform.position.y); //knock back velocity? für collission?
-            }
+            Vector2 KnockBackDirection = (transform.position - _knockBackOrigin.position).normalized;
+            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
+            if (actor.collision.above || actor.collision.below)
+                actor.velocity = new Vector2(actor.velocity.x, 0);
+            if (actor.collision.left || actor.collision.right)
+                actor.velocity = new Vector2(0, actor.velocity.y);
+
             yield return new WaitForSeconds(0.03f);
         }
         KnockBackActive = false;

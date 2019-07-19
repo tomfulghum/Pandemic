@@ -35,6 +35,8 @@ public class PlayerCombat : MonoBehaviour
     int colorChangeCounter;
     [HideInInspector] public bool CurrentlyHit;
     bool KnockBackActive;
+
+    Actor2D actor;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,7 @@ public class PlayerCombat : MonoBehaviour
         enemiesHit = new List<Collider2D>();
         lastPosition = transform.position;
         xAxis = Input.GetAxis("Horizontal");
+        actor = GetComponent<Actor2D>();
     }
 
     // Update is called once per frame
@@ -102,7 +105,7 @@ public class PlayerCombat : MonoBehaviour
                     StopMeteorSmash();
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
                     {
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 0.4f);
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 10); //wie bei throwable object um stellen
                         //Debug.Log("i hit an enemy");
                     }
                 }
@@ -204,7 +207,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     if (hit.collider.GetComponent<Enemy>().CurrentlyHit == false)
                     {
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 0.2f);
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 7); //wie bei throwable object umstellen
                         EnemiesHit.Add(hit.collider);
                     }
                 }
@@ -376,15 +379,17 @@ public class PlayerCombat : MonoBehaviour
         return v;
     }
 
-    public void GetHit(Transform _knockBackOrigin, float _strength) //bandaid fix for knockbackdirectino
+    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino
     {
+        //vllt die überprüfung ob der hit gilt hier rein machen --> viel besser
         StopCoroutine("KnockBack");
+        //was ist mit attacksequence usw.? die auch stoppen?
         //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
-        StartCoroutine(KnockBack(10, _knockBackOrigin, _strength));
+        StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
         CurrentlyHit = true;
     }
 
-    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _knockBackStrength) //knock back direction als Parameter übergeben
+    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //knock back direction als Parameter übergeben
     {
         KnockBackActive = true;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
@@ -393,18 +398,15 @@ public class PlayerCombat : MonoBehaviour
         {
             float test = 1 - Mathf.Pow((i), 3) / 100;
             if (test < 0)
-            {
                 test = 0;
-            }
-            //Debug.Log(test);
-            if (_knockBackOrigin.transform.position.x > transform.position.x)
-            {
-                transform.position = new Vector2(transform.position.x - _knockBackStrength * test, transform.position.y);
-            }
-            else
-            {
-                transform.position = new Vector2(transform.position.x + _knockBackStrength * test, transform.position.y);
-            }
+
+            Vector2 KnockBackDirection = (transform.position - _knockBackOrigin.position).normalized;
+            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
+            if (actor.collision.above || actor.collision.below)
+                actor.velocity = new Vector2(actor.velocity.x, 0);
+            if (actor.collision.left || actor.collision.right)
+                actor.velocity = new Vector2(0, actor.velocity.y);
+
             yield return new WaitForSeconds(0.03f);
         }
         KnockBackActive = false;
