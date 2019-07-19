@@ -13,6 +13,7 @@ public class ThrowableObject : MonoBehaviour
 
     Vector2 CurrentVelocity;
     public float Gravity;
+    [Range(1,3)] public float SpeedMultiplier = 1.3f; //später per object typ einstellen
     public bool PickedUp;
     public bool CurrentlyThrown;
     public Transform ObjectToFollow;
@@ -70,15 +71,15 @@ public class ThrowableObject : MonoBehaviour
                         CurrentObjectState = CurrentState.Inactive;
                         GetComponent<SpriteRenderer>().color = Color.blue;
                     }
-                    ApplyGravity();
+                    ApplyGravity(SpeedMultiplier);
                     break;
                 }
         }
     }
 
-    void ApplyGravity()
+    void ApplyGravity(float Multiplier = 1)
     {
-        CurrentVelocity += Vector2.up * (-_gravity * Time.deltaTime);
+        CurrentVelocity += Vector2.up * (-_gravity * Time.deltaTime) * Mathf.Pow(Multiplier,2);
         actor.velocity = CurrentVelocity;
         actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -Gravity, float.MaxValue));
     }
@@ -111,7 +112,7 @@ public class ThrowableObject : MonoBehaviour
 
     public void Throw(Vector2 _velocity) // nur ein parameter 
     {
-        CurrentVelocity = _velocity;
+        CurrentVelocity = _velocity * SpeedMultiplier;
         CurrentObjectState = CurrentState.Thrown; 
     }
 

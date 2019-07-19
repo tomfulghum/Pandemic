@@ -48,7 +48,7 @@ public class PlayerHook : MonoBehaviour
 {
     public enum PlayerState { Waiting, Hook, Attacking, Moving, Disabled } //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
     public enum TimeSlow { NoSlow, Instant, SlowFast, FastSlow }
-    enum HookState { Inactive, SearchTarget, Aiming, Active, Cooldown, JumpBack } //brauch ich starting überhaupt, brauch ich evtl aiming?
+    enum HookState { Inactive, SearchTarget, Aiming, SwitchTarget ,Active, Cooldown, JumpBack } //brauch ich starting überhaupt, brauch ich evtl aiming?
     enum HookType { None, Throw, Pull, Hook, BigEnemy }
 
     public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
@@ -103,6 +103,7 @@ public class PlayerHook : MonoBehaviour
 
 
     Collider2D CurrentSelectedTarget; // Position des HookPoints
+    Collider2D CurrentSwitchTarget; //aktuelles ziel im cone
     Vector2 TargetPosition;
     Vector2 CurrentTargetPosition;
 
@@ -165,10 +166,10 @@ public class PlayerHook : MonoBehaviour
                 {
                     if (PickedUpObject != null && PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp)
                         AimThrow();
-                    else
+                    else  
                         SearchTargetPoint();
                 }
-                else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && (CurrentHookState == HookState.SearchTarget || CurrentHookState == HookState.Aiming || (CurrentHookState == HookState.Active && CanUseHook())))
+                else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && (CurrentHookState == HookState.SearchTarget || CurrentHookState == HookState.SwitchTarget || CurrentHookState == HookState.Aiming || (CurrentHookState == HookState.Active && CanUseHook())))
                 {
                     if (CurrentHookState == HookState.Aiming && PickedUpObject != null) //könnte evtl sein das man PickedUpObject in dem Frame gedroppt hat --> relativ sicher
                         ThrowObject(ThrowVelocity);
@@ -228,20 +229,16 @@ public class PlayerHook : MonoBehaviour
 
     void SetPlayerState() //vllt muss man die nochmal überarbeiten
     {
-        if (CurrentHookState != HookState.Inactive) // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?
-        {                                           //oder globale function check player state die den aktuellen state überprüft
+        if (CurrentHookState != HookState.Inactive) // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?                                        //oder globale function check player state die den aktuellen state überprüft
             CurrentPlayerState = PlayerState.Hook;
-        }
         else
-        {
             if (CurrentPlayerState == PlayerState.Hook && CurrentHookState == HookState.Inactive)
                 CurrentPlayerState = PlayerState.Waiting;
-        }
     }
 
     void ThrowObject(Vector2 _ThrowVelocity)
     {
-        GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
+        //GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
         PickedUpObject.GetComponent<ThrowableObject>().Throw(_ThrowVelocity);
         PickedUpObject = null;
         DeactivateHook();
@@ -359,6 +356,7 @@ public class PlayerHook : MonoBehaviour
         CurrentHookState = HookState.Inactive;
         CurrentTargetType = HookType.None;
         CurrentSelectedTarget = null; //vllt brauch ich das gar nicht ? //evlt nur currentselectedpoint == null
+        CurrentSwitchTarget = null;
         GetComponent<PlayerMovement>().DisableUserInput(false);
         ResetValues(); //weiß nicht ob das sogut ist?
         //evlt stop all coroutines? --> falls es von einem anderen script her aufgerufen wird
@@ -374,13 +372,9 @@ public class PlayerHook : MonoBehaviour
                 CurrentTargetType = HookType.Hook;
         }
         if (target.CompareTag("Throwable"))
-        {
             CurrentTargetType = HookType.Throw;
-        }
         if (target.CompareTag("RopePoint"))
-        {
             CurrentTargetType = HookType.Pull;
-        }
     }
 
     void ResetValues()
@@ -396,14 +390,57 @@ public class PlayerHook : MonoBehaviour
         Currentvelocity = Vector2.zero;
     }
 
+    void SearchTargetPoint()
+    {
+        if (CurrentHookState != HookState.Active && CurrentHookState != HookState.SwitchTarget)
+            CurrentHookState = HookState.SearchTarget;
+
+        if (RadiusVisualization != null)
+        {
+            RadiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
+            RadiusVisualization.GetComponent<DrawCircle>().radius = HookRadius;
+            RadiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+        }
+        if (UsingController == false)
+        {
+            if (CurrentHookState == HookState.SearchTarget) 
+                CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
+            else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection))
+            {
+                CurrentSwitchTarget = FindNearestTargetInRange(MouseDirection);
+                CurrentHookState = HookState.SwitchTarget;
+            }
+            VisualizeCone(MouseDirection);
+        }
+        else
+        {
+            if (CurrentHookState == HookState.SearchTarget)
+                CurrentSelectedTarget = FindNearestTargetInRange(ControllerDirection);
+            else if (CurrentSelectedTarget != FindNearestTargetInRange(ControllerDirection))
+            {
+                CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
+                CurrentHookState = HookState.SwitchTarget;
+            }
+            VisualizeCone(ControllerDirection);
+        }
+
+        SlowTime();
+        CurrentTimeActive += Time.deltaTime / Time.timeScale;
+        if (CurrentTimeActive > MaxTimeActive)
+            ActivateHook();
+    }
+
     void ActivateHook() //_direction wahrscheinlich unnötig
     {
         if (CurrentHookState != HookState.Active)
         {
+            if (CurrentSwitchTarget != null)
+                CurrentSelectedTarget = CurrentSwitchTarget;
             CurrentHookState = HookState.Active;
-            if (CurrentSelectedTarget != null)
+            if (CurrentSelectedTarget != null) //evtl alle noch vorherigen sachen resetten?
             {
-                //dahin
+                //Debug.Log("hier"); //resettet alle values wenn auch wenn man nicht switched --> evtl nur if hookstate != active und active erst am ende der funktion setzen
+                TargetPosition = CurrentSelectedTarget.transform.position;
                 CheckTargetType(CurrentSelectedTarget);
                 switch (CurrentTargetType)
                 {
@@ -453,66 +490,10 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    void SearchTargetPoint()
-    {
-        if (CurrentHookState != HookState.Active)
-            CurrentHookState = HookState.SearchTarget;
-
-        if (RadiusVisualization != null)
-        {
-            RadiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
-            RadiusVisualization.GetComponent<DrawCircle>().radius = HookRadius;
-            RadiusVisualization.GetComponent<DrawCircle>().CreatePoints();
-        }
-        if (UsingController == false)
-        {
-            if (CurrentSelectedTarget == null)
-            {
-                CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
-                if (CurrentSelectedTarget != null)
-                    TargetPosition = CurrentSelectedTarget.transform.position;
-            }
-            else if (FindNearestTargetInRange(MouseDirection) != null && CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection))
-            {
-                CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
-                TargetPosition = CurrentSelectedTarget.transform.position;
-                CurrentHookState = HookState.SearchTarget;
-            }
-            VisualizeCone(MouseDirection);
-        }
-        else
-        {
-            if (CurrentSelectedTarget == null)
-            {
-                CurrentSelectedTarget = FindNearestTargetInRange(ControllerDirection);
-                if (CurrentSelectedTarget != null)
-                    TargetPosition = CurrentSelectedTarget.transform.position;
-            }
-            else if (FindNearestTargetInRange(ControllerDirection) != null && CurrentSelectedTarget != FindNearestTargetInRange(ControllerDirection))
-            {
-                CurrentSelectedTarget = FindNearestTargetInRange(ControllerDirection);
-                TargetPosition = CurrentSelectedTarget.transform.position;
-                CurrentHookState = HookState.SearchTarget;
-            }
-            VisualizeCone(ControllerDirection);
-        }
-
-        SlowTime();
-        CurrentTimeActive += Time.deltaTime / Time.timeScale;
-        if (CurrentTimeActive > MaxTimeActive)
-        {
-            ActivateHook();
-        }
-    }
-
-
     bool HookToEnemy()
     {
         if (Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < TargetReachedTolerance)
-        {
             ReachedTarget = true;
-        }
-
 
         if (TargetPosition != (Vector2)CurrentSelectedTarget.transform.position && ReachedTarget == false) //bei big enemy funktioniert das nicht 
         {
@@ -525,14 +506,10 @@ public class PlayerHook : MonoBehaviour
         Debug.DrawLine(transform.position, CurrentSelectedTarget.transform.position);
         bool CancelCondition = false;
         if (Vector2.Distance(transform.position, CurrentTargetPosition) < TargetReachedTolerance) //evlt das gleiche wie oben
-        {
             CancelCondition = true;
-        }
 
         if (CancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-        {
             CancelCondition = true;
-        }
 
         FramesTillTarget -= 1 * Time.timeScale;
         if (FramesTillTarget < 0)
@@ -547,9 +524,7 @@ public class PlayerHook : MonoBehaviour
     bool HookToTarget()
     {
         if (Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < TargetReachedTolerance)
-        {
             ReachedTarget = true;
-        }
 
         if (TargetPosition != (Vector2)CurrentSelectedTarget.transform.position && ReachedTarget == false) //bei big enemy funktioniert das nicht 
         {
@@ -562,20 +537,14 @@ public class PlayerHook : MonoBehaviour
         Debug.DrawLine(transform.position, CurrentSelectedTarget.transform.position);
         bool CancelCondition = false;
         if (Vector2.Distance(transform.position, CurrentTargetPosition) < TargetReachedTolerance) //wenn man sein ziel erreicht hat
-        {
             CancelCondition = true;
-        }
 
         if (CancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-        {
             CancelCondition = true;
-        }
 
         FramesTillTarget -= 1 * Time.timeScale;
         if (FramesTillTarget < 0)
-        {
             CancelCondition = true;
-        }
 
         return CancelCondition;
     }
@@ -638,12 +607,8 @@ public class PlayerHook : MonoBehaviour
     bool CanUseHook()
     {
         if (CancelHookWithNewHook)
-        {
             if (CurrentSelectedTarget != null && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance)
-            {
                 return true;
-            }
-        }
         return false;
     }
 
@@ -667,13 +632,9 @@ public class PlayerHook : MonoBehaviour
     {
         int x = 1;
         if (transform.position.x > CurrentSelectedTarget.transform.parent.transform.position.x)
-        {
             x = 1;
-        }
         else
-        {
             x = -1;
-        }
         DeactivateHook();
         GetComponent<PlayerMovement>().DisableUserInput(true);
         CurrentHookState = HookState.JumpBack;

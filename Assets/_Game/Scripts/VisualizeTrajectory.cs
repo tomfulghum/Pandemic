@@ -70,11 +70,4 @@ public class VisualizeTrajectory : MonoBehaviour
     {
         return _gravity * elapsedTime * elapsedTime * 0.5f + _launchVelocity * elapsedTime + _initialPosition;
     }
-
-    float CalculateTravelTime(Vector2 _startPosition, Vector2 _launchVelocity, Vector2 _gravity) // a = gravity/2, b = start velocity, c = start position //not really working 
-    {
-        float x = Mathf.Pow(_launchVelocity.y, 2) - 4 * -_gravity.y * 0.5f * _startPosition.y;
-        float time = (-_launchVelocity.y - Mathf.Sqrt(x)) / 2 * _gravity.y * 0.5f;
-        return time;
-    }
 }
