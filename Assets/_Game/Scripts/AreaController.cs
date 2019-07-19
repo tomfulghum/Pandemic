@@ -24,8 +24,22 @@ public class AreaController : MonoBehaviour
 
     private void OnValidate()
     {
+        RegisterWithTransitions();
+    }
+
+    private void Start()
+    {
+        RegisterWithTransitions();
+    }
+
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private void RegisterWithTransitions()
+    {
         foreach (var transition in m_areaTransitions) {
-            if (transition) { 
+            if (transition) {
                 transition.controller = this;
             }
         }
