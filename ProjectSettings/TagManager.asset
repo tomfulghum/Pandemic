@@ -56,12 +56,15 @@ TagManager:
   - name: Background
     uniqueID: 693606343
     locked: 0
-  - name: Platform
+  - name: PlatformBackground
+    uniqueID: 1267284147
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: PlatformForeground
     uniqueID: 3119722303
     locked: 0
   - name: Foreground
     uniqueID: 2613267703
-    locked: 0
-  - name: Default
-    uniqueID: 0
     locked: 0
