@@ -2,6 +2,10 @@
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
+//**********************//
+//    Settings class    //
+//**********************//
+
 [Serializable]
 [PostProcess(typeof(GaussianBlurRenderer), PostProcessEvent.AfterStack, "Custom/GaussianBlur")]
 public sealed class GaussianBlur : PostProcessEffectSettings
@@ -11,8 +15,16 @@ public sealed class GaussianBlur : PostProcessEffectSettings
     public FloatParameter radius = new FloatParameter { value = 1.0f };
 }
 
+//**********************//
+//    Renderer class    //
+//**********************//
+
 public sealed class GaussianBlurRenderer : PostProcessEffectRenderer<GaussianBlur>
 {
+    //**********************//
+    //    Internal Types    //
+    //**********************//
+
     private enum Pass
     {
         Horizontal,
@@ -26,9 +38,17 @@ public sealed class GaussianBlurRenderer : PostProcessEffectRenderer<GaussianBlu
         internal int vertical;
     }
 
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
     private Shader m_shader;
     private Level[] m_levels;
     private const int k_maxIterations = 10;
+
+    //**************************//
+    //    Renderer Functions    //
+    //**************************//
 
     public override void Init()
     {
@@ -59,7 +79,6 @@ public sealed class GaussianBlurRenderer : PostProcessEffectRenderer<GaussianBlu
 
             context.GetScreenSpaceTemporaryRT(cmd, horizontal, 0, context.sourceFormat, RenderTextureReadWrite.Default, FilterMode.Bilinear);
             context.GetScreenSpaceTemporaryRT(cmd, vertical, 0, context.sourceFormat, RenderTextureReadWrite.Default, FilterMode.Bilinear);
-
             cmd.BlitFullscreenTriangle(lastSource, horizontal, sheet, (int)Pass.Horizontal);
             cmd.BlitFullscreenTriangle(horizontal, vertical, sheet, (int)Pass.Vertical);
 
