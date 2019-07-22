@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                 {
                     if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
                     {
-                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude * 0.3f + 10);
+                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
                         collider.gameObject.GetComponent<PlayerHook>().CancelHook();
                     }
                 }
