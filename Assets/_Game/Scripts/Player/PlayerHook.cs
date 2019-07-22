@@ -44,6 +44,7 @@ using UnityEngine;
 //vllt für jump back wie bei hook to target eine eigene funktion schreiben 
 //small enemy?
 //kleiner bug bei bigenemy
+//wenn man die timescale wieder progressive normalisiert unbedingt drauf achten das sie zu 100% wieder normal ist sobald man irgendetwas machen kann das nicht in diesem script passiert
 public class PlayerHook : MonoBehaviour
 {
     public enum PlayerState { Waiting, Hook, Attacking, Moving, Disabled } //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
@@ -135,7 +136,7 @@ public class PlayerHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook)
+        if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();
             Vector2 CurrentMousePosition = Input.mousePosition;
@@ -164,7 +165,7 @@ public class PlayerHook : MonoBehaviour
             {
                 if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1)
                 {
-                    if (PickedUpObject != null && PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp)
+                    if (PickedUpObject != null && (PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp || PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.TravellingToPlayer))
                         AimThrow();
                     else  
                         SearchTargetPoint();
@@ -225,6 +226,7 @@ public class PlayerHook : MonoBehaviour
     {
         //StopAllCoroutines(); --> brauch ich das? jump back?
         DeactivateHook();
+        GetComponent<VisualizeTrajectory>().RemoveVisualeDots(); //vllt auch in deactivate hook?
     }
 
     void SetPlayerState() //vllt muss man die nochmal überarbeiten

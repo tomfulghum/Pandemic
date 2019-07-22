@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//vllt ausrechnen wo er mit einem potenziellen jump landen würde und dann mit höherer chance springen (wenn er auf einer plattform aufkommen würde)
 //requires component enemy
 public class CrawlingEnemy : MonoBehaviour
 {
@@ -172,7 +174,7 @@ public class CrawlingEnemy : MonoBehaviour
             CurrentVelocity = Vector2.right * MovementSpeed + new Vector2(0.5f, 0.5f) * 10;
     }
 
-    bool CheckGroundAhead() //if yes --> decide jump or not
+    bool CheckGroundAhead() //if yes --> decide jump or not //layermask? doesnt hit background?
     {
         RaycastHit2D hit;
         if (CurrentMovementDirection == MovementDirection.Left)

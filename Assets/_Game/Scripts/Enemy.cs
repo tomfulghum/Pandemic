@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             {
                 if (collider.CompareTag("Player"))
                 {
-                    if (collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false && collider.gameObject.GetComponent<PlayerCombat>().Smashing == false)
+                    if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
                     {
                         collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, collider.gameObject.GetComponent<Actor2D>().velocity.magnitude * 0.3f + 10);
                         collider.gameObject.GetComponent<PlayerHook>().CancelHook();
@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             yield return new WaitForSeconds(0.03f);
         }
         KnockBackActive = false;
-        //CurrentlyHit = false;
+        CurrentlyHit = false;
         GetComponent<SpriteRenderer>().color = originalColor;
         colorChangeCounter = 0;
         Physics2D.IgnoreLayerCollision(10, 11, false);

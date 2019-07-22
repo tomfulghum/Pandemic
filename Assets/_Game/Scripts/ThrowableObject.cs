@@ -13,7 +13,7 @@ public class ThrowableObject : MonoBehaviour
 
     Vector2 CurrentVelocity;
     public float Gravity;
-    [Range(1,3)] public float SpeedMultiplier = 1.3f; //später per object typ einstellen
+    [Range(1,3)] public float SpeedMultiplier = 1.4f; //später per object typ einstellen
     public bool PickedUp;
     public bool CurrentlyThrown;
     public Transform ObjectToFollow;
@@ -98,7 +98,7 @@ public class ThrowableObject : MonoBehaviour
         if (enemy != null)
         {
             //Debug.Log("hit enemy");
-            enemy.GetComponent<Enemy>().GetHit(transform, 10); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen
+            enemy.GetComponent<Enemy>().GetHit(transform, 15); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen
         }
     }
 

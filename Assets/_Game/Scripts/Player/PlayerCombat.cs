@@ -4,37 +4,46 @@ using UnityEngine;
 
 
 //smash down stärke von der spieler höhe/falllänge abhängig machen
-//optional: 8 directional attack input
-//dash // 8 direction dash? --> oder wenigstens 6? also nicht nach oben und nicht nach unten?
+//melee attack: kein input: stehenbleiben, input: bewegung in input richtung --> am besten wie beim knock back 
+//default values
+//evtl combo time kürzer machen aber dafür schon kurz vor ende der attack input annehmen
 public class PlayerCombat : MonoBehaviour
 {
-    //public static bool DisableAllInput = false;
-    public bool AllowMovingWhileAttacking; //aktuell noch nicht sogut
-    public float AttackRange;
-    public float AttackAngle;
-    //public int NumberOfAttacks;
-    public float smashSpeed;
-    public LayerMask layerMask;
-    public float ControllerTolerance;
+    public enum AttackState { None, Attack, Dash, Smash } //attack state and attack type?
+    [HideInInspector] public AttackState CurrentAttackState = AttackState.None;
 
-    public float DashSpeed;
-    public float DashDuration;
-    public float DashCooldown;
+    public float AttackRange = 2.5f;
+    public float SmashSpeed = 20f;
+    public LayerMask layerMask;
+    public float ControllerTolerance = 0.5f;
+
+    public float DashSpeed = 20f;
+    public float DashDuration = 0.2f;
+    public float DashCooldown = 0.5f;
+
+    public float TimeToCombo = 0.1f;
+    public float MeleeAttackTime = 0.3f;
+    public LayerMask GroundCollission;
+
+    float AttackAngle = 25f; //veraltet nur noch füs visuelle da
+
     bool Attacking;
-    [HideInInspector] public bool Smashing;
     bool FacingLeft;
-    bool DashActive;
-    bool DashLeft;
-   // bool HitEnemy; //besser in enemy weil es für jeden enemy einzeln gelten muss
-    Vector3 lastPosition;
+    //bool DashCooldownActive; //oder dash on cooldown
     Vector2 attackDirection;
     List<Collider2D> enemiesHit;
     float xAxis;
     Coroutine MovementSlowDown;
     Color originalColor;
     int colorChangeCounter;
-    [HideInInspector] public bool CurrentlyHit;
-    bool KnockBackActive;
+
+    //Combo Attack Test
+    int AttackNumber;
+    Coroutine MeleeAttack;
+    Coroutine MeleeMovement;
+    bool CurrentlyAttacking;
+    float CurrentAngle;
+    bool AlreadyAttacked;
 
     Actor2D actor;
     // Start is called before the first frame update
@@ -42,7 +51,6 @@ public class PlayerCombat : MonoBehaviour
     {
         originalColor = GetComponent<SpriteRenderer>().color;
         enemiesHit = new List<Collider2D>();
-        lastPosition = transform.position;
         xAxis = Input.GetAxis("Horizontal");
         actor = GetComponent<Actor2D>();
     }
@@ -52,158 +60,139 @@ public class PlayerCombat : MonoBehaviour
     {
         if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Waiting || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Attacking)
         {
-            if (Input.GetButtonDown("Dash") && (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance) && Attacking == false && !Smashing)
+            SetPlayerState();
+            SetFacingDirection(); //ist es klug jedes frame zu setzen? --> wenn ja so einbauen das es auch funktioniert 
+            if (Input.GetButtonDown("Dash") && CurrentAttackState == AttackState.None) //&& (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance)
             {
-                if (Input.GetAxis("Horizontal") < 0)
+                StartCoroutine(Dash());
+            }
+
+            if ((Input.GetButtonDown("Fire3") || AlreadyAttacked) && (CurrentAttackState == AttackState.None || CurrentAttackState == AttackState.Attack))
+            {
+                AlreadyAttacked = true;
+                if (MeleeAttack == null)
                 {
-                    DashLeft = true;
+                    attackDirection = GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                    MeleeAttack = StartCoroutine(AttackSequence(AttackNumber));
                 }
-                else
+                else if (CurrentlyAttacking == false)
                 {
-                    DashLeft = false;
-                }
-                if (DashActive == false)
-                {
-                    StartCoroutine(Dash());
+                    StopCoroutine(MeleeAttack);
+                    MeleeAttack = StartCoroutine(AttackSequence(AttackNumber));
                 }
             }
 
-            if (Input.GetButtonDown("Fire3") && Attacking == false && !Smashing)
+            if (!GetComponent<Actor2D>().collision.below && Input.GetAxis("MeteorSmash") > ControllerTolerance && CurrentAttackState == AttackState.None)
             {
-                StartCoroutine(AttackSequence());
+                StartMeteorSmash();
             }
-            if (Attacking)
+
+            /*
+            if(CurrentAttackState != AttackState.None)
+            {
+                switch(CurrentAttackState)
+                {
+                    case AttackState.Attack:
+                        {
+                            break;
+                        }
+                    case AttackState.Dash: //brauch ich da überhaupt was?
+                        {
+                            break;
+                        }
+                    case AttackState.Smash:
+                        {
+                            break;
+                        }
+                }
+            }
+            */
+            if (CurrentAttackState == AttackState.Attack && CurrentlyAttacking)
             {
                 VisualizeAttack(attackDirection);
                 foreach (Collider2D enemy in CheckEnemyHit(attackDirection))
                 {
                     if (!enemiesHit.Contains(enemy))
-                    {
                         enemiesHit.Add(enemy);
-                    }
                 }
             }
             else
-            {
-                SetFacingDirection();
-                enemiesHit.Clear();
-                //attackDirection = Vector2.zero; //nötig?
-            }
-            if (!GetComponent<Actor2D>().collision.below && Input.GetAxis("MeteorSmash") > ControllerTolerance) //verhindern das man während einem smash hooked
-            {
-                if (!Smashing && !Attacking)
-                {
-                    StartMeteorSmash();
-                }
-                //Debug.Log("hello there");
-            }
-            if (Smashing)
+                //enemiesHit.Clear(); //brauch ich das hier? --> führt dazu das der enemy in meteor smash teilweise nicht resettet wird
+
+            if (CurrentAttackState == AttackState.Smash)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, 1, layerMask);
                 if (hit.collider != null)
                 {
                     StopMeteorSmash();
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
-                    {
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 10); //wie bei throwable object um stellen
-                        //Debug.Log("i hit an enemy");
-                    }
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 10);
                 }
                 if (GetComponent<Actor2D>().collision.below && !GetComponent<Actor2D>().collision.below.CompareTag("Enemy"))
-                {
                     StopMeteorSmash();
-                }
             }
-            lastPosition = transform.position;
-        } 
-        if(KnockBackActive)
+        }
+        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled)
         {
             colorChangeCounter++;
             if (colorChangeCounter % 5 == 0)
-            {
                 GetComponent<SpriteRenderer>().color = Color.white;
-            }
             else
-            {
                 GetComponent<SpriteRenderer>().color = originalColor;
-            }
         }
+    }
+
+    void SetPlayerState() //s. Playerhook
+    {
+        if (CurrentAttackState != AttackState.None)
+            PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Attacking;
+        else
+            if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Attacking && CurrentAttackState == AttackState.None)
+            PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
     }
 
     IEnumerator Dash()
     {
         Vector2 velocity = Vector2.zero;
-        DashActive = true;
-        if (DashLeft)
-        {
-            velocity = Vector2.left; // immer auf die timescale achten wegen dem hook / Time.timeScale
-        }
+        CurrentAttackState = AttackState.Dash;
+        if (FacingLeft)
+            velocity = Vector2.left; // immer auf die timescale achten wegen dem hook / Time.timeScale --> kann man überhaupt während einem timeslow dashen?
         else
-        {
             velocity = Vector2.right;
-        }
         GetComponent<PlayerMovement>().DisableUserInput(true);
-        GetComponent<PlayerMovement>().SetExternalVelocity(velocity*DashSpeed); 
+        GetComponent<PlayerMovement>().SetExternalVelocity(velocity * DashSpeed);
         yield return new WaitForSeconds(DashDuration);
         GetComponent<PlayerMovement>().DisableUserInput(false);
         yield return new WaitForSeconds(DashCooldown);
-        DashActive = false;
+        CurrentAttackState = AttackState.None; //würde aktuell bedeuten das man während dem dash cooldown auch nicht anders angreifen kann --> ändern
     }
 
     void SetFacingDirection()
     {
         float CurrentJoystickDirection = Input.GetAxis("Horizontal");
-        if(CurrentJoystickDirection != xAxis)
+        if (CurrentJoystickDirection != xAxis)
         {
-            if(CurrentJoystickDirection < 0)
-            {
+            if (CurrentJoystickDirection < 0)
                 FacingLeft = true;
-            }
-            else if(CurrentJoystickDirection > 0)
-            {
+            else if (CurrentJoystickDirection > 0)
                 FacingLeft = false;
-            }
             xAxis = CurrentJoystickDirection;
         }
-        /*
-        if(lastPosition == transform.position)
-        {
-            return;
-        }
-        if(lastPosition.x < transform.position.x)
-        {
-            FacingLeft = false;
-        } else
-        {
-            FacingLeft = true;
-        }
-        */
     }
 
     List<Collider2D> CheckEnemyHit(Vector2 _direction) //return list with all enemies hit?
     {
         Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, AttackRange);
         List<Collider2D> EnemiesHit = new List<Collider2D>();
-        for(int i = 0; i < ColliderInRange.Length; i++)
+        for (int i = 0; i < ColliderInRange.Length; i++)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), AttackRange, layerMask);
-            if(hit.collider != null && hit.collider.CompareTag("Enemy"))
+            if (hit.collider != null && hit.collider.CompareTag("Enemy"))
             {
                 Vector2 PlayerToCollider = (ColliderInRange[i].transform.position - transform.position).normalized;
-                /*
-                Vector2 Direction;
-                if (FacingLeft)
-                {
-                    Direction = Vector2.left;
-                }
-                else
-                {
-                    Direction = Vector2.right;
-                }
-                */
                 Vector2 Direction = _direction.normalized;
                 float angleInDeg = Vector2.Angle(PlayerToCollider, Direction);
-                if(angleInDeg < AttackAngle)
+                if (angleInDeg < 90)
                 {
                     if (hit.collider.GetComponent<Enemy>().CurrentlyHit == false)
                     {
@@ -216,14 +205,14 @@ public class PlayerCombat : MonoBehaviour
         return EnemiesHit;
     }
 
-    Vector2 GetAttackDirection(float xInput, float yInput) //evlt auf 8 directions erweitern --> besseren weg dafür finden
+    Vector2 GetAttackDirection(float xInput, float yInput)
     {
         Vector2 Direction;
-        if(FacingLeft)
+        if (FacingLeft)
             Direction = Vector2.left;
         else
             Direction = Vector2.right;
-        if(Input.GetAxis("Vertical") < -ControllerTolerance)
+        if (Input.GetAxis("Vertical") < -ControllerTolerance)
             Direction = Vector2.down;
         if (Input.GetAxis("Vertical") > ControllerTolerance)
             Direction = Vector2.up;
@@ -234,116 +223,133 @@ public class PlayerCombat : MonoBehaviour
         return Direction;
     }
 
-    IEnumerator SlowMovementDown(Vector2 _startvelocity)
+    IEnumerator AttackSequence(int _numOfAttack) //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
-       // Debug.Log(_startvelocity.magnitude);
-        float MovingSpeed = _startvelocity.magnitude;
-        while (_startvelocity.magnitude*MovingSpeed > 0.1f)
+        CurrentAttackState = AttackState.Attack;
+        if (GetComponent<Actor2D>().collision.below || GroundBelow())
         {
-            MovingSpeed *= 0.8f;
-            Vector2 newVelocity = _startvelocity.normalized * MovingSpeed * 0.99f;
-            //Debug.Log(newVelocity.magnitude);
-            GetComponent<PlayerMovement>().SetExternalVelocity(newVelocity);
-            yield return new WaitForSeconds(0.05f);
+            GetComponent<PlayerMovement>().DisableUserInput(true);
         }
-    }
 
-    IEnumerator AttackSequence() //darauf achten während dem air attack etwas gravity dazuzurechnen
-    {
-        Attacking = true;
-        attackDirection = GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if (GetComponent<Actor2D>().collision.below)
-        {
-            //Debug.Log("in air");
-            GetComponent<PlayerMovement>().DisableUserInput(true);
-            Vector3 currentVelocity = GetComponent<Actor2D>().velocity;
-            MovementSlowDown = StartCoroutine(SlowMovementDown(currentVelocity));
-        }
-        /*
-        if(AllowMovingWhileAttacking || !GetComponent<Actor2D>().collision.below)
-        {
-            Vector3 currentVelocity = GetComponent<Actor2D>().velocity.normalized * 4;
-            GetComponent<PlayerMovement>().DisableUserInput(true);
-            GetComponent<PlayerMovement>().SetExternalVelocity(currentVelocity);
-        }
-        else
-        {
-            GetComponent<PlayerMovement>().DisableUserInput(true);
-        }
-        */
-        //yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(FirstAttack());
-       // yield return StartCoroutine(Attack(NumberOfAttacks, attackDirection)); //funktioniert noch nicht
+        if (_numOfAttack == 0)
+            yield return StartCoroutine(FirstAttack());
+        if (_numOfAttack == 1)
+            yield return StartCoroutine(SecondAttack());
+        if (_numOfAttack == 2)
+            yield return StartCoroutine(ThirdAttack());
+
+        yield return new WaitForSeconds(TimeToCombo);
         GetComponent<PlayerMovement>().DisableUserInput(false);
-        Attacking = false;
-        if (MovementSlowDown != null)
+        CurrentAttackState = AttackState.None;
+        AttackNumber = 0;
+        MeleeAttack = null;
+    }
+
+    IEnumerator AttackMovement(float _repetissions, Vector2 _direction, float _KnockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
+    {
+        for (int i = 0; i < _repetissions; i++)
         {
-            StopCoroutine(MovementSlowDown);
+            float test = 1 - Mathf.Pow((i), 2) / 100;
+            if (test < 0)
+                test = 0;
+
+            Vector2 MovementDirection = _direction.normalized;
+            actor.velocity = MovementDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
+            if (actor.collision.above || actor.collision.below)
+                actor.velocity = new Vector2(actor.velocity.x, 0);
+            if (actor.collision.left || actor.collision.right)
+                actor.velocity = new Vector2(0, actor.velocity.y);
+
+            yield return new WaitForSeconds(0.005f);
         }
     }
 
-    IEnumerator Attack(int _numOfRepeats, Vector2 _startDirection)
+
+    bool GroundBelow() //short fix because of actor velocity problem
     {
-        attackDirection = RotateVector(_startDirection, Random.Range(-15,15));
-        Debug.Log("attackDirection: " + attackDirection);
-        yield return new WaitForSeconds(0.1f + Random.Range(0.0f, 0.2f)); //vllt ohne random
-        foreach (Collider2D enemy in enemiesHit)
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1, GroundCollission);
+        if (hit.collider != null)
+            return true;
+        return false;
+    }
+
+    void AttackMove()
+    {
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) //was ist mit down und up?
         {
-            enemy.GetComponent<Enemy>().CurrentlyHit = false;
-        }
-        if (_numOfRepeats > 0)
-        {
-            StartCoroutine(Attack(_numOfRepeats - 1, _startDirection));
+            if (MeleeAttack != null)
+                StopCoroutine(MeleeAttack);
+            if (FacingLeft)
+                MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(-1, -1), 7 + 1 / MeleeAttackTime));
+            else
+                MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(1, -1), 7 + 1 / MeleeAttackTime));
         }
     }
 
     IEnumerator FirstAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
-        yield return new WaitForSeconds(0.1f);
-        foreach(Collider2D enemy in enemiesHit)
-        {
+        if (actor.collision.below || GroundBelow())
+            AttackMove();
+        CurrentAngle = AttackAngle;
+        AttackNumber = 1;
+        CurrentlyAttacking = true;
+        AlreadyAttacked = false;
+        yield return new WaitForSeconds(MeleeAttackTime);
+
+        foreach (Collider2D enemy in enemiesHit)
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
-        }
-        yield return StartCoroutine(SecondAttack()); 
+
+        CurrentlyAttacking = false;
     }
 
-    IEnumerator SecondAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
+    IEnumerator SecondAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen --> nicht nötig weil movement in air nicht disabled ist
     {
-        attackDirection = RotateVector(attackDirection, Random.Range(10, 15));
-        yield return new WaitForSeconds(0.3f);
+        if (actor.collision.below || GroundBelow())
+            AttackMove();
+        CurrentAngle = AttackAngle;
+        AttackNumber = 2;
+        CurrentlyAttacking = true;
+        AlreadyAttacked = false;
+        attackDirection = RotateVector(attackDirection, 20);
+        yield return new WaitForSeconds(MeleeAttackTime);
+
         foreach (Collider2D enemy in enemiesHit)
-        {
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
-        }
-        yield return StartCoroutine(ThirdAttack()); //ThirdAttack()
+
+        CurrentlyAttacking = false;
     }
     IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
-        attackDirection = RotateVector(attackDirection, Random.Range(-15, -20));
-        yield return new WaitForSeconds(0.2f);
+        if (actor.collision.below || GroundBelow())
+            AttackMove();
+        CurrentAngle = AttackAngle;
+        CurrentlyAttacking = true;
+        AlreadyAttacked = false;
+        attackDirection = RotateVector(attackDirection, -40);
+        yield return new WaitForSeconds(MeleeAttackTime);
+
         foreach (Collider2D enemy in enemiesHit)
-        {
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
-        }
+
+        GetComponent<PlayerMovement>().DisableUserInput(false);
+        CurrentlyAttacking = false;
+        AttackNumber = 0;
+        StopCoroutine(MeleeAttack);
+        MeleeAttack = null;
+        CurrentAttackState = AttackState.None; //function end attack schreiben
     }
 
     void VisualizeAttack(Vector2 _direction)
     {
-        //Vector2 DirectionLine;
-        /*
-        if (FacingLeft)
-        {
-            DirectionLine = Vector2.left * AttackRange;
-        }
-        else
-        {
-            DirectionLine = Vector2.right * AttackRange;
-        }
-        */
         Vector2 DirectionLine = _direction.normalized * AttackRange;
         Vector2 LeftArc = RotateVector(DirectionLine, AttackAngle);
         Vector2 RightArc = RotateVector(DirectionLine, -AttackAngle);
 
+        Vector2 HitVisual = RotateVector(DirectionLine, CurrentAngle);
+        //CurrentAngle -= (AttackAngle*2) -  1 / FirstAttackTime; //Time.deltaTime?
+        CurrentAngle -= 1 * 1 / MeleeAttackTime;
+
+        Debug.DrawLine(transform.position, (Vector2)transform.position + HitVisual, Color.red);
         Debug.DrawLine(transform.position, (Vector2)transform.position + DirectionLine, Color.green);
         Debug.DrawLine(transform.position, (Vector2)transform.position + LeftArc, Color.green);
         Debug.DrawLine(transform.position, (Vector2)transform.position + RightArc, Color.green);
@@ -351,16 +357,15 @@ public class PlayerCombat : MonoBehaviour
 
     void StartMeteorSmash() //rename
     {
-        Smashing = true;
-        Vector2 VelocityDown = Vector2.down * smashSpeed;
+        CurrentAttackState = AttackState.Smash;
+        Vector2 VelocityDown = Vector2.down * SmashSpeed;
         GetComponent<PlayerMovement>().DisableUserInput(true);
         GetComponent<PlayerMovement>().SetExternalVelocity(VelocityDown);
     }
     void StopMeteorSmash()
     {
         GetComponent<PlayerMovement>().DisableUserInput(false);
-        Smashing = false;
-        Debug.Log(enemiesHit.Count);
+        CurrentAttackState = AttackState.None;
         foreach (Collider2D enemy in enemiesHit)
         {
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
@@ -379,19 +384,17 @@ public class PlayerCombat : MonoBehaviour
         return v;
     }
 
-    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino
+    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino //player knockback noch bisshen stärker einstellen
     {
         //vllt die überprüfung ob der hit gilt hier rein machen --> viel besser
-        StopCoroutine("KnockBack");
+        StopCoroutine("KnockBack"); //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
         //was ist mit attacksequence usw.? die auch stoppen?
         //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
         StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
-        CurrentlyHit = true;
     }
 
-    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //knock back direction als Parameter übergeben
+    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
     {
-        KnockBackActive = true;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
         GetComponent<PlayerMovement>().DisableUserInput(true);
         for (int i = 0; i < _repetissions; i++)
@@ -401,7 +404,7 @@ public class PlayerCombat : MonoBehaviour
                 test = 0;
 
             Vector2 KnockBackDirection = (transform.position - _knockBackOrigin.position).normalized;
-            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
+            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
             if (actor.collision.above || actor.collision.below)
                 actor.velocity = new Vector2(actor.velocity.x, 0);
             if (actor.collision.left || actor.collision.right)
@@ -409,8 +412,6 @@ public class PlayerCombat : MonoBehaviour
 
             yield return new WaitForSeconds(0.03f);
         }
-        KnockBackActive = false;
-        CurrentlyHit = false;
         GetComponent<SpriteRenderer>().color = originalColor;
         colorChangeCounter = 0;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;

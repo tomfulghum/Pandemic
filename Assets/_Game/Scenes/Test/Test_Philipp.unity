@@ -2663,7 +2663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentObjectState: 0
   Gravity: 10
-  SpeedMultiplier: 1
+  SpeedMultiplier: 1.4
   PickedUp: 0
   CurrentlyThrown: 0
   ObjectToFollow: {fileID: 0}
@@ -3762,6 +3762,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948056491589839718, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: SmashSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948056491589839718, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: TimeToCombo
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948056491589839718, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: MeleeAttackTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948056491589839718, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: AttackRange
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948056491589839718, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3,
+        type: 3}
+      propertyPath: GroundCollission.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
