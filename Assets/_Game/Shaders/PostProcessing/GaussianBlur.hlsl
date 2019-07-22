@@ -13,13 +13,13 @@ float4 Blur(VaryingsDefault i, float2 direction) : SV_Target
 	float2 off1 = float2(1.5, 1.5) * direction * _Radius;
 	float2 off2 = float2(3.5, 3.5) * direction * _Radius;
 	float2 off3 = float2(5.5, 5.5) * direction * _Radius;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord) * 0.3498846590518951416015625;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + (off1 / _ScreenParams.xy)) * 0.3133078515529632568359375;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord - (off1 / _ScreenParams.xy)) * 0.3133078515529632568359375;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + (off2 / _ScreenParams.xy)) * 0.011726136319339275360107421875;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord - (off2 / _ScreenParams.xy)) * 0.011726136319339275360107421875;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + (off3 / _ScreenParams.xy)) * 0.00002368900823057629168033599853515625;
-	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord - (off3 / _ScreenParams.xy)) * 0.00002368900823057629168033599853515625;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord) * 0.3737656772136688232421875;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + (off1 / _ScreenParams.xy)) * 0.3055801689624786376953125;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord - (off1 / _ScreenParams.xy)) * 0.3055801689624786376953125;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + (off2 / _ScreenParams.xy)) * 0.0075305015780031681060791015625;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord - (off2 / _ScreenParams.xy)) * 0.0075305015780031681060791015625;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord + (off3 / _ScreenParams.xy)) * 0.0000064706919147283770143985748291015625;
+	color += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.texcoord - (off3 / _ScreenParams.xy)) * 0.0000064706919147283770143985748291015625;
 
 	return color;
 }
