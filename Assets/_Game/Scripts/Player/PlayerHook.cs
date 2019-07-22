@@ -405,12 +405,21 @@ public class PlayerHook : MonoBehaviour
         }
         if (UsingController == false)
         {
+            Debug.Log("here");
             if (CurrentHookState == HookState.SearchTarget) 
                 CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
-            else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection))
+            else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection) && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint"))
             {
-                CurrentSwitchTarget = FindNearestTargetInRange(MouseDirection);
-                CurrentHookState = HookState.SwitchTarget;
+                if (FindNearestTargetInRange(MouseDirection) != null && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint"))
+                {
+                    CurrentSwitchTarget = FindNearestTargetInRange(MouseDirection);
+                    CurrentHookState = HookState.SwitchTarget;
+                }
+                else if (FindNearestTargetInRange(MouseDirection) == null)
+                {
+                    CurrentSwitchTarget = FindNearestTargetInRange(MouseDirection);
+                    CurrentHookState = HookState.SwitchTarget;
+                }
             }
             VisualizeCone(MouseDirection);
         }
@@ -420,8 +429,15 @@ public class PlayerHook : MonoBehaviour
                 CurrentSelectedTarget = FindNearestTargetInRange(ControllerDirection);
             else if (CurrentSelectedTarget != FindNearestTargetInRange(ControllerDirection))
             {
-                CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
-                CurrentHookState = HookState.SwitchTarget;
+                if (FindNearestTargetInRange(ControllerDirection) != null && FindNearestTargetInRange(ControllerDirection).CompareTag("HookPoint"))
+                {
+                    CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
+                    CurrentHookState = HookState.SwitchTarget;
+                } else if (FindNearestTargetInRange(ControllerDirection) == null)
+                {
+                    CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
+                    CurrentHookState = HookState.SwitchTarget;
+                }
             }
             VisualizeCone(ControllerDirection);
         }
