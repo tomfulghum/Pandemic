@@ -50,7 +50,9 @@ public class PlayerCombat : MonoBehaviour
 
     bool Invincible; //After every attack some invincibility frames --> change later to a priority system
     float InvincibilityTime = 0.2f; //time during which the player is invincible --> priority system?
-    //invincibility time evtl per move?
+                                    //invincibility time evtl per move?
+
+    int CurrentHitPriority = 1;
 
     Actor2D actor;
 
@@ -113,13 +115,13 @@ public class PlayerCombat : MonoBehaviour
                 if (hit.collider != null)
                 {
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 15);
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 15, CurrentHitPriority);
                     else
                         StopMeteorSmash();
                 }
                 if (actor.collision.below && actor.collision.below.CompareTag("Enemy")) //geht nicht weil actor nicht mit enemy kollidiert
                 {
-                    actor.collision.below.GetComponent<Enemy>().GetHit(transform, 15);
+                    actor.collision.below.GetComponent<Enemy>().GetHit(transform, 15, CurrentHitPriority);
                 }
                 if (GetComponent<Actor2D>().collision.below && !GetComponent<Actor2D>().collision.below.CompareTag("Enemy"))
                     StopMeteorSmash();
@@ -189,11 +191,8 @@ public class PlayerCombat : MonoBehaviour
                 float angleInDeg = Vector2.Angle(PlayerToCollider, Direction);
                 if (angleInDeg < 90)
                 {
-                    if (hit.collider.GetComponent<Enemy>().CurrentlyHit == false)
-                    {
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 7); //wie bei throwable object umstellen
-                        EnemiesHit.Add(hit.collider);
-                    }
+                    hit.collider.GetComponent<Enemy>().GetHit(transform, 7, CurrentHitPriority); //wie bei throwable object umstellen
+                    EnemiesHit.Add(hit.collider);
                 }
             }
         }
@@ -248,6 +247,7 @@ public class PlayerCombat : MonoBehaviour
         MeleeAttack = null;
         ComboActive = false;
         StartCoroutine(AttackCooldown());
+        CurrentHitPriority = 1;
     }
 
     IEnumerator AttackMovement(float _repetissions, Vector2 _direction, float _KnockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
@@ -299,11 +299,9 @@ public class PlayerCombat : MonoBehaviour
         AttackNumber = 1;
         CurrentlyAttacking = true;
         AlreadyAttacked = false;
+        CurrentHitPriority = 1;
+
         yield return new WaitForSeconds(MeleeAttackTime);
-
-        foreach (Collider2D enemy in enemiesHit)
-            enemy.GetComponent<Enemy>().CurrentlyHit = false;
-
         CurrentlyAttacking = false;
     }
 
@@ -316,11 +314,9 @@ public class PlayerCombat : MonoBehaviour
         CurrentlyAttacking = true;
         AlreadyAttacked = false;
         attackDirection = RotateVector(attackDirection, 20);
+        CurrentHitPriority = 2;
+            
         yield return new WaitForSeconds(MeleeAttackTime);
-
-        foreach (Collider2D enemy in enemiesHit)
-            enemy.GetComponent<Enemy>().CurrentlyHit = false;
-
         CurrentlyAttacking = false;
     }
     IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
@@ -332,11 +328,9 @@ public class PlayerCombat : MonoBehaviour
         CurrentlyAttacking = true;
         AlreadyAttacked = false;
         attackDirection = RotateVector(attackDirection, -40);
+        CurrentHitPriority = 3;
+
         yield return new WaitForSeconds(MeleeAttackTime);
-
-        foreach (Collider2D enemy in enemiesHit)
-            enemy.GetComponent<Enemy>().CurrentlyHit = false; //könnte sein das ich das gar nicht brauche
-
         GetComponent<PlayerMovement>().DisableUserInput(false);
         CurrentlyAttacking = false;
         AttackNumber = 0;
@@ -344,6 +338,7 @@ public class PlayerCombat : MonoBehaviour
         MeleeAttack = null;
         CurrentAttackState = AttackState.None; //function end attack schreiben
         StartCoroutine(AttackCooldown());
+        CurrentHitPriority = 1;
     }
 
     void VisualizeAttack(Vector2 _direction)
@@ -374,10 +369,6 @@ public class PlayerCombat : MonoBehaviour
     {
         GetComponent<PlayerMovement>().DisableUserInput(false);
         CurrentAttackState = AttackState.None;
-        foreach (Collider2D enemy in enemiesHit)
-        {
-            enemy.GetComponent<Enemy>().CurrentlyHit = false;
-        }
         StartCoroutine(InvincibilityFrames(InvincibilityTime));
     }
 

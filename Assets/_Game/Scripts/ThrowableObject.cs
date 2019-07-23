@@ -95,10 +95,7 @@ public class ThrowableObject : MonoBehaviour
         if (actor.collision.right && actor.collision.right.CompareTag("Enemy"))
             enemy = actor.collision.right;
         if (enemy != null)
-        {
-            //Debug.Log("hit enemy");
-            enemy.GetComponent<Enemy>().GetHit(transform, 25); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen
-        }
+            enemy.GetComponent<Enemy>().GetHit(transform, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
     }
 
     public void PickUp(Transform _target, float _speed, float _targetReachedTolerance)

@@ -5,16 +5,16 @@ using UnityEngine;
 //enemy in eine elternklasse umwandeln die für alle kind enemys deren movementpattern funktion im update aufruft
 public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script schreiben was auch für den player anwendbar ist
 {
-    public enum EnemyState { Moving, Hit } //usw.
+    public enum EnemyState { Moving, Hit } //usw. //evtl moving besser namen
     public EnemyState CurrentEnemyState = EnemyState.Moving;
-    public bool CurrentlyHit;
     public bool ContactDamage;
-    bool KnockBackActive;
     int colorChangeCounter;
     public LayerMask layer_mask;
     Color originalColor;
 
+    Coroutine EnemyKnockBack;
     Actor2D actor; // vllt reich der actor auf crawling enemy
+    int CurrentHitPriority = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,40 +51,34 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                 }
             }
         }
-        if (KnockBackActive)
+        if (CurrentEnemyState == EnemyState.Hit)
         {
-            CurrentEnemyState = EnemyState.Hit;
             colorChangeCounter++;
             if (colorChangeCounter % 5 == 0)
-            {
                 GetComponent<SpriteRenderer>().color = Color.white;
-            }
             else
-            {
                 GetComponent<SpriteRenderer>().color = originalColor;
-            }
-        }
-        else
-        {
-            CurrentEnemyState = EnemyState.Moving;
         }
     }
 
-    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
+    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce, int HitPriority) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
     {
         //vllt die überprüfung ob der hit gilt hier rein machen
-        StopAllCoroutines();
-        StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
-        CurrentlyHit = true;
-        //EnemyFreeze = true
+        if (CurrentEnemyState == EnemyState.Hit && HitPriority > CurrentHitPriority) //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
+        {
+            CurrentHitPriority = HitPriority;
+            StopCoroutine(EnemyKnockBack);
+            EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
+        }
+        else if (CurrentEnemyState != EnemyState.Hit)
+            EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
     }
 
     //besser machen und die schwerkraft usw alles mitberechnen --> evtl in ein anderes script //check collissions evtl auch woanders rein
     //was soll passieren wenn man den gegner / spieler in die wand knockt?
     IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
     {
-        //Physics2D.IgnoreLayerCollision(10, 11, true); //geht wegen freddys script nichtmehr
-        KnockBackActive = true;
+        CurrentEnemyState = EnemyState.Hit;
         for (int i = 0; i < _repetissions; i++)
         {
             float test = 1 - Mathf.Pow((i), 3) / 100; //warum?
@@ -102,10 +96,9 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
 
             yield return new WaitForSeconds(0.03f);
         }
-        KnockBackActive = false;
-        CurrentlyHit = false;
         GetComponent<SpriteRenderer>().color = originalColor;
         colorChangeCounter = 0;
-        Physics2D.IgnoreLayerCollision(10, 11, false);
+        CurrentHitPriority = 0;
+        CurrentEnemyState = EnemyState.Moving;
     }
 }
