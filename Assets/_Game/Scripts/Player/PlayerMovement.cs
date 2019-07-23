@@ -2,10 +2,20 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
-[RequireComponent(typeof(Actor2D))]
 
 public class PlayerMovement : MonoBehaviour
 {
+    [System.Serializable]
+    private struct InputState
+    {
+        public Vector2 movement;
+        public Vector2 lastMovement;
+        public bool jump;
+        public bool cancelJump;
+        public float jumpTimer;
+        public float jumpCancelTimer;
+    }
+
     //**********************//
     //   Inspector Fields   //
     //**********************//
@@ -35,20 +45,23 @@ public class PlayerMovement : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
-    private PlayerInput input;
-    private Actor2D actor;
+    private PlayerInput m_input;
+    private Actor2D m_actor;
+    private Rigidbody2D m_rb;
 
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 lastMoveDirection = Vector2.zero;
-    private Vector2 externalVelocity = Vector2.zero;
+    private Vector2 m_externalVelocity = Vector2.zero;
 
     private Coroutine jumpCoroutine = null;
-    private CollisionData lastCollision;
+    private ContactData lastCollision;
 
     private bool groundTolerance = false;
     private bool jumping = false;
     private bool jumpCanceled = false;
-    private bool inputDisabled = false;
+    private bool m_inputDisabled = false;
+
+    private InputState m_inputState = default;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -56,12 +69,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        input = GetComponent<PlayerInput>();
-        actor = GetComponent<Actor2D>();
+        m_input = GetComponent<PlayerInput>();
+        m_actor = GetComponent<Actor2D>();
+        m_rb = GetComponent<Rigidbody2D>();
+
+        m_inputState = new InputState();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateMovement();
+        UpdateJump();
     }
 
     private void Update()
     {
+        ProcessMovementInput();
+        ProcessJumpInput();
+
+        /*
         // Movement input
         float inputX = input.player.GetAxisRaw(input.moveHorizontalAxis);
         moveDirection = new Vector2(inputX, 0).normalized;
@@ -91,12 +117,86 @@ public class PlayerMovement : MonoBehaviour
         }
 
         lastCollision = actor.collision;
+        */
     }
 
     //*************************//
     //    Private Functions    //
     //*************************//
 
+    private void ProcessMovementInput()
+    {
+        float inputHorizontal = m_input.player.GetAxisRaw(m_input.moveHorizontalAxis);
+        m_inputState.movement = new Vector2(inputHorizontal, 0);
+    }
+
+    private void ProcessJumpInput()
+    {
+        if (m_actor.contacts.below && m_input.player.GetButtonDown(m_input.jumpButton)) {
+            m_inputState.jump = true;
+
+            float absGravity = Mathf.Abs(Physics2D.gravity.y);
+            float trueJumpSpeed = jumpSpeed - (absGravity * Time.fixedDeltaTime);
+            float floatingDistance = (trueJumpSpeed * trueJumpSpeed) / (2f * absGravity);
+            float floatingTime = trueJumpSpeed / absGravity;
+            float accelerationTime = (maxJumpHeight - floatingDistance) / trueJumpSpeed;
+
+            m_inputState.jumpTimer = accelerationTime;
+            m_inputState.jumpCancelTimer = accelerationTime + floatingTime;
+        }
+
+        if (m_inputState.jump && m_input.player.GetButtonUp(m_input.jumpButton)) {
+            m_inputState.cancelJump = true;
+        }
+    }
+
+    private void UpdateMovement()
+    {
+        if (m_inputDisabled) {
+            m_rb.velocity = m_externalVelocity;
+            return;
+        }
+
+        float directionChangeModifier = Util.SameSign(m_inputState.movement.x, m_inputState.lastMovement.x) ? 1f : 0f;
+        float accelerationTime = m_actor.contacts.below ? groundAccelerationTime : airAccelerationTime;
+        Vector2 movement = m_inputState.movement;
+        if (accelerationTime > 0) {
+            movement = Vector2.MoveTowards(m_inputState.lastMovement * directionChangeModifier, m_inputState.movement, 1f / accelerationTime * Time.fixedDeltaTime);
+        }
+
+        m_rb.velocity = new Vector2(movement.x * movementSpeed, m_rb.velocity.y);
+        m_inputState.lastMovement = movement;
+    }
+
+    private void UpdateJump()
+    {
+        if (m_actor.contacts.above) {
+            m_inputState.jump = false;
+            m_inputState.cancelJump = false;
+            return;
+        }
+
+        if (m_inputState.cancelJump) {
+            m_inputState.jump = false;
+            m_inputState.cancelJump = false;
+            m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y * jumpCancelSpeedMultiplier);
+            return;
+        }
+
+        if (m_inputState.jump) {
+            if (m_inputState.jumpCancelTimer >= 0) {
+                if (m_inputState.jumpTimer >= 0) {
+                    m_rb.velocity = new Vector2(m_rb.velocity.x, jumpSpeed);
+                    m_inputState.jumpTimer -= Time.fixedDeltaTime;
+                }
+                m_inputState.jumpCancelTimer -= Time.fixedDeltaTime;
+            } else {
+                m_inputState.jump = false;
+            }
+        }
+    }
+
+    /*
     // Calculates the current normalized horizontal velocity based on input direction and acceleration times.
     Vector2 CalculateVelocity()
     {
@@ -192,36 +292,29 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(groundToleranceTime);
         groundTolerance = false;
     }
+    */
 
     //************************//
     //    Public Functions    //
     //************************//
 
+    
     // _freeze = true: Cancels all movement and prevents all input.
     // _freeze = false: Sets external velocity to zero and enables all input.
     public void DisableUserInput(bool _disable)
     {
-        if (inputDisabled == _disable) {
+        if (m_inputDisabled == _disable) {
             return;
         }
-
-        inputDisabled = _disable;
-        if (inputDisabled) {
-            if (jumpCoroutine != null) {
-                StopCoroutine(jumpCoroutine);
-                CancelJump();
-            }
-            externalVelocity = Vector2.zero;
-            lastMoveDirection = Vector2.zero;
-            actor.velocity = Vector2.zero;
-        } else {
-            externalVelocity = Vector2.zero;
-        }
+        
+        m_inputDisabled = _disable;
+        m_inputState.lastMovement = Vector2.zero;
+        m_externalVelocity = Vector2.zero;
     }
 
     // Sets the external velocity. Only has an effect if freeze is true.
     public void SetExternalVelocity(Vector2 _velocity)
     {
-        externalVelocity = _velocity;
+        m_externalVelocity = _velocity;
     }
 }

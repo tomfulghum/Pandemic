@@ -49,9 +49,9 @@ public class Actor2D : MonoBehaviour
         set { m_velocity = value; }
     }
 
-    public CollisionData collision
+    public ContactData contacts
     {
-        get { return m_collisions; }
+        get { return m_contacts; }
     }
 
     public MovingObject master
@@ -64,8 +64,8 @@ public class Actor2D : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
-    [HideInInspector]
-    private BoxCollider2D coll;
+    private BoxCollider2D m_coll;
+    private Rigidbody2D m_rb;
     private RayBounds rayBounds;
 
     private float horizontalRaySpacing = 0f;
@@ -73,8 +73,10 @@ public class Actor2D : MonoBehaviour
 
     // Backing fields
     private Vector2 m_velocity;
-    private CollisionData m_collisions;
+    private ContactData m_contacts;
     private MovingObject m_master;
+
+    private List<Collider2D> m_contactBuffer = new List<Collider2D>();
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -82,11 +84,19 @@ public class Actor2D : MonoBehaviour
 
     private void Awake()
     {
-        coll = GetComponent<BoxCollider2D>();
+        m_coll = GetComponent<BoxCollider2D>();
+        m_rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        UpdateContacts();
     }
 
     private void Update()
     {
+
+        /*
         ResetCollisions();
 
         Vector2 deltaPosition = m_velocity * Time.deltaTime;
@@ -108,6 +118,7 @@ public class Actor2D : MonoBehaviour
 
         transform.Translate(deltaPosition);
         Physics2D.SyncTransforms();
+        */
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -119,10 +130,35 @@ public class Actor2D : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
+    private void UpdateContacts()
+    {
+        ResetCollisions();
+        var bounds = m_coll.bounds;
+
+        int contactCount = m_rb.GetContacts(m_contactBuffer);
+        for (int i = 0; i < contactCount; i++) {
+            var colliderDistance = m_coll.Distance(m_contactBuffer[i]);
+            Vector2 contactPoint = colliderDistance.pointA;
+            if (contactPoint.x <= bounds.min.x) {
+                m_contacts.left = m_contactBuffer[i].transform;
+            } else if (contactPoint.x >= bounds.max.x) {
+                m_contacts.right = m_contactBuffer[i].transform;
+            } else if (contactPoint.y <= bounds.min.y) {
+                m_contacts.below = m_contactBuffer[i].transform;
+            } else if (contactPoint.y >= bounds.max.y) {
+                m_contacts.above = m_contactBuffer[i].transform;
+            }
+        }
+
+        if (m_contacts.left || m_contacts.right || m_contacts.below || m_contacts.above) {
+            m_contacts.any = true;
+        }
+    }
+
     // Updates the raycast bounds and the ray spacing
     private void UpdateRayOrigins()
     {
-        Bounds collBounds = coll.bounds;
+        Bounds collBounds = m_coll.bounds;
         collBounds.Expand(rayInset * -2f);
 
         rayBounds.bottomLeft = new Vector2(collBounds.min.x, collBounds.min.y);
@@ -159,9 +195,9 @@ public class Actor2D : MonoBehaviour
                 rayLength = hit.distance;
 
                 if (rayDirection == 1) {
-                    m_collisions.right = hit.transform;
+                    m_contacts.right = hit.transform;
                 } else {
-                    m_collisions.left = hit.transform;
+                    m_contacts.left = hit.transform;
                 }
             }
 
@@ -191,9 +227,9 @@ public class Actor2D : MonoBehaviour
                 rayLength = hit.distance;
 
                 if (rayDirection == 1) {
-                    m_collisions.above = hit.transform;
+                    m_contacts.above = hit.transform;
                 } else {
-                    m_collisions.below = hit.transform;
+                    m_contacts.below = hit.transform;
                 }
             }
 
@@ -203,12 +239,12 @@ public class Actor2D : MonoBehaviour
 
     private void CorrectVerticalOverlap()
     {
-        Bounds collBounds = coll.bounds;
+        Bounds collBounds = m_coll.bounds;
         Vector2 overlapSize = new Vector2(collBounds.max.x - collBounds.min.x, collBounds.max.y - collBounds.min.y);
         Collider2D overlap = Physics2D.OverlapBox(transform.position, overlapSize, 0, collisionMasks.moving);
         if (overlap) {
             MovingObject movingObject = overlap.GetComponent<MovingObject>();
-            ColliderDistance2D colliderDistance = coll.Distance(overlap);
+            ColliderDistance2D colliderDistance = m_coll.Distance(overlap);
             if (movingObject.velocity.y > 0 && colliderDistance.distance < 0) {
                 transform.Translate(colliderDistance.distance * colliderDistance.normal);
                 Physics2D.SyncTransforms();
@@ -219,10 +255,11 @@ public class Actor2D : MonoBehaviour
     // Sets all collision variables to false
     private void ResetCollisions()
     {
-        m_collisions.above = null;
-        m_collisions.below = null;
-        m_collisions.right = null;
-        m_collisions.left = null;
+        m_contacts.left = null;
+        m_contacts.right = null;
+        m_contacts.below = null;
+        m_contacts.above = null;
+        m_contacts.any = false;
     }
 
     //************************//
