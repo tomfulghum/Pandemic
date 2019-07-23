@@ -13,6 +13,16 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] [Range(0, 2)] private float easeFactor = 0f;
     [SerializeField] private bool cyclic = false;
     [SerializeField] private Transform[] waypoints = default;
+    
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public float Speed
+    {
+        get { return speed; }
+        set { speed = value; }
+    }
 
     //**********************//
     //    Private Fields    //
