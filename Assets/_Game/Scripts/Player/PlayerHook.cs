@@ -323,10 +323,13 @@ public class PlayerHook : MonoBehaviour
         Vector2 RopeDirection = (CurrentSelectedTarget.transform.position - transform.position).normalized;
         RopeDirection *= -RopeDirection.magnitude; //opposite direction
 
-        if (Input.GetButtonDown("Fire3") && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle)
+        if (Input.GetButtonDown("Fire3")) //  && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle //-->removed additional pull criteria
         {
             ButtonPresses--;
-            transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
+            if (transform.position.x > CurrentSelectedTarget.transform.position.x)
+                transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
+            else
+                transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
             if (transform.position.x != CurrentSelectedTarget.transform.position.x)
             {
                 Vector2 NewCharacterVelocity = (new Vector2(CurrentSelectedTarget.transform.position.x, 0) - new Vector2(transform.position.x, 0)).normalized * 2;
