@@ -9,14 +9,13 @@ public class ThrowableObject : MonoBehaviour
     // Start is called before the first frame update
     public enum CurrentState { Inactive, TravellingToPlayer, PickedUp, Thrown } // getter
     //enum OnImpact
-    public CurrentState CurrentObjectState;
+    [HideInInspector] public CurrentState CurrentObjectState;
 
     Vector2 CurrentVelocity;
-    public float Gravity;
+    public float Gravity = 10f;
     [Range(1,3)] public float SpeedMultiplier = 1.4f; //später per object typ einstellen
-    public bool PickedUp;
-    public bool CurrentlyThrown;
-    public Transform ObjectToFollow;
+
+    [HideInInspector] public Transform ObjectToFollow;
     float Speed;
     float TargetReachedTolerance;
     Vector2 _gravity;

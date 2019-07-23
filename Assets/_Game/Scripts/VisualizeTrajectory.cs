@@ -5,7 +5,7 @@ using UnityEngine;
 public class VisualizeTrajectory : MonoBehaviour
 {
     [Range(0,100)] public int NumOfVisualDots;
-    public float TimeBetweenDots; //besseren namen finden
+    public float TimeBetweenDots = 0.07f; //besseren namen finden
     public GameObject DotPrefab;
     public LayerMask layer_mask;
     GameObject DotParent;
