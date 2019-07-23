@@ -384,7 +384,7 @@ public class PlayerCombat : MonoBehaviour
         return v;
     }
 
-    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino //player knockback noch bisshen stärker einstellen
+    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino //player knockback noch bisshen stärker einstellen //knockback system allgemein überarbeiten
     {
         //vllt die überprüfung ob der hit gilt hier rein machen --> viel besser
         StopCoroutine("KnockBack"); //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
