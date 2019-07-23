@@ -48,6 +48,10 @@ public class PlayerCombat : MonoBehaviour
     bool DashCoolDownActive; //--> irgendwie besser lösen
     bool ComboActive;
 
+    bool Invincible; //After every attack some invincibility frames --> change later to a priority system
+    float InvincibilityTime = 0.2f; //time during which the player is invincible --> priority system?
+    //invincibility time evtl per move?
+
     Actor2D actor;
 
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
@@ -108,9 +112,14 @@ public class PlayerCombat : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, 1, layerMask);
                 if (hit.collider != null)
                 {
-                    StopMeteorSmash();
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy"))
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 10);
+                        hit.collider.GetComponent<Enemy>().GetHit(transform, 15);
+                    else
+                        StopMeteorSmash();
+                }
+                if (actor.collision.below && actor.collision.below.CompareTag("Enemy")) //geht nicht weil actor nicht mit enemy kollidiert
+                {
+                    actor.collision.below.GetComponent<Enemy>().GetHit(transform, 15);
                 }
                 if (GetComponent<Actor2D>().collision.below && !GetComponent<Actor2D>().collision.below.CompareTag("Enemy"))
                     StopMeteorSmash();
@@ -268,20 +277,7 @@ public class PlayerCombat : MonoBehaviour
             return true;
         return false;
     }
-    /*
-    void AttackMove()
-    {
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) //was ist mit down und up?
-        {
-            if (MeleeAttack != null)
-                StopCoroutine(MeleeAttack);
-            if (FacingLeft)
-                MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(-1, -1), 7 + 1 / MeleeAttackTime));
-            else
-                MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(1, -1), 7 + 1 / MeleeAttackTime));
-        }
-    }
-    */
+
     void AttackMove()
     {
         if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) //was ist mit down und up?
@@ -368,6 +364,7 @@ public class PlayerCombat : MonoBehaviour
 
     void StartMeteorSmash() //rename
     {
+        Invincible = true;
         CurrentAttackState = AttackState.Smash;
         Vector2 VelocityDown = Vector2.down * SmashSpeed;
         GetComponent<PlayerMovement>().DisableUserInput(true);
@@ -381,6 +378,7 @@ public class PlayerCombat : MonoBehaviour
         {
             enemy.GetComponent<Enemy>().CurrentlyHit = false;
         }
+        StartCoroutine(InvincibilityFrames(InvincibilityTime));
     }
 
     Vector2 RotateVector(Vector2 v, float degrees)
@@ -395,13 +393,23 @@ public class PlayerCombat : MonoBehaviour
         return v;
     }
 
+    IEnumerator InvincibilityFrames(float _duration)
+    {
+        Invincible = true;
+        yield return new WaitForSeconds(_duration);
+        Invincible = false;
+    }
+
     public void GetHit(Transform _knockBackOrigin, float _KnockBackForce) //bandaid fix for knockbackdirectino //player knockback noch bisshen stärker einstellen //knockback system allgemein überarbeiten
     {
-        //vllt die überprüfung ob der hit gilt hier rein machen --> viel besser
-        StopCoroutine("KnockBack"); //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
-        //was ist mit attacksequence usw.? die auch stoppen?
-        //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
-        StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
+        if (!Invincible)
+        {
+            //vllt die überprüfung ob der hit gilt hier rein machen --> viel besser
+            StopCoroutine("KnockBack"); //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
+                                        //was ist mit attacksequence usw.? die auch stoppen?
+                                        //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
+            StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
+        }
     }
 
     IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
@@ -413,8 +421,10 @@ public class PlayerCombat : MonoBehaviour
             float test = 1 - Mathf.Pow((i), 3) / 100;
             if (test < 0)
                 test = 0;
-
-            Vector2 KnockBackDirection = (transform.position - _knockBackOrigin.position).normalized;
+            int AdditionalPosition = 0;
+            if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) //KnockBacktolerance or so
+                AdditionalPosition = 10;
+            Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + AdditionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
             actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
             if (actor.collision.above || actor.collision.below)
                 actor.velocity = new Vector2(actor.velocity.x, 0);
@@ -427,6 +437,7 @@ public class PlayerCombat : MonoBehaviour
         colorChangeCounter = 0;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         GetComponent<PlayerMovement>().DisableUserInput(false);
+        StartCoroutine(InvincibilityFrames(InvincibilityTime));
     }
 
     //GetHit //Stagger ...

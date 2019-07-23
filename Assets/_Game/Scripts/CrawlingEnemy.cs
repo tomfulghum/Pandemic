@@ -116,6 +116,7 @@ public class CrawlingEnemy : MonoBehaviour
                 }
             case MovementState.Falling:
                 {
+                    //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
                     // if (actor.collision.below)
                     CurrentMovementState = MovementState.Decide;
                     break;
@@ -177,7 +178,7 @@ public class CrawlingEnemy : MonoBehaviour
     }
     Vector2 Jump(Vector2 _JumpDirection)
     {
-        return new Vector2(_JumpDirection.x, _JumpDirection.y) * 10; //10 = jumpforce --> variable erstellen
+        return new Vector2(_JumpDirection.x, _JumpDirection.y) * 10; //10 = jumpforce --> variable erstellen //vllt siehts besser aus wenn er seine aktuelle velocity behält?
     }
 
     bool CheckGroundAhead() //if yes --> decide jump or not //layermask? doesnt hit background?
@@ -246,7 +247,6 @@ public class CrawlingEnemy : MonoBehaviour
         {
             NumOfChecks++;
             Vector2 StartPosition = CalculatePosition(ThrowTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
-            Debug.Log(StartPosition);
             ThrowTime += TimeBetweenDots;
             Vector2 TargetPosition = CalculatePosition(ThrowTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
             float RaycastLenght = (TargetPosition - StartPosition).magnitude;

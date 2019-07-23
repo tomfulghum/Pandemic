@@ -90,8 +90,10 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             float test = 1 - Mathf.Pow((i), 3) / 100; //warum?
             if (test < 0)
                 test = 0;
-            //Debug.Log(test);
-            Vector2 KnockBackDirection = (transform.position - _knockBackOrigin.position).normalized;
+            int AdditionalPosition = 0;
+            if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) //KnockBacktolerance or so
+                AdditionalPosition = 10;
+            Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + AdditionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
             actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
             if (actor.collision.above || actor.collision.below)
                 actor.velocity = new Vector2(actor.velocity.x, 0);
