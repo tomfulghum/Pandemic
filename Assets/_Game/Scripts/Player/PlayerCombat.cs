@@ -44,6 +44,9 @@ public class PlayerCombat : MonoBehaviour
     bool CurrentlyAttacking;
     float CurrentAngle;
     bool AlreadyAttacked;
+    bool AttackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
+    bool DashCoolDownActive; //--> irgendwie besser lösen
+    bool ComboActive;
 
     Actor2D actor;
 
@@ -64,14 +67,15 @@ public class PlayerCombat : MonoBehaviour
         {
             SetPlayerState();
             SetFacingDirection(); //ist es klug jedes frame zu setzen? --> wenn ja so einbauen das es auch funktioniert 
-            if (Input.GetButtonDown("Dash") && CurrentAttackState == AttackState.None) //&& (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance)
+            if (Input.GetButtonDown("Dash") && CurrentAttackState == AttackState.None && DashCoolDownActive == false) //&& (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance)
             {
                 StartCoroutine(Dash());
             }
 
-            if ((Input.GetButtonDown("Fire3") || AlreadyAttacked) && (CurrentAttackState == AttackState.None || CurrentAttackState == AttackState.Attack))
+            if ((Input.GetButtonDown("Fire3") || AlreadyAttacked) && (CurrentAttackState == AttackState.None || CurrentAttackState == AttackState.Attack) && AttackCoolDownActive == false)
             {
-                AlreadyAttacked = true;
+                if (ComboActive)
+                    AlreadyAttacked = true;
                 if (MeleeAttack == null)
                 {
                     attackDirection = GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
@@ -89,26 +93,6 @@ public class PlayerCombat : MonoBehaviour
                 StartMeteorSmash();
             }
 
-            /*
-            if(CurrentAttackState != AttackState.None)
-            {
-                switch(CurrentAttackState)
-                {
-                    case AttackState.Attack:
-                        {
-                            break;
-                        }
-                    case AttackState.Dash: //brauch ich da überhaupt was?
-                        {
-                            break;
-                        }
-                    case AttackState.Smash:
-                        {
-                            break;
-                        }
-                }
-            }
-            */
             if (CurrentAttackState == AttackState.Attack && CurrentlyAttacking)
             {
                 VisualizeAttack(attackDirection);
@@ -118,8 +102,6 @@ public class PlayerCombat : MonoBehaviour
                         enemiesHit.Add(enemy);
                 }
             }
-            else
-                //enemiesHit.Clear(); //brauch ich das hier? --> führt dazu das der enemy in meteor smash teilweise nicht resettet wird
 
             if (CurrentAttackState == AttackState.Smash)
             {
@@ -155,6 +137,7 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator Dash()
     {
+        DashCoolDownActive = true;
         Vector2 velocity = Vector2.zero;
         CurrentAttackState = AttackState.Dash;
         if (FacingLeft)
@@ -165,8 +148,9 @@ public class PlayerCombat : MonoBehaviour
         GetComponent<PlayerMovement>().SetExternalVelocity(velocity * DashSpeed);
         yield return new WaitForSeconds(DashDuration);
         GetComponent<PlayerMovement>().DisableUserInput(false);
+        CurrentAttackState = AttackState.None;
         yield return new WaitForSeconds(DashCooldown);
-        CurrentAttackState = AttackState.None; //würde aktuell bedeuten das man während dem dash cooldown auch nicht anders angreifen kann --> ändern
+        DashCoolDownActive = false;
     }
 
     void SetFacingDirection()
@@ -225,8 +209,16 @@ public class PlayerCombat : MonoBehaviour
         return Direction;
     }
 
+    IEnumerator AttackCooldown() //vllt brauch ich das gar nicht --> testen ob es sich gut anfühlt
+    {
+        AttackCoolDownActive = true;
+        yield return new WaitForSeconds(0.1f);
+        AttackCoolDownActive = false;
+    }
+
     IEnumerator AttackSequence(int _numOfAttack) //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
+        ComboActive = true;
         CurrentAttackState = AttackState.Attack;
         if (GetComponent<Actor2D>().collision.below || GroundBelow())
         {
@@ -245,6 +237,8 @@ public class PlayerCombat : MonoBehaviour
         CurrentAttackState = AttackState.None;
         AttackNumber = 0;
         MeleeAttack = null;
+        ComboActive = false;
+        StartCoroutine(AttackCooldown());
     }
 
     IEnumerator AttackMovement(float _repetissions, Vector2 _direction, float _KnockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
@@ -274,7 +268,7 @@ public class PlayerCombat : MonoBehaviour
             return true;
         return false;
     }
-
+    /*
     void AttackMove()
     {
         if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) //was ist mit down und up?
@@ -284,6 +278,19 @@ public class PlayerCombat : MonoBehaviour
             if (FacingLeft)
                 MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(-1, -1), 7 + 1 / MeleeAttackTime));
             else
+                MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(1, -1), 7 + 1 / MeleeAttackTime));
+        }
+    }
+    */
+    void AttackMove()
+    {
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) //was ist mit down und up?
+        {
+            if (MeleeAttack != null)
+                StopCoroutine(MeleeAttack);
+            if (GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) == Vector2.left)
+                MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(-1, -1), 7 + 1 / MeleeAttackTime));
+            else if ((GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) == Vector2.right))
                 MeleeMovement = StartCoroutine(AttackMovement(20, new Vector2(1, -1), 7 + 1 / MeleeAttackTime));
         }
     }
@@ -322,6 +329,7 @@ public class PlayerCombat : MonoBehaviour
     }
     IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
+        ComboActive = false;
         if (actor.collision.below || GroundBelow())
             AttackMove();
         CurrentAngle = AttackAngle;
@@ -331,7 +339,7 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(MeleeAttackTime);
 
         foreach (Collider2D enemy in enemiesHit)
-            enemy.GetComponent<Enemy>().CurrentlyHit = false;
+            enemy.GetComponent<Enemy>().CurrentlyHit = false; //könnte sein das ich das gar nicht brauche
 
         GetComponent<PlayerMovement>().DisableUserInput(false);
         CurrentlyAttacking = false;
@@ -339,6 +347,7 @@ public class PlayerCombat : MonoBehaviour
         StopCoroutine(MeleeAttack);
         MeleeAttack = null;
         CurrentAttackState = AttackState.None; //function end attack schreiben
+        StartCoroutine(AttackCooldown());
     }
 
     void VisualizeAttack(Vector2 _direction)
