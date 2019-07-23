@@ -46,6 +46,8 @@ public class PlayerCombat : MonoBehaviour
     bool AlreadyAttacked;
 
     Actor2D actor;
+
+    //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
     // Start is called before the first frame update
     void Start()
     {

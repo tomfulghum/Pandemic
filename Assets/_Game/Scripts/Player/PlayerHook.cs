@@ -49,7 +49,7 @@ public class PlayerHook : MonoBehaviour
 {
     public enum PlayerState { Waiting, Hook, Attacking, Moving, Disabled } //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
     public enum TimeSlow { NoSlow, Instant, SlowFast, FastSlow }
-    enum HookState { Inactive, SearchTarget, Aiming, SwitchTarget ,Active, Cooldown, JumpBack } //brauch ich starting überhaupt, brauch ich evtl aiming?
+    enum HookState { Inactive, SearchTarget, Aiming, SwitchTarget, Active, Cooldown, JumpBack } //brauch ich starting überhaupt, brauch ich evtl aiming?
     enum HookType { None, Throw, Pull, Hook, BigEnemy }
 
     public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
@@ -167,7 +167,7 @@ public class PlayerHook : MonoBehaviour
                 {
                     if (PickedUpObject != null && (PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp || PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.TravellingToPlayer))
                         AimThrow();
-                    else  
+                    else
                         SearchTargetPoint();
                 }
                 else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && (CurrentHookState == HookState.SearchTarget || CurrentHookState == HookState.SwitchTarget || CurrentHookState == HookState.Aiming || (CurrentHookState == HookState.Active && CanUseHook())))
@@ -235,7 +235,7 @@ public class PlayerHook : MonoBehaviour
             CurrentPlayerState = PlayerState.Hook;
         else
             if (CurrentPlayerState == PlayerState.Hook && CurrentHookState == HookState.Inactive)
-                CurrentPlayerState = PlayerState.Waiting;
+            CurrentPlayerState = PlayerState.Waiting;
     }
 
     void ThrowObject(Vector2 _ThrowVelocity)
@@ -303,7 +303,7 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    bool PullObject()
+    bool PullObject() //hier wahrscheinlihc picked up object setzen sobald throwable object = travelling to player und oben dann nur aim erlauben wenn picked up
     {
         bool CancelCondition = false;
         if (CurrentSelectedTarget.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp)
@@ -405,8 +405,7 @@ public class PlayerHook : MonoBehaviour
         }
         if (UsingController == false)
         {
-            Debug.Log("here");
-            if (CurrentHookState == HookState.SearchTarget) 
+            if (CurrentHookState == HookState.SearchTarget)
                 CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
             else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection) && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint"))
             {
@@ -433,7 +432,8 @@ public class PlayerHook : MonoBehaviour
                 {
                     CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
                     CurrentHookState = HookState.SwitchTarget;
-                } else if (FindNearestTargetInRange(ControllerDirection) == null)
+                }
+                else if (FindNearestTargetInRange(ControllerDirection) == null)
                 {
                     CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
                     CurrentHookState = HookState.SwitchTarget;
@@ -625,7 +625,7 @@ public class PlayerHook : MonoBehaviour
     bool CanUseHook()
     {
         if (CancelHookWithNewHook)
-            if (CurrentSelectedTarget != null && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance)
+            if (CurrentSelectedTarget != null && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance && CurrentTargetType != HookType.Throw)
                 return true;
         return false;
     }
@@ -657,8 +657,8 @@ public class PlayerHook : MonoBehaviour
         GetComponent<PlayerMovement>().DisableUserInput(true);
         CurrentHookState = HookState.JumpBack;
         Vector2 JumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * HookSpeed; //evtl jump speed
-        GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity); 
-        yield return new WaitForSeconds(0.4f * 10/HookSpeed); //bessere lösung finden --> passt fürs erste
+        GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity);
+        yield return new WaitForSeconds(0.4f * 10 / HookSpeed); //bessere lösung finden --> passt fürs erste
         DeactivateHook();
     }
 
