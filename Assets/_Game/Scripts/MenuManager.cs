@@ -11,7 +11,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private string menuSceneName = "";
     [SerializeField] private string gameSceneName = "";
     [SerializeField] private GameObject player = default;
-    [SerializeField] private GameObject mainCamera = default;
 
     //******************//
     //    Properties    //
@@ -53,7 +52,6 @@ public class MenuManager : MonoBehaviour
 
         AreaController controller = FindObjectOfType<AreaController>();
         controller.InitializeArea(player, 0);
-        mainCamera.SetActive(true);
         player.SetActive(true);
     }
 
