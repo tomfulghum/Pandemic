@@ -27,12 +27,14 @@ public class CrawlingEnemy : MonoBehaviour
 
     Actor2D actor;
 
-    //public GameObject DotPrefab;
-    //GameObject DotParent; //only for visuals
-    //was passiert wenn du den gegner in der luft triffst?
-    // Start is called before the first frame update
-    //jump values noch anpassen
-    void Start()
+    [HideInInspector] public bool Jumping; //nur für animation aktuell --> später verbessern
+
+   //public GameObject DotPrefab;
+   //GameObject DotParent; //only for visuals
+   //was passiert wenn du den gegner in der luft triffst?
+   // Start is called before the first frame update
+   //jump values noch anpassen
+   void Start()
     {
         actor = GetComponent<Actor2D>();
         //DotParent = new GameObject("Parent Dot Enemy"); //only for visuals
@@ -110,6 +112,7 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Jump:
                 {
                     CurrentVelocity = Jump(JumpDirection);
+                    Jumping = true;
                     DirectionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
                     CurrentMovementState = MovementState.Decide; //Falling
                     break;
@@ -117,8 +120,11 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Falling:
                 {
                     //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
-                    // if (actor.collision.below)
-                    CurrentMovementState = MovementState.Decide;
+                    if (actor.collision.below)
+                    {
+                        Jumping = false;
+                        CurrentMovementState = MovementState.Decide;
+                    }
                     break;
                 }
         }

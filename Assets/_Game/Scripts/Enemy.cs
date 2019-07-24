@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script schreiben was auch für den player anwendbar ist
 {
     public enum EnemyState { Moving, Hit } //usw. //evtl moving besser namen
-    public EnemyState CurrentEnemyState = EnemyState.Moving;
+    [HideInInspector] public EnemyState CurrentEnemyState = EnemyState.Moving;
     public bool ContactDamage;
     int colorChangeCounter;
     public LayerMask layer_mask;
@@ -43,6 +43,8 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             {
                 if (collider.CompareTag("Player"))
                 {
+                    if (GetComponent<Animator>() != null)
+                        GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
                     if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
                     {
                         collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
