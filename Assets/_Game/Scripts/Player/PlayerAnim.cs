@@ -29,12 +29,9 @@ public class PlayerAnim : MonoBehaviour
             anim.SetFloat("RunSpeed", -0.1f);
         }
         if(FacingLeft == false)
-        {
             GetComponent<SpriteRenderer>().flipX = false;
-        } else
-        {
+        else
             GetComponent<SpriteRenderer>().flipX = true;
-        }
     }
 
     void SetFacingDirection() //only for anim //can differ from facing direc in player combat //should change later

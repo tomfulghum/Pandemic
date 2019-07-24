@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             actor.velocity += Vector2.up * (-10 * Time.deltaTime);
             actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
         }
-        if (ContactDamage)
+        if (ContactDamage) //enemy state attack
         {
             Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
             Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
