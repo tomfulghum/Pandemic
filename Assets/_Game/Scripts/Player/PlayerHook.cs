@@ -180,7 +180,7 @@ public class PlayerHook : MonoBehaviour
                 }
             }
 
-            if (CurrentHookState == HookState.Active)
+            if (CurrentHookState == HookState.Active) // || (CurrentHookState == HookState.SwitchTarget && CurrentSelectedTarget != null)
             {
                 bool CancelCondition = false;
                 switch (CurrentTargetType)
@@ -448,7 +448,10 @@ public class PlayerHook : MonoBehaviour
         SlowTime();
         CurrentTimeActive += Time.deltaTime / Time.timeScale;
         if (CurrentTimeActive > MaxTimeActive)
+        {
+            ResetValues();
             ActivateHook();
+        }
     }
 
     void ActivateHook() //_direction wahrscheinlich unnötig
