@@ -3266,7 +3266,7 @@ MonoBehaviour:
       m_Bits: 256
     below:
       serializedVersion: 2
-      m_Bits: 262400
+      m_Bits: 786688
     above:
       serializedVersion: 2
       m_Bits: 256
@@ -3363,6 +3363,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingPlatform
       objectReference: {fileID: 0}
+    - target: {fileID: 9010505130892469701, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9010505130892469700, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3418,5 +3423,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9010505129871947067, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
+        type: 3}
+      propertyPath: m_TagString
+      value: MovingObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010505129871947067, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
+        type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010505129871947065, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1267284147
+      objectReference: {fileID: 0}
+    - target: {fileID: 9010505129871947065, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3933676064523283675, guid: a3f8b152a6df7e741b7ecf3077cf4e26,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9010505129871947066, guid: a3f8b152a6df7e741b7ecf3077cf4e26, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a3f8b152a6df7e741b7ecf3077cf4e26, type: 3}

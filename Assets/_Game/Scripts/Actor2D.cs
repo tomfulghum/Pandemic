@@ -66,15 +66,22 @@ public class Actor2D : MonoBehaviour
         m_rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         UpdateContacts();
+
+        if (m_contacts.below && m_contacts.below.CompareTag("MovingObject")) {
+            master = m_contacts.below.GetComponent<Rigidbody2D>();
+        } else if (master) {
+            master = null;
+        }
     }
 
     //*************************//
     //    Private Functions    //
     //*************************//
 
+    // Checks all Rigidbody2D contacts for validity and sets contacts accordingly.
     private void UpdateContacts()
     {
         ResetContacts();
@@ -86,14 +93,16 @@ public class Actor2D : MonoBehaviour
             Vector2 contactPoint = colliderDistance.pointA;
             int layer = m_contactBuffer[i].gameObject.layer;
 
-            if (contactPoint.x <= bounds.min.x && m_contactFilter.left.Contains(layer)) {
-                m_contacts.left = m_contactBuffer[i].transform;
-            } else if (contactPoint.x >= bounds.max.x && m_contactFilter.right.Contains(layer)) {
-                m_contacts.right = m_contactBuffer[i].transform;
-            } else if (contactPoint.y <= bounds.min.y && m_contactFilter.below.Contains(layer)) {
-                m_contacts.below = m_contactBuffer[i].transform;
-            } else if (contactPoint.y >= bounds.max.y && m_contactFilter.above.Contains(layer)) {
-                m_contacts.above = m_contactBuffer[i].transform;
+            if (Mathf.Abs(colliderDistance.distance) < Physics2D.defaultContactOffset) {
+                if (contactPoint.x <= bounds.min.x && m_contactFilter.left.Contains(layer)) {
+                    m_contacts.left = m_contactBuffer[i].transform;
+                } else if (contactPoint.x >= bounds.max.x && m_contactFilter.right.Contains(layer)) {
+                    m_contacts.right = m_contactBuffer[i].transform;
+                } else if (contactPoint.y <= bounds.min.y && m_contactFilter.below.Contains(layer)) {
+                    m_contacts.below = m_contactBuffer[i].transform;
+                } else if (contactPoint.y >= bounds.max.y && m_contactFilter.above.Contains(layer)) {
+                    m_contacts.above = m_contactBuffer[i].transform;
+                }
             }
         }
 
@@ -102,7 +111,7 @@ public class Actor2D : MonoBehaviour
         }
     }
 
-    // Sets all collision variables to false
+    // Sets all collision variables to false.
     private void ResetContacts()
     {
         m_contacts.left = null;

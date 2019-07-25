@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     {
         public Vector2 movement;
         public Vector2 lastMovement;
+        public Vector2 momentum;
         public bool jump;
         public bool cancelJump;
         public float jumpTimer;
@@ -43,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float m_maxFallingSpeed = 20f;
     [Tooltip("Time after losing ground during which jumping is still possible (s).")]
     [SerializeField] private float m_groundToleranceTime = 0.05f;
+    [Tooltip("The deceleration applied to momentum when not on a moving object (u/s²).")]
+    [SerializeField] private float m_momentumDeceleration = 1.0f;
 
     //**********************//
     //    Private Fields    //
@@ -131,6 +134,20 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        // Calculate momentum
+        if (m_actor.master) {
+            m_inputState.momentum = m_actor.master.velocity;
+        } else {
+            if (m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
+                m_inputState.momentum.x = 0;
+            }
+            if (m_actor.contacts.below || m_actor.contacts.above) {
+                m_inputState.momentum.y = 0;
+            }
+
+            m_inputState.momentum = Vector2.MoveTowards(m_inputState.momentum, Vector2.zero, m_momentumDeceleration * Time.fixedDeltaTime);
+        }
+
         // Calculate movement acceleration
         float directionChangeModifier = Util.SameSign(m_inputState.movement.x, m_inputState.lastMovement.x) ? 1f : 0f;
         float accelerationTime = m_actor.contacts.below ? m_groundAccelerationTime : m_airAccelerationTime;
@@ -140,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Update velocity
-        m_rb.velocity = new Vector2(movement.x * m_movementSpeed, m_rb.velocity.y);
+        m_rb.velocity = new Vector2(movement.x * m_movementSpeed + m_inputState.momentum.x, m_rb.velocity.y);
         m_inputState.lastMovement = movement;
     }
 
@@ -176,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_inputState.jump) {
             if (m_inputState.jumpCancelTimer >= 0) {
                 if (m_inputState.jumpTimer >= 0) {
-                    m_rb.velocity = new Vector2(m_rb.velocity.x, m_jumpSpeed);
+                    m_rb.velocity = new Vector2(m_rb.velocity.x, m_jumpSpeed + m_inputState.momentum.y);
                     m_inputState.jumpTimer -= Time.fixedDeltaTime;
                 }
                 m_inputState.jumpCancelTimer -= Time.fixedDeltaTime;
