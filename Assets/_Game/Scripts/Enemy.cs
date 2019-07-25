@@ -5,9 +5,11 @@ using UnityEngine;
 //enemy in eine elternklasse umwandeln die für alle kind enemys deren movementpattern funktion im update aufruft
 public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script schreiben was auch für den player anwendbar ist
 {
-    public enum EnemyState { Moving, Hit } //usw. //evtl moving besser namen
+    public enum EnemyState { Moving, Hit, Dead } //usw. //evtl moving besser namen
     [HideInInspector] public EnemyState CurrentEnemyState = EnemyState.Moving;
     public bool ContactDamage;
+    public int MaxHealth = 6;
+    int CurrentHealth;
     int colorChangeCounter;
     public LayerMask layer_mask;
     Color originalColor;
@@ -20,51 +22,67 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     {
         actor = GetComponent<Actor2D>();
         originalColor = GetComponent<SpriteRenderer>().color;
+        CurrentHealth = MaxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<CrawlingEnemy>() == null) //zwischen lösung für enemies ohne eigenes script 
+        if (CurrentEnemyState != EnemyState.Dead)
         {
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
-
-            actor.velocity += Vector2.up * (-10 * Time.deltaTime);
-            actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
-        }
-        if (ContactDamage) //enemy state attack
-        {
-            Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
-            Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
-            foreach (Collider2D collider in col)
+            if(CurrentHealth <= 0)
             {
-                if (collider.CompareTag("Player"))
+                Destroy(gameObject, 1f); //despawn time
+                CurrentEnemyState = EnemyState.Dead;
+            }
+            if (GetComponent<CrawlingEnemy>() == null) //zwischen lösung für enemies ohne eigenes script 
+            {
+                if (actor.collision.above || actor.collision.below)
+                    actor.velocity = new Vector2(actor.velocity.x, 0);
+                if (actor.collision.left || actor.collision.right)
+                    actor.velocity = new Vector2(0, actor.velocity.y);
+
+                actor.velocity += Vector2.up * (-10 * Time.deltaTime);
+                actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
+            }
+            if (ContactDamage) //enemy state attack
+            {
+                Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
+                Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
+                foreach (Collider2D collider in col)
                 {
-                    if (GetComponent<Animator>() != null)
-                        GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
-                    if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
+                    if (collider.CompareTag("Player"))
                     {
-                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
-                        collider.gameObject.GetComponent<PlayerHook>().CancelHook();
+                        if (GetComponent<Animator>() != null)
+                            GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
+                        if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
+                        {
+                            collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
+                            collider.gameObject.GetComponent<PlayerHook>().CancelHook();
+                        }
                     }
                 }
             }
-        }
-        if (CurrentEnemyState == EnemyState.Hit)
-        {
-            colorChangeCounter++;
-            if (colorChangeCounter % 5 == 0)
-                GetComponent<SpriteRenderer>().color = Color.white;
-            else
-                GetComponent<SpriteRenderer>().color = originalColor;
+            if (CurrentEnemyState == EnemyState.Hit)
+            {
+                colorChangeCounter++;
+                if (colorChangeCounter % 5 == 0)
+                    GetComponent<SpriteRenderer>().color = Color.white;
+                else
+                    GetComponent<SpriteRenderer>().color = originalColor;
+            }
         }
     }
+    /*
+    IEnumerator Despawn() //falls später evtl noch mehr passieren soll
+    {
 
+    }
+    */
     public void GetHit(Transform _knockBackOrigin, float _KnockBackForce, int HitPriority) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
     {
+        if(CurrentEnemyState == EnemyState.Dead) //nochmal überprüfen ob das klappt
+            return;
         //vllt die überprüfung ob der hit gilt hier rein machen
         if (CurrentEnemyState == EnemyState.Hit && HitPriority > CurrentHitPriority) //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
         {
@@ -102,5 +120,6 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         colorChangeCounter = 0;
         CurrentHitPriority = 0;
         CurrentEnemyState = EnemyState.Moving;
+        CurrentHealth--;
     }
 }

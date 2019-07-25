@@ -1,91 +1,73 @@
 fileFormatVersion: 2
-guid: 213bb57052a0184488dcc71d1ec3caf4
+guid: 8323db08fb8130f4fbc95457dbea7ec6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5564118547433466181
-    second: ani_Crawler_Landing_0
+      213: -1847791263921820144
+    second: ani_Crawler_Die_0
   - first:
-      213: -7925861844273116216
-    second: ani_Crawler_Landing_1
+      213: -7478814914113770616
+    second: ani_Crawler_Die_1
   - first:
-      213: 7853321869052641844
-    second: ani_Crawler_Landing_2
+      213: 2352986233328351380
+    second: ani_Crawler_Die_2
   - first:
-      213: -5803459861169794031
-    second: ani_Crawler_Landing_3
+      213: 1703397429820701390
+    second: ani_Crawler_Die_3
   - first:
-      213: 7297492019187073435
-    second: ani_Crawler_Landing_4
+      213: -4064107232135402244
+    second: ani_Crawler_Die_4
   - first:
-      213: 5878676405160846008
-    second: ani_Crawler_Landing_5
+      213: -8552720049787903160
+    second: ani_Crawler_Die_5
   - first:
-      213: 2654040046047678914
-    second: ani_Crawler_Landing_6
+      213: -5308151632191972571
+    second: ani_Crawler_Die_6
   - first:
-      213: -7823699059435557262
-    second: ani_Crawler_Landing_7
+      213: -339209537123956297
+    second: ani_Crawler_Die_7
   - first:
-      213: 5319359337903230136
-    second: ani_Crawler_Landing_8
+      213: -4299634588163571739
+    second: ani_Crawler_Die_8
   - first:
-      213: -4948971960562240302
-    second: ani_Crawler_Landing_9
+      213: -2519530191864490113
+    second: ani_Crawler_Die_9
   - first:
-      213: -8903306510451219913
-    second: ani_Crawler_Landing_10
+      213: -8417752862609870059
+    second: ani_Crawler_Die_10
   - first:
-      213: 7463749101574009756
-    second: ani_Crawler_Landing_11
+      213: 1937286435249000086
+    second: ani_Crawler_Die_11
   - first:
-      213: -5857420905030687592
-    second: ani_Crawler_Landing_12
+      213: -5740589018817098286
+    second: ani_Crawler_Die_12
   - first:
-      213: -474287830540394527
-    second: ani_Crawler_Landing_13
+      213: 3539251583100039449
+    second: ani_Crawler_Die_13
   - first:
-      213: -9101514734798889625
-    second: ani_Crawler_Landing_14
+      213: 1244970981698634244
+    second: ani_Crawler_Die_14
   - first:
-      213: 7491040325927403951
-    second: ani_Crawler_Landing_15
+      213: 1912423609375741915
+    second: ani_Crawler_Die_15
   - first:
-      213: -5193481804770750469
-    second: ani_Crawler_Landing_16
+      213: 5250455580384573990
+    second: ani_Crawler_Die_16
   - first:
-      213: 1258213475285609169
-    second: ani_Crawler_Landing_17
+      213: 5442664392342466607
+    second: ani_Crawler_Die_17
   - first:
-      213: -2387339882142953875
-    second: ani_Crawler_Landing_18
+      213: 6340348837174320565
+    second: ani_Crawler_Die_18
   - first:
-      213: 8177800163273356520
-    second: ani_Crawler_Landing_19
+      213: 5277022308319665815
+    second: ani_Crawler_Die_19
   - first:
-      213: 6714813754003578705
-    second: ani_Crawler_Landing_20
+      213: 6641504713346469021
+    second: ani_Crawler_Die_20
   - first:
-      213: 8173181984941485805
-    second: ani_Crawler_Landing_21
-  - first:
-      213: 4528484157400375240
-    second: ani_Crawler_Landing_22
-  - first:
-      213: -1097641700212197467
-    second: ani_Crawler_Landing_23
-  - first:
-      213: 1231716964912095516
-    second: ani_Crawler_Landing_24
-  - first:
-      213: -5419895372458168779
-    second: ani_Crawler_Landing_25
-  - first:
-      213: 5822922124125747790
-    second: ani_Crawler_Landing_26
-  - first:
-      213: -5821742096864920572
-    second: ani_Crawler_Landing_27
+      213: 8518306420081146078
+    second: ani_Crawler_Die_21
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -168,112 +150,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ani_Crawler_Landing_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 3000
-        width: 600
-        height: 600
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d858b3a6d93aeea418493f89480fc5d6
-      internalID: -5564118547433466181
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_Crawler_Landing_1
-      rect:
-        serializedVersion: 2
-        x: 600
-        y: 3000
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: af0eea1e174df0b4bbc8f98412f82044
-      internalID: -7925861844273116216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_Crawler_Landing_2
-      rect:
-        serializedVersion: 2
-        x: 1200
-        y: 3000
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d98f4e1b8c62e5647a05c15c25f7f8f1
-      internalID: 7853321869052641844
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_Crawler_Landing_3
-      rect:
-        serializedVersion: 2
-        x: 1800
-        y: 3000
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 508175da81c972e4095e3e8904389ad8
-      internalID: -5803459861169794031
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_Crawler_Landing_4
-      rect:
-        serializedVersion: 2
-        x: 2400
-        y: 3000
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 88969c5b56c3784489cb65e4b1dcdf64
-      internalID: 7297492019187073435
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_Crawler_Landing_5
+      name: ani_Crawler_Die_0
       rect:
         serializedVersion: 2
         x: 0
@@ -287,14 +164,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e712b56a6bed82f469516cf03222716f
-      internalID: 5878676405160846008
+      spriteID: e43e4295868bc824392c6ae40619d72f
+      internalID: -1847791263921820144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_6
+      name: ani_Crawler_Die_1
       rect:
         serializedVersion: 2
         x: 600
@@ -308,14 +185,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2432e12f5f729614dacd1e985d626e7b
-      internalID: 2654040046047678914
+      spriteID: 161ad2e7ab3147346a0198153ec8720a
+      internalID: -7478814914113770616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_7
+      name: ani_Crawler_Die_2
       rect:
         serializedVersion: 2
         x: 1200
@@ -329,14 +206,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5a3aba5379d50b4e94137adc5076262
-      internalID: -7823699059435557262
+      spriteID: fe4f1341346be3c4f856de5945746402
+      internalID: 2352986233328351380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_8
+      name: ani_Crawler_Die_3
       rect:
         serializedVersion: 2
         x: 1800
@@ -350,14 +227,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3513bc51904a2ef45a514ac0fd520413
-      internalID: 5319359337903230136
+      spriteID: c58e4b1f9e36ca54fb4132e889d7fe2d
+      internalID: 1703397429820701390
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_9
+      name: ani_Crawler_Die_4
       rect:
         serializedVersion: 2
         x: 2400
@@ -371,14 +248,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f679104dad36dad4396059f467d978b4
-      internalID: -4948971960562240302
+      spriteID: b1a9614d269b9334386c3a3f2322ad60
+      internalID: -4064107232135402244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_10
+      name: ani_Crawler_Die_5
       rect:
         serializedVersion: 2
         x: 0
@@ -392,14 +269,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc35030a2548ab445899de4bd5b58bbd
-      internalID: -8903306510451219913
+      spriteID: b1b16d4d380cfce46b15abb331883bd9
+      internalID: -8552720049787903160
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_11
+      name: ani_Crawler_Die_6
       rect:
         serializedVersion: 2
         x: 600
@@ -413,14 +290,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3e0180edfcdc784a825bb8a1f348dcb
-      internalID: 7463749101574009756
+      spriteID: ef5b11a93b2e90d4a9cb3b447c5994fd
+      internalID: -5308151632191972571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_12
+      name: ani_Crawler_Die_7
       rect:
         serializedVersion: 2
         x: 1200
@@ -434,14 +311,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 652b630a7703f4f4d974856c5a356556
-      internalID: -5857420905030687592
+      spriteID: 07f3407ed57f6324fb8b61fc4baef5c3
+      internalID: -339209537123956297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_13
+      name: ani_Crawler_Die_8
       rect:
         serializedVersion: 2
         x: 1800
@@ -455,14 +332,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d4e8d0951a0b414baa62e8e92e3d2ea
-      internalID: -474287830540394527
+      spriteID: 560c6429a0055ff45b50d62a99defd33
+      internalID: -4299634588163571739
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_14
+      name: ani_Crawler_Die_9
       rect:
         serializedVersion: 2
         x: 2400
@@ -476,14 +353,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 009511fced78448458d6471892a65259
-      internalID: -9101514734798889625
+      spriteID: 207bae9cce7bfc544a05e32275638305
+      internalID: -2519530191864490113
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_15
+      name: ani_Crawler_Die_10
       rect:
         serializedVersion: 2
         x: 0
@@ -497,14 +374,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7325e80867b97444e9b9963ead9ba3ec
-      internalID: 7491040325927403951
+      spriteID: 208ba824fdcd36341aa67168e165ba3b
+      internalID: -8417752862609870059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_16
+      name: ani_Crawler_Die_11
       rect:
         serializedVersion: 2
         x: 600
@@ -518,14 +395,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0dd778c0a62ecf44fbe54341ed5b93d6
-      internalID: -5193481804770750469
+      spriteID: cb9a7c64cfcb2374f8b182dd29ae055d
+      internalID: 1937286435249000086
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_17
+      name: ani_Crawler_Die_12
       rect:
         serializedVersion: 2
         x: 1200
@@ -539,14 +416,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f1c60a569311ac4c9e6f5a02df9a2c9
-      internalID: 1258213475285609169
+      spriteID: 3ffa4830717a2294391be83e032bc180
+      internalID: -5740589018817098286
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_18
+      name: ani_Crawler_Die_13
       rect:
         serializedVersion: 2
         x: 1800
@@ -560,14 +437,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8dd45fd7c7b77c43b981151d6a32155
-      internalID: -2387339882142953875
+      spriteID: 9cb5d01e4187b2944ac033645fdaa16e
+      internalID: 3539251583100039449
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_19
+      name: ani_Crawler_Die_14
       rect:
         serializedVersion: 2
         x: 2400
@@ -581,14 +458,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e2c70c215b165842abc7364f1500e8c
-      internalID: 8177800163273356520
+      spriteID: f060ea06fed58a84f86396f042d20eba
+      internalID: 1244970981698634244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_20
+      name: ani_Crawler_Die_15
       rect:
         serializedVersion: 2
         x: 0
@@ -602,14 +479,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9765b861903a8874984ab572cb5096c7
-      internalID: 6714813754003578705
+      spriteID: 99064cba395a475468e8129d81709bcf
+      internalID: 1912423609375741915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_21
+      name: ani_Crawler_Die_16
       rect:
         serializedVersion: 2
         x: 600
@@ -623,14 +500,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88fe164626b387e4eb785031f162b34b
-      internalID: 8173181984941485805
+      spriteID: dd5a7726d93bb5e49983d4cce38c2392
+      internalID: 5250455580384573990
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_22
+      name: ani_Crawler_Die_17
       rect:
         serializedVersion: 2
         x: 1200
@@ -644,14 +521,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d3ae2de1bb6e324799ded0049c2e295
-      internalID: 4528484157400375240
+      spriteID: bf8ef823764eafd4fb3bd6ca82e46c61
+      internalID: 5442664392342466607
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_23
+      name: ani_Crawler_Die_18
       rect:
         serializedVersion: 2
         x: 1800
@@ -665,14 +542,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d99c46cf59adfed46b322a0fc96a923e
-      internalID: -1097641700212197467
+      spriteID: 15758019208a4f24f88b131d79e110d5
+      internalID: 6340348837174320565
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_24
+      name: ani_Crawler_Die_19
       rect:
         serializedVersion: 2
         x: 2400
@@ -686,14 +563,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f785b70f3fa82041a50a47597025b8a
-      internalID: 1231716964912095516
+      spriteID: 1b22a2fd07efce54ea6e46a89fbdc7b0
+      internalID: 5277022308319665815
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_25
+      name: ani_Crawler_Die_20
       rect:
         serializedVersion: 2
         x: 0
@@ -707,14 +584,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b5adb10ce178a454793e820c09f7dda9
-      internalID: -5419895372458168779
+      spriteID: 5865da49ed51e5149974ab458852ecc6
+      internalID: 6641504713346469021
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_Crawler_Landing_26
+      name: ani_Crawler_Die_21
       rect:
         serializedVersion: 2
         x: 600
@@ -728,29 +605,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a0d1db6e376075947a576d2c9f54ec42
-      internalID: 5822922124125747790
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_Crawler_Landing_27
-      rect:
-        serializedVersion: 2
-        x: 1200
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0eae8afcc7e49b14292496cb9f1ce5a6
-      internalID: -5821742096864920572
+      spriteID: 3fb023257c8e4944fb12391634bf24d3
+      internalID: 8518306420081146078
       vertices: []
       indices: 
       edges: []
@@ -758,7 +614,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: c29c444950078a24ba85d95a01ec7ae1
+    spriteID: 4fd86d5cea606c14f9246e3e52157f58
     internalID: 0
     vertices: []
     indices: 
