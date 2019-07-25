@@ -45,7 +45,7 @@ public class CrawlingEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Moving)
+        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Moving) //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
         {
             if (CurrentMovementState == MovementState.Decide)// && CurrentMovementState != MovementState.Falling)
                 SetNextMove();
@@ -242,7 +242,6 @@ public class CrawlingEnemy : MonoBehaviour
                 JumpDirection = new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
         }
-        Debug.Log("jump possible " + JumpPossible);
         return JumpPossible;
     }
 

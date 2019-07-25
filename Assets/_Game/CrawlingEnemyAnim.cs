@@ -8,6 +8,8 @@ public class CrawlingEnemyAnim : MonoBehaviour
 {
     CrawlingEnemy enemy;
     Animator anim;
+
+    bool TriggeredDeath;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,11 @@ public class CrawlingEnemyAnim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        {
+            anim.SetTrigger("Death");
+            TriggeredDeath = true;
+        }
         if (enemy.CurrentMovementDirection == CrawlingEnemy.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
         else
@@ -25,7 +32,7 @@ public class CrawlingEnemyAnim : MonoBehaviour
 
         if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
         {
-            anim.SetBool("Hit", true);
+            anim.SetBool("Hit", true); //später evtl trigger
         }
         else //kann das zu fehlern führen?
         {
@@ -39,8 +46,7 @@ public class CrawlingEnemyAnim : MonoBehaviour
             else
                 anim.SetBool("Falling", false);
         }
-
-        //switch enemy state 
-
     }
+    //switch enemy state 
+
 }

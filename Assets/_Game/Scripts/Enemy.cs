@@ -28,22 +28,23 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     // Update is called once per frame
     void Update()
     {
+        if (GetComponent<CrawlingEnemy>() == null || CurrentEnemyState == EnemyState.Dead) //zwischen lösung für enemies ohne eigenes script 
+        {
+            if (actor.collision.above || actor.collision.below)
+                actor.velocity = new Vector2(actor.velocity.x, 0);
+            if (actor.collision.left || actor.collision.right)
+                actor.velocity = new Vector2(0, actor.velocity.y);
+
+            actor.velocity += Vector2.up * (-10 * Time.deltaTime);
+            actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
+        }
         if (CurrentEnemyState != EnemyState.Dead)
         {
             if(CurrentHealth <= 0)
             {
-                Destroy(gameObject, 1f); //despawn time
+                actor.velocity = Vector2.zero;
+                Destroy(gameObject, 2f); //despawn time //evtl länger?
                 CurrentEnemyState = EnemyState.Dead;
-            }
-            if (GetComponent<CrawlingEnemy>() == null) //zwischen lösung für enemies ohne eigenes script 
-            {
-                if (actor.collision.above || actor.collision.below)
-                    actor.velocity = new Vector2(actor.velocity.x, 0);
-                if (actor.collision.left || actor.collision.right)
-                    actor.velocity = new Vector2(0, actor.velocity.y);
-
-                actor.velocity += Vector2.up * (-10 * Time.deltaTime);
-                actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
             }
             if (ContactDamage) //enemy state attack
             {
@@ -84,20 +85,23 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         if(CurrentEnemyState == EnemyState.Dead) //nochmal überprüfen ob das klappt
             return;
         //vllt die überprüfung ob der hit gilt hier rein machen
-        if (CurrentEnemyState == EnemyState.Hit && HitPriority > CurrentHitPriority) //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
+        if (CurrentEnemyState != EnemyState.Hit)
         {
-            CurrentHitPriority = HitPriority;
+            EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
+        }
+        else if (CurrentEnemyState == EnemyState.Hit && HitPriority > CurrentHitPriority) //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
+        {
             StopCoroutine(EnemyKnockBack);
             EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
         }
-        else if (CurrentEnemyState != EnemyState.Hit)
-            EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
+        CurrentHitPriority = HitPriority;
     }
 
     //besser machen und die schwerkraft usw alles mitberechnen --> evtl in ein anderes script //check collissions evtl auch woanders rein
     //was soll passieren wenn man den gegner / spieler in die wand knockt?
     IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
     {
+        CurrentHealth--;
         CurrentEnemyState = EnemyState.Hit;
         for (int i = 0; i < _repetissions; i++)
         {
@@ -120,6 +124,5 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         colorChangeCounter = 0;
         CurrentHitPriority = 0;
         CurrentEnemyState = EnemyState.Moving;
-        CurrentHealth--;
     }
 }
