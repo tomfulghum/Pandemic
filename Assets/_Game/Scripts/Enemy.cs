@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<CrawlingEnemy>() == null) //zwischen lösung für enemies ohne eigenes script
+        if (GetComponent<CrawlingEnemy>() == null) //zwischen lösung für enemies ohne eigenes script 
         {
             if (actor.collision.above || actor.collision.below)
                 actor.velocity = new Vector2(actor.velocity.x, 0);

@@ -18,6 +18,7 @@ public class CrawlingEnemy : MonoBehaviour
     public float MovementSpeed = 1f;
     public float ChaseRadius = 3f;
     public bool UseIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
+    //ändern in eine intelligenz skala von 1 - 10 oder so
     public LayerMask SightBlockingLayers;
     int DirectionCounter;
 
@@ -65,6 +66,7 @@ public class CrawlingEnemy : MonoBehaviour
             CurrentMovementState = MovementState.Move;
         else if (CheckGroundAhead() == false)
         {
+            Debug.Log("no ground ahead");
             float rnd = Random.Range(0f, 1f);
             if (rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) //rnd > 0.9f || //--> for better testing without random
                 CurrentMovementState = MovementState.Jump;
@@ -191,9 +193,9 @@ public class CrawlingEnemy : MonoBehaviour
     {
         RaycastHit2D hit;
         if (CurrentMovementDirection == MovementDirection.Left)
-            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, 1);
+            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         else
-            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, 1);
+            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         if (hit.collider != null)
             return true;
         return false;
@@ -239,6 +241,7 @@ public class CrawlingEnemy : MonoBehaviour
                 JumpDirection = new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
         }
+        Debug.Log("jump possible " + JumpPossible);
         return JumpPossible;
     }
 
