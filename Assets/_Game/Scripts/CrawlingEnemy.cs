@@ -67,7 +67,6 @@ public class CrawlingEnemy : MonoBehaviour
             CurrentMovementState = MovementState.Move;
         else if (CheckGroundAhead() == false)
         {
-            Debug.Log("no ground ahead");
             float rnd = Random.Range(0f, 1f);
             if ((rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) && UseJump) //rnd > 0.9f || //--> for better testing without random
                 CurrentMovementState = MovementState.Jump;
