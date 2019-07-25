@@ -7,39 +7,42 @@ public class MovingPlatform : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
-    [SerializeField] private MovingObject platform = default;
-    [SerializeField] private float speed = 1f;
-    [SerializeField] private float waitTime = 0f;
-    [SerializeField] [Range(0, 2)] private float easeFactor = 0f;
-    [SerializeField] private bool cyclic = false;
-    [SerializeField] private Transform[] waypoints = default;
+    [SerializeField] private Rigidbody2D m_platform = default;
+    [SerializeField] private bool m_running = true;
+    [SerializeField] private float m_speed = 1f;
+    [SerializeField] private float m_waitTime = 0f;
+    [SerializeField] [Range(0, 2)] private float m_easeFactor = 0f;
+    [SerializeField] private bool m_cyclic = false;
+    [SerializeField] private Transform[] m_waypoints = default;
     
     //******************//
     //    Properties    //
     //******************//
 
-    public float Speed
+    public bool running
     {
-        get { return speed; }
-        set { speed = value; }
+        get { return m_running; }
+        set { m_running = value; }
     }
 
     //**********************//
     //    Private Fields    //
     //**********************//
 
-    private int lastWaypoint = 0;
-    private float progress = 0;
-    private bool waiting = false;
+    private int m_lastWaypoint = 0;
+    private float m_progress = 0;
+    private bool m_waiting = false;
 
     //*******************************//
     //    MonoBehaviour Functions    //
     //*******************************//
 
-    void Update()
+    void FixedUpdate()
     {
-        if (!waiting) {
-            platform.Translate(CalculateDeltaPosition());
+        if (!m_waiting && m_running) {
+            m_platform.velocity = CalculateVelocity();
+        } else {
+            m_platform.velocity = Vector2.zero;
         }
     }
 
@@ -47,44 +50,45 @@ public class MovingPlatform : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private Vector2 CalculateDeltaPosition()
+    private Vector2 CalculateVelocity()
     {
-        lastWaypoint %= waypoints.Length;
-        int nextWaypoint = (lastWaypoint + 1) % waypoints.Length;
-        float distance = Vector3.Distance(waypoints[lastWaypoint].position, waypoints[nextWaypoint].position);
+        m_lastWaypoint %= m_waypoints.Length;
+        int nextWaypoint = (m_lastWaypoint + 1) % m_waypoints.Length;
+        float distance = Vector3.Distance(m_waypoints[m_lastWaypoint].position, m_waypoints[nextWaypoint].position);
 
-        progress += Time.deltaTime * speed / distance;
-        progress = Mathf.Clamp01(progress);
-        float easedProgress = Ease(progress);
+        m_progress += Time.fixedDeltaTime * m_speed / distance;
+        m_progress = Mathf.Clamp01(m_progress);
+        float easedProgress = Ease(m_progress);
 
-        Vector3 newPosition = Vector3.Lerp(waypoints[lastWaypoint].position, waypoints[nextWaypoint].position, easedProgress);
+        Vector2 newPosition = Vector2.Lerp(m_waypoints[m_lastWaypoint].position, m_waypoints[nextWaypoint].position, easedProgress);
+        Vector2 velocity = (newPosition - m_platform.position) / Time.fixedDeltaTime;
 
-        if (progress >= 1) {
-            progress = 0;
-            lastWaypoint++;
-            if (!cyclic && lastWaypoint >= waypoints.Length - 1) {
-                lastWaypoint = 0;
-                System.Array.Reverse(waypoints);
+        if (m_progress >= 1) {
+            m_progress = 0;
+            m_lastWaypoint++;
+            if (!m_cyclic && m_lastWaypoint >= m_waypoints.Length - 1) {
+                m_lastWaypoint = 0;
+                System.Array.Reverse(m_waypoints);
             }
 
-            if (waitTime > 0) {
+            if (m_waitTime > 0) {
                 StartCoroutine(WaitCoroutine());
             }
         }
 
-        return (newPosition - platform.transform.position);
+        return velocity;
     }
 
     private float Ease(float _x)
     {
-        float a = easeFactor + 1;
+        float a = m_easeFactor + 1;
         return Mathf.Pow(_x, a) / (Mathf.Pow(_x, a) + Mathf.Pow(1 - _x, a));
     }
 
     private IEnumerator WaitCoroutine()
     {
-        waiting = true;
-        yield return new WaitForSeconds(waitTime);
-        waiting = false;
+        m_waiting = true;
+        yield return new WaitForSeconds(m_waitTime);
+        m_waiting = false;
     }
 }

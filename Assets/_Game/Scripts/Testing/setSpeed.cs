@@ -11,11 +11,13 @@ public class setSpeed : MonoBehaviour
     private void Update()
     {
         if (tShip.position.y == tWaypoint2.position.y)
-            tShip.GetComponent<MovingPlatform>().Speed = 0f;
+            //tShip.GetComponent<MovingPlatform>().Speed = 0f;
+            tShip.GetComponent<MovingPlatform>().running = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        tShip.GetComponent<MovingPlatform>().Speed = 3f;
+        //tShip.GetComponent<MovingPlatform>().Speed = 3f;
+        tShip.GetComponent<MovingPlatform>().running = true;
     }
 }
