@@ -18,6 +18,7 @@ public class CrawlingEnemy : MonoBehaviour
     public float MovementSpeed = 1f;
     public float ChaseRadius = 3f;
     public bool UseIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
+    public bool UseJump = true;
     //ändern in eine intelligenz skala von 1 - 10 oder so
     public LayerMask SightBlockingLayers;
     int DirectionCounter;
@@ -68,7 +69,7 @@ public class CrawlingEnemy : MonoBehaviour
         {
             Debug.Log("no ground ahead");
             float rnd = Random.Range(0f, 1f);
-            if (rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) //rnd > 0.9f || //--> for better testing without random
+            if ((rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) && UseJump) //rnd > 0.9f || //--> for better testing without random
                 CurrentMovementState = MovementState.Jump;
             else
             {
