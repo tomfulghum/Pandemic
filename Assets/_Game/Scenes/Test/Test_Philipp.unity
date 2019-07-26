@@ -3751,6 +3751,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e6cd4ec3944a8441a8e8e187d0b75e3, type: 3}
+--- !u!1 &1994359527 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7648727715907131623, guid: 78f08bbd4dd89054f98abee5dc41dcca,
+    type: 3}
+  m_PrefabInstance: {fileID: 7648727716064624394}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1994359534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994359527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fccc60ba2489f94d896b58c5c351577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2113114235
 GameObject:
   m_ObjectHideFlags: 0
@@ -4161,7 +4179,7 @@ PrefabInstance:
     - target: {fileID: 1693525880915519416, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1693525880915519394, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}
@@ -4309,7 +4327,7 @@ PrefabInstance:
     - target: {fileID: 7648727715907131623, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7648727715907131641, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
@@ -4365,6 +4383,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7648727715907131642, guid: 78f08bbd4dd89054f98abee5dc41dcca,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78f08bbd4dd89054f98abee5dc41dcca, type: 3}
@@ -4438,6 +4461,11 @@ PrefabInstance:
     - target: {fileID: 8267296876648001117, guid: 609341781e9cf9042a67b4e548a5fc37,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8267296876648001116, guid: 609341781e9cf9042a67b4e548a5fc37,
+        type: 3}
+      propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

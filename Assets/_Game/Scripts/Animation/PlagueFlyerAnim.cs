@@ -23,6 +23,12 @@ public class PlagueFlyerAnim : MonoBehaviour
             anim.SetTrigger("Death");
             TriggeredDeath = true;
         }
+
+        if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
+            anim.SetBool("Hit", true); //später evtl trigger
+        else
+            anim.SetBool("Hit", false);
+
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
         if (enemy.CurrentMovementDirection == Borb.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;

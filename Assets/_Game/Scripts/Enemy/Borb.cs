@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Borb : MonoBehaviour
 {
-    public enum MovementDirection { Left, Right }
+    public enum MovementState { Decide, Move, FlyUp, Nosedive, Chase }
+    public enum MovementDirection {None, Left, Right }
+
+    [HideInInspector] public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
     [HideInInspector] public MovementDirection CurrentMovementDirection = MovementDirection.Left;
 
+    public float ChaseRange = 3f;
     public float MovementSpeed = 3f;
     int DirectionCounter;
     float flightHeight; //bei knockback zurück auf die flight height
