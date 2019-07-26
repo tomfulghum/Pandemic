@@ -121,8 +121,6 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private float m_minThrowVelocity = 5f;
     [SerializeField] private float m_maxThrowVelocity = 15f;
     [SerializeField] private float m_throwingSpeedMultiplier = 1.4f;
-    [SerializeField] private float m_gravity = 10f;
-    [SerializeField] private float m_maxFallingSpeed = 15f;
 
     [SerializeField] private float m_maxTimeToWinRopeFight = 3f;
     [SerializeField] private int m_numOfButtonPresses = 10;
@@ -168,6 +166,7 @@ public class PlayerHook : MonoBehaviour
 
     private GameObject m_pickedUpObject;
     private Actor2D m_actor;
+    private PlayerMovement m_pm;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -180,6 +179,7 @@ public class PlayerHook : MonoBehaviour
         m_controllerDirection = Vector2.zero;
         m_lastMousePostion = Input.mousePosition;
         m_actor = GetComponent<Actor2D>();
+        m_pm = GetComponent<PlayerMovement>();
         //float ScaleMultiplier = RadiusVisualization.gameObject.transform.localScale.x / transform.localScale.x; //ist noch fehlerhaft
         // RadiusVisualization.gameObject.transform.localScale = new Vector3(RadiusVisualization.gameObject.transform.localScale.x * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.y * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.z * ScaleMultiplier);
     }
@@ -305,7 +305,7 @@ public class PlayerHook : MonoBehaviour
 
     private Vector2 GetAimDirection(Vector2 _direction) //evlt während aim den spieler anhalten oder bewegung verlangsamen //schauen ob man die deadzone lassen kann ansonsten als parameter übergeben
     {
-        GetComponent<PlayerMovement>().DisableUserInput(true);
+        m_pm.DisableUserInput(true);
         float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
         Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity * m_throwingSpeedMultiplier; //falls wir nicht lerpen --> public float ThrowSpeed
         GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, -Physics2D.gravity.y);
@@ -360,7 +360,7 @@ public class PlayerHook : MonoBehaviour
             }
             if (transform.position.x != m_currentSelectedTarget.transform.position.x) {
                 Vector2 newCharacterVelocity = (new Vector2(m_currentSelectedTarget.transform.position.x, 0) - new Vector2(transform.position.x, 0)).normalized * 2;
-                GetComponent<PlayerMovement>().externalVelocity = newCharacterVelocity;
+                m_pm.externalVelocity = newCharacterVelocity;
             }
         }
 
@@ -389,7 +389,7 @@ public class PlayerHook : MonoBehaviour
         m_currentTargetType = HookType.None;
         m_currentSelectedTarget = null; //vllt brauch ich das gar nicht ? //evlt nur currentselectedpoint == null
         m_currentSwitchTarget = null;
-        GetComponent<PlayerMovement>().DisableUserInput(_disableInput);
+        m_pm.DisableUserInput(_disableInput);
         ResetValues(); //weiß nicht ob das sogut ist?
         //evlt stop all coroutines? --> falls es von einem anderen script her aufgerufen wird
     }
@@ -489,7 +489,7 @@ public class PlayerHook : MonoBehaviour
                         m_reachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
                         m_currentTargetPosition = CalculateTargetPoint(transform.position, m_currentSelectedTarget.transform.position, m_additionalTravelDistance);
                         m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
-                        GetComponent<PlayerMovement>().DisableUserInput(true);
+                        m_pm.DisableUserInput(true);
                         SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
                         m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
                         break;
@@ -498,14 +498,14 @@ public class PlayerHook : MonoBehaviour
                         m_reachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
                         m_currentTargetPosition = m_currentSelectedTarget.transform.position;
                         m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
-                        GetComponent<PlayerMovement>().DisableUserInput(true);
+                        m_pm.DisableUserInput(true);
                         SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
                         m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
                         break;
                     }
                     case HookType.Pull: {
                         m_buttonPresses = m_numOfButtonPresses;
-                        GetComponent<PlayerMovement>().DisableUserInput(true); // kann evtl nach oben
+                        m_pm.DisableUserInput(true); // kann evtl nach oben
                         break;
                     }
                     case HookType.Throw: {
@@ -677,10 +677,10 @@ public class PlayerHook : MonoBehaviour
         }
 
         DeactivateHook();
-        GetComponent<PlayerMovement>().DisableUserInput(true);
+        m_pm.DisableUserInput(true);
         m_currentHookState = HookState.JumpBack;
         Vector2 jumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * m_hookSpeed; //evtl jump speed
-        GetComponent<PlayerMovement>().externalVelocity = jumpBackvelocity;
+        m_pm.externalVelocity = jumpBackvelocity;
         yield return new WaitForSeconds(0.4f * 10 / m_hookSpeed); //bessere lösung finden --> passt fürs erste
         DeactivateHook();
     }
@@ -688,7 +688,7 @@ public class PlayerHook : MonoBehaviour
     private void SetVelocityTowardsTarget(Vector2 _targetPoint, float _speed) //rename //evlt speed auch als parameter übergeben
     {
         Vector2 newCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * _speed;
-        GetComponent<PlayerMovement>().externalVelocity = newCharacterVelocity;
+        m_pm.externalVelocity = newCharacterVelocity;
     }
 
     private Collider2D FindNearestTargetInRange(Vector2 _searchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz

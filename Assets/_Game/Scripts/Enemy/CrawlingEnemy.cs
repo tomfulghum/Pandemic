@@ -72,6 +72,8 @@ public class CrawlingEnemy : MonoBehaviour
 
     private Actor2D m_actor;
     private Rigidbody2D m_rb;
+    private Collider2D m_coll;
+    private Enemy m_enemy;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -85,12 +87,14 @@ public class CrawlingEnemy : MonoBehaviour
     {
         m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_coll = GetComponent<Collider2D>();
+        m_enemy = GetComponent<Enemy>();
         //DotParent = new GameObject("Parent Dot Enemy"); //only for visuals
     }
 
     void Update()
     {
-        if (GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Moving) { //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
+        if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving) { //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
             if (currentMovementState == MovementState.Decide) { // && CurrentMovementState != MovementState.Falling)
                 SetNextMove();
             }
@@ -205,9 +209,9 @@ public class CrawlingEnemy : MonoBehaviour
     {
         RaycastHit2D hit;
         if (currentMovementDirection == MovementDirection.Left) {
-            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, m_coll.bounds.extents.y + 0.2f);
         } else {
-            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, m_coll.bounds.extents.y + 0.2f);
         }
         if (hit.collider != null) {
             return true;

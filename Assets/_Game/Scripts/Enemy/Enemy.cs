@@ -46,6 +46,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     private Coroutine m_enemyKnockBack = null;
     private Actor2D m_actor = null; // vllt reich der actor auf crawling enemy
     private Rigidbody2D m_rb = null;
+    private SpriteRenderer m_spriteRenderer = null;
     private int m_currentHitPriority = 0;
 
     //*******************************//
@@ -56,6 +57,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     {
         m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_currentHealth = m_maxHealth;
     }
@@ -71,9 +73,9 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             if (currentEnemyState == EnemyState.Hit) {
                 m_colorChangeCounter++;
                 if (m_colorChangeCounter % 5 == 0)
-                    GetComponent<SpriteRenderer>().color = Color.white;
+                    m_spriteRenderer.color = Color.white;
                 else
-                    GetComponent<SpriteRenderer>().color = m_originalColor;
+                    m_spriteRenderer.color = m_originalColor;
             }
         }
     }
@@ -132,7 +134,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
 
             yield return new WaitForSeconds(0.03f);
         }
-        GetComponent<SpriteRenderer>().color = m_originalColor;
+        m_spriteRenderer.color = m_originalColor;
         m_colorChangeCounter = 0;
         m_currentHitPriority = 0;
         m_currentEnemyState = EnemyState.Moving;

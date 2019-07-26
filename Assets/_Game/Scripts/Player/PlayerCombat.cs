@@ -82,6 +82,7 @@ public class PlayerCombat : MonoBehaviour
 
     private Actor2D m_actor;
     private PlayerMovement m_pm;
+    private SpriteRenderer m_spriteRenderer;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -95,6 +96,7 @@ public class PlayerCombat : MonoBehaviour
         m_xAxis = Input.GetAxis("Horizontal");
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken
@@ -120,7 +122,7 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
 
-            if (!GetComponent<Actor2D>().contacts.below && Input.GetAxis("MeteorSmash") > m_controllerTolerance && m_currentAttackState == AttackState.None) {
+            if (!m_actor.contacts.below && Input.GetAxis("MeteorSmash") > m_controllerTolerance && m_currentAttackState == AttackState.None) {
                 StartMeteorSmash();
             }
 
@@ -147,7 +149,7 @@ public class PlayerCombat : MonoBehaviour
                     m_actor.contacts.below.GetComponent<Enemy>().GetHit(transform, 15, m_currentHitPriority);
                 }
 
-                if (GetComponent<Actor2D>().contacts.below && !GetComponent<Actor2D>().contacts.below.CompareTag("Enemy")) {
+                if (m_actor.contacts.below && !m_actor.contacts.below.CompareTag("Enemy")) {
                     StopMeteorSmash();
                 }
             }
@@ -156,9 +158,9 @@ public class PlayerCombat : MonoBehaviour
         if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) {
             m_colorChangeCounter++;
             if (m_colorChangeCounter % 5 == 0) {
-                GetComponent<SpriteRenderer>().color = Color.white;
+                m_spriteRenderer.color = Color.white;
             } else {
-                GetComponent<SpriteRenderer>().color = m_originalColor;
+                m_spriteRenderer.color = m_originalColor;
             }
         }
     }
@@ -189,10 +191,10 @@ public class PlayerCombat : MonoBehaviour
             velocity = Vector2.right;
         }
 
-        GetComponent<PlayerMovement>().DisableUserInput(true);
-        GetComponent<PlayerMovement>().externalVelocity = velocity * m_dashSpeed;
+        m_pm.DisableUserInput(true);
+        m_pm.externalVelocity = velocity * m_dashSpeed;
         yield return new WaitForSeconds(m_dashDuration);
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        m_pm.DisableUserInput(false);
         m_currentAttackState = AttackState.None;
         yield return new WaitForSeconds(m_dashCooldown);
         m_dashCoolDownActive = false;
@@ -267,7 +269,7 @@ public class PlayerCombat : MonoBehaviour
         m_comboActive = true;
         m_currentAttackState = AttackState.Attack;
         if (m_actor.contacts.below) {
-            GetComponent<PlayerMovement>().DisableUserInput(true);
+            m_pm.DisableUserInput(true);
         }
 
         if (_numOfAttack == 0) {
@@ -281,7 +283,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
         yield return new WaitForSeconds(m_timeToCombo);
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        m_pm.DisableUserInput(false);
         m_currentAttackState = AttackState.None;
         m_attackNumber = 0;
         m_meleeAttack = null;
@@ -368,7 +370,7 @@ public class PlayerCombat : MonoBehaviour
         m_currentHitPriority = 3;
 
         yield return new WaitForSeconds(m_meleeAttackTime);
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        m_pm.DisableUserInput(false);
         m_currentlyAttacking = false;
         m_attackNumber = 0;
         StopCoroutine(m_meleeAttack);
@@ -399,13 +401,13 @@ public class PlayerCombat : MonoBehaviour
         m_invincible = true;
         m_currentAttackState = AttackState.Smash;
         Vector2 velocityDown = Vector2.down * m_smashSpeed;
-        GetComponent<PlayerMovement>().DisableUserInput(true);
-        GetComponent<PlayerMovement>().externalVelocity = velocityDown;
+        m_pm.DisableUserInput(true);
+        m_pm.externalVelocity = velocityDown;
     }
 
     private void StopMeteorSmash()
     {
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        m_pm.DisableUserInput(false);
         m_currentAttackState = AttackState.None;
         StartCoroutine(InvincibilityFrames(m_invincibilityTime));
     }
@@ -432,7 +434,7 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator KnockBack(float _repetitions, Transform _knockBackOrigin, float _knockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
     {
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
-        GetComponent<PlayerMovement>().DisableUserInput(true);
+        m_pm.DisableUserInput(true);
 
         StartCoroutine(InvincibilityFrames(m_invincibilityTime));
 
@@ -449,10 +451,10 @@ public class PlayerCombat : MonoBehaviour
 
             yield return new WaitForSeconds(0.03f);
         }
-        GetComponent<SpriteRenderer>().color = m_originalColor;
+        m_spriteRenderer.color = m_originalColor;
         m_colorChangeCounter = 0;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        m_pm.DisableUserInput(false);
     }
 
     //************************//

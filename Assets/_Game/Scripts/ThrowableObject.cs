@@ -15,7 +15,7 @@ public class ThrowableObject : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object typ einstellen
+    //[SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object typ einstellen
 
     //******************//
     //    Properties    //
