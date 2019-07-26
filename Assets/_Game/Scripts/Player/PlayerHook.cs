@@ -47,769 +47,775 @@ using UnityEngine;
 //wenn man die timescale wieder progressive normalisiert unbedingt drauf achten das sie zu 100% wieder normal ist sobald man irgendetwas machen kann das nicht in diesem script passiert
 public class PlayerHook : MonoBehaviour
 {
-    public enum PlayerState { Waiting, Hook, Attacking, Moving, Disabled } //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
-    public enum TimeSlow { NoSlow, Instant, SlowFast, FastSlow }
-    enum HookState { Inactive, SearchTarget, Aiming, SwitchTarget, Active, Cooldown, JumpBack } //brauch ich starting überhaupt, brauch ich evtl aiming?
-    enum HookType { None, Throw, Pull, Hook, BigEnemy }
+    //**********************//
+    //    Internal Types    //
+    //**********************//
 
-    public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
-    public float HookRadius = 6f;
-    public float SafetyRadius = 1f; //besseren namen finden
-    public float Angle = 20f;
-    public float PullAngle = 5f; //renamen
-    public float HookSpeed = 15f;
-    public float PullSpeed = 15f;
-    public float MaxTimeSlow = 0.1f; //TimeSlowPercent
-    public float MaxTimeActive = 2;
-    public float TargetReachedTolerance = 0.2f; //wie nah muss man am ziel sein damit der hook abbricht
-    public bool CancelHookWithSpace = true;
-    public bool CancelHookWithNewHook = true;
-    public float CancelDistancePercentage = 0.5f; //wie viel prozent des abstands der spieler geschafft haben muss bevor er den hook abbrechen kann
-    public float AdditionalTravelDistance = 2f;
-    public TimeSlow FormOfTimeSlow = TimeSlow.FastSlow;
-    public GameObject RadiusVisualization; //rename
-    public LayerMask HookPointFilter; //Filter Layer to only get Hook Points in Sight
-    public LayerMask HookPointLayer; //default layer einstellen
-    public float ControllerTolerance = 0.25f;
-    public bool SlowTimeWhileAiming;
-
-    public float MinThrowVelocity = 5f;
-    public float MaxThrowVelocity = 15f;
-    public float ThrowingSpeedMultiplier = 1.4f;
-    public float Gravity = 10f;
-    public float MaxFallingSpeed = 15f;
-
-    public float MaxTimeToWinRopeFight = 3f;
-    public int NumOfButtonPresses = 10;
-    public float ContrAdditionalPullAngle = 30f; //angles können eigentlich int sein
-    public float MouseDeadZone = 0.1f;
-
-
-    HookState CurrentHookState = HookState.Inactive;
-    HookType CurrentTargetType = HookType.None;
-    float CurrentTimeActiveRope;
-    int ButtonPresses;
-
-
-    List<Collider2D> TotalHookPoints;
-
-    float NormalTimeScale;
-    float CancelDistance;
-    float FramesTillTarget;
-    bool ReachedTarget; //ob das ziel erreicht wurde
-
-    bool UsingController;
-
-    float timeslowTest; //test for one variant of the progressive timeslow
-    float CurrentTimeActive;
-
-
-    Collider2D CurrentSelectedTarget; // Position des HookPoints
-    Collider2D CurrentSwitchTarget; //aktuelles ziel im cone
-    Vector2 TargetPosition;
-    Vector2 CurrentTargetPosition;
-
-
-    Vector2 ControllerDirection;
-    Vector2 ContDirWithoutDeadzone;
-    Vector2 LastMousePostion;
-    Vector2 MouseDirection;
-    Vector2 MousePosition;
-    Vector2 ThrowVelocity;
-
-    Vector2 Currentvelocity;
-
-    Coroutine HookCooldown = null;
-
-    GameObject PickedUpObject;
-    Actor2D actor;
-
-    // Start is called before the first frame update
-    void Start()
+    public enum PlayerState //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
     {
-        NormalTimeScale = Time.timeScale;
-        TotalHookPoints = new List<Collider2D>();
-        ControllerDirection = Vector2.zero;
-        LastMousePostion = Input.mousePosition;
-        actor = GetComponent<Actor2D>();
-        //float ScaleMultiplier = RadiusVisualization.gameObject.transform.localScale.x / transform.localScale.x; //ist noch fehlerhaft
-       // RadiusVisualization.gameObject.transform.localScale = new Vector3(RadiusVisualization.gameObject.transform.localScale.x * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.y * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.z * ScaleMultiplier);
+        Waiting,
+        Hook,
+        Attacking,
+        Moving,
+        Disabled
     }
 
-    // Update is called once per frame
+    public enum TimeSlow
+    {
+        NoSlow,
+        Instant,
+        SlowFast,
+        FastSlow
+    }
+
+    enum HookState //brauch ich starting überhaupt, brauch ich evtl aiming?
+    {
+        Inactive,
+        SearchTarget,
+        Aiming,
+        SwitchTarget,
+        Active,
+        Cooldown,
+        JumpBack
+    }
+
+    enum HookType
+    {
+        None,
+        Throw,
+        Pull,
+        Hook,
+        BigEnemy
+    }
+
+    //***********//
+    //    ???    //
+    //***********//
+
+    public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
+
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] private float m_hookRadius = 6f;
+    [SerializeField] private float m_safetyRadius = 1f; //besseren namen finden
+    [SerializeField] private float m_angle = 20f;
+    [SerializeField] private float m_pullAngle = 5f; //renamen
+    [SerializeField] private float m_hookSpeed = 15f;
+    [SerializeField] private float m_pullSpeed = 15f;
+    [SerializeField] private float m_maxTimeSlow = 0.1f; //TimeSlowPercent
+    [SerializeField] private float m_maxTimeActive = 2;
+    [SerializeField] private float m_targetReachedTolerance = 0.2f; //wie nah muss man am ziel sein damit der hook abbricht
+    [SerializeField] private bool m_cancelHookWithSpace = true;
+    [SerializeField] private bool m_cancelHookWithNewHook = true;
+    [SerializeField] private float m_cancelDistancePercentage = 0.5f; //wie viel prozent des abstands der spieler geschafft haben muss bevor er den hook abbrechen kann
+    [SerializeField] private float m_additionalTravelDistance = 2f;
+    [SerializeField] private TimeSlow m_formOfTimeSlow = TimeSlow.FastSlow;
+    [SerializeField] private GameObject m_radiusVisualization = default; //rename
+    [SerializeField] private LayerMask m_hookPointFilter = default; //Filter Layer to only get Hook Points in Sight
+    [SerializeField] private LayerMask m_hookPointLayer = default; //default layer einstellen
+    [SerializeField] private float m_controllerTolerance = 0.25f;
+    [SerializeField] private bool m_slowTimeWhileAiming = default;
+
+    [SerializeField] private float m_minThrowVelocity = 5f;
+    [SerializeField] private float m_maxThrowVelocity = 15f;
+    [SerializeField] private float m_throwingSpeedMultiplier = 1.4f;
+    [SerializeField] private float m_gravity = 10f;
+    [SerializeField] private float m_maxFallingSpeed = 15f;
+
+    [SerializeField] private float m_maxTimeToWinRopeFight = 3f;
+    [SerializeField] private int m_numOfButtonPresses = 10;
+    //[SerializeField] private float m_contrAdditionalPullAngle = 30f; //angles können eigentlich int sein
+    [SerializeField] private float m_mouseDeadZone = 0.1f;
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private HookState m_currentHookState = HookState.Inactive;
+    private HookType m_currentTargetType = HookType.None;
+    private float m_currentTimeActiveRope;
+    private int m_buttonPresses;
+
+    private List<Collider2D> m_totalHookPoints;
+
+    private float m_normalTimeScale;
+    private float m_cancelDistance;
+    private float m_framesTillTarget;
+    private bool m_reachedTarget; //ob das ziel erreicht wurde
+
+    private bool m_usingController;
+
+    private float m_timeSlowTest; //test for one variant of the progressive timeslow
+    private float m_currentTimeActive;
+
+    private Collider2D m_currentSelectedTarget; // Position des HookPoints
+    private Collider2D m_currentSwitchTarget; //aktuelles ziel im cone
+    private Vector2 m_targetPosition;
+    private Vector2 m_currentTargetPosition;
+
+    private Vector2 m_controllerDirection;
+    private Vector2 m_contDirWithoutDeadzone;
+    private Vector2 m_lastMousePostion;
+    private Vector2 m_mouseDirection;
+    private Vector2 m_mousePosition;
+    private Vector2 m_throwVelocity;
+
+    private Vector2 m_currentVelocity;
+
+    private Coroutine m_hookCooldown = null;
+
+    private GameObject m_pickedUpObject;
+    private Actor2D m_actor;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
+    void Start()
+    {
+        m_normalTimeScale = Time.timeScale;
+        m_totalHookPoints = new List<Collider2D>();
+        m_controllerDirection = Vector2.zero;
+        m_lastMousePostion = Input.mousePosition;
+        m_actor = GetComponent<Actor2D>();
+        //float ScaleMultiplier = RadiusVisualization.gameObject.transform.localScale.x / transform.localScale.x; //ist noch fehlerhaft
+        // RadiusVisualization.gameObject.transform.localScale = new Vector3(RadiusVisualization.gameObject.transform.localScale.x * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.y * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.z * ScaleMultiplier);
+    }
+
     void Update()
     {
         if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();
-            Vector2 CurrentMousePosition = Input.mousePosition;
-            if (Mathf.Abs(LastMousePostion.x - CurrentMousePosition.x) > MouseDeadZone || Mathf.Abs(LastMousePostion.y - CurrentMousePosition.y) > MouseDeadZone)
-            {
-                LastMousePostion = CurrentMousePosition;
-                MousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                MouseDirection = (MousePosition - (Vector2)transform.position).normalized;
-                UsingController = false;
+            Vector2 currentMousePosition = Input.mousePosition;
+            if (Mathf.Abs(m_lastMousePostion.x - currentMousePosition.x) > m_mouseDeadZone || Mathf.Abs(m_lastMousePostion.y - currentMousePosition.y) > m_mouseDeadZone) {
+                m_lastMousePostion = currentMousePosition;
+                m_mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                m_mouseDirection = (m_mousePosition - (Vector2)transform.position).normalized;
+                m_usingController = false;
             }
 
-            if (Input.GetAxis("Horizontal") < -ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance || Input.GetAxis("Vertical") < -ControllerTolerance || Input.GetAxis("Vertical") > ControllerTolerance) //extra function --> GetControllerDir
-            {
-                ControllerDirection.x = Input.GetAxis("Horizontal");
-                ControllerDirection.y = Input.GetAxis("Vertical");
-                ControllerDirection = ControllerDirection.normalized;
-                UsingController = true;
+            if (Input.GetAxis("Horizontal") < -m_controllerTolerance || Input.GetAxis("Horizontal") > m_controllerTolerance || Input.GetAxis("Vertical") < -m_controllerTolerance || Input.GetAxis("Vertical") > m_controllerTolerance) { //extra function --> GetControllerDir
+                m_controllerDirection.x = Input.GetAxis("Horizontal");
+                m_controllerDirection.y = Input.GetAxis("Vertical");
+                m_controllerDirection = m_controllerDirection.normalized;
+                m_usingController = true;
             }
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-            {
-                ContDirWithoutDeadzone.x = Input.GetAxis("Horizontal");
-                ContDirWithoutDeadzone.y = Input.GetAxis("Vertical");
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {
+                m_contDirWithoutDeadzone.x = Input.GetAxis("Horizontal");
+                m_contDirWithoutDeadzone.y = Input.GetAxis("Vertical");
             }
 
-            if ((CurrentHookState != HookState.Active && CurrentHookState != HookState.Cooldown || CanUseHook()) && CurrentHookState != HookState.JumpBack) //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
-            {
-                if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1)
-                {
-                    if (PickedUpObject != null && (PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp || PickedUpObject.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.TravellingToPlayer))
+            if ((m_currentHookState != HookState.Active && m_currentHookState != HookState.Cooldown || CanUseHook()) && m_currentHookState != HookState.JumpBack) { //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
+                if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1) {
+                    if (m_pickedUpObject != null && (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp || m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.TravellingToPlayer))
                         AimThrow();
                     else
                         SearchTargetPoint();
-                }
-                else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && (CurrentHookState == HookState.SearchTarget || CurrentHookState == HookState.SwitchTarget || CurrentHookState == HookState.Aiming || (CurrentHookState == HookState.Active && CanUseHook())))
-                {
-                    if (CurrentHookState == HookState.Aiming && PickedUpObject != null) //könnte evtl sein das man PickedUpObject in dem Frame gedroppt hat --> relativ sicher
-                        ThrowObject(ThrowVelocity);
-                    else
+                } else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook()))) {
+                    if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null) { //könnte evtl sein das man PickedUpObject in dem Frame gedroppt hat --> relativ sicher
+                        ThrowObject(m_throwVelocity);
+                    } else {
                         ActivateHook();
+                    }
                     ResetValues();
                 }
             }
 
-            if (CurrentHookState == HookState.Active) // || (CurrentHookState == HookState.SwitchTarget && CurrentSelectedTarget != null)
+            if (m_currentHookState == HookState.Active) // || (CurrentHookState == HookState.SwitchTarget && CurrentSelectedTarget != null)
             {
-                bool CancelCondition = false;
-                switch (CurrentTargetType)
-                {
-                    case HookType.Hook:
-                        {
-                            CancelCondition = HookToTarget();
-                            break;
-                        }
-                    case HookType.BigEnemy:
-                        {
-                            CancelCondition = HookToEnemy();
-                            break;
-                        }
-                    case HookType.Pull:
-                        {
-                            CancelCondition = RopePull();
-                            break;
-                        }
-                    case HookType.Throw:
-                        {
-                            CancelCondition = PullObject();
-                            break;
-                        }
-                    case HookType.None:
-                        {
-                            Debug.Log("smth went wrong target should have a type by now");
-                            break;
-                        }
+                bool cancelCondition = false;
+                switch (m_currentTargetType) {
+                    case HookType.Hook: {
+                        cancelCondition = HookToTarget();
+                        break;
+                    }
+                    case HookType.BigEnemy: {
+                        cancelCondition = HookToEnemy();
+                        break;
+                    }
+                    case HookType.Pull: {
+                        cancelCondition = RopePull();
+                        break;
+                    }
+                    case HookType.Throw: {
+                        cancelCondition = PullObject();
+                        break;
+                    }
+                    case HookType.None: {
+                        Debug.Log("smth went wrong target should have a type by now");
+                        break;
+                    }
                 }
-                if (CancelCondition)
-                {
-                    if (ReachedTarget && CurrentTargetType == HookType.BigEnemy)
+                if (cancelCondition) {
+                    if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy) {
                         StartCoroutine(JumpBack());
-                    else
+                    } else {
                         DeactivateHook();
+                    }
                 }
             }
         }
     }
 
-    public void CancelHook()
-    {
-        //StopAllCoroutines(); --> brauch ich das? jump back?
-        DeactivateHook(true);
-        GetComponent<VisualizeTrajectory>().RemoveVisualeDots(); //vllt auch in deactivate hook?
-    }
+    //*************************//
+    //    Private Functions    //
+    //*************************//
 
-    void SetPlayerState() //vllt muss man die nochmal überarbeiten
+    private void SetPlayerState() //vllt muss man die nochmal überarbeiten
     {
-        if (CurrentHookState != HookState.Inactive) // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?                                        //oder globale function check player state die den aktuellen state überprüft
+        if (m_currentHookState != HookState.Inactive) { // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?                                        //oder globale function check player state die den aktuellen state überprüft
             CurrentPlayerState = PlayerState.Hook;
-        else
-            if (CurrentPlayerState == PlayerState.Hook && CurrentHookState == HookState.Inactive)
-            CurrentPlayerState = PlayerState.Waiting;
-    }
-
-    void ThrowObject(Vector2 _ThrowVelocity)
-    {
-        GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
-        PickedUpObject.GetComponent<ThrowableObject>().Throw(_ThrowVelocity);
-        PickedUpObject = null;
-        DeactivateHook();
-    }
-
-    void AimThrow()
-    {
-        CurrentHookState = HookState.Aiming;
-        if (!actor.contacts.below)
-            ApplyGravity();
-        if (SlowTimeWhileAiming)
-            SlowTime();
-        if (UsingController)
-            ThrowVelocity = GetAimDirection(ContDirWithoutDeadzone);
-        else
-            ThrowVelocity = GetAimDirection(MouseDirection); //wird das funktionieren? // wenn ja wie gut? --> funktioniert ganz ok --> bei maus wird immer mit maximaler kraft geworfen
-        if (Input.GetButtonDown("Fire1"))
-        {
-            PickedUpObject.GetComponent<ThrowableObject>().Drop();
-            PickedUpObject = null;
-            DeactivateHook();
-            GetComponent<VisualizeTrajectory>().RemoveVisualeDots();
+        } else {
+            if (CurrentPlayerState == PlayerState.Hook && m_currentHookState == HookState.Inactive) {
+                CurrentPlayerState = PlayerState.Waiting;
+            }
         }
     }
 
-    Vector2 GetAimDirection(Vector2 _direction) //evlt während aim den spieler anhalten oder bewegung verlangsamen //schauen ob man die deadzone lassen kann ansonsten als parameter übergeben
+    private void ThrowObject(Vector2 _throwVelocity)
+    {
+        GetComponent<VisualizeTrajectory>().RemoveVisualDots();
+        m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity);
+        m_pickedUpObject = null;
+        DeactivateHook();
+    }
+
+    private void AimThrow()
+    {
+        m_currentHookState = HookState.Aiming;
+
+        if (m_slowTimeWhileAiming) {
+            SlowTime();
+        }
+        if (m_usingController) {
+            m_throwVelocity = GetAimDirection(m_contDirWithoutDeadzone);
+        } else {
+            m_throwVelocity = GetAimDirection(m_mouseDirection); //wird das funktionieren? // wenn ja wie gut? --> funktioniert ganz ok --> bei maus wird immer mit maximaler kraft geworfen
+        }
+        if (Input.GetButtonDown("Fire1")) {
+            m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
+            m_pickedUpObject = null;
+            DeactivateHook();
+            GetComponent<VisualizeTrajectory>().RemoveVisualDots();
+        }
+    }
+
+    private Vector2 GetAimDirection(Vector2 _direction) //evlt während aim den spieler anhalten oder bewegung verlangsamen //schauen ob man die deadzone lassen kann ansonsten als parameter übergeben
     {
         GetComponent<PlayerMovement>().DisableUserInput(true);
-        float velocity = Mathf.Lerp(MinThrowVelocity, MaxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
-        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity * ThrowingSpeedMultiplier; //falls wir nicht lerpen --> public float ThrowSpeed
+        float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
+        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity * m_throwingSpeedMultiplier; //falls wir nicht lerpen --> public float ThrowSpeed
         GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, -Physics2D.gravity.y);
         return throwVelocity;
     }
 
-    void SlowTime()
+    private void SlowTime()
     {
-        switch (FormOfTimeSlow)
-        {
-            case TimeSlow.NoSlow:
-                {
-                    break;
-                }
-            case TimeSlow.Instant:
-                {
-                    Time.timeScale = MaxTimeSlow;
-                    Time.fixedDeltaTime = Time.timeScale * 0.02f;
-                    break;
-                }
-            case TimeSlow.SlowFast:
-                {
-                    timeslowTest += 0.01f;
-                    ProgressiveTimeSlowTwo(timeslowTest);
-                    break;
-                }
-            case TimeSlow.FastSlow:
-                {
-                    ProgressiveTimeSlow();
-                    break;
-                }
+        switch (m_formOfTimeSlow) {
+            case TimeSlow.NoSlow: {
+                break;
+            }
+            case TimeSlow.Instant: {
+                Time.timeScale = m_maxTimeSlow;
+                Time.fixedDeltaTime = Time.timeScale * 0.02f;
+                break;
+            }
+            case TimeSlow.SlowFast: {
+                m_timeSlowTest += 0.01f;
+                ProgressiveTimeSlowTwo(m_timeSlowTest);
+                break;
+            }
+            case TimeSlow.FastSlow: {
+                ProgressiveTimeSlow();
+                break;
+            }
         }
     }
 
-    bool PullObject() //hier wahrscheinlihc picked up object setzen sobald throwable object = travelling to player und oben dann nur aim erlauben wenn picked up
+    private bool PullObject() //hier wahrscheinlihc picked up object setzen sobald throwable object = travelling to player und oben dann nur aim erlauben wenn picked up
     {
-        bool CancelCondition = false;
-        if (CurrentSelectedTarget.GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.PickedUp)
-        {
-            CancelCondition = true;
-            PickedUpObject = CurrentSelectedTarget.gameObject;
+        bool cancelCondition = false;
+        if (m_currentSelectedTarget.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp) {
+            cancelCondition = true;
+            m_pickedUpObject = m_currentSelectedTarget.gameObject;
         }
-        return CancelCondition;
+        return cancelCondition;
     }
 
-
-    bool RopePull()
+    private bool RopePull()
     {
-        if (!actor.contacts.below)
-            ApplyGravity();
-        Debug.DrawLine(transform.position, CurrentSelectedTarget.transform.position, Color.cyan);
-        Vector2 RopeDirection = (CurrentSelectedTarget.transform.position - transform.position).normalized;
-        RopeDirection *= -RopeDirection.magnitude; //opposite direction
+        Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position, Color.cyan);
+        Vector2 ropeDirection = (m_currentSelectedTarget.transform.position - transform.position).normalized;
+        ropeDirection *= -ropeDirection.magnitude; //opposite direction
 
-        if (Input.GetButtonDown("Fire3")) //  && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle //-->removed additional pull criteria
-        {
-            ButtonPresses--;
-            if (transform.position.x > CurrentSelectedTarget.transform.position.x)
+        if (Input.GetButtonDown("Fire3")) { //  && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle //-->removed additional pull criteria
+            m_buttonPresses--;
+            if (transform.position.x > m_currentSelectedTarget.transform.position.x) {
                 transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
-            else
+            } else {
                 transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
-            if (transform.position.x != CurrentSelectedTarget.transform.position.x)
-            {
-                Vector2 NewCharacterVelocity = (new Vector2(CurrentSelectedTarget.transform.position.x, 0) - new Vector2(transform.position.x, 0)).normalized * 2;
-                GetComponent<PlayerMovement>().externalVelocity = NewCharacterVelocity;
+            }
+            if (transform.position.x != m_currentSelectedTarget.transform.position.x) {
+                Vector2 newCharacterVelocity = (new Vector2(m_currentSelectedTarget.transform.position.x, 0) - new Vector2(transform.position.x, 0)).normalized * 2;
+                GetComponent<PlayerMovement>().externalVelocity = newCharacterVelocity;
             }
         }
 
         bool CancelCondition = false;
-        if (ButtonPresses <= 0)
-        {
-            if (CurrentSelectedTarget.transform.parent.GetComponent<Enemy>() != null) //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
-                CurrentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 15, 4); //4 evtl auch als parameter hit priority übergeben
+        if (m_buttonPresses <= 0) {
+            if (m_currentSelectedTarget.transform.parent.GetComponent<Enemy>() != null) { //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
+                m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 15, 4); //4 evtl auch als parameter hit priority übergeben
+            }
             CancelCondition = true;
         }
 
-        CurrentTimeActiveRope += Time.deltaTime / Time.timeScale;
-        if (CurrentTimeActiveRope > MaxTimeToWinRopeFight)
-        {
-            GetComponent<PlayerCombat>().GetHit(CurrentSelectedTarget.transform, 10);
+        m_currentTimeActiveRope += Time.deltaTime / Time.timeScale;
+        if (m_currentTimeActiveRope > m_maxTimeToWinRopeFight) {
+            GetComponent<PlayerCombat>().GetHit(m_currentSelectedTarget.transform, 10);
             CancelCondition = true;
         }
-        if (CancelCondition)
-            CurrentTimeActiveRope = 0;
+        if (CancelCondition) {
+            m_currentTimeActiveRope = 0;
+        }
         return CancelCondition;
     }
 
-    void DeactivateHook(bool _disableInput = false)
+    private void DeactivateHook(bool _disableInput = false)
     {
-        CurrentHookState = HookState.Inactive;
-        CurrentTargetType = HookType.None;
-        CurrentSelectedTarget = null; //vllt brauch ich das gar nicht ? //evlt nur currentselectedpoint == null
-        CurrentSwitchTarget = null;
+        m_currentHookState = HookState.Inactive;
+        m_currentTargetType = HookType.None;
+        m_currentSelectedTarget = null; //vllt brauch ich das gar nicht ? //evlt nur currentselectedpoint == null
+        m_currentSwitchTarget = null;
         GetComponent<PlayerMovement>().DisableUserInput(_disableInput);
         ResetValues(); //weiß nicht ob das sogut ist?
         //evlt stop all coroutines? --> falls es von einem anderen script her aufgerufen wird
     }
 
-    void CheckTargetType(Collider2D target)
+    private void CheckTargetType(Collider2D _target)
     {
-        if (target.CompareTag("HookPoint"))
-        {
-            if (target.transform.parent != null && target.transform.parent.CompareTag("BigEnemy")) //brauch ihc einen parent null check?
-                CurrentTargetType = HookType.BigEnemy;
-            else
-                CurrentTargetType = HookType.Hook;
+        if (_target.CompareTag("HookPoint")) {
+            if (_target.transform.parent != null && _target.transform.parent.CompareTag("BigEnemy")) { //brauch ihc einen parent null check?
+                m_currentTargetType = HookType.BigEnemy;
+            } else {
+                m_currentTargetType = HookType.Hook;
+            }
         }
-        if (target.CompareTag("Throwable"))
-            CurrentTargetType = HookType.Throw;
-        if (target.CompareTag("RopePoint"))
-            CurrentTargetType = HookType.Pull;
+        if (_target.CompareTag("Throwable")) {
+            m_currentTargetType = HookType.Throw;
+        }
+        if (_target.CompareTag("RopePoint")) {
+            m_currentTargetType = HookType.Pull;
+        }
     }
 
-    void ResetValues()
+    private void ResetValues()
     {
-        if (RadiusVisualization != null)
-            RadiusVisualization.GetComponent<LineRenderer>().enabled = false;
+        if (m_radiusVisualization != null) {
+            m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
+        }
 
-        timeslowTest = 0; //wofür?
+        m_timeSlowTest = 0; //wofür?
         ResetHookPoints();
-        Time.timeScale = NormalTimeScale;
+        Time.timeScale = m_normalTimeScale;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
-        CurrentTimeActive = 0;
-        Currentvelocity = Vector2.zero;
+        m_currentTimeActive = 0;
+        m_currentVelocity = Vector2.zero;
     }
 
-    void SearchTargetPoint()
+    private void SearchTargetPoint()
     {
-        if (CurrentHookState != HookState.Active && CurrentHookState != HookState.SwitchTarget)
-            CurrentHookState = HookState.SearchTarget;
+        if (m_currentHookState != HookState.Active && m_currentHookState != HookState.SwitchTarget) {
+            m_currentHookState = HookState.SearchTarget;
+        }
 
-        if (RadiusVisualization != null)
-        {
-            RadiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
-            RadiusVisualization.GetComponent<DrawCircle>().radius = HookRadius;
-            RadiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+        if (m_radiusVisualization != null) {
+            m_radiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
+            m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
+            m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
         }
-        if (UsingController == false)
-        {
-            if (CurrentHookState == HookState.SearchTarget)
-                CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
-            else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection)) // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
-            {
-                if (FindNearestTargetInRange(MouseDirection) != null && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint"))
-                {
-                    CurrentSwitchTarget = FindNearestTargetInRange(MouseDirection);
-                    CurrentHookState = HookState.SwitchTarget;
-                }
-                else if (FindNearestTargetInRange(MouseDirection) == null)
-                {
-                    CurrentSwitchTarget = FindNearestTargetInRange(MouseDirection);
-                    CurrentHookState = HookState.SwitchTarget;
+        if (m_usingController == false) {
+            if (m_currentHookState == HookState.SearchTarget) {
+                m_currentSelectedTarget = FindNearestTargetInRange(m_mouseDirection);
+            } else if (m_currentSelectedTarget != FindNearestTargetInRange(m_mouseDirection)) { // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
+                if (FindNearestTargetInRange(m_mouseDirection) != null && FindNearestTargetInRange(m_mouseDirection).CompareTag("HookPoint")) {
+                    m_currentSwitchTarget = FindNearestTargetInRange(m_mouseDirection);
+                    m_currentHookState = HookState.SwitchTarget;
+                } else if (FindNearestTargetInRange(m_mouseDirection) == null) {
+                    m_currentSwitchTarget = FindNearestTargetInRange(m_mouseDirection);
+                    m_currentHookState = HookState.SwitchTarget;
                 }
             }
-            VisualizeCone(MouseDirection);
-        }
-        else
-        {
-            if (CurrentHookState == HookState.SearchTarget)
-                CurrentSelectedTarget = FindNearestTargetInRange(ControllerDirection);
-            else if (CurrentSelectedTarget != FindNearestTargetInRange(ControllerDirection))
-            {
-                if (FindNearestTargetInRange(ControllerDirection) != null && FindNearestTargetInRange(ControllerDirection).CompareTag("HookPoint"))
-                {
-                    CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
-                    CurrentHookState = HookState.SwitchTarget;
-                }
-                else if (FindNearestTargetInRange(ControllerDirection) == null)
-                {
-                    CurrentSwitchTarget = FindNearestTargetInRange(ControllerDirection);
-                    CurrentHookState = HookState.SwitchTarget;
+            VisualizeCone(m_mouseDirection);
+        } else {
+            if (m_currentHookState == HookState.SearchTarget) {
+                m_currentSelectedTarget = FindNearestTargetInRange(m_controllerDirection);
+            } else if (m_currentSelectedTarget != FindNearestTargetInRange(m_controllerDirection)) {
+                if (FindNearestTargetInRange(m_controllerDirection) != null && FindNearestTargetInRange(m_controllerDirection).CompareTag("HookPoint")) {
+                    m_currentSwitchTarget = FindNearestTargetInRange(m_controllerDirection);
+                    m_currentHookState = HookState.SwitchTarget;
+                } else if (FindNearestTargetInRange(m_controllerDirection) == null) {
+                    m_currentSwitchTarget = FindNearestTargetInRange(m_controllerDirection);
+                    m_currentHookState = HookState.SwitchTarget;
                 }
             }
-            VisualizeCone(ControllerDirection);
+            VisualizeCone(m_controllerDirection);
         }
 
         SlowTime();
-        CurrentTimeActive += Time.deltaTime / Time.timeScale;
-        if (CurrentTimeActive > MaxTimeActive)
-        {
+        m_currentTimeActive += Time.deltaTime / Time.timeScale;
+        if (m_currentTimeActive > m_maxTimeActive) {
             ResetValues();
             ActivateHook();
         }
     }
 
-    void ActivateHook() //_direction wahrscheinlich unnötig
+    private void ActivateHook() //_direction wahrscheinlich unnötig
     {
-        if (CurrentHookState != HookState.Active)
-        {
-            if (CurrentSwitchTarget != null)
-                CurrentSelectedTarget = CurrentSwitchTarget;
-            CurrentHookState = HookState.Active;
-            if (CurrentSelectedTarget != null) //evtl alle noch vorherigen sachen resetten?
+        if (m_currentHookState != HookState.Active) {
+            if (m_currentSwitchTarget != null) {
+                m_currentSelectedTarget = m_currentSwitchTarget;
+            }
+            m_currentHookState = HookState.Active;
+            if (m_currentSelectedTarget != null) //evtl alle noch vorherigen sachen resetten?
             {
                 //Debug.Log("hier"); //resettet alle values wenn auch wenn man nicht switched --> evtl nur if hookstate != active und active erst am ende der funktion setzen
-                TargetPosition = CurrentSelectedTarget.transform.position;
-                CheckTargetType(CurrentSelectedTarget);
-                switch (CurrentTargetType)
-                {
-                    case HookType.Hook:
-                        {
-                            ReachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
-                            CurrentTargetPosition = CalculateTargetPoint(transform.position, CurrentSelectedTarget.transform.position, AdditionalTravelDistance);
-                            CancelDistance = CalculateCancelDistance(transform.position, CurrentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
-                            GetComponent<PlayerMovement>().DisableUserInput(true);
-                            SetVelocityTowardsTarget(CurrentTargetPosition, HookSpeed);
-                            FramesTillTarget = CalculateTravelTime(transform.position, CurrentTargetPosition, HookSpeed);
-                            break;
-                        }
-                    case HookType.BigEnemy:
-                        {
-                            ReachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
-                            CurrentTargetPosition = CurrentSelectedTarget.transform.position;
-                            CancelDistance = CalculateCancelDistance(transform.position, CurrentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
-                            GetComponent<PlayerMovement>().DisableUserInput(true);
-                            SetVelocityTowardsTarget(CurrentTargetPosition, HookSpeed);
-                            FramesTillTarget = CalculateTravelTime(transform.position, CurrentTargetPosition, HookSpeed);
-                            break;
-                        }
-                    case HookType.Pull:
-                        {
-                            ButtonPresses = NumOfButtonPresses;
-                            GetComponent<PlayerMovement>().DisableUserInput(true); // kann evtl nach oben
-                            break;
-                        }
-                    case HookType.Throw:
-                        {
-                            CurrentSelectedTarget.GetComponent<ThrowableObject>().PickUp(transform, PullSpeed, TargetReachedTolerance);
-                            break;
-                        }
+                m_targetPosition = m_currentSelectedTarget.transform.position;
+                CheckTargetType(m_currentSelectedTarget);
+                switch (m_currentTargetType) {
+                    case HookType.Hook: {
+                        m_reachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
+                        m_currentTargetPosition = CalculateTargetPoint(transform.position, m_currentSelectedTarget.transform.position, m_additionalTravelDistance);
+                        m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
+                        GetComponent<PlayerMovement>().DisableUserInput(true);
+                        SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
+                        m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
+                        break;
+                    }
+                    case HookType.BigEnemy: {
+                        m_reachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
+                        m_currentTargetPosition = m_currentSelectedTarget.transform.position;
+                        m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
+                        GetComponent<PlayerMovement>().DisableUserInput(true);
+                        SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
+                        m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
+                        break;
+                    }
+                    case HookType.Pull: {
+                        m_buttonPresses = m_numOfButtonPresses;
+                        GetComponent<PlayerMovement>().DisableUserInput(true); // kann evtl nach oben
+                        break;
+                    }
+                    case HookType.Throw: {
+                        m_currentSelectedTarget.GetComponent<ThrowableObject>().PickUp(transform, m_pullSpeed, m_targetReachedTolerance);
+                        break;
+                    }
                 }
+            } else {
+                m_currentHookState = HookState.Cooldown;
+                Vector2 hookDirection = Vector2.zero;
+                if (m_usingController == false) {
+                    hookDirection = m_mouseDirection;
+                } else {
+                    hookDirection = m_controllerDirection;
+                }
+                m_hookCooldown = StartCoroutine(ThrowHook(hookDirection));
             }
-            else
-            {
-                CurrentHookState = HookState.Cooldown;
-                Vector2 HookDirection = Vector2.zero;
-                if (UsingController == false)
-                    HookDirection = MouseDirection;
-                else
-                    HookDirection = ControllerDirection;
-                HookCooldown = StartCoroutine(ThrowHook(HookDirection));
-            }
         }
     }
 
-    bool HookToEnemy()
+    private bool HookToEnemy()
     {
-        if (Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < TargetReachedTolerance)
-            ReachedTarget = true;
-
-        if (TargetPosition != (Vector2)CurrentSelectedTarget.transform.position && ReachedTarget == false) //bei big enemy funktioniert das nicht 
-        {
-            TargetPosition = CurrentSelectedTarget.transform.position;
-            CurrentTargetPosition = TargetPosition;
-            SetVelocityTowardsTarget(CurrentTargetPosition, HookSpeed);
-            FramesTillTarget = CalculateTravelTime(transform.position, CurrentTargetPosition, HookSpeed); //brauch ich das? --> eigentlich schon
+        if (Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_targetReachedTolerance) {
+            m_reachedTarget = true;
         }
 
-        Debug.DrawLine(transform.position, CurrentSelectedTarget.transform.position);
-        bool CancelCondition = false;
-        if (Vector2.Distance(transform.position, CurrentTargetPosition) < TargetReachedTolerance) //evlt das gleiche wie oben
-            CancelCondition = true;
-
-        if (CancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-            CancelCondition = true;
-
-        FramesTillTarget -= 1 * Time.timeScale;
-        if (FramesTillTarget < 0)
+        if (m_targetPosition != (Vector2)m_currentSelectedTarget.transform.position && m_reachedTarget == false) //bei big enemy funktioniert das nicht 
         {
-            ReachedTarget = true;
-            CancelCondition = true;
+            m_targetPosition = m_currentSelectedTarget.transform.position;
+            m_currentTargetPosition = m_targetPosition;
+            SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
+            m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed); //brauch ich das? --> eigentlich schon
         }
 
-        return CancelCondition;
+        Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position);
+        bool cancelCondition = false;
+        if (Vector2.Distance(transform.position, m_currentTargetPosition) < m_targetReachedTolerance) { //evlt das gleiche wie oben
+            cancelCondition = true;
+        }
+
+        if (m_cancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance) { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
+            cancelCondition = true;
+        }
+
+        m_framesTillTarget -= 1 * Time.timeScale;
+        if (m_framesTillTarget < 0) {
+            m_reachedTarget = true;
+            cancelCondition = true;
+        }
+
+        return cancelCondition;
     }
 
-    bool HookToTarget()
+    private bool HookToTarget()
     {
-        if (Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < TargetReachedTolerance)
-            ReachedTarget = true;
-
-        if (TargetPosition != (Vector2)CurrentSelectedTarget.transform.position && ReachedTarget == false) //bei big enemy funktioniert das nicht 
-        {
-            TargetPosition = CurrentSelectedTarget.transform.position;
-            CurrentTargetPosition = CalculateTargetPoint(transform.position, TargetPosition, AdditionalTravelDistance);
-            SetVelocityTowardsTarget(CurrentTargetPosition, HookSpeed);
-            FramesTillTarget = CalculateTravelTime(transform.position, CurrentTargetPosition, HookSpeed); //brauch ich das? --> eigentlich schon
+        if (Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_targetReachedTolerance) {
+            m_reachedTarget = true;
         }
 
-        Debug.DrawLine(transform.position, CurrentSelectedTarget.transform.position);
-        bool CancelCondition = false;
-        if (Vector2.Distance(transform.position, CurrentTargetPosition) < TargetReachedTolerance) //wenn man sein ziel erreicht hat
-            CancelCondition = true;
+        if (m_targetPosition != (Vector2)m_currentSelectedTarget.transform.position && m_reachedTarget == false) { //bei big enemy funktioniert das nicht 
+            m_targetPosition = m_currentSelectedTarget.transform.position;
+            m_currentTargetPosition = CalculateTargetPoint(transform.position, m_targetPosition, m_additionalTravelDistance);
+            SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
+            m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed); //brauch ich das? --> eigentlich schon
+        }
 
-        if (CancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance) //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-            CancelCondition = true;
+        Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position);
+        bool cancelCondition = false;
+        if (Vector2.Distance(transform.position, m_currentTargetPosition) < m_targetReachedTolerance) { //wenn man sein ziel erreicht hat
+            cancelCondition = true;
+        }
 
-        FramesTillTarget -= 1 * Time.timeScale;
-        if (FramesTillTarget < 0)
-            CancelCondition = true;
+        if (m_cancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance) { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
+            cancelCondition = true;
+        }
 
-        return CancelCondition;
+        m_framesTillTarget -= 1 * Time.timeScale;
+        if (m_framesTillTarget < 0) {
+            cancelCondition = true;
+        }
+
+        return cancelCondition;
     }
 
-    void ProgressiveTimeSlowTwo(float x) //muss wahrscheinlihc nichtmal eine coroutine sein
+    private void ProgressiveTimeSlowTwo(float _x) //muss wahrscheinlihc nichtmal eine coroutine sein
     {
-        if (Time.timeScale > MaxTimeSlow)
-        {
-            Time.timeScale -= Mathf.Pow(x, 2);
+        if (Time.timeScale > m_maxTimeSlow) {
+            Time.timeScale -= Mathf.Pow(_x, 2);
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
         }
     }
 
-    void ProgressiveTimeSlow() //muss wahrscheinlihc nichtmal eine coroutine sein
+    private void ProgressiveTimeSlow() //muss wahrscheinlihc nichtmal eine coroutine sein
     {
-        if (Time.timeScale > MaxTimeSlow)
-        {
+        if (Time.timeScale > m_maxTimeSlow) {
             Time.timeScale *= 0.93f;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
         }
     }
-    IEnumerator ThrowHook(Vector2 _direction)
+
+    private IEnumerator ThrowHook(Vector2 _direction)
     {
         int test = 0;
-        while (test < HookRadius)
-        {
+        while (test < m_hookRadius) {
             Vector2 temp = _direction * test;
             Debug.DrawLine(transform.position, (Vector2)transform.position + temp);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, _direction, test, HookPointFilter); //weil player nichtmehr auf dem ignore raycast layer ist
-            if (hit.collider != null)
-            {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, _direction, test, m_hookPointFilter); //weil player nichtmehr auf dem ignore raycast layer ist
+            if (hit.collider != null) {
                 StartCoroutine(PullBackHook(_direction, test));
-                StopCoroutine(HookCooldown);
+                StopCoroutine(m_hookCooldown);
             }
             test++;
             yield return new WaitForSeconds(0.03f);
         }
-        StartCoroutine(PullBackHook(_direction, (int)HookRadius));
+        StartCoroutine(PullBackHook(_direction, (int)m_hookRadius));
     }
 
-    IEnumerator PullBackHook(Vector2 _direction, int _numberOfRepeats)
+    private IEnumerator PullBackHook(Vector2 _direction, int _numberOfRepeats)
     {
-        for (int i = _numberOfRepeats; i > 0; i--)
-        {
+        for (int i = _numberOfRepeats; i > 0; i--) {
             Vector2 temp = _direction * i;
             Debug.DrawLine(transform.position, (Vector2)transform.position + temp, Color.red);
             yield return new WaitForSeconds(0.03f);
         }
-        CurrentHookState = HookState.Inactive;
+        m_currentHookState = HookState.Inactive;
     }
 
-    Vector2 CalculateTargetPoint(Vector2 _start, Vector2 _end, float _additionalDistance) //ändern
+    private Vector2 CalculateTargetPoint(Vector2 _start, Vector2 _end, float _additionalDistance) //ändern
     {
-        float totalDistance = Vector2.Distance(_start, _end) + AdditionalTravelDistance;
+        float totalDistance = Vector2.Distance(_start, _end) + m_additionalTravelDistance;
         Vector2 targetPoint = (_end - _start).normalized;
         Vector2 test = _start + targetPoint * totalDistance;
         return test;
     }
 
-    bool CanUseHook()
+    private bool CanUseHook()
     {
-        if (CancelHookWithNewHook)
-            if (CurrentSelectedTarget != null && Vector2.Distance(transform.position, CurrentSelectedTarget.transform.position) < CancelDistance && CurrentTargetType != HookType.Throw)
+        if (m_cancelHookWithNewHook) {
+            if (m_currentSelectedTarget != null && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance && m_currentTargetType != HookType.Throw) {
                 return true;
+            }
+        }
         return false;
     }
 
-    float CalculateTravelTime(Vector2 _startPoint, Vector2 _endPoint, float Speed)
+    private float CalculateTravelTime(Vector2 _startPoint, Vector2 _endPoint, float _speed)
     {
-        Vector2 PlayerVelocity = (_endPoint - _startPoint).normalized * Speed;
-        float Distance = Vector2.Distance(_startPoint, _endPoint);
-        float FramesTillTarget = Distance / (PlayerVelocity.magnitude / 60); //*Time.deltaTime --> funktioniert nur bei vsync aktiviert
+        Vector2 playerVelocity = (_endPoint - _startPoint).normalized * _speed;
+        float distance = Vector2.Distance(_startPoint, _endPoint);
+        float framesTillTarget = distance / (playerVelocity.magnitude / 60); //*Time.deltaTime --> funktioniert nur bei vsync aktiviert
         //float Test = Distance / (AdditionalVelocity.magnitude * (Time.deltaTime * 10)); //evtl die richtige lösung/bessere?
-        return FramesTillTarget;
+        return framesTillTarget;
     }
 
-    float CalculateCancelDistance(Vector2 _startPoint, Vector2 _endPoint)
+    private float CalculateCancelDistance(Vector2 _startPoint, Vector2 _endPoint)
     {
-        float TotalDistance = Vector2.Distance(_startPoint, _endPoint);
-        TotalDistance *= 1 - CancelDistancePercentage;
-        return TotalDistance;
+        float totalDistance = Vector2.Distance(_startPoint, _endPoint);
+        totalDistance *= 1 - m_cancelDistancePercentage;
+        return totalDistance;
     }
 
-    IEnumerator JumpBack() //--> gibt noch bugs 
+    private IEnumerator JumpBack() //--> gibt noch bugs 
     {
         int x = 1;
-        if (transform.position.x > CurrentSelectedTarget.transform.parent.transform.position.x)
+        if (transform.position.x > m_currentSelectedTarget.transform.parent.transform.position.x) {
             x = 1;
-        else
+        } else {
             x = -1;
+        }
+
         DeactivateHook();
         GetComponent<PlayerMovement>().DisableUserInput(true);
-        CurrentHookState = HookState.JumpBack;
-        Vector2 JumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * HookSpeed; //evtl jump speed
-        GetComponent<PlayerMovement>().externalVelocity = JumpBackvelocity;
-        yield return new WaitForSeconds(0.4f * 10 / HookSpeed); //bessere lösung finden --> passt fürs erste
+        m_currentHookState = HookState.JumpBack;
+        Vector2 jumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * m_hookSpeed; //evtl jump speed
+        GetComponent<PlayerMovement>().externalVelocity = jumpBackvelocity;
+        yield return new WaitForSeconds(0.4f * 10 / m_hookSpeed); //bessere lösung finden --> passt fürs erste
         DeactivateHook();
     }
 
-    void SetVelocityTowardsTarget(Vector2 _targetPoint, float _speed) //rename //evlt speed auch als parameter übergeben
+    private void SetVelocityTowardsTarget(Vector2 _targetPoint, float _speed) //rename //evlt speed auch als parameter übergeben
     {
-        Vector2 NewCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * _speed;
-        GetComponent<PlayerMovement>().externalVelocity = NewCharacterVelocity;
+        Vector2 newCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * _speed;
+        GetComponent<PlayerMovement>().externalVelocity = newCharacterVelocity;
     }
 
-    Collider2D FindNearestTargetInRange(Vector2 _SearchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz
+    private Collider2D FindNearestTargetInRange(Vector2 _searchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz
     {
-        if (_SearchDirection == Vector2.zero)
+        if (_searchDirection == Vector2.zero) {
             return null;
+        }
 
-        Collider2D[] HookPointsInRange = Physics2D.OverlapCircleAll(transform.position, HookRadius, HookPointLayer); //hookPoints in range, .... --> hook points in sight
-        for (int i = 0; i < HookPointsInRange.Length; i++)
-        {
-            if (!TotalHookPoints.Contains(HookPointsInRange[i]))
-            {
-                TotalHookPoints.Add(HookPointsInRange[i]);
+        Collider2D[] hookPointsInRange = Physics2D.OverlapCircleAll(transform.position, m_hookRadius, m_hookPointLayer); //hookPoints in range, .... --> hook points in sight
+        for (int i = 0; i < hookPointsInRange.Length; i++) {
+            if (!m_totalHookPoints.Contains(hookPointsInRange[i])) {
+                m_totalHookPoints.Add(hookPointsInRange[i]);
             }
         }
         ResetHookPoints();
 
-        List<Collider2D> HookPointsInSight = new List<Collider2D>();
-        for (int i = 0; i < HookPointsInRange.Length; i++)
-        {
-            float RayCastLenght = Vector2.Distance(transform.position, HookPointsInRange[i].transform.position);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (HookPointsInRange[i].transform.position - transform.position), RayCastLenght, HookPointFilter);
-            if (hit == false)
-            {
-                if (HookPointsInRange[i].CompareTag("Throwable") && HookPointsInRange[i].GetComponent<ThrowableObject>().CurrentObjectState == ThrowableObject.CurrentState.Inactive) //noch keine soute lösung
-                    HookPointsInSight.Add(HookPointsInRange[i]);
-                else if (!HookPointsInRange[i].CompareTag("Throwable"))
-                    HookPointsInSight.Add(HookPointsInRange[i]);
+        List<Collider2D> hookPointsInSight = new List<Collider2D>();
+        for (int i = 0; i < hookPointsInRange.Length; i++) {
+            float rayCastLength = Vector2.Distance(transform.position, hookPointsInRange[i].transform.position);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, (hookPointsInRange[i].transform.position - transform.position), rayCastLength, m_hookPointFilter);
+            if (hit == false) {
+                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive) { //noch keine soute lösung
+                    hookPointsInSight.Add(hookPointsInRange[i]);
+                } else if (!hookPointsInRange[i].CompareTag("Throwable")) {
+                    hookPointsInSight.Add(hookPointsInRange[i]);
+                }
             }
         }
 
-        List<Collider2D> HookPointsInCone = new List<Collider2D>(); //evlt einen besseren namen finden
-        for (int i = 0; i < HookPointsInSight.Count; i++) //wie am besten den extra filter applyen?
+        List<Collider2D> hookPointsInCone = new List<Collider2D>(); //evlt einen besseren namen finden
+        for (int i = 0; i < hookPointsInSight.Count; i++) //wie am besten den extra filter applyen?
         {
-            VisualizeLine(transform.position, HookPointsInSight[i].transform.position);
-            HookPointsInSight[i].GetComponent<SpriteRenderer>().color = Color.red;
-            Vector2 PlayerToColliderDirection = (HookPointsInSight[i].transform.position - transform.position).normalized;
-            float AngleInDeg = Vector2.Angle(PlayerToColliderDirection, _SearchDirection);
+            VisualizeLine(transform.position, hookPointsInSight[i].transform.position);
+            hookPointsInSight[i].GetComponent<SpriteRenderer>().color = Color.red;
+            Vector2 playerToColliderDirection = (hookPointsInSight[i].transform.position - transform.position).normalized;
+            float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
 
-            if (AngleInDeg < Angle || Vector2.Distance(transform.position, HookPointsInSight[i].transform.position) < SafetyRadius)
-            {
-                HookPointsInCone.Add(HookPointsInSight[i]);
+            if (angleInDeg < m_angle || Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius) {
+                hookPointsInCone.Add(hookPointsInSight[i]);
             }
         }
 
-        if (HookPointsInCone.Count == 0)
-        {
+        if (hookPointsInCone.Count == 0) {
             return null;
         }
 
-        Collider2D NearestTargetPoint = new Collider2D();
-        float LowestAngle = Mathf.Infinity;
-        for (int i = 0; i < HookPointsInCone.Count; i++) //bisher kein check ob throwable or not --> siehe old function
+        Collider2D nearestTargetPoint = new Collider2D();
+        float lowestAngle = Mathf.Infinity;
+        for (int i = 0; i < hookPointsInCone.Count; i++) //bisher kein check ob throwable or not --> siehe old function
         {
-            Vector2 PlayerToColliderDirection = (HookPointsInCone[i].transform.position - transform.position).normalized;
-            float AngleInDeg = Vector2.Angle(PlayerToColliderDirection, _SearchDirection);
-            if (AngleInDeg < LowestAngle)
-            {
-                if (HookPointsInCone.Count > 1)
-                {
-                    if (HookPointsInCone[i].CompareTag("Throwable")) //evlt noch ne bessere lösung finden
+            Vector2 playerToColliderDirection = (hookPointsInCone[i].transform.position - transform.position).normalized;
+            float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
+            if (angleInDeg < lowestAngle) {
+                if (hookPointsInCone.Count > 1) {
+                    if (hookPointsInCone[i].CompareTag("Throwable")) //evlt noch ne bessere lösung finden
                     {
-                        if (AngleInDeg < PullAngle)
-                        {
-                            LowestAngle = AngleInDeg;
-                            NearestTargetPoint = HookPointsInCone[i];
+                        if (angleInDeg < m_pullAngle) {
+                            lowestAngle = angleInDeg;
+                            nearestTargetPoint = hookPointsInCone[i];
                         }
+                    } else {
+                        lowestAngle = angleInDeg;
+                        nearestTargetPoint = hookPointsInCone[i];
                     }
-                    else
-                    {
-                        LowestAngle = AngleInDeg;
-                        NearestTargetPoint = HookPointsInCone[i];
-                    }
-                }
-                else
-                {
-                    LowestAngle = AngleInDeg;
-                    NearestTargetPoint = HookPointsInCone[i];
+                } else {
+                    lowestAngle = angleInDeg;
+                    nearestTargetPoint = hookPointsInCone[i];
                 }
             }
         }
 
-        if (NearestTargetPoint != null)
-        {
-            NearestTargetPoint.GetComponent<SpriteRenderer>().color = Color.green;
+        if (nearestTargetPoint != null) {
+            nearestTargetPoint.GetComponent<SpriteRenderer>().color = Color.green;
         }
-        return NearestTargetPoint;
+        return nearestTargetPoint;
     }
 
-    void ResetHookPoints() //müssten eigentlich nur hookpoints in TotalHookPoints sein
+    private void ResetHookPoints() //müssten eigentlich nur hookpoints in TotalHookPoints sein
     {
-        for (int i = 0; i < TotalHookPoints.Count; i++)
-        {
-            TotalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
+        for (int i = 0; i < m_totalHookPoints.Count; i++) {
+            m_totalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
-    Vector2 RotateVector(Vector2 v, float degrees)
-    {
-        float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
-        float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
 
-        float tx = v.x;
-        float ty = v.y;
-        v.x = (cos * tx) - (sin * ty);
-        v.y = (sin * tx) + (cos * ty);
-        return v;
+    private Vector2 RotateVector(Vector2 _v, float _degrees)
+    {
+        float sin = Mathf.Sin(_degrees * Mathf.Deg2Rad);
+        float cos = Mathf.Cos(_degrees * Mathf.Deg2Rad);
+
+        float tx = _v.x;
+        float ty = _v.y;
+        _v.x = (cos * tx) - (sin * ty);
+        _v.y = (sin * tx) + (cos * ty);
+        return _v;
     }
 
-    void VisualizeCone(Vector2 _direction)
+    private void VisualizeCone(Vector2 _direction)
     {
-        Vector2 DirectionLine = _direction.normalized * HookRadius;
-        Vector2 LeftArc = RotateVector(DirectionLine, Angle);
-        Vector2 RightArc = RotateVector(DirectionLine, -Angle);
-        Vector2 InnerLeftArc = RotateVector(DirectionLine, PullAngle);
-        Vector2 InnerRightArc = RotateVector(DirectionLine, -PullAngle);
+        Vector2 directionLine = _direction.normalized * m_hookRadius;
+        Vector2 leftArc = RotateVector(directionLine, m_angle);
+        Vector2 rightArc = RotateVector(directionLine, -m_angle);
+        Vector2 innerLeftArc = RotateVector(directionLine, m_pullAngle);
+        Vector2 innerRightArc = RotateVector(directionLine, -m_pullAngle);
 
-        Debug.DrawLine(transform.position, (Vector2)transform.position + DirectionLine);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + LeftArc);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + RightArc);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + InnerLeftArc, Color.blue);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + InnerRightArc, Color.blue);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + directionLine);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + leftArc);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + rightArc);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + innerLeftArc, Color.blue);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + innerRightArc, Color.blue);
     }
 
-    void VisualizeLine(Vector2 _start, Vector2 _end) //eigentlich kein guter name --> weil es nur eine bestimmte linie visualisiert
+    private void VisualizeLine(Vector2 _start, Vector2 _end) //eigentlich kein guter name --> weil es nur eine bestimmte linie visualisiert
     {
         Debug.DrawLine(_start, _end);
-        float VisualDistance = Vector2.Distance(_start, _end) * CancelDistancePercentage;
-        Debug.DrawLine(_start, _start + (_end - _start).normalized * VisualDistance, Color.red);
+        float visualDistance = Vector2.Distance(_start, _end) * m_cancelDistancePercentage;
+        Debug.DrawLine(_start, _start + (_end - _start).normalized * visualDistance, Color.red);
     }
 
-    void ApplyGravity()
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void CancelHook()
     {
-        Currentvelocity += Vector2.up * (-Gravity * Time.deltaTime / Time.timeScale);
-        actor.velocity = Currentvelocity;
-        actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -MaxFallingSpeed, float.MaxValue));
+        //StopAllCoroutines(); --> brauch ich das? jump back?
+        DeactivateHook(true);
+        GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
     }
 }
 

@@ -227,5 +227,7 @@ public class PlayerMovement : MonoBehaviour
         m_inputDisabled = _disable;
         m_inputState.lastMovement = Vector2.zero;
         m_externalVelocity = Vector2.zero;
+
+        m_rb.gravityScale = _disable ? 0 : 1f;
     }
 }

@@ -2,123 +2,132 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 //requires Component Actor2d
 public class ThrowableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public enum CurrentState { Inactive, TravellingToPlayer, PickedUp, Thrown } // getter
-    //enum OnImpact
-    [HideInInspector] public CurrentState CurrentObjectState = CurrentState.Inactive;
+    //**********************//
+    //    Internal Types    //
+    //**********************//
 
-    Vector2 CurrentVelocity;
-    public float Gravity = 10f;
-    [Range(1,3)] public float SpeedMultiplier = 1.4f; //später per object typ einstellen
+    public enum ThrowableState { Inactive, TravellingToPlayer, PickedUp, Thrown } // getter
 
-    [HideInInspector] public Transform ObjectToFollow;
-    float Speed;
-    float TargetReachedTolerance;
-    Vector2 _gravity;
-    Actor2D actor;
-    Rigidbody2D m_rb;
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object typ einstellen
+
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public ThrowableState currentObjectState
+    {
+        get { return m_currentObjectState; }
+    }
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private ThrowableState m_currentObjectState = ThrowableState.Inactive;
+
+    private Vector2 m_currentVelocity;
+    private Transform m_objectToFollow;
+    private float m_speed;
+    private float m_targetReachedTolerance;
+    private Actor2D m_actor;
+    private Rigidbody2D m_rb;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
 
     void Start()
     {
-        actor = GetComponent<Actor2D>();
+        m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
-        _gravity = new Vector2(0, Gravity);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        switch (CurrentObjectState)
-        {
-            case CurrentState.TravellingToPlayer:
-                {
-                    Vector2 objectVelocity = (ObjectToFollow.transform.position - transform.position).normalized * Speed;
-                    m_rb.velocity = objectVelocity;
-                    if (Vector2.Distance(transform.position, ObjectToFollow.transform.position) < TargetReachedTolerance)
-                    {
-                        CurrentObjectState = CurrentState.PickedUp;
-                    }
-                    break;
+        switch (currentObjectState) {
+            case ThrowableState.TravellingToPlayer: {
+                Vector2 objectVelocity = (m_objectToFollow.transform.position - transform.position).normalized * m_speed;
+                m_rb.velocity = objectVelocity;
+                if (Vector2.Distance(transform.position, m_objectToFollow.transform.position) < m_targetReachedTolerance) {
+                    m_currentObjectState = ThrowableState.PickedUp;
                 }
-            case CurrentState.PickedUp:
-                {
-                    m_rb.MovePosition(ObjectToFollow.GetComponent<Rigidbody2D>().position);
-                    break;
+                break;
+            }
+            case ThrowableState.PickedUp: {
+                m_rb.MovePosition(m_objectToFollow.GetComponent<Rigidbody2D>().position);
+                break;
+            }
+            case ThrowableState.Inactive: {
+                break;
+            }
+            case ThrowableState.Thrown: {
+                CheckEnemyHit();
+                GetComponent<SpriteRenderer>().color = Color.yellow;
+                if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
+                    m_currentVelocity = Vector2.zero;
+                    m_rb.velocity = m_currentVelocity;
+                    m_currentObjectState = ThrowableState.Inactive;
+                    GetComponent<SpriteRenderer>().color = Color.blue;
                 }
-            case CurrentState.Inactive:
-                {
-                    //if (actor.contacts.above || actor.contacts.below)
-                    //{
-                    //    actor.velocity = new Vector2(actor.velocity.x, 0);
-                    //}
-                    //if (actor.contacts.left || actor.contacts.right)
-                    //{
-                    //    actor.velocity = new Vector2(0, actor.velocity.y);
-                    //}
-                    //ApplyGravity();
-                    break;
-                }
-            case CurrentState.Thrown:
-                {
-                    CheckEnemyHit();
-                    GetComponent<SpriteRenderer>().color = Color.yellow;
-                    if (actor.contacts.above || actor.contacts.below || actor.contacts.left || actor.contacts.right)
-                    { 
-                        CurrentVelocity = Vector2.zero;
-                        m_rb.velocity = CurrentVelocity;
-                        CurrentObjectState = CurrentState.Inactive;
-                        GetComponent<SpriteRenderer>().color = Color.blue;
-                    }
-                    //ApplyGravity(SpeedMultiplier);
-                    break;
-                }
+                break;
+            }
         }
     }
 
-    void ApplyGravity(float Multiplier = 1)
-    {
-        CurrentVelocity += Vector2.up * (-_gravity * Time.deltaTime) * Mathf.Pow(Multiplier,2);
-        actor.velocity = CurrentVelocity;
-        actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -Gravity, float.MaxValue));
-    }
+    //*************************//
+    //    Private Functions    //
+    //*************************//
 
-    void CheckEnemyHit()
+    private void CheckEnemyHit()
     {
         Transform enemy = null;
-        if (actor.contacts.below && actor.contacts.below.CompareTag("Enemy"))
-            enemy = actor.contacts.below;
-        if (actor.contacts.above && actor.contacts.above.CompareTag("Enemy"))
-            enemy = actor.contacts.above;
-        if (actor.contacts.left && actor.contacts.left.CompareTag("Enemy"))
-            enemy = actor.contacts.left;
-        if (actor.contacts.right && actor.contacts.right.CompareTag("Enemy"))
-            enemy = actor.contacts.right;
-        if (enemy != null)
+        if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy")) {
+            enemy = m_actor.contacts.below;
+        }
+        if (m_actor.contacts.above && m_actor.contacts.above.CompareTag("Enemy")) {
+            enemy = m_actor.contacts.above;
+        }
+        if (m_actor.contacts.left && m_actor.contacts.left.CompareTag("Enemy")) {
+            enemy = m_actor.contacts.left;
+        }
+        if (m_actor.contacts.right && m_actor.contacts.right.CompareTag("Enemy")) {
+            enemy = m_actor.contacts.right;
+        }
+        if (enemy != null) {
             enemy.GetComponent<Enemy>().GetHit(transform, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
+        }
     }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
 
     public void PickUp(Transform _target, float _speed, float _targetReachedTolerance)
     {
-        ObjectToFollow = _target;
-        CurrentObjectState = CurrentState.TravellingToPlayer;
-        Speed = _speed;
-        TargetReachedTolerance = _targetReachedTolerance;
+        m_objectToFollow = _target;
+        m_currentObjectState = ThrowableState.TravellingToPlayer;
+        m_speed = _speed;
+        m_targetReachedTolerance = _targetReachedTolerance;
     }
 
     public void Throw(Vector2 _velocity) // nur ein parameter 
     {
-        m_rb.velocity = _velocity * SpeedMultiplier;
-        CurrentObjectState = CurrentState.Thrown; 
+        m_rb.velocity = _velocity;
+        m_currentObjectState = ThrowableState.Thrown;
     }
 
     public void Drop()
     {
-        CurrentObjectState = CurrentState.Inactive;
-        ObjectToFollow = null;
-        actor.velocity = Vector2.zero;
+        m_currentObjectState = ThrowableState.Inactive;
+        m_objectToFollow = null;
+        m_actor.velocity = Vector2.zero;
     }
 }

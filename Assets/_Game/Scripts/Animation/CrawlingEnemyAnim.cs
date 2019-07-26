@@ -20,29 +20,29 @@ public class CrawlingEnemyAnim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        if (enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
         {
             anim.SetTrigger("Death");
             TriggeredDeath = true;
         }
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
-        if (enemy.CurrentMovementDirection == CrawlingEnemy.MovementDirection.Left)
+        if (enemy.currentMovementDirection == CrawlingEnemy.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
         else
             GetComponent<SpriteRenderer>().flipX = true;
 
-        if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
+        if (enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Hit)
         {
             anim.SetBool("Hit", true); //später evtl trigger
         }
         else //kann das zu fehlern führen?
         {
             anim.SetBool("Hit", false);
-            if (enemy.Jumping)
+            if (enemy.jumping)
                 anim.SetBool("Jump", true);
             else
                 anim.SetBool("Jump", false);
-            if (enemy.CurrentMovementState == CrawlingEnemy.MovementState.Falling && enemy.Jumping == false)
+            if (enemy.currentMovementState == CrawlingEnemy.MovementState.Falling && enemy.jumping == false)
                 anim.SetBool("Falling", true);
             else
                 anim.SetBool("Falling", false);

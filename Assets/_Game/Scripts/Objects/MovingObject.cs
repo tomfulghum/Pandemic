@@ -13,7 +13,7 @@ public class MovingObject : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
-    private MovingObjectManager manager = null;
+    //private MovingObjectManager manager = null;
     private Vector2 translation = Vector2.zero;
     private Rigidbody2D m_rb;
 
