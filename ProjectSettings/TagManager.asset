@@ -10,6 +10,10 @@ TagManager:
   - Throwable
   - RopePoint
   - MovingObject
+  - NormalKey
+  - BossKey
+  - KeyDoor
+  - BossDoor
   layers:
   - Default
   - TransparentFX
