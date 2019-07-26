@@ -13,10 +13,12 @@ public class Borb : MonoBehaviour
     public float ChaseRange = 3f;
     public float ConeAngle = 35;
     public float MovementSpeed = 3f;
+    public float DiveSpeed = 20f;
     public LayerMask SightBlockingLayers;
     int DirectionCounter;
     float flightHeight; //bei knockback zurück auf die flight height
 
+    float DiveTriggerRange = 0.2f;
 
     Transform ObjectToChase;
     Actor2D actor;
@@ -39,7 +41,7 @@ public class Borb : MonoBehaviour
 
             switch (CurrentMovementState)
             {
-                case MovementState.Move:
+                case MovementState.Move: //irgendwo evtl noch des stuck einbauen
                     {
                         CheckFlightHeight();
                         DirectionCounter--;
@@ -57,6 +59,14 @@ public class Borb : MonoBehaviour
                         FlyInDirection();
                         break;
                     }
+                case MovementState.Nosedive:
+                    {
+                        if (CheckGroundHit() == false)
+                            actor.velocity = Vector2.down * DiveSpeed;
+                        else
+                            CurrentMovementState = MovementState.FlyUp;
+                        break;
+                    }
             }
         }
     }
@@ -70,6 +80,14 @@ public class Borb : MonoBehaviour
         Debug.DrawLine(transform.position, (Vector2)transform.position + DirectionLine);
         Debug.DrawLine(transform.position, (Vector2)transform.position + LeftArc);
         Debug.DrawLine(transform.position, (Vector2)transform.position + RightArc);
+    }
+
+    bool CheckGroundHit()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, DiveSpeed * Time.deltaTime + GetComponent<Collider2D>().bounds.extents.y, SightBlockingLayers); //evlt anstatt 1 die distanz berechnen die er in dem frame zurückgelegt hat //divespeed * Time.deltatime //oder evtl if distance to ground <= 0.1f / 0 oder so
+        if(hit.collider != null)
+            return true;
+        return false;
     }
 
     float GetDistanceToGround()
@@ -91,11 +109,17 @@ public class Borb : MonoBehaviour
 
     void SetMovementState()
     {
-        ObjectToChase = PlayerInSight();
-        if (ObjectToChase != null && ChasePlayer())
-            CurrentMovementState = MovementState.Chase;
-        else
-            CurrentMovementState = MovementState.Move;
+        if (CurrentMovementState != MovementState.Nosedive) //später ändern
+        {
+            ObjectToChase = PlayerInSight();
+            if (ObjectToChase != null && ChasePlayer() && transform.position.y == flightHeight)
+                if (Mathf.Abs(transform.position.x - ObjectToChase.position.x) < DiveTriggerRange)
+                    CurrentMovementState = MovementState.Nosedive;
+                else
+                    CurrentMovementState = MovementState.Chase;
+            else
+                CurrentMovementState = MovementState.Move;
+        }
     }
 
     bool ChasePlayer()
