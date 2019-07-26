@@ -29,6 +29,11 @@ public class PlagueFlyerAnim : MonoBehaviour
         else
             anim.SetBool("Hit", false);
 
+        if (enemy.CurrentMovementState == Borb.MovementState.Chase)
+            anim.SetFloat("AngryFlight", 1);
+        else
+            anim.SetFloat("AngryFlight", 0);
+
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
         if (enemy.CurrentMovementDirection == Borb.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
