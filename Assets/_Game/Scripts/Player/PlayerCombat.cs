@@ -14,7 +14,7 @@ public class PlayerCombat : MonoBehaviour
 
     public float AttackRange = 2.5f;
     public float SmashSpeed = 20f;
-    public LayerMask layerMask;
+    public LayerMask layerMask; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
     public float ControllerTolerance = 0.5f;
 
     public float DashSpeed = 20f;
@@ -184,7 +184,7 @@ public class PlayerCombat : MonoBehaviour
         for (int i = 0; i < ColliderInRange.Length; i++)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), AttackRange, layerMask);
-            if (hit.collider != null && hit.collider.CompareTag("Enemy"))
+            if (hit.collider != null && (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("BigEnemy")))
             {
                 Vector2 PlayerToCollider = (ColliderInRange[i].transform.position - transform.position).normalized;
                 Vector2 Direction = _direction.normalized;

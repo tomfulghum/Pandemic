@@ -131,6 +131,8 @@ public class PlayerHook : MonoBehaviour
         ControllerDirection = Vector2.zero;
         LastMousePostion = Input.mousePosition;
         actor = GetComponent<Actor2D>();
+        //float ScaleMultiplier = RadiusVisualization.gameObject.transform.localScale.x / transform.localScale.x; //ist noch fehlerhaft
+       // RadiusVisualization.gameObject.transform.localScale = new Vector3(RadiusVisualization.gameObject.transform.localScale.x * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.y * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.z * ScaleMultiplier);
     }
 
     // Update is called once per frame

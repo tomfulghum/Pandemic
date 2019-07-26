@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HP_Throw
+  m_Controller: {fileID: 9100000, guid: 2004e62daf712524cba04c78a788a2ab, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d480c1dee56755a43a48a0268b88ca01, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a8121899dcc52184581899705cf843db, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 241d464bf31ee3041a16428b292407f3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 25fa19b6a6b86894285110fc1c66b44f, type: 2}

@@ -18,6 +18,8 @@ public class CrawlingEnemy : MonoBehaviour
     public float MovementSpeed = 1f;
     public float ChaseRadius = 3f;
     public bool UseIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
+    public bool UseJump = true;
+    //ändern in eine intelligenz skala von 1 - 10 oder so
     public LayerMask SightBlockingLayers;
     int DirectionCounter;
 
@@ -27,12 +29,14 @@ public class CrawlingEnemy : MonoBehaviour
 
     Actor2D actor;
 
-    //public GameObject DotPrefab;
-    //GameObject DotParent; //only for visuals
-    //was passiert wenn du den gegner in der luft triffst?
-    // Start is called before the first frame update
-    //jump values noch anpassen
-    void Start()
+    [HideInInspector] public bool Jumping; //nur für animation aktuell --> später verbessern
+
+   //public GameObject DotPrefab;
+   //GameObject DotParent; //only for visuals
+   //was passiert wenn du den gegner in der luft triffst?
+   // Start is called before the first frame update
+   //jump values noch anpassen
+   void Start()
     {
         actor = GetComponent<Actor2D>();
         //DotParent = new GameObject("Parent Dot Enemy"); //only for visuals
@@ -41,7 +45,7 @@ public class CrawlingEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Moving)
+        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Moving) //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
         {
             if (CurrentMovementState == MovementState.Decide)// && CurrentMovementState != MovementState.Falling)
                 SetNextMove();
@@ -64,7 +68,7 @@ public class CrawlingEnemy : MonoBehaviour
         else if (CheckGroundAhead() == false)
         {
             float rnd = Random.Range(0f, 1f);
-            if (rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) //rnd > 0.9f || //--> for better testing without random
+            if ((rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) && UseJump) //rnd > 0.9f || //--> for better testing without random
                 CurrentMovementState = MovementState.Jump;
             else
             {
@@ -110,6 +114,7 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Jump:
                 {
                     CurrentVelocity = Jump(JumpDirection);
+                    Jumping = true;
                     DirectionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
                     CurrentMovementState = MovementState.Decide; //Falling
                     break;
@@ -117,8 +122,11 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Falling:
                 {
                     //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
-                    // if (actor.collision.below)
-                    CurrentMovementState = MovementState.Decide;
+                    if (actor.collision.below)
+                    {
+                        Jumping = false;
+                        CurrentMovementState = MovementState.Decide;
+                    }
                     break;
                 }
         }
@@ -185,9 +193,9 @@ public class CrawlingEnemy : MonoBehaviour
     {
         RaycastHit2D hit;
         if (CurrentMovementDirection == MovementDirection.Left)
-            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, 1);
+            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         else
-            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, 1);
+            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         if (hit.collider != null)
             return true;
         return false;
