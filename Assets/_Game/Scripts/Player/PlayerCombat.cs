@@ -54,7 +54,9 @@ public class PlayerCombat : MonoBehaviour
 
     int CurrentHitPriority = 1;
 
+
     Actor2D actor;
+    PlayerMovement m_pm;
 
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
     // Start is called before the first frame update
@@ -64,6 +66,7 @@ public class PlayerCombat : MonoBehaviour
         enemiesHit = new List<Collider2D>();
         xAxis = Input.GetAxis("Horizontal");
         actor = GetComponent<Actor2D>();
+        m_pm = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -94,7 +97,7 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
 
-            if (!GetComponent<Actor2D>().collision.below && Input.GetAxis("MeteorSmash") > ControllerTolerance && CurrentAttackState == AttackState.None)
+            if (!GetComponent<Actor2D>().contacts.below && Input.GetAxis("MeteorSmash") > ControllerTolerance && CurrentAttackState == AttackState.None)
             {
                 StartMeteorSmash();
             }
@@ -119,11 +122,11 @@ public class PlayerCombat : MonoBehaviour
                     else
                         StopMeteorSmash();
                 }
-                if (actor.collision.below && actor.collision.below.CompareTag("Enemy")) //geht nicht weil actor nicht mit enemy kollidiert
+                if (actor.contacts.below && actor.contacts.below.CompareTag("Enemy")) //geht nicht weil actor nicht mit enemy kollidiert
                 {
-                    actor.collision.below.GetComponent<Enemy>().GetHit(transform, 15, CurrentHitPriority);
+                    actor.contacts.below.GetComponent<Enemy>().GetHit(transform, 15, CurrentHitPriority);
                 }
-                if (GetComponent<Actor2D>().collision.below && !GetComponent<Actor2D>().collision.below.CompareTag("Enemy"))
+                if (GetComponent<Actor2D>().contacts.below && !GetComponent<Actor2D>().contacts.below.CompareTag("Enemy"))
                     StopMeteorSmash();
             }
         }
@@ -156,7 +159,7 @@ public class PlayerCombat : MonoBehaviour
         else
             velocity = Vector2.right;
         GetComponent<PlayerMovement>().DisableUserInput(true);
-        GetComponent<PlayerMovement>().SetExternalVelocity(velocity * DashSpeed);
+        GetComponent<PlayerMovement>().externalVelocity = velocity * DashSpeed;
         yield return new WaitForSeconds(DashDuration);
         GetComponent<PlayerMovement>().DisableUserInput(false);
         CurrentAttackState = AttackState.None;
@@ -228,7 +231,7 @@ public class PlayerCombat : MonoBehaviour
     {
         ComboActive = true;
         CurrentAttackState = AttackState.Attack;
-        if (GetComponent<Actor2D>().collision.below || GroundBelow())
+        if (GetComponent<Actor2D>().contacts.below || GroundBelow())
         {
             GetComponent<PlayerMovement>().DisableUserInput(true);
         }
@@ -259,11 +262,11 @@ public class PlayerCombat : MonoBehaviour
                 test = 0;
 
             Vector2 MovementDirection = _direction.normalized;
-            actor.velocity = MovementDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
+            m_pm.externalVelocity = MovementDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
+            if (actor.contacts.above || actor.contacts.below)
+                m_pm.externalVelocity = new Vector2(actor.velocity.x, 0);
+            if (actor.contacts.left || actor.contacts.right)
+                m_pm.externalVelocity = new Vector2(0, actor.velocity.y);
 
             yield return new WaitForSeconds(0.005f);
         }
@@ -293,7 +296,7 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator FirstAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
-        if (actor.collision.below || GroundBelow())
+        if (actor.contacts.below || GroundBelow())
             AttackMove();
         CurrentAngle = AttackAngle;
         AttackNumber = 1;
@@ -307,7 +310,7 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator SecondAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen --> nicht nötig weil movement in air nicht disabled ist
     {
-        if (actor.collision.below || GroundBelow())
+        if (actor.contacts.below || GroundBelow())
             AttackMove();
         CurrentAngle = AttackAngle;
         AttackNumber = 2;
@@ -322,7 +325,7 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
     {
         ComboActive = false;
-        if (actor.collision.below || GroundBelow())
+        if (actor.contacts.below || GroundBelow())
             AttackMove();
         CurrentAngle = AttackAngle;
         CurrentlyAttacking = true;
@@ -363,8 +366,9 @@ public class PlayerCombat : MonoBehaviour
         CurrentAttackState = AttackState.Smash;
         Vector2 VelocityDown = Vector2.down * SmashSpeed;
         GetComponent<PlayerMovement>().DisableUserInput(true);
-        GetComponent<PlayerMovement>().SetExternalVelocity(VelocityDown);
+        GetComponent<PlayerMovement>().externalVelocity = VelocityDown;
     }
+
     void StopMeteorSmash()
     {
         GetComponent<PlayerMovement>().DisableUserInput(false);
@@ -407,6 +411,9 @@ public class PlayerCombat : MonoBehaviour
     {
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
         GetComponent<PlayerMovement>().DisableUserInput(true);
+
+        StartCoroutine(InvincibilityFrames(InvincibilityTime));
+
         for (int i = 0; i < _repetissions; i++)
         {
             float test = 1 - Mathf.Pow((i), 3) / 100;
@@ -416,11 +423,11 @@ public class PlayerCombat : MonoBehaviour
             if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) //KnockBacktolerance or so
                 AdditionalPosition = 10;
             Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + AdditionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
-            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
+            m_pm.externalVelocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
+            //if (actor.contacts.above || actor.contacts.below)
+            //    m_pm.externalVelocity = new Vector2(m_pm.externalVelocity.x, 0);
+            //if (actor.contacts.left || actor.contacts.right)
+            //    m_pm.externalVelocity = new Vector2(0, m_pm.externalVelocity.y);
 
             yield return new WaitForSeconds(0.03f);
         }
@@ -428,7 +435,7 @@ public class PlayerCombat : MonoBehaviour
         colorChangeCounter = 0;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         GetComponent<PlayerMovement>().DisableUserInput(false);
-        StartCoroutine(InvincibilityFrames(InvincibilityTime));
+        //StartCoroutine(InvincibilityFrames(InvincibilityTime));
     }
 
     //GetHit //Stagger ...

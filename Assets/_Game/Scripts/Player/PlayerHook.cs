@@ -75,6 +75,7 @@ public class PlayerHook : MonoBehaviour
 
     public float MinThrowVelocity = 5f;
     public float MaxThrowVelocity = 15f;
+    public float ThrowingSpeedMultiplier = 1.4f;
     public float Gravity = 10f;
     public float MaxFallingSpeed = 15f;
 
@@ -227,7 +228,7 @@ public class PlayerHook : MonoBehaviour
     public void CancelHook()
     {
         //StopAllCoroutines(); --> brauch ich das? jump back?
-        DeactivateHook();
+        DeactivateHook(true);
         GetComponent<VisualizeTrajectory>().RemoveVisualeDots(); //vllt auch in deactivate hook?
     }
 
@@ -251,7 +252,7 @@ public class PlayerHook : MonoBehaviour
     void AimThrow()
     {
         CurrentHookState = HookState.Aiming;
-        if (!actor.collision.below)
+        if (!actor.contacts.below)
             ApplyGravity();
         if (SlowTimeWhileAiming)
             SlowTime();
@@ -272,8 +273,8 @@ public class PlayerHook : MonoBehaviour
     {
         GetComponent<PlayerMovement>().DisableUserInput(true);
         float velocity = Mathf.Lerp(MinThrowVelocity, MaxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
-        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity; //falls wir nicht lerpen --> public float ThrowSpeed
-        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, Gravity);
+        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity * ThrowingSpeedMultiplier; //falls wir nicht lerpen --> public float ThrowSpeed
+        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, -Physics2D.gravity.y);
         return throwVelocity;
     }
 
@@ -319,7 +320,7 @@ public class PlayerHook : MonoBehaviour
 
     bool RopePull()
     {
-        if (!actor.collision.below)
+        if (!actor.contacts.below)
             ApplyGravity();
         Debug.DrawLine(transform.position, CurrentSelectedTarget.transform.position, Color.cyan);
         Vector2 RopeDirection = (CurrentSelectedTarget.transform.position - transform.position).normalized;
@@ -335,7 +336,7 @@ public class PlayerHook : MonoBehaviour
             if (transform.position.x != CurrentSelectedTarget.transform.position.x)
             {
                 Vector2 NewCharacterVelocity = (new Vector2(CurrentSelectedTarget.transform.position.x, 0) - new Vector2(transform.position.x, 0)).normalized * 2;
-                GetComponent<PlayerMovement>().SetExternalVelocity(NewCharacterVelocity);
+                GetComponent<PlayerMovement>().externalVelocity = NewCharacterVelocity;
             }
         }
 
@@ -358,13 +359,13 @@ public class PlayerHook : MonoBehaviour
         return CancelCondition;
     }
 
-    void DeactivateHook()
+    void DeactivateHook(bool _disableInput = false)
     {
         CurrentHookState = HookState.Inactive;
         CurrentTargetType = HookType.None;
         CurrentSelectedTarget = null; //vllt brauch ich das gar nicht ? //evlt nur currentselectedpoint == null
         CurrentSwitchTarget = null;
-        GetComponent<PlayerMovement>().DisableUserInput(false);
+        GetComponent<PlayerMovement>().DisableUserInput(_disableInput);
         ResetValues(); //weiß nicht ob das sogut ist?
         //evlt stop all coroutines? --> falls es von einem anderen script her aufgerufen wird
     }
@@ -412,7 +413,7 @@ public class PlayerHook : MonoBehaviour
         {
             if (CurrentHookState == HookState.SearchTarget)
                 CurrentSelectedTarget = FindNearestTargetInRange(MouseDirection);
-            else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection) && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint"))
+            else if (CurrentSelectedTarget != FindNearestTargetInRange(MouseDirection)) // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
             {
                 if (FindNearestTargetInRange(MouseDirection) != null && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint"))
                 {
@@ -665,7 +666,7 @@ public class PlayerHook : MonoBehaviour
         GetComponent<PlayerMovement>().DisableUserInput(true);
         CurrentHookState = HookState.JumpBack;
         Vector2 JumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * HookSpeed; //evtl jump speed
-        GetComponent<PlayerMovement>().SetExternalVelocity(JumpBackvelocity);
+        GetComponent<PlayerMovement>().externalVelocity = JumpBackvelocity;
         yield return new WaitForSeconds(0.4f * 10 / HookSpeed); //bessere lösung finden --> passt fürs erste
         DeactivateHook();
     }
@@ -673,7 +674,7 @@ public class PlayerHook : MonoBehaviour
     void SetVelocityTowardsTarget(Vector2 _targetPoint, float _speed) //rename //evlt speed auch als parameter übergeben
     {
         Vector2 NewCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * _speed;
-        GetComponent<PlayerMovement>().SetExternalVelocity(NewCharacterVelocity);
+        GetComponent<PlayerMovement>().externalVelocity = NewCharacterVelocity;
     }
 
     Collider2D FindNearestTargetInRange(Vector2 _SearchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz

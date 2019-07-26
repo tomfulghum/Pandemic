@@ -11,8 +11,8 @@ public class CrawlingEnemy : MonoBehaviour
     public enum MovementState { Decide, Move, Jump, Falling, Chase } //in air in falling umändern --> wenn noch ground below --> nichts tun nur gravity applyn
     public enum MovementDirection { None, Left, Right } //brauch ich none überhaupt?
 
-    [HideInInspector] public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
-    [HideInInspector] public MovementDirection CurrentMovementDirection = MovementDirection.None;
+    public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
+    public MovementDirection CurrentMovementDirection = MovementDirection.None;
 
     public float Gravity = 10f;
     public float MovementSpeed = 1f;
@@ -28,6 +28,7 @@ public class CrawlingEnemy : MonoBehaviour
     Vector2 JumpDirection;
 
     Actor2D actor;
+    Rigidbody2D m_rb;
 
     [HideInInspector] public bool Jumping; //nur für animation aktuell --> später verbessern
 
@@ -39,6 +40,7 @@ public class CrawlingEnemy : MonoBehaviour
    void Start()
     {
         actor = GetComponent<Actor2D>();
+        m_rb = GetComponent<Rigidbody2D>();
         //DotParent = new GameObject("Parent Dot Enemy"); //only for visuals
     }
 
@@ -88,12 +90,12 @@ public class CrawlingEnemy : MonoBehaviour
                     if (ObjectToChase.position.x > transform.position.x)
                     {
                         CurrentMovementDirection = MovementDirection.Right;
-                        CurrentVelocity = Vector2.right * MovementSpeed + new Vector2(0, CurrentVelocity.y);
+                        m_rb.velocity = Vector2.right * MovementSpeed + new Vector2(0, m_rb.velocity.y);
                     }
                     else
                     {
                         CurrentMovementDirection = MovementDirection.Left;
-                        CurrentVelocity = Vector2.left * MovementSpeed + new Vector2(0, CurrentVelocity.y);
+                        m_rb.velocity = Vector2.left * MovementSpeed + new Vector2(0, m_rb.velocity.y);
                     }
                     CurrentMovementState = MovementState.Decide;
                     break;
@@ -102,18 +104,18 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Move:
                 {
                     DirectionCounter--;
-                    if (DirectionCounter < 0 || actor.collision.left || actor.collision.right)
+                    if (DirectionCounter < 0 || actor.contacts.left || actor.contacts.right)
                         ChangeDirection();
                     if (CurrentMovementDirection == MovementDirection.Right)
-                        CurrentVelocity = Vector2.right * MovementSpeed + new Vector2(0, CurrentVelocity.y);
+                        m_rb.velocity = Vector2.right * MovementSpeed + new Vector2(0, m_rb.velocity.y);
                     else
-                        CurrentVelocity = Vector2.left * MovementSpeed + new Vector2(0, CurrentVelocity.y);
+                        m_rb.velocity = Vector2.left * MovementSpeed + new Vector2(0, m_rb.velocity.y);
                     CurrentMovementState = MovementState.Decide;
                     break;
                 }
             case MovementState.Jump:
                 {
-                    CurrentVelocity = Jump(JumpDirection);
+                    m_rb.velocity = Jump(JumpDirection);
                     Jumping = true;
                     DirectionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
                     CurrentMovementState = MovementState.Decide; //Falling
@@ -123,7 +125,7 @@ public class CrawlingEnemy : MonoBehaviour
                 {
                     //vllt hier velocity nochmal setzen (vector2.x = 0 if movementdirection = none)
                     //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
-                    if (actor.collision.below)
+                    if (actor.contacts.below)
                     {
                         Jumping = false;
                         CurrentMovementState = MovementState.Decide;
@@ -144,16 +146,16 @@ public class CrawlingEnemy : MonoBehaviour
 
     void Movement()
     {
-        ApplyGravity();
-        CheckCollissions();
-        actor.velocity = CurrentVelocity;
+        //ApplyGravity();
+        //CheckCollissions();
+        //m_rb.velocity = CurrentVelocity;
     }
 
     void CheckCollissions()
     {
-        if (actor.collision.above || actor.collision.below)
+        if (actor.contacts.above || actor.contacts.below)
             actor.velocity = new Vector2(CurrentVelocity.x, 0);
-        if (actor.collision.left || actor.collision.right)
+        if (actor.contacts.left || actor.contacts.right)
             actor.velocity = new Vector2(0, CurrentVelocity.y);
     }
 
@@ -181,7 +183,7 @@ public class CrawlingEnemy : MonoBehaviour
 
     bool GroundBelow()
     {
-        if (actor.collision.below)
+        if (actor.contacts.below)
             return true;
         return false;
     }

@@ -16,11 +16,13 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
 
     Coroutine EnemyKnockBack;
     Actor2D actor; // vllt reich der actor auf crawling enemy
+    Rigidbody2D m_rb;
     int CurrentHitPriority = 0;
     // Start is called before the first frame update
     void Start()
     {
         actor = GetComponent<Actor2D>();
+        m_rb = GetComponent<Rigidbody2D>();
         originalColor = GetComponent<SpriteRenderer>().color;
         CurrentHealth = MaxHealth;
     }
@@ -30,13 +32,13 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     {
         if ((GetComponent<CrawlingEnemy>() == null || CurrentEnemyState == EnemyState.Dead) && GetComponent<Borb>() == null) //zwischen lösung für enemies ohne eigenes script 
         {
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
+            //if (actor.contacts.above || actor.contacts.below)
+            //    actor.velocity = new Vector2(actor.velocity.x, 0);
+            //if (actor.contacts.left || actor.contacts.right)
+            //    actor.velocity = new Vector2(0, actor.velocity.y);
 
-            actor.velocity += Vector2.up * (-10 * Time.deltaTime);
-            actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
+            //actor.velocity += Vector2.up * (-10 * Time.deltaTime);
+            //actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
         }
         if (CurrentEnemyState != EnemyState.Dead)
         {
@@ -46,24 +48,24 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                 Destroy(gameObject, 2f); //despawn time //evtl länger?
                 CurrentEnemyState = EnemyState.Dead;
             }
-            if (ContactDamage) //enemy state attack
-            {
-                Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
-                Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
-                foreach (Collider2D collider in col)
-                {
-                    if (collider.CompareTag("Player"))
-                    {
-                        if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
-                        {
-                            collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
-                            collider.gameObject.GetComponent<PlayerHook>().CancelHook();
-                            if (GetComponent<Animator>() != null)
-                                GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
-                        }
-                    }
-                }
-            }
+            //if (ContactDamage) //enemy state attack
+            //{
+            //    Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
+            //    Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
+            //    foreach (Collider2D collider in col)
+            //    {
+            //        if (collider.CompareTag("Player"))
+            //        {
+            //            if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
+            //            {
+            //                collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
+            //                collider.gameObject.GetComponent<PlayerHook>().CancelHook();
+            //                if (GetComponent<Animator>() != null)
+            //                    GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
+            //            }
+            //        }
+            //    }
+            //}
             if (CurrentEnemyState == EnemyState.Hit)
             {
                 colorChangeCounter++;
@@ -74,6 +76,24 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             }
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (ContactDamage) {
+            var other = collision.collider;
+
+            if (other.CompareTag("Player")) {
+                if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && other.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
+                {
+                    other.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
+                    other.gameObject.GetComponent<PlayerHook>().CancelHook();
+                    if (GetComponent<Animator>() != null)
+                        GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
+                }
+            }
+        }
+    }
+
     /*
     IEnumerator Despawn() //falls später evtl noch mehr passieren soll
     {
@@ -112,11 +132,11 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) //KnockBacktolerance or so
                 AdditionalPosition = 10;
             Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + AdditionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
-            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
+            m_rb.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
+            if (actor.contacts.above || actor.contacts.below)
+                m_rb.velocity = new Vector2(m_rb.velocity.x, 0);
+            if (actor.contacts.left || actor.contacts.right)
+                m_rb.velocity = new Vector2(0, m_rb.velocity.y);
 
             yield return new WaitForSeconds(0.03f);
         }

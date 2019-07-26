@@ -20,21 +20,24 @@ public class ThrowableObject : MonoBehaviour
     float TargetReachedTolerance;
     Vector2 _gravity;
     Actor2D actor;
+    Rigidbody2D m_rb;
+
     void Start()
     {
         actor = GetComponent<Actor2D>();
+        m_rb = GetComponent<Rigidbody2D>();
         _gravity = new Vector2(0, Gravity);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         switch (CurrentObjectState)
         {
             case CurrentState.TravellingToPlayer:
                 {
                     Vector2 objectVelocity = (ObjectToFollow.transform.position - transform.position).normalized * Speed;
-                    GetComponent<Actor2D>().velocity = objectVelocity;
+                    m_rb.velocity = objectVelocity;
                     if (Vector2.Distance(transform.position, ObjectToFollow.transform.position) < TargetReachedTolerance)
                     {
                         CurrentObjectState = CurrentState.PickedUp;
@@ -43,34 +46,34 @@ public class ThrowableObject : MonoBehaviour
                 }
             case CurrentState.PickedUp:
                 {
-                    transform.position = ObjectToFollow.transform.position;
+                    m_rb.MovePosition(ObjectToFollow.GetComponent<Rigidbody2D>().position);
                     break;
                 }
             case CurrentState.Inactive:
                 {
-                    if (actor.collision.above || actor.collision.below)
-                    {
-                        actor.velocity = new Vector2(actor.velocity.x, 0);
-                    }
-                    if (actor.collision.left || actor.collision.right)
-                    {
-                        actor.velocity = new Vector2(0, actor.velocity.y);
-                    }
-                    ApplyGravity();
+                    //if (actor.contacts.above || actor.contacts.below)
+                    //{
+                    //    actor.velocity = new Vector2(actor.velocity.x, 0);
+                    //}
+                    //if (actor.contacts.left || actor.contacts.right)
+                    //{
+                    //    actor.velocity = new Vector2(0, actor.velocity.y);
+                    //}
+                    //ApplyGravity();
                     break;
                 }
             case CurrentState.Thrown:
                 {
                     CheckEnemyHit();
                     GetComponent<SpriteRenderer>().color = Color.yellow;
-                    if (actor.collision.above || actor.collision.below || actor.collision.left || actor.collision.right)
+                    if (actor.contacts.above || actor.contacts.below || actor.contacts.left || actor.contacts.right)
                     { 
                         CurrentVelocity = Vector2.zero;
-                        actor.velocity = CurrentVelocity;
+                        m_rb.velocity = CurrentVelocity;
                         CurrentObjectState = CurrentState.Inactive;
                         GetComponent<SpriteRenderer>().color = Color.blue;
                     }
-                    ApplyGravity(SpeedMultiplier);
+                    //ApplyGravity(SpeedMultiplier);
                     break;
                 }
         }
@@ -86,14 +89,14 @@ public class ThrowableObject : MonoBehaviour
     void CheckEnemyHit()
     {
         Transform enemy = null;
-        if (actor.collision.below && actor.collision.below.CompareTag("Enemy"))
-            enemy = actor.collision.below;
-        if (actor.collision.above && actor.collision.above.CompareTag("Enemy"))
-            enemy = actor.collision.above;
-        if (actor.collision.left && actor.collision.left.CompareTag("Enemy"))
-            enemy = actor.collision.left;
-        if (actor.collision.right && actor.collision.right.CompareTag("Enemy"))
-            enemy = actor.collision.right;
+        if (actor.contacts.below && actor.contacts.below.CompareTag("Enemy"))
+            enemy = actor.contacts.below;
+        if (actor.contacts.above && actor.contacts.above.CompareTag("Enemy"))
+            enemy = actor.contacts.above;
+        if (actor.contacts.left && actor.contacts.left.CompareTag("Enemy"))
+            enemy = actor.contacts.left;
+        if (actor.contacts.right && actor.contacts.right.CompareTag("Enemy"))
+            enemy = actor.contacts.right;
         if (enemy != null)
             enemy.GetComponent<Enemy>().GetHit(transform, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
     }
@@ -108,7 +111,7 @@ public class ThrowableObject : MonoBehaviour
 
     public void Throw(Vector2 _velocity) // nur ein parameter 
     {
-        CurrentVelocity = _velocity * SpeedMultiplier;
+        m_rb.velocity = _velocity * SpeedMultiplier;
         CurrentObjectState = CurrentState.Thrown; 
     }
 

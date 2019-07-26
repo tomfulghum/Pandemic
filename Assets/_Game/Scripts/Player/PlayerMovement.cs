@@ -47,6 +47,16 @@ public class PlayerMovement : MonoBehaviour
     [Tooltip("The deceleration applied to momentum when not on a moving object (u/s²).")]
     [SerializeField] private float m_momentumDeceleration = 1.0f;
 
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public Vector2 externalVelocity
+    {
+        get { return m_externalVelocity; }
+        set { m_externalVelocity = value; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -217,11 +227,5 @@ public class PlayerMovement : MonoBehaviour
         m_inputDisabled = _disable;
         m_inputState.lastMovement = Vector2.zero;
         m_externalVelocity = Vector2.zero;
-    }
-
-    // Sets the external velocity. Only has an effect if input is disabled.
-    public void SetExternalVelocity(Vector2 _velocity)
-    {
-        m_externalVelocity = _velocity;
     }
 }
