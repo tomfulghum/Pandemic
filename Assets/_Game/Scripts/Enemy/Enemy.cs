@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             if(CurrentHealth <= 0)
             {
                 actor.velocity = Vector2.zero;
-                //Destroy(gameObject, 2f); //despawn time //evtl länger?
+                Destroy(gameObject, 2f); //despawn time //evtl länger?
                 CurrentEnemyState = EnemyState.Dead;
             }
             if (ContactDamage) //enemy state attack

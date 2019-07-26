@@ -4158,6 +4158,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Borb
       objectReference: {fileID: 0}
+    - target: {fileID: 1693525880915519416, guid: b047f64e4615a8343b3dc770905f550a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1693525880915519394, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4230,7 +4235,7 @@ PrefabInstance:
     - target: {fileID: 7895061069233847141, guid: 2754b2c81279afa429e81d26857b4bdc,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6700331728243380861, guid: 2754b2c81279afa429e81d26857b4bdc,
         type: 3}
@@ -4304,7 +4309,7 @@ PrefabInstance:
     - target: {fileID: 7648727715907131623, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7648727715907131641, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}

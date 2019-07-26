@@ -27,6 +27,7 @@ public class PlayerAnim : MonoBehaviour
         {
             anim.SetFloat("RunSpeed", -0.1f);
         }
+        UpdateCollider(GetComponent<SpriteRenderer>().flipX);
         if (FacingLeft == false)
             GetComponent<SpriteRenderer>().flipX = false;
         else
@@ -42,4 +43,11 @@ public class PlayerAnim : MonoBehaviour
             FacingLeft = false;
     }
 
+    void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
+    {
+        if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
+            GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
+        else if (!_flipX  && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
+            GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
+    }
 }
