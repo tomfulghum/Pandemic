@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<CrawlingEnemy>() == null || CurrentEnemyState == EnemyState.Dead) //zwischen lösung für enemies ohne eigenes script 
+        if ((GetComponent<CrawlingEnemy>() == null || CurrentEnemyState == EnemyState.Dead) && GetComponent<Borb>() == null) //zwischen lösung für enemies ohne eigenes script 
         {
             if (actor.collision.above || actor.collision.below)
                 actor.velocity = new Vector2(actor.velocity.x, 0);
@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             if(CurrentHealth <= 0)
             {
                 actor.velocity = Vector2.zero;
-                Destroy(gameObject, 2f); //despawn time //evtl länger?
+                //Destroy(gameObject, 2f); //despawn time //evtl länger?
                 CurrentEnemyState = EnemyState.Dead;
             }
             if (ContactDamage) //enemy state attack

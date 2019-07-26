@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
         while (Spawn)
         {
             yield return new WaitForSeconds(5 + Random.Range(0f, 4f));
-            Instantiate(enemy, transform);
+            Instantiate(enemy, transform.position, transform.rotation);
         }
     }
 }
