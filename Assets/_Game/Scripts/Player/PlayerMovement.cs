@@ -57,6 +57,12 @@ public class PlayerMovement : MonoBehaviour
         set { m_externalVelocity = value; }
     }
 
+    public Vector2 momentum
+    {
+        get { return m_inputState.momentum; }
+        set { m_inputState.momentum = value; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -146,20 +152,20 @@ public class PlayerMovement : MonoBehaviour
 
         // Calculate momentum
         if (m_actor.master) {
-            m_inputState.momentum = m_actor.master.velocity;
+            momentum = m_actor.master.velocity;
         } else {
-            if (m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
-                m_inputState.momentum.x = 0;
-            }
-            if (m_actor.contacts.below || m_actor.contacts.above) {
-                m_inputState.momentum.y = 0;
-            }
-
             m_inputState.momentum = Vector2.MoveTowards(m_inputState.momentum, Vector2.zero, m_momentumDeceleration * Time.fixedDeltaTime);
         }
 
+        if (m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
+            m_inputState.momentum.x = 0;
+        }
+        if (m_actor.contacts.below || m_actor.contacts.above) {
+            m_inputState.momentum.y = 0;
+        }
+
         // Calculate movement acceleration
-        float directionChangeModifier = Util.SameSign(m_inputState.movement.x, m_inputState.lastMovement.x) ? 1f : 0f;
+        float directionChangeModifier = Util.SameSign(m_inputState.movement.x, m_inputState.lastMovement.x) ? 1 : 0;
         float accelerationTime = m_actor.contacts.below ? m_groundAccelerationTime : m_airAccelerationTime;
         Vector2 movement = m_inputState.movement;
         if (accelerationTime > 0) {
@@ -223,7 +229,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_inputDisabled == _disable) {
             return;
         }
-        
+
         m_inputDisabled = _disable;
         m_inputState.lastMovement = Vector2.zero;
         m_externalVelocity = Vector2.zero;

@@ -689,6 +689,7 @@ public class PlayerHook : MonoBehaviour
     {
         Vector2 newCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * _speed;
         m_pm.externalVelocity = newCharacterVelocity;
+        m_pm.momentum = newCharacterVelocity;
     }
 
     private Collider2D FindNearestTargetInRange(Vector2 _searchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz

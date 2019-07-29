@@ -635,6 +635,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5293281134618775230, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_momentumDeceleration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: SlowTimeWhileAiming
@@ -674,6 +679,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_layerMask.m_Bits
       value: 6144
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293281134618775217, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_dotPrefab
+      value: 
+      objectReference: {fileID: 991937809109260029, guid: c393b68217dcca1458e79330a80bb970,
+        type: 3}
+    - target: {fileID: 5293281134618775217, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_layerMask.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
@@ -3884,7 +3900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49c9797c96701f4ea0e67007723ad5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speedMultiplier: 1.4
 --- !u!114 &5994318738377030769
 MonoBehaviour:
   m_ObjectHideFlags: 0
