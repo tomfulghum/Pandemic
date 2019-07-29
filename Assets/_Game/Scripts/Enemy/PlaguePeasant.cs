@@ -21,6 +21,7 @@ public class PlaguePeasant : MonoBehaviour
     //CheckGroundAhead //--> bool use intelligent edgemovement?
 
     float PerceptionRadius = 15f;
+    float PerceptionAngle = 15f;
 
     int DirectionCounter;
     int IdleCounter;
@@ -183,14 +184,18 @@ public class PlaguePeasant : MonoBehaviour
                 {
                     float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
                     RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
-                    if (hit == false)
+                    Vector2 PeasantToPlayer = (ColliderInRange[i].transform.position - transform.position).normalized;
+                    float AngleInDeg = Vector2.Angle(PeasantToPlayer, Vector2.left);
+                    if (hit == false && AngleInDeg < PerceptionAngle)
                         return ColliderInRange[i].transform;
                 }
                 if (CurrentMovementDirection == MovementDirection.Right && transform.position.x < ColliderInRange[i].transform.position.x)
                 {
                     float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
                     RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
-                    if (hit == false)
+                    Vector2 PeasantToPlayer = (ColliderInRange[i].transform.position - transform.position).normalized;
+                    float AngleInDeg = Vector2.Angle(PeasantToPlayer, Vector2.right);
+                    if (hit == false && AngleInDeg < PerceptionAngle)
                         return ColliderInRange[i].transform;
                 }
             }
