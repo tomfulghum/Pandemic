@@ -7,11 +7,13 @@ public class PlayerAnim : MonoBehaviour
     bool FacingLeft;
 
     Actor2D actor;
+    Rigidbody2D m_rb;
     Animator anim;
     // Start is called before the first frame update
     void Start()
     {
         actor = GetComponent<Actor2D>();
+        m_rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
@@ -21,7 +23,7 @@ public class PlayerAnim : MonoBehaviour
         SetFacingDirection();
         if (Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f)
         {
-            anim.SetFloat("RunSpeed", actor.velocity.magnitude);
+            anim.SetFloat("RunSpeed", m_rb.velocity.magnitude);
         }
         else
         {

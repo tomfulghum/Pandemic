@@ -41,7 +41,7 @@ public class Borb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.CurrentEnemyState == Enemy.EnemyState.Moving)
+        if (enemy.currentEnemyState == Enemy.EnemyState.Moving)
         {
             SetMovementState();
             VisualizeChaseCone();

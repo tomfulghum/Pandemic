@@ -37,6 +37,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float m_timeToCombo = 0.1f;
     [SerializeField] private float m_meleeAttackTime = 0.3f;
 
+    [SerializeField] private float m_hitFreezeTime = 0.5f;
+    [SerializeField] private float m_hitKnockbackTime = 0.2f;
+
     //******************//
     //    Properties    //
     //******************//
@@ -462,19 +465,17 @@ public class PlayerCombat : MonoBehaviour
         m_pm.DisableUserInput(true);
         m_invincible = true;
 
-        //StartCoroutine(InvincibilityFrames(m_invincibilityTime));
-
         Vector2 direction = ((Vector2)transform.position - _knockBackOrigin).normalized;
 
         if (_enemy) {
             _enemy.frozen = true;
         }
 
-        yield return new WaitForSeconds(0.5f); // Freeze time
+        yield return new WaitForSeconds(m_hitFreezeTime); // Freeze time
 
         m_pm.externalVelocity = direction * _knockBackForce;
 
-        yield return new WaitForSeconds(0.2f); // Knockback time
+        yield return new WaitForSeconds(m_hitKnockbackTime); // Knockback time
 
         if (_enemy) {
             _enemy.frozen = false;

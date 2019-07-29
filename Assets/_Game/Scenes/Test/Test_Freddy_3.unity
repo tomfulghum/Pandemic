@@ -656,12 +656,6 @@ PolygonCollider2D:
       - {x: -20.48, y: -20.48}
       - {x: 20.4823, y: -20.48491}
       - {x: 20.48, y: 20.48}
---- !u!1 &286872556 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5293281135746816196, guid: c3a676172e8c22e41b964254ada6f272,
-    type: 3}
-  m_PrefabInstance: {fileID: 383522154}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &348006856
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,67 +843,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775230, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_momentumDeceleration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: SlowTimeWhileAiming
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: SafetyRadius
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_radiusVisualization
-      value: 
-      objectReference: {fileID: 286872556}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_hookPointFilter.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_hookPointLayer.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_slowTimeWhileAiming
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_formOfTimeSlow
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_additionalTravelDistance
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_layerMask.m_Bits
-      value: 6144
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775217, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_dotPrefab
-      value: 
-      objectReference: {fileID: 991937809109260029, guid: c393b68217dcca1458e79330a80bb970,
-        type: 3}
-    - target: {fileID: 5293281134618775217, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_layerMask.m_Bits
-      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
