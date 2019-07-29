@@ -1,0 +1,581 @@
+fileFormatVersion: 2
+guid: 3538c0f417fa76c4bac560a81baf844c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4211076575897912643
+    second: ani_PlPeasant_Ranged_0
+  - first:
+      213: -1101212923015273252
+    second: ani_PlPeasant_Ranged_1
+  - first:
+      213: -4451092386273989156
+    second: ani_PlPeasant_Ranged_2
+  - first:
+      213: 8012043847977819183
+    second: ani_PlPeasant_Ranged_3
+  - first:
+      213: -1856539499153588242
+    second: ani_PlPeasant_Ranged_4
+  - first:
+      213: 3440311670667209949
+    second: ani_PlPeasant_Ranged_5
+  - first:
+      213: 4101194807944543859
+    second: ani_PlPeasant_Ranged_6
+  - first:
+      213: -58998712361262062
+    second: ani_PlPeasant_Ranged_7
+  - first:
+      213: -9140173011649211219
+    second: ani_PlPeasant_Ranged_8
+  - first:
+      213: 58941844294726070
+    second: ani_PlPeasant_Ranged_9
+  - first:
+      213: -4561430139122399544
+    second: ani_PlPeasant_Ranged_10
+  - first:
+      213: 456005086529459279
+    second: ani_PlPeasant_Ranged_11
+  - first:
+      213: -2744024691436662979
+    second: ani_PlPeasant_Ranged_12
+  - first:
+      213: -8050967674788297141
+    second: ani_PlPeasant_Ranged_13
+  - first:
+      213: 208685665075620217
+    second: ani_PlPeasant_Ranged_14
+  - first:
+      213: -3724074661555091398
+    second: ani_PlPeasant_Ranged_15
+  - first:
+      213: -5990036171846279577
+    second: ani_PlPeasant_Ranged_16
+  - first:
+      213: 2147299127456829793
+    second: ani_PlPeasant_Ranged_17
+  - first:
+      213: -4860206738670602748
+    second: ani_PlPeasant_Ranged_18
+  - first:
+      213: -1248166902974440091
+    second: ani_PlPeasant_Ranged_19
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2250
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 620564efcb033fb47b5d44156a1a0b9c
+      internalID: -4211076575897912643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_1
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 2250
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73a7e6d23b4a96648bbe473dafeabe5c
+      internalID: -1101212923015273252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_2
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 2250
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86ecf963d4879c446a84402931239c8f
+      internalID: -4451092386273989156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_3
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 2250
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4540bb9157ed9c84e87617966cf982f7
+      internalID: 8012043847977819183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_4
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 2250
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7efb6635888dded4ca04b8a328ba1d1b
+      internalID: -1856539499153588242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5beada6e4765f6d4a9885ad1f7808373
+      internalID: 3440311670667209949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_6
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1500
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1a76e951c161b0488b7311cf12e7245
+      internalID: 4101194807944543859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_7
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1500
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 370b63265724ab3449f70fca087e93f5
+      internalID: -58998712361262062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_8
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1500
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7354a2f119f41ea40b33925565639f1f
+      internalID: -9140173011649211219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_9
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 1500
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2879c46940fde744862317d85909699
+      internalID: 58941844294726070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 750
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6986cfebd2f8d0b4ca5f6bcf6146154e
+      internalID: -4561430139122399544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_11
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 750
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5772c0dd1db6f804186e811448c6557e
+      internalID: 456005086529459279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 750
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 314a743ff759a13449668e644a9f08c6
+      internalID: -2744024691436662979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_13
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 750
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc664bd3d7027d443846913a65e6105d
+      internalID: -8050967674788297141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_14
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 750
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c63237107f1b2d48b1ad76f94c84ca2
+      internalID: 208685665075620217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09f1f8b4027633542a33b1bcce694ed8
+      internalID: -3724074661555091398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_16
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf7fd14a913731a43bd49fb7dfc11858
+      internalID: -5990036171846279577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_17
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7c65b5e92e1276469a139f8ea930978
+      internalID: 2147299127456829793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_18
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 983f5d7563f6e4948b52796f47c339cd
+      internalID: -4860206738670602748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_PlPeasant_Ranged_19
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 0
+        width: 600
+        height: 750
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bc7344a8ea289c4998cc1f0824fdba3
+      internalID: -1248166902974440091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 3ae2fa77091b08a4bbba837aa3742c9c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

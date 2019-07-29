@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PlaguePeasantAnim : MonoBehaviour
 {
-    CrawlingEnemy enemy;
+    PlaguePeasant enemy;
     Animator anim;
+    Actor2D actor;
     bool TriggeredDeath = false;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-        if (enemy != null)
-            enemy = GetComponent<CrawlingEnemy>();
+        enemy = GetComponent<PlaguePeasant>();
+        actor = GetComponent<Actor2D>();
     }
 
     // Update is called once per frame
@@ -23,14 +24,26 @@ public class PlaguePeasantAnim : MonoBehaviour
             anim.SetTrigger("Death");
             TriggeredDeath = true;
         }
-        if (enemy != null)
-        {
-            UpdateCollider(GetComponent<SpriteRenderer>().flipX);
-            if (enemy.CurrentMovementDirection == CrawlingEnemy.MovementDirection.Left)
-                GetComponent<SpriteRenderer>().flipX = false;
-            else
-                GetComponent<SpriteRenderer>().flipX = true;
-        }
+        UpdateCollider(GetComponent<SpriteRenderer>().flipX);
+        if (enemy.CurrentMovementDirection == PlaguePeasant.MovementDirection.Left)
+            GetComponent<SpriteRenderer>().flipX = false;
+        else
+            GetComponent<SpriteRenderer>().flipX = true;
+
+        if (enemy.CurrentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
+            anim.SetBool("Moving", true);
+        else
+            anim.SetBool("Moving", false);
+
+        if (enemy.CurrentMovementState == PlaguePeasant.MovementState.Sit) //ist das mit dem float so eine gute idee?
+            anim.SetBool("Sitting", true);
+        else
+            anim.SetBool("Sitting", false);
+
+        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
+            anim.SetBool("Hit", true); //später evtl trigger
+        else
+            anim.SetBool("Hit", false);
     }
 
     void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
