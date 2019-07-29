@@ -115,7 +115,6 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private GameObject m_radiusVisualization = default; //rename
     [SerializeField] private LayerMask m_hookPointFilter = default; //Filter Layer to only get Hook Points in Sight
     [SerializeField] private LayerMask m_hookPointLayer = default; //default layer einstellen
-    [SerializeField] private float m_controllerTolerance = 0.25f;
     [SerializeField] private bool m_slowTimeWhileAiming = default;
 
     [SerializeField] private float m_minThrowVelocity = 5f;
@@ -125,7 +124,7 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private float m_maxTimeToWinRopeFight = 3f;
     [SerializeField] private int m_numOfButtonPresses = 10;
     //[SerializeField] private float m_contrAdditionalPullAngle = 30f; //angles können eigentlich int sein
-    [SerializeField] private float m_mouseDeadZone = 0.1f;
+    [SerializeField] private bool m_usingController = false;
 
     //**********************//
     //    Private Fields    //
@@ -142,8 +141,6 @@ public class PlayerHook : MonoBehaviour
     private float m_cancelDistance;
     private float m_framesTillTarget;
     private bool m_reachedTarget; //ob das ziel erreicht wurde
-
-    private bool m_usingController;
 
     private float m_timeSlowTest; //test for one variant of the progressive timeslow
     private float m_currentTimeActive;
@@ -189,20 +186,18 @@ public class PlayerHook : MonoBehaviour
         if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();
-            Vector2 currentMousePosition = Input.mousePosition;
-            if (Mathf.Abs(m_lastMousePostion.x - currentMousePosition.x) > m_mouseDeadZone || Mathf.Abs(m_lastMousePostion.y - currentMousePosition.y) > m_mouseDeadZone) {
+           
+            if (!m_usingController) {
+                Vector2 currentMousePosition = Input.mousePosition;
                 m_lastMousePostion = currentMousePosition;
                 m_mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 m_mouseDirection = (m_mousePosition - (Vector2)transform.position).normalized;
-                m_usingController = false;
-            }
-
-            if (Input.GetAxis("Horizontal") < -m_controllerTolerance || Input.GetAxis("Horizontal") > m_controllerTolerance || Input.GetAxis("Vertical") < -m_controllerTolerance || Input.GetAxis("Vertical") > m_controllerTolerance) { //extra function --> GetControllerDir
+            } else { 
                 m_controllerDirection.x = Input.GetAxis("Horizontal");
                 m_controllerDirection.y = Input.GetAxis("Vertical");
                 m_controllerDirection = m_controllerDirection.normalized;
-                m_usingController = true;
             }
+
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {
                 m_contDirWithoutDeadzone.x = Input.GetAxis("Horizontal");
                 m_contDirWithoutDeadzone.y = Input.GetAxis("Vertical");
