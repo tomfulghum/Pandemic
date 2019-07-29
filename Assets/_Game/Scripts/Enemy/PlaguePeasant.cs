@@ -12,15 +12,25 @@ public class PlaguePeasant : MonoBehaviour
 
     public float ChaseRadius = 3f;
     public float MovementSpeed = 1f;
+    public float ProjectileSpeed = 15f;
     public GameObject Projectile;
+    public Transform LeftStartPos;
+    public Transform RightStartPos;
     public LayerMask SightBlockingLayers;
 
     //CheckGroundAhead //--> bool use intelligent edgemovement?
 
+    float PerceptionRadius = 15f;
+
     int DirectionCounter;
     int IdleCounter;
     int SitCounter;
+
+    [HideInInspector] public bool RangedAttackActive;
+
+    bool RangedAttackOnCooldown;
     Transform ObjectToChase;
+    Transform Player;
 
     Actor2D actor;
     Enemy enemy;
@@ -37,7 +47,7 @@ public class PlaguePeasant : MonoBehaviour
         if (enemy.CurrentEnemyState == Enemy.EnemyState.Moving)
         {
             SetMovementState();
-            Debug.Log(CurrentMovementState);
+            //Debug.Log(CurrentMovementState);
             switch (CurrentMovementState)
             {
                 case MovementState.Move:
@@ -79,7 +89,6 @@ public class PlaguePeasant : MonoBehaviour
                     }
                 case MovementState.Idle:
                     {
-                        //Debug.Log(IdleCounter);
                         if (IdleCounter > 150)
                         {
                             SitCounter = Random.Range(100, 180);
@@ -104,28 +113,90 @@ public class PlaguePeasant : MonoBehaviour
                         }
                         break;
                     }
+                case MovementState.RangedAttack:
+                    {
+                        if (RangedAttackOnCooldown == false)
+                            StartCoroutine(RangedAttack());
+                        actor.velocity = Vector2.zero;
+                        break;
+                    }
             }
         }
     }
     void SetMovementState()
     {
-        ObjectToChase = PlayerInSight(); //attack einplanen
-        if (ObjectToChase != null)
-            CurrentMovementState = MovementState.Chase;
-        else if (CheckGroundAhead() && CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
-            CurrentMovementState = MovementState.Move;
-        else if(CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
+        Player = PlayerInPercetpionRadius();
+        if (Player != null && RangedAttackOnCooldown == false)
+            CurrentMovementState = MovementState.RangedAttack;
+        else if(RangedAttackActive == false)
         {
-            ChangeDirection();
-            CurrentMovementState = MovementState.Move;
+            ObjectToChase = PlayerInSight(); //attack einplanen
+            if (ObjectToChase != null)
+                CurrentMovementState = MovementState.Chase;
+            else if (CheckGroundAhead() && CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
+                CurrentMovementState = MovementState.Move;
+            else if (CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
+            {
+                ChangeDirection();
+                CurrentMovementState = MovementState.Move;
+            }
         }
     }
 
-    void ShootProjectile()
+    IEnumerator RangedAttack()
     {
-
+        if (Player.position.x > transform.position.x)
+            CurrentMovementDirection = MovementDirection.Right;
+        else
+            CurrentMovementDirection = MovementDirection.Left;
+        RangedAttackActive = true;
+        GetComponent<Animator>().SetTrigger("RangedAttack");
+        RangedAttackOnCooldown = true;
+        yield return new WaitForSeconds(2f);
+        RangedAttackOnCooldown = false;
     }
 
+    void ShootProjectile() //sollte ein start transform (mundposition bekommen)
+    {
+        if (CurrentMovementDirection == MovementDirection.Left)
+        {
+            GameObject projectile = Instantiate(Projectile, LeftStartPos.position, LeftStartPos.rotation);
+            projectile.GetComponent<Actor2D>().velocity = Vector2.left * ProjectileSpeed;
+        }
+        else
+        {
+            GameObject projectile = Instantiate(Projectile, RightStartPos.position, RightStartPos.rotation);
+            projectile.GetComponent<Actor2D>().velocity = Vector2.right * ProjectileSpeed;
+        }
+        RangedAttackActive = false;
+    }
+
+
+    Transform PlayerInPercetpionRadius()
+    {
+        Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, PerceptionRadius);
+        for (int i = 0; i < ColliderInRange.Length; i++)
+        {
+            if (ColliderInRange[i].CompareTag("Player"))
+            {
+                if (CurrentMovementDirection == MovementDirection.Left && transform.position.x > ColliderInRange[i].transform.position.x)
+                {
+                    float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
+                    if (hit == false)
+                        return ColliderInRange[i].transform;
+                }
+                if (CurrentMovementDirection == MovementDirection.Right && transform.position.x < ColliderInRange[i].transform.position.x)
+                {
+                    float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
+                    if (hit == false)
+                        return ColliderInRange[i].transform;
+                }
+            }
+        }
+        return null;
+    }
 
     Transform PlayerInSight()
     {
@@ -135,7 +206,7 @@ public class PlaguePeasant : MonoBehaviour
             if (ColliderInRange[i].CompareTag("Player"))
             {
                 float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers); //hier auch sight block?
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
                 if (hit == false)
                     return ColliderInRange[i].transform;
             }
