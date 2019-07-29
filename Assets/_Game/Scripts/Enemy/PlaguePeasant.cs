@@ -14,8 +14,10 @@ public class PlaguePeasant : MonoBehaviour
     public float MovementSpeed = 1f;
     public float ProjectileSpeed = 15f;
     public GameObject Projectile;
-    public Transform LeftStartPos;
-    public Transform RightStartPos;
+    public GameObject AttackHitBox;
+    public Transform ProjectileStartPos;
+    //public Transform RightStartPos;
+    //ranged attack evtl erst triggern wenn der spieler eine gewisse distanz vom enemy hat
     public LayerMask SightBlockingLayers;
 
     //CheckGroundAhead //--> bool use intelligent edgemovement?
@@ -116,25 +118,33 @@ public class PlaguePeasant : MonoBehaviour
                     }
                 case MovementState.RangedAttack:
                     {
-                        if (Player.position.x > transform.position.x)
-                            CurrentMovementDirection = MovementDirection.Right;
-                        else
-                            CurrentMovementDirection = MovementDirection.Left;
                         if (RangedAttackOnCooldown == false)
                             StartCoroutine(RangedAttack());
+                        actor.velocity = Vector2.zero;
+                        break;
+                    }
+                case MovementState.Attack:
+                    {
                         actor.velocity = Vector2.zero;
                         break;
                     }
             }
         }
     }
+
     void SetMovementState()
     {
         ObjectToChase = PlayerInSight(); //attack einplanen
         Player = PlayerInPercetpionRadius();
-        if (Player != null && ObjectToChase == null &&RangedAttackOnCooldown == false)
+        if (Player != null && ObjectToChase == null && RangedAttackOnCooldown == false)
+        {
             CurrentMovementState = MovementState.RangedAttack;
-        else if(RangedAttackActive == false)
+            if (Player.position.x > transform.position.x)
+                CurrentMovementDirection = MovementDirection.Right;
+            else
+                CurrentMovementDirection = MovementDirection.Left;
+        }
+        else if (RangedAttackActive == false)
         {
             if (ObjectToChase != null)
                 CurrentMovementState = MovementState.Chase;
@@ -159,16 +169,11 @@ public class PlaguePeasant : MonoBehaviour
 
     void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
+        GameObject projectile = Instantiate(Projectile, ProjectileStartPos.position, ProjectileStartPos.rotation);
         if (CurrentMovementDirection == MovementDirection.Left)
-        {
-            GameObject projectile = Instantiate(Projectile, LeftStartPos.position, LeftStartPos.rotation);
             projectile.GetComponent<Actor2D>().velocity = Vector2.left * ProjectileSpeed;
-        }
         else
-        {
-            GameObject projectile = Instantiate(Projectile, RightStartPos.position, RightStartPos.rotation);
             projectile.GetComponent<Actor2D>().velocity = Vector2.right * ProjectileSpeed;
-        }
         RangedAttackActive = false;
     }
 
