@@ -116,6 +116,10 @@ public class PlaguePeasant : MonoBehaviour
                     }
                 case MovementState.RangedAttack:
                     {
+                        if (Player.position.x > transform.position.x)
+                            CurrentMovementDirection = MovementDirection.Right;
+                        else
+                            CurrentMovementDirection = MovementDirection.Left;
                         if (RangedAttackOnCooldown == false)
                             StartCoroutine(RangedAttack());
                         actor.velocity = Vector2.zero;
@@ -126,12 +130,12 @@ public class PlaguePeasant : MonoBehaviour
     }
     void SetMovementState()
     {
+        ObjectToChase = PlayerInSight(); //attack einplanen
         Player = PlayerInPercetpionRadius();
-        if (Player != null && RangedAttackOnCooldown == false)
+        if (Player != null && ObjectToChase == null &&RangedAttackOnCooldown == false)
             CurrentMovementState = MovementState.RangedAttack;
         else if(RangedAttackActive == false)
         {
-            ObjectToChase = PlayerInSight(); //attack einplanen
             if (ObjectToChase != null)
                 CurrentMovementState = MovementState.Chase;
             else if (CheckGroundAhead() && CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
@@ -146,10 +150,6 @@ public class PlaguePeasant : MonoBehaviour
 
     IEnumerator RangedAttack()
     {
-        if (Player.position.x > transform.position.x)
-            CurrentMovementDirection = MovementDirection.Right;
-        else
-            CurrentMovementDirection = MovementDirection.Left;
         RangedAttackActive = true;
         GetComponent<Animator>().SetTrigger("RangedAttack");
         RangedAttackOnCooldown = true;
