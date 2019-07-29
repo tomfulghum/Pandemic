@@ -121,6 +121,7 @@ public class CrawlingEnemy : MonoBehaviour
                 }
             case MovementState.Falling:
                 {
+                    //vllt hier velocity nochmal setzen (vector2.x = 0 if movementdirection = none)
                     //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
                     if (actor.collision.below)
                     {

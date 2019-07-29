@@ -4,19 +4,67 @@ using UnityEngine;
 
 public class PlaguePeasantAnim : MonoBehaviour
 {
-    CrawlingEnemy enemy;
+    PlaguePeasant enemy;
+    Animator anim;
+    Actor2D actor;
+    bool TriggeredDeath = false;
+
+    Vector3 ObjectScale;
     // Start is called before the first frame update
     void Start()
     {
-        enemy = GetComponent<CrawlingEnemy>();
+        anim = GetComponent<Animator>();
+        enemy = GetComponent<PlaguePeasant>();
+        actor = GetComponent<Actor2D>();
+        ObjectScale = transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemy.CurrentMovementDirection == CrawlingEnemy.MovementDirection.Left)
+        FlipObject();
+        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        {
+            anim.SetTrigger("Death");
+            TriggeredDeath = true;
+        }
+        /*
+        UpdateCollider(GetComponent<SpriteRenderer>().flipX);
+        if (enemy.CurrentMovementDirection == PlaguePeasant.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
         else
             GetComponent<SpriteRenderer>().flipX = true;
+        */
+        if (enemy.CurrentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
+            anim.SetBool("Moving", true);
+        else
+            anim.SetBool("Moving", false);
+
+        if (enemy.CurrentMovementState == PlaguePeasant.MovementState.Sit) //ist das mit dem float so eine gute idee?
+            anim.SetBool("Sitting", true);
+        else
+            anim.SetBool("Sitting", false);
+
+        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
+            anim.SetBool("Hit", true); //später evtl trigger
+        else
+            anim.SetBool("Hit", false);
+    }
+
+
+    void FlipObject() //vllt besser in plague peasant?
+    {
+        if(enemy.CurrentMovementDirection == PlaguePeasant.MovementDirection.Left)
+            transform.localScale = new Vector3(-ObjectScale.x, ObjectScale.y, ObjectScale.z);
+        else
+            transform.localScale = new Vector3(ObjectScale.x, ObjectScale.y, ObjectScale.z);
+    }
+
+    void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
+    {
+        if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
+            GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
+        else if (!_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
+            GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
     }
 }
