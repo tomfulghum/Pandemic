@@ -15,12 +15,22 @@ public class PlayerMovement : MonoBehaviour
     {
         public Vector2 movement;
         public Vector2 lastMovement;
-        public Vector2 momentum;
         public bool jump;
         public bool cancelJump;
         public float jumpTimer;
         public float jumpCancelTimer;
         public float groundToleranceTimer;
+
+        public void Reset()
+        {
+            movement = Vector2.zero;
+            lastMovement = Vector2.zero;
+            jump = false;
+            cancelJump = false;
+            jumpTimer = 0;
+            jumpCancelTimer = 0;
+            groundToleranceTimer = 0;
+        }
     }
 
     //**********************//
@@ -59,8 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector2 momentum
     {
-        get { return m_inputState.momentum; }
-        set { m_inputState.momentum = value; }
+        get { return m_momentum; }
+        set { m_momentum = value; }
     }
 
     //**********************//
@@ -72,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D m_rb;
 
     private Vector2 m_externalVelocity = Vector2.zero;
+    public Vector2 m_momentum = Vector2.zero;
     private bool m_inputDisabled = false;
 
     private InputState m_inputState = default;
@@ -122,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
     private void ProcessJumpInput()
     {
         // Calculate jump parameters if the player presses the jump button
-        if ((m_actor.contacts.below || m_inputState.groundToleranceTimer >= 0) && m_input.player.GetButtonDown(m_input.jumpButton)) {
+        if (!m_inputDisabled && (m_actor.contacts.below || m_inputState.groundToleranceTimer >= 0) && m_input.player.GetButtonDown(m_input.jumpButton)) {
             m_inputState.jump = true;
 
             float absGravity = Mathf.Abs(Physics2D.gravity.y);
@@ -150,30 +161,41 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Calculate momentum
-        if (m_actor.master) {
-            momentum = m_actor.master.velocity;
-        } else {
-            m_inputState.momentum = Vector2.MoveTowards(m_inputState.momentum, Vector2.zero, m_momentumDeceleration * Time.fixedDeltaTime);
-        }
-
-        if (m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
-            m_inputState.momentum.x = 0;
-        }
-        if (m_actor.contacts.below || m_actor.contacts.above) {
-            m_inputState.momentum.y = 0;
-        }
+        Vector2 movement = m_inputState.movement;
 
         // Calculate movement acceleration
         float directionChangeModifier = Util.SameSign(m_inputState.movement.x, m_inputState.lastMovement.x) ? 1 : 0;
         float accelerationTime = m_actor.contacts.below ? m_groundAccelerationTime : m_airAccelerationTime;
-        Vector2 movement = m_inputState.movement;
         if (accelerationTime > 0) {
             movement = Vector2.MoveTowards(m_inputState.lastMovement * directionChangeModifier, m_inputState.movement, 1f / accelerationTime * Time.fixedDeltaTime);
         }
 
+        // Calculate momentum
+        float horizontalVelocity = 0;
+
+        if (m_actor.master) {
+            momentum = m_actor.master.velocity;
+            horizontalVelocity = movement.x * m_movementSpeed + m_momentum.x;
+        } else {
+            m_momentum = Vector2.MoveTowards(m_momentum, Vector2.zero, m_momentumDeceleration * Time.fixedDeltaTime);
+
+            if (!m_actor.contacts.below && movement.x != 0) {
+                if (!Util.SameSign(m_momentum.x, movement.x)) {
+                    m_momentum.x = 0;
+                }
+            }
+            if (m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
+                m_momentum.x = 0;
+            }
+            if (m_actor.contacts.below || m_actor.contacts.above) {
+                m_momentum.y = 0;
+            }
+
+            horizontalVelocity = Mathf.Clamp(movement.x * m_movementSpeed + m_momentum.x, -m_movementSpeed, m_movementSpeed);
+        }
+
         // Update velocity
-        m_rb.velocity = new Vector2(movement.x * m_movementSpeed + m_inputState.momentum.x, m_rb.velocity.y);
+        m_rb.velocity = new Vector2(horizontalVelocity, m_rb.velocity.y);
         m_inputState.lastMovement = movement;
     }
 
@@ -209,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
         if (m_inputState.jump) {
             if (m_inputState.jumpCancelTimer >= 0) {
                 if (m_inputState.jumpTimer >= 0) {
-                    m_rb.velocity = new Vector2(m_rb.velocity.x, m_jumpSpeed + m_inputState.momentum.y);
+                    m_rb.velocity = new Vector2(m_rb.velocity.x, m_jumpSpeed + m_momentum.y);
                     m_inputState.jumpTimer -= Time.fixedDeltaTime;
                 }
                 m_inputState.jumpCancelTimer -= Time.fixedDeltaTime;
@@ -231,9 +253,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         m_inputDisabled = _disable;
-        m_inputState.lastMovement = Vector2.zero;
-        m_externalVelocity = Vector2.zero;
 
+        if (_disable) {
+            m_momentum = Vector2.zero;
+        }
+
+        m_externalVelocity = Vector2.zero;
+        m_inputState.Reset();
         m_rb.gravityScale = _disable ? 0 : 1f;
     }
 }

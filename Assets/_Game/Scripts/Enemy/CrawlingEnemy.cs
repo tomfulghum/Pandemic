@@ -94,13 +94,20 @@ public class CrawlingEnemy : MonoBehaviour
 
     void Update()
     {
-        if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving) { //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
-            if (currentMovementState == MovementState.Decide) { // && CurrentMovementState != MovementState.Falling)
-                SetNextMove();
+        if (!m_enemy.frozen) {
+            m_rb.isKinematic = false;
+
+            if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving) { //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
+                if (currentMovementState == MovementState.Decide) { // && CurrentMovementState != MovementState.Falling)
+                    SetNextMove();
+                }
+                if (currentMovementState != MovementState.Decide) {
+                    SetMovementPattern();
+                }
             }
-            if (currentMovementState != MovementState.Decide) {
-                SetMovementPattern();
-            }
+        } else {
+            m_rb.isKinematic = true;
+            m_rb.velocity = Vector2.zero;
         }
     }
 
@@ -135,10 +142,10 @@ public class CrawlingEnemy : MonoBehaviour
             case MovementState.Chase: {
                 if (m_objectToChase.position.x > transform.position.x) {
                     m_currentMovementDirection = MovementDirection.Right;
-                    m_rb.velocity = Vector2.right * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                    m_rb.velocity = new Vector2(m_movementSpeed, m_rb.velocity.y);
                 } else {
                     m_currentMovementDirection = MovementDirection.Left;
-                    m_rb.velocity = Vector2.left * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                    m_rb.velocity = new Vector2(-m_movementSpeed, m_rb.velocity.y);
                 }
                 m_currentMovementState = MovementState.Decide;
                 break;

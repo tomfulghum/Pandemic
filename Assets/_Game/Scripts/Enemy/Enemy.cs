@@ -32,6 +32,12 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         get { return m_currentEnemyState; }
     }
 
+    public bool frozen
+    {
+        get { return m_frozen; }
+        set { m_frozen = value; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -43,8 +49,11 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
 
     private Color m_originalColor = default;
 
+    private bool m_frozen = false;
+
     private Coroutine m_enemyKnockBack = null;
     private Actor2D m_actor = null; // vllt reich der actor auf crawling enemy
+    private Collider2D m_coll = null;
     private Rigidbody2D m_rb = null;
     private SpriteRenderer m_spriteRenderer = null;
     private int m_currentHitPriority = 0;
@@ -56,10 +65,16 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     void Start()
     {
         m_actor = GetComponent<Actor2D>();
+        m_coll = GetComponent<Collider2D>();
         m_rb = GetComponent<Rigidbody2D>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_currentHealth = m_maxHealth;
+    }
+
+    private void FixedUpdate()
+    {
+
     }
 
     void Update()
@@ -76,23 +91,6 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                     m_spriteRenderer.color = Color.white;
                 else
                     m_spriteRenderer.color = m_originalColor;
-            }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (m_contactDamage) {
-            var other = collision.collider;
-
-            if (other.CompareTag("Player")) {
-                if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && other.gameObject.GetComponent<PlayerCombat>().currentAttackState != PlayerCombat.AttackState.Smash) { //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
-                    other.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
-                    other.gameObject.GetComponent<PlayerHook>().CancelHook();
-                    if (GetComponent<Animator>() != null) {
-                        GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
-                    }
-                }
             }
         }
     }

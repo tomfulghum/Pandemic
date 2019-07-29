@@ -223,12 +223,9 @@ public class PlayerHook : MonoBehaviour
             {
                 bool cancelCondition = false;
                 switch (m_currentTargetType) {
-                    case HookType.Hook: {
-                        cancelCondition = HookToTarget();
-                        break;
-                    }
+                    case HookType.Hook:
                     case HookType.BigEnemy: {
-                        cancelCondition = HookToEnemy();
+                        cancelCondition = HookToTarget();
                         break;
                     }
                     case HookType.Pull: {
@@ -369,7 +366,7 @@ public class PlayerHook : MonoBehaviour
 
         m_currentTimeActiveRope += Time.deltaTime / Time.timeScale;
         if (m_currentTimeActiveRope > m_maxTimeToWinRopeFight) {
-            GetComponent<PlayerCombat>().GetHit(m_currentSelectedTarget.transform, 10);
+            GetComponent<PlayerCombat>().GetHit(m_currentSelectedTarget.transform.position, 10);
             CancelCondition = true;
         }
         if (CancelCondition) {
@@ -431,32 +428,21 @@ public class PlayerHook : MonoBehaviour
             m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
             m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
         }
+
+        Vector2 direction = m_usingController ? m_controllerDirection : m_mouseDirection;
         if (m_usingController == false) {
             if (m_currentHookState == HookState.SearchTarget) {
-                m_currentSelectedTarget = FindNearestTargetInRange(m_mouseDirection);
-            } else if (m_currentSelectedTarget != FindNearestTargetInRange(m_mouseDirection)) { // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
-                if (FindNearestTargetInRange(m_mouseDirection) != null && FindNearestTargetInRange(m_mouseDirection).CompareTag("HookPoint")) {
-                    m_currentSwitchTarget = FindNearestTargetInRange(m_mouseDirection);
+                m_currentSelectedTarget = FindNearestTargetInRange(direction);
+            } else if (m_currentSelectedTarget != FindNearestTargetInRange(direction)) { // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
+                if (FindNearestTargetInRange(direction) != null && FindNearestTargetInRange(m_mouseDirection).CompareTag("HookPoint")) {
+                    m_currentSwitchTarget = FindNearestTargetInRange(direction);
                     m_currentHookState = HookState.SwitchTarget;
-                } else if (FindNearestTargetInRange(m_mouseDirection) == null) {
-                    m_currentSwitchTarget = FindNearestTargetInRange(m_mouseDirection);
+                } else if (FindNearestTargetInRange(direction) == null) {
+                    m_currentSwitchTarget = FindNearestTargetInRange(direction);
                     m_currentHookState = HookState.SwitchTarget;
                 }
             }
             VisualizeCone(m_mouseDirection);
-        } else {
-            if (m_currentHookState == HookState.SearchTarget) {
-                m_currentSelectedTarget = FindNearestTargetInRange(m_controllerDirection);
-            } else if (m_currentSelectedTarget != FindNearestTargetInRange(m_controllerDirection)) {
-                if (FindNearestTargetInRange(m_controllerDirection) != null && FindNearestTargetInRange(m_controllerDirection).CompareTag("HookPoint")) {
-                    m_currentSwitchTarget = FindNearestTargetInRange(m_controllerDirection);
-                    m_currentHookState = HookState.SwitchTarget;
-                } else if (FindNearestTargetInRange(m_controllerDirection) == null) {
-                    m_currentSwitchTarget = FindNearestTargetInRange(m_controllerDirection);
-                    m_currentHookState = HookState.SwitchTarget;
-                }
-            }
-            VisualizeCone(m_controllerDirection);
         }
 
         SlowTime();
@@ -486,7 +472,7 @@ public class PlayerHook : MonoBehaviour
                         m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
                         m_pm.DisableUserInput(true);
                         SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
-                        m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
+                        //m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
                         break;
                     }
                     case HookType.BigEnemy: {
@@ -495,7 +481,7 @@ public class PlayerHook : MonoBehaviour
                         m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
                         m_pm.DisableUserInput(true);
                         SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
-                        m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
+                        //m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed);
                         break;
                     }
                     case HookType.Pull: {
@@ -521,55 +507,23 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private bool HookToEnemy()
-    {
-        if (Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_targetReachedTolerance) {
-            m_reachedTarget = true;
-        }
-
-        if (m_targetPosition != (Vector2)m_currentSelectedTarget.transform.position && m_reachedTarget == false) //bei big enemy funktioniert das nicht 
-        {
-            m_targetPosition = m_currentSelectedTarget.transform.position;
-            m_currentTargetPosition = m_targetPosition;
-            SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
-            m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed); //brauch ich das? --> eigentlich schon
-        }
-
-        Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position);
-        bool cancelCondition = false;
-        if (Vector2.Distance(transform.position, m_currentTargetPosition) < m_targetReachedTolerance) { //evlt das gleiche wie oben
-            cancelCondition = true;
-        }
-
-        if (m_cancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance) { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-            cancelCondition = true;
-        }
-
-        m_framesTillTarget -= 1 * Time.timeScale;
-        if (m_framesTillTarget < 0) {
-            m_reachedTarget = true;
-            cancelCondition = true;
-        }
-
-        return cancelCondition;
-    }
-
     private bool HookToTarget()
     {
         if (Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_targetReachedTolerance) {
             m_reachedTarget = true;
         }
 
-        if (m_targetPosition != (Vector2)m_currentSelectedTarget.transform.position && m_reachedTarget == false) { //bei big enemy funktioniert das nicht 
+        if (m_reachedTarget == false) { //bei big enemy funktioniert das nicht 
             m_targetPosition = m_currentSelectedTarget.transform.position;
             m_currentTargetPosition = CalculateTargetPoint(transform.position, m_targetPosition, m_additionalTravelDistance);
             SetVelocityTowardsTarget(m_currentTargetPosition, m_hookSpeed);
-            m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed); //brauch ich das? --> eigentlich schon
+            //m_framesTillTarget = CalculateTravelTime(transform.position, m_currentTargetPosition, m_hookSpeed); //brauch ich das? --> eigentlich schon
         }
 
         Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position);
         bool cancelCondition = false;
         if (Vector2.Distance(transform.position, m_currentTargetPosition) < m_targetReachedTolerance) { //wenn man sein ziel erreicht hat
+            m_reachedTarget = true;
             cancelCondition = true;
         }
 
@@ -577,10 +531,10 @@ public class PlayerHook : MonoBehaviour
             cancelCondition = true;
         }
 
-        m_framesTillTarget -= 1 * Time.timeScale;
-        if (m_framesTillTarget < 0) {
-            cancelCondition = true;
-        }
+        //m_framesTillTarget -= 1 * Time.timeScale;
+        //if (m_framesTillTarget < 0) {
+        //    cancelCondition = true;
+        //}
 
         return cancelCondition;
     }

@@ -80,6 +80,8 @@ public class PlayerCombat : MonoBehaviour
 
     private int m_currentHitPriority = 1;
 
+    private Coroutine m_knockbackCoroutine = null;
+
     private Actor2D m_actor;
     private PlayerMovement m_pm;
     private SpriteRenderer m_spriteRenderer;
@@ -431,28 +433,56 @@ public class PlayerCombat : MonoBehaviour
         m_invincible = false;
     }
 
-    private IEnumerator KnockBack(float _repetitions, Transform _knockBackOrigin, float _knockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
+    private IEnumerator KnockBack(float _repetitions, Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
     {
+        //PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
+        //m_pm.DisableUserInput(true);
+        //
+        //StartCoroutine(InvincibilityFrames(m_invincibilityTime));
+        //
+        //for (int i = 0; i < _repetitions; i++) {
+        //    float test = 1 - Mathf.Pow((i), 3) / 100;
+        //    if (test < 0)
+        //        test = 0;
+        //    int additionalPosition = 0;
+        //    if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) {//KnockBacktolerance or so
+        //        additionalPosition = 10;
+        //    }
+        //    Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + additionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
+        //    m_pm.externalVelocity = KnockBackDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
+        //
+        //    yield return new WaitForSeconds(0.03f);
+        //}
+        //m_spriteRenderer.color = m_originalColor;
+        //m_colorChangeCounter = 0;
+        //PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
+        //m_pm.DisableUserInput(false);
+
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
         m_pm.DisableUserInput(true);
+        m_invincible = true;
 
-        StartCoroutine(InvincibilityFrames(m_invincibilityTime));
+        //StartCoroutine(InvincibilityFrames(m_invincibilityTime));
 
-        for (int i = 0; i < _repetitions; i++) {
-            float test = 1 - Mathf.Pow((i), 3) / 100;
-            if (test < 0)
-                test = 0;
-            int additionalPosition = 0;
-            if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) {//KnockBacktolerance or so
-                additionalPosition = 10;
-            }
-            Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + additionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
-            m_pm.externalVelocity = KnockBackDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
+        Vector2 direction = ((Vector2)transform.position - _knockBackOrigin).normalized;
 
-            yield return new WaitForSeconds(0.03f);
+        if (_enemy) {
+            _enemy.frozen = true;
         }
-        m_spriteRenderer.color = m_originalColor;
-        m_colorChangeCounter = 0;
+
+        yield return new WaitForSeconds(0.5f); // Freeze time
+
+        m_pm.externalVelocity = direction * _knockBackForce;
+
+        yield return new WaitForSeconds(0.2f); // Knockback time
+
+        if (_enemy) {
+            _enemy.frozen = false;
+        }
+
+        m_pm.momentum = m_pm.externalVelocity;
+
+        m_invincible = false;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         m_pm.DisableUserInput(false);
     }
@@ -461,14 +491,17 @@ public class PlayerCombat : MonoBehaviour
     //    Public Functions    //
     //************************//
 
-    public void GetHit(Transform _knockBackOrigin, float _knockBackForce) //bandaid fix for knockbackdirectino //player knockback noch bisshen stärker einstellen //knockback system allgemein überarbeiten
+    public void GetHit(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //bandaid fix for knockbackdirectino //player knockback noch bisshen stärker einstellen //knockback system allgemein überarbeiten
     {
         if (!m_invincible) {
             //vllt die überprüfung ob der hit gilt hier rein machen --> viel besser
-            StopCoroutine("KnockBack"); //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
-                                        //was ist mit attacksequence usw.? die auch stoppen?
-                                        //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
-            StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce));
+            //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
+            //was ist mit attacksequence usw.? die auch stoppen?
+            //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
+            if (m_knockbackCoroutine != null) {
+                StopCoroutine(m_knockbackCoroutine);
+            }
+            m_knockbackCoroutine = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce, _enemy));
         }
     }
 
