@@ -23,7 +23,7 @@ public class PlaguePeasantAnim : MonoBehaviour
     void Update()
     {
         FlipObject();
-        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        if (GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
         {
             anim.SetTrigger("Death");
             TriggeredDeath = true;
@@ -35,17 +35,17 @@ public class PlaguePeasantAnim : MonoBehaviour
         else
             GetComponent<SpriteRenderer>().flipX = true;
         */
-        if (enemy.CurrentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
+        if (enemy.currentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
             anim.SetBool("Moving", true);
         else
             anim.SetBool("Moving", false);
 
-        if (enemy.CurrentMovementState == PlaguePeasant.MovementState.Sit) //ist das mit dem float so eine gute idee?
+        if (enemy.currentMovementState == PlaguePeasant.MovementState.Sit) //ist das mit dem float so eine gute idee?
             anim.SetBool("Sitting", true);
         else
             anim.SetBool("Sitting", false);
 
-        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
+        if (GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Hit)
             anim.SetBool("Hit", true); //später evtl trigger
         else
             anim.SetBool("Hit", false);
@@ -54,7 +54,7 @@ public class PlaguePeasantAnim : MonoBehaviour
 
     void FlipObject() //vllt besser in plague peasant?
     {
-        if(enemy.CurrentMovementDirection == PlaguePeasant.MovementDirection.Left)
+        if(enemy.currentMovementDirection == PlaguePeasant.MovementDirection.Left)
             transform.localScale = new Vector3(-ObjectScale.x, ObjectScale.y, ObjectScale.z);
         else
             transform.localScale = new Vector3(ObjectScale.x, ObjectScale.y, ObjectScale.z);

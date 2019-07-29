@@ -18,13 +18,13 @@ public class PlagueFlyerAnim : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        if (enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
         {
             anim.SetTrigger("Death");
             TriggeredDeath = true;
         }
 
-        if (enemy.GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Hit)
+        if (enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Hit)
             anim.SetBool("Hit", true); //später evtl trigger
         else
             anim.SetBool("Hit", false);

@@ -1,4 +1,4 @@
-﻿public class Util
+﻿public static class Util
 {
     // Checks if two floats have the same sign.
     public static bool SameSign(float _a, float _b)

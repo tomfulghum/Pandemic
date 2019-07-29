@@ -8,6 +8,12 @@ public class SinusMotion : MonoBehaviour
     [SerializeField] float frequency = 1f;
 
     private Vector3 startPosition;
+    private Rigidbody2D m_rb;
+
+    private void Awake()
+    {
+        m_rb = GetComponent<Rigidbody2D>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -16,8 +22,8 @@ public class SinusMotion : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position = startPosition + new Vector3(amplitude * Mathf.Sin(Time.time), amplitude * Mathf.Cos(Time.time * frequency));
+        m_rb.MovePosition(startPosition + new Vector3(amplitude * Mathf.Sin(Time.time), amplitude * Mathf.Cos(Time.time * frequency)));
     }
 }

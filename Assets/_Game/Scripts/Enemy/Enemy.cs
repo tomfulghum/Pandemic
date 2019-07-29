@@ -5,124 +5,155 @@ using UnityEngine;
 //enemy in eine elternklasse umwandeln die für alle kind enemys deren movementpattern funktion im update aufruft
 public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script schreiben was auch für den player anwendbar ist
 {
-    public enum EnemyState { Moving, Hit, Dead } //usw. //evtl moving besser namen
-    [HideInInspector] public EnemyState CurrentEnemyState = EnemyState.Moving;
-    public bool ContactDamage;
-    public int MaxHealth = 6;
-    int CurrentHealth;
-    int colorChangeCounter;
-    public LayerMask layer_mask;
-    Color originalColor;
+    //**********************//
+    //    Internal Types    //
+    //**********************//
 
-    Coroutine EnemyKnockBack;
-    Actor2D actor; // vllt reich der actor auf crawling enemy
-    int CurrentHitPriority = 0;
-    // Start is called before the first frame update
+    public enum EnemyState //usw. //evtl moving besser namen
+    {
+        Moving,
+        Hit,
+        Dead
+    }
+
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] private bool m_contactDamage = false;
+    [SerializeField] private int m_maxHealth = 6;
+
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public EnemyState currentEnemyState
+    {
+        get { return m_currentEnemyState; }
+    }
+
+    public bool frozen
+    {
+        get { return m_frozen; }
+        set { m_frozen = value; }
+    }
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private EnemyState m_currentEnemyState = EnemyState.Moving;
+
+    private int m_currentHealth = 0;
+    private int m_colorChangeCounter = 0;
+
+    private Color m_originalColor = default;
+
+    private bool m_frozen = false;
+
+    private Coroutine m_enemyKnockBack = null;
+    private Actor2D m_actor = null; // vllt reich der actor auf crawling enemy
+    private Collider2D m_coll = null;
+    private Rigidbody2D m_rb = null;
+    private SpriteRenderer m_spriteRenderer = null;
+    private int m_currentHitPriority = 0;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     void Start()
     {
-        actor = GetComponent<Actor2D>();
-        originalColor = GetComponent<SpriteRenderer>().color;
-        CurrentHealth = MaxHealth;
+        m_actor = GetComponent<Actor2D>();
+        m_coll = GetComponent<Collider2D>();
+        m_rb = GetComponent<Rigidbody2D>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
+        m_originalColor = GetComponent<SpriteRenderer>().color;
+        m_currentHealth = m_maxHealth;
     }
 
-    // Update is called once per frame
+    private void FixedUpdate()
+    {
+
+    }
+
     void Update()
     {
-        if ((GetComponent<CrawlingEnemy>() == null || CurrentEnemyState == EnemyState.Dead) && GetComponent<Borb>() == null) //zwischen lösung für enemies ohne eigenes script 
-        {
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
-
-            actor.velocity += Vector2.up * (-10 * Time.deltaTime);
-            actor.velocity = new Vector2(actor.velocity.x, Mathf.Clamp(actor.velocity.y, -10, float.MaxValue));
-        }
-        if (CurrentEnemyState != EnemyState.Dead)
-        {
-            if(CurrentHealth <= 0)
-            {
-                actor.velocity = Vector2.zero;
+        if (currentEnemyState != EnemyState.Dead) {
+            if (m_currentHealth <= 0) {
+                m_actor.velocity = Vector2.zero;
                 Destroy(gameObject, 2f); //despawn time //evtl länger?
-                CurrentEnemyState = EnemyState.Dead;
+                m_currentEnemyState = EnemyState.Dead;
             }
-            if (ContactDamage) //enemy state attack
-            {
-                Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
-                Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0, layer_mask); //hitbox anpassen --> evtl etwas größer machen
-                foreach (Collider2D collider in col)
-                {
-                    if (collider.CompareTag("Player"))
-                    {
-                        if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().CurrentAttackState != PlayerCombat.AttackState.Smash) //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
-                        {
-                            collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform, 30); //10 --> besseren fix finden
-                            collider.gameObject.GetComponent<PlayerHook>().CancelHook();
-                            if (GetComponent<Animator>() != null)
-                                GetComponent<Animator>().SetTrigger("Attack"); //sollte auf jedenfall im anim script sein nur zum test hier
-                        }
-                    }
-                }
-            }
-            if (CurrentEnemyState == EnemyState.Hit)
-            {
-                colorChangeCounter++;
-                if (colorChangeCounter % 5 == 0)
-                    GetComponent<SpriteRenderer>().color = Color.white;
+            if (currentEnemyState == EnemyState.Hit) {
+                m_colorChangeCounter++;
+                if (m_colorChangeCounter % 5 == 0)
+                    m_spriteRenderer.color = Color.white;
                 else
-                    GetComponent<SpriteRenderer>().color = originalColor;
+                    m_spriteRenderer.color = m_originalColor;
             }
         }
     }
+
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
     /*
     IEnumerator Despawn() //falls später evtl noch mehr passieren soll
     {
 
     }
     */
-    public void GetHit(Transform _knockBackOrigin, float _KnockBackForce, int HitPriority) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
-    {
-        if(CurrentEnemyState == EnemyState.Dead) //nochmal überprüfen ob das klappt
-            return;
-        //vllt die überprüfung ob der hit gilt hier rein machen
-        if (CurrentEnemyState != EnemyState.Hit)
-        {
-            EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
-        }
-        else if (CurrentEnemyState == EnemyState.Hit && HitPriority > CurrentHitPriority) //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
-        {
-            StopCoroutine(EnemyKnockBack);
-            EnemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _KnockBackForce));
-        }
-        CurrentHitPriority = HitPriority;
-    }
 
     //besser machen und die schwerkraft usw alles mitberechnen --> evtl in ein anderes script //check collissions evtl auch woanders rein
     //was soll passieren wenn man den gegner / spieler in die wand knockt?
-    IEnumerator KnockBack(float _repetissions, Transform _knockBackOrigin, float _KnockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
+    private IEnumerator KnockBack(float _repetitions, Transform _knockBackOrigin, float _knockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
     {
-        CurrentHealth--;
-        CurrentEnemyState = EnemyState.Hit;
-        for (int i = 0; i < _repetissions; i++)
-        {
+        m_currentHealth--;
+        m_currentEnemyState = EnemyState.Hit;
+        for (int i = 0; i < _repetitions; i++) {
             float test = 1 - Mathf.Pow((i), 3) / 100; //warum?
-            if (test < 0)
+            if (test < 0) {
                 test = 0;
-            int AdditionalPosition = 0;
-            if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) //KnockBacktolerance or so
-                AdditionalPosition = 10;
-            Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + AdditionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
-            actor.velocity = KnockBackDirection * test * _KnockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
-            if (actor.collision.above || actor.collision.below)
-                actor.velocity = new Vector2(actor.velocity.x, 0);
-            if (actor.collision.left || actor.collision.right)
-                actor.velocity = new Vector2(0, actor.velocity.y);
+            }
+            int additionalPosition = 0;
+            if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) { //KnockBacktolerance or so
+                additionalPosition = 10;
+            }
+            Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + additionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
+            m_rb.velocity = KnockBackDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
+            if (m_actor.contacts.above || m_actor.contacts.below) {
+                m_rb.velocity = new Vector2(m_rb.velocity.x, 0);
+            }
+            if (m_actor.contacts.left || m_actor.contacts.right) {
+                m_rb.velocity = new Vector2(0, m_rb.velocity.y);
+            }
 
             yield return new WaitForSeconds(0.03f);
         }
-        GetComponent<SpriteRenderer>().color = originalColor;
-        colorChangeCounter = 0;
-        CurrentHitPriority = 0;
-        CurrentEnemyState = EnemyState.Moving;
+        m_spriteRenderer.color = m_originalColor;
+        m_colorChangeCounter = 0;
+        m_currentHitPriority = 0;
+        m_currentEnemyState = EnemyState.Moving;
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void GetHit(Transform _knockBackOrigin, float _knockBackForce, int _hitPriority) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
+    {
+        if (currentEnemyState == EnemyState.Dead) { //nochmal überprüfen ob das klappt
+            return;
+        }
+        //vllt die überprüfung ob der hit gilt hier rein machen
+        if (currentEnemyState != EnemyState.Hit) {
+            m_enemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce));
+        } else if (currentEnemyState == EnemyState.Hit && _hitPriority > m_currentHitPriority) { //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
+            StopCoroutine(m_enemyKnockBack);
+            m_enemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce));
+        }
+        m_currentHitPriority = _hitPriority;
     }
 }

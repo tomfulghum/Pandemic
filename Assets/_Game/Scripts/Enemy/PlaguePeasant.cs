@@ -7,8 +7,18 @@ public class PlaguePeasant : MonoBehaviour
     public enum MovementState { Decide, Idle, Move, Sit, Attack, RangedAttack, Chase }
     public enum MovementDirection { None, Left, Right }
 
-    [HideInInspector] public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
-    [HideInInspector] public MovementDirection CurrentMovementDirection = MovementDirection.Left;
+    private MovementState m_currentMovementState = MovementState.Decide; //vllt am anfang auf decide
+    private MovementDirection m_currentMovementDirection = MovementDirection.Left;
+
+    public MovementState currentMovementState
+    {
+        get { return m_currentMovementState; }
+    }
+
+    public MovementDirection currentMovementDirection
+    {
+        get { return m_currentMovementDirection; }
+    }
 
     public float ChaseRadius = 3f;
     public float MovementSpeed = 1f;
@@ -47,15 +57,15 @@ public class PlaguePeasant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.CurrentEnemyState == Enemy.EnemyState.Moving)
+        if (enemy.currentEnemyState == Enemy.EnemyState.Moving)
         {
             SetMovementState();
             //Debug.Log(CurrentMovementState);
-            switch (CurrentMovementState)
+            switch (m_currentMovementState)
             {
                 case MovementState.Move:
                     {
-                        if (CurrentMovementDirection == MovementDirection.Right)
+                        if (currentMovementDirection == MovementDirection.Right)
                             actor.velocity = Vector2.right * MovementSpeed;
                         else
                             actor.velocity = Vector2.left * MovementSpeed;
@@ -68,7 +78,7 @@ public class PlaguePeasant : MonoBehaviour
                             {
                                 actor.velocity = Vector2.zero;
                                 IdleCounter = Random.Range(100, 180);
-                                CurrentMovementState = MovementState.Idle;
+                                m_currentMovementState = MovementState.Idle;
                                 DirectionCounter = 150 + Random.Range(0, 150);
                             }
                             else
@@ -80,12 +90,12 @@ public class PlaguePeasant : MonoBehaviour
                     {
                         if (ObjectToChase.position.x > transform.position.x)
                         {
-                            CurrentMovementDirection = MovementDirection.Right;
+                            m_currentMovementDirection = MovementDirection.Right;
                             actor.velocity = Vector2.right * MovementSpeed + new Vector2(0, actor.velocity.y);
                         }
                         else
                         {
-                            CurrentMovementDirection = MovementDirection.Left;
+                            m_currentMovementDirection = MovementDirection.Left;
                             actor.velocity = Vector2.left * MovementSpeed + new Vector2(0, actor.velocity.y);
                         }
                         break;
@@ -95,14 +105,14 @@ public class PlaguePeasant : MonoBehaviour
                         if (IdleCounter > 150)
                         {
                             SitCounter = Random.Range(100, 180);
-                            CurrentMovementState = MovementState.Sit;
+                            m_currentMovementState = MovementState.Sit;
                         }
                         else
                         {
                             IdleCounter--;
                             if (IdleCounter < 0)
                             {
-                                CurrentMovementState = MovementState.Decide;
+                                m_currentMovementState = MovementState.Decide;
                             }
                         }
                         break;
@@ -112,7 +122,7 @@ public class PlaguePeasant : MonoBehaviour
                         SitCounter--;
                         if (SitCounter < 0)
                         {
-                            CurrentMovementState = MovementState.Decide;
+                            m_currentMovementState = MovementState.Decide;
                         }
                         break;
                     }
@@ -138,22 +148,22 @@ public class PlaguePeasant : MonoBehaviour
         Player = PlayerInPercetpionRadius();
         if (Player != null && ObjectToChase == null && RangedAttackOnCooldown == false)
         {
-            CurrentMovementState = MovementState.RangedAttack;
+            m_currentMovementState = MovementState.RangedAttack;
             if (Player.position.x > transform.position.x)
-                CurrentMovementDirection = MovementDirection.Right;
+                m_currentMovementDirection = MovementDirection.Right;
             else
-                CurrentMovementDirection = MovementDirection.Left;
+                m_currentMovementDirection = MovementDirection.Left;
         }
         else if (RangedAttackActive == false)
         {
             if (ObjectToChase != null)
-                CurrentMovementState = MovementState.Chase;
-            else if (CheckGroundAhead() && CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
-                CurrentMovementState = MovementState.Move;
-            else if (CurrentMovementState != MovementState.Idle && CurrentMovementState != MovementState.Sit)
+                m_currentMovementState = MovementState.Chase;
+            else if (CheckGroundAhead() && currentMovementState != MovementState.Idle && currentMovementState != MovementState.Sit)
+                m_currentMovementState = MovementState.Move;
+            else if (currentMovementState != MovementState.Idle && currentMovementState != MovementState.Sit)
             {
                 ChangeDirection();
-                CurrentMovementState = MovementState.Move;
+                m_currentMovementState = MovementState.Move;
             }
         }
     }
@@ -170,7 +180,7 @@ public class PlaguePeasant : MonoBehaviour
     void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
         GameObject projectile = Instantiate(Projectile, ProjectileStartPos.position, ProjectileStartPos.rotation);
-        if (CurrentMovementDirection == MovementDirection.Left)
+        if (currentMovementDirection == MovementDirection.Left)
             projectile.GetComponent<Actor2D>().velocity = Vector2.left * ProjectileSpeed;
         else
             projectile.GetComponent<Actor2D>().velocity = Vector2.right * ProjectileSpeed;
@@ -185,7 +195,7 @@ public class PlaguePeasant : MonoBehaviour
         {
             if (ColliderInRange[i].CompareTag("Player"))
             {
-                if (CurrentMovementDirection == MovementDirection.Left && transform.position.x > ColliderInRange[i].transform.position.x)
+                if (currentMovementDirection == MovementDirection.Left && transform.position.x > ColliderInRange[i].transform.position.x)
                 {
                     float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
                     RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
@@ -194,7 +204,7 @@ public class PlaguePeasant : MonoBehaviour
                     if (hit == false && AngleInDeg < PerceptionAngle)
                         return ColliderInRange[i].transform;
                 }
-                if (CurrentMovementDirection == MovementDirection.Right && transform.position.x < ColliderInRange[i].transform.position.x)
+                if (currentMovementDirection == MovementDirection.Right && transform.position.x < ColliderInRange[i].transform.position.x)
                 {
                     float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
                     RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
@@ -226,17 +236,17 @@ public class PlaguePeasant : MonoBehaviour
 
     void ChangeDirection()
     {
-        if (CurrentMovementDirection == MovementDirection.Left)
-            CurrentMovementDirection = MovementDirection.Right;
+        if (currentMovementDirection == MovementDirection.Left)
+            m_currentMovementDirection = MovementDirection.Right;
         else
-            CurrentMovementDirection = MovementDirection.Left;
+            m_currentMovementDirection = MovementDirection.Left;
         DirectionCounter = 150 + Random.Range(0, 150);
     }
 
     bool CheckGroundAhead()
     {
         RaycastHit2D hit;
-        if (CurrentMovementDirection == MovementDirection.Left)
+        if (currentMovementDirection == MovementDirection.Left)
             hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         else
             hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);

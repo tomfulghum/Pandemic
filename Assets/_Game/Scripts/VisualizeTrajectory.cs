@@ -4,47 +4,69 @@ using UnityEngine;
 
 public class VisualizeTrajectory : MonoBehaviour
 {
-    [Range(0,100)] public int NumOfVisualDots;
-    public float TimeBetweenDots = 0.07f; //besseren namen finden
-    public GameObject DotPrefab;
-    public LayerMask layer_mask;
-    GameObject DotParent;
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] [Range(0, 100)] private int m_numOfVisualDots = 50;
+    [SerializeField] private float m_timeBetweenDots = 0.07f; //besseren namen finden
+    [SerializeField] private GameObject m_dotPrefab = null;
+    [SerializeField] private LayerMask m_layerMask = default;
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private GameObject m_dotParent;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     //num of visual dots ersetzen durch dichte der punkte --> oder zeitabstand?
-    // Start is called before the first frame update
     void Start()
     {
-        DotParent = new GameObject("Parent Dot"); 
+        m_dotParent = new GameObject("Parent Dot");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void VisualizeDots(Vector2 _startPosition, Vector2 _launchVelocity ,float _gravity) //gravity sollte irgendwoanders gesetzt werden --> am besten von dem object das geworfen wird
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private Vector2 CalculatePosition(float elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition, Vector2 _gravity)
     {
-        RemoveVisualeDots();
-        DotParent.transform.position = _startPosition;
+        return _gravity * elapsedTime * elapsedTime * 0.5f + _launchVelocity * elapsedTime + _initialPosition;
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void VisualizeDots(Vector2 _startPosition, Vector2 _launchVelocity, float _gravity) //gravity sollte irgendwoanders gesetzt werden --> am besten von dem object das geworfen wird
+    {
+        RemoveVisualDots();
+        m_dotParent.transform.position = _startPosition;
         //float TravelTime = CalculateTravelTime( _startPosition,  _launchVelocity, new Vector2(0, -_gravity));
         //float TravelTimeForEachDot = TravelTime / NumOfVisualDots;
-        bool HitSmth = false;
-        float ThrowTime = 0f;
-        while(HitSmth == false && DotParent.transform.childCount < NumOfVisualDots) //|| currentnum of dots > max num of visualdots --> als sicherung --> da funktioniert noch was nicht sogut
-        {
-            Vector2 StartPosition = CalculatePosition(ThrowTime, _launchVelocity, DotParent.transform.position, new Vector2(0, -_gravity));
-            ThrowTime += TimeBetweenDots; //dafür variable aus dem editor nehmen 
-            Vector2 TargetPosition = CalculatePosition(ThrowTime, _launchVelocity, DotParent.transform.position, new Vector2(0, -_gravity));
-            float RaycastLenght = (TargetPosition - StartPosition).magnitude;
-            RaycastHit2D hit = Physics2D.Raycast(StartPosition, (TargetPosition - StartPosition), RaycastLenght, layer_mask); //vllt anstatt 1 irgendwas ausrechnen?
-            if(hit.collider == null)
-            {
-                GameObject trajectoryDot = Instantiate(DotPrefab);
-                trajectoryDot.transform.SetParent(DotParent.transform);
-                trajectoryDot.transform.position = StartPosition;
-            } else
-            {
-                HitSmth = true;
+        bool hitSmth = false;
+        float throwTime = 0f;
+        while (hitSmth == false && m_dotParent.transform.childCount < m_numOfVisualDots) { //|| currentnum of dots > max num of visualdots --> als sicherung --> da funktioniert noch was nicht sogut
+            Vector2 startPosition = CalculatePosition(throwTime, _launchVelocity, m_dotParent.transform.position, new Vector2(0, -_gravity));
+            throwTime += m_timeBetweenDots; //dafür variable aus dem editor nehmen 
+            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, m_dotParent.transform.position, new Vector2(0, -_gravity));
+            float raycastLength = (targetPosition - startPosition).magnitude;
+            RaycastHit2D hit = Physics2D.Raycast(startPosition, (targetPosition - startPosition), raycastLength, m_layerMask); //vllt anstatt 1 irgendwas ausrechnen?
+            if (hit.collider == null) {
+                GameObject trajectoryDot = Instantiate(m_dotPrefab);
+                trajectoryDot.transform.SetParent(m_dotParent.transform);
+                trajectoryDot.transform.position = startPosition;
+            } else {
+                hitSmth = true;
             }
         }
         /*
@@ -58,16 +80,10 @@ public class VisualizeTrajectory : MonoBehaviour
         */
     }
 
-    public void RemoveVisualeDots()
+    public void RemoveVisualDots()
     {
-        foreach (Transform child in DotParent.transform) //vllt später jedesmal wieder die gleichen objects benutzen -->object pooling --> check if num of visual dots == num of childs ansonsten neue erstellen usw.
-        {
+        foreach (Transform child in m_dotParent.transform) { //vllt später jedesmal wieder die gleichen objects benutzen -->object pooling --> check if num of visual dots == num of childs ansonsten neue erstellen usw.
             Destroy(child.gameObject);
         }
-    }
-
-    Vector2 CalculatePosition(float elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition, Vector2 _gravity)
-    {
-        return _gravity * elapsedTime * elapsedTime * 0.5f + _launchVelocity * elapsedTime + _initialPosition;
     }
 }

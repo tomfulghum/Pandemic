@@ -8,276 +8,285 @@ using UnityEngine;
 //jump intelligenter machen --> evtl auch absprungwinkel ausrechnen
 public class CrawlingEnemy : MonoBehaviour
 {
-    public enum MovementState { Decide, Move, Jump, Falling, Chase } //in air in falling umändern --> wenn noch ground below --> nichts tun nur gravity applyn
-    public enum MovementDirection { None, Left, Right } //brauch ich none überhaupt?
+    //**********************//
+    //    Internal Types    //
+    //**********************//
 
-    [HideInInspector] public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
-    [HideInInspector] public MovementDirection CurrentMovementDirection = MovementDirection.None;
-
-    public float Gravity = 10f;
-    public float MovementSpeed = 1f;
-    public float ChaseRadius = 3f;
-    public bool UseIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
-    public bool UseJump = true;
-    //ändern in eine intelligenz skala von 1 - 10 oder so
-    public LayerMask SightBlockingLayers;
-    int DirectionCounter;
-
-    Transform ObjectToChase;
-    Vector2 CurrentVelocity;
-    Vector2 JumpDirection;
-
-    Actor2D actor;
-
-    [HideInInspector] public bool Jumping; //nur für animation aktuell --> später verbessern
-
-   //public GameObject DotPrefab;
-   //GameObject DotParent; //only for visuals
-   //was passiert wenn du den gegner in der luft triffst?
-   // Start is called before the first frame update
-   //jump values noch anpassen
-   void Start()
+    public enum MovementState //in air in falling umändern --> wenn noch ground below --> nichts tun nur gravity applyn
     {
-        actor = GetComponent<Actor2D>();
+        Decide,
+        Move,
+        Jump,
+        Falling,
+        Chase
+    }
+
+    public enum MovementDirection //brauch ich none überhaupt?
+    {
+        None,
+        Left,
+        Right
+    } 
+
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] private float m_movementSpeed = 1f;
+    [SerializeField] private float m_chaseRadius = 3f;
+    [SerializeField] private bool m_useIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
+    [SerializeField] private bool m_useJump = true; //ändern in eine intelligenz skala von 1 - 10 oder so
+    [SerializeField] private LayerMask m_sightBlockingLayers = default;
+
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public MovementState currentMovementState //vllt am anfang auf decide
+    {
+        get { return m_currentMovementState; }
+    }
+
+    public MovementDirection currentMovementDirection
+    {
+        get { return m_currentMovementDirection; }
+    }
+
+    public bool jumping //nur für animation aktuell --> später verbessern
+    {
+        get { return m_jumping; }
+    }
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private MovementState m_currentMovementState = MovementState.Decide;
+    private MovementDirection m_currentMovementDirection = MovementDirection.None;
+    private bool m_jumping = false;
+
+    private int m_directionCounter = 0;
+
+    private Transform m_objectToChase = null;
+    private Vector2 m_jumpDirection = Vector2.zero;
+
+    private Actor2D m_actor;
+    private Rigidbody2D m_rb;
+    private Collider2D m_coll;
+    private Enemy m_enemy;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
+    //public GameObject DotPrefab;
+    //GameObject DotParent; //only for visuals
+    //was passiert wenn du den gegner in der luft triffst?
+    //jump values noch anpassen
+    void Start()
+    {
+        m_actor = GetComponent<Actor2D>();
+        m_rb = GetComponent<Rigidbody2D>();
+        m_coll = GetComponent<Collider2D>();
+        m_enemy = GetComponent<Enemy>();
         //DotParent = new GameObject("Parent Dot Enemy"); //only for visuals
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (GetComponent<Enemy>().CurrentEnemyState == Enemy.EnemyState.Moving) //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
-        {
-            if (CurrentMovementState == MovementState.Decide)// && CurrentMovementState != MovementState.Falling)
-                SetNextMove();
-            if (CurrentMovementState != MovementState.Decide)
-                SetMovementPattern();
-            Movement();
+        if (!m_enemy.frozen) {
+            m_rb.isKinematic = false;
+
+            if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving) { //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
+                if (currentMovementState == MovementState.Decide) { // && CurrentMovementState != MovementState.Falling)
+                    SetNextMove();
+                }
+                if (currentMovementState != MovementState.Decide) {
+                    SetMovementPattern();
+                }
+            }
+        } else {
+            m_rb.isKinematic = true;
+            m_rb.velocity = Vector2.zero;
         }
     }
 
-    void SetNextMove()
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private void SetNextMove()
     {
         //jump direction auf default stellen? --> brauchts das überhaupt?
-        ObjectToChase = PlayerInSight();
-        if (ObjectToChase != null)
-            CurrentMovementState = MovementState.Chase;
-        else if (!GroundBelow())
-            CurrentMovementState = MovementState.Falling;
-        else if (CheckGroundAhead())
-            CurrentMovementState = MovementState.Move;
-        else if (CheckGroundAhead() == false)
-        {
+        m_objectToChase = PlayerInSight();
+        if (m_objectToChase != null) {
+            m_currentMovementState = MovementState.Chase;
+        } else if (!m_actor.contacts.below) {
+            m_currentMovementState = MovementState.Falling;
+        } else if (CheckGroundAhead()) {
+            m_currentMovementState = MovementState.Move;
+        } else if (CheckGroundAhead() == false) {
             float rnd = Random.Range(0f, 1f);
-            if ((rnd > 0.9f || (UseIntelligentJump && CheckIfAnyJumpPossible())) && UseJump) //rnd > 0.9f || //--> for better testing without random
-                CurrentMovementState = MovementState.Jump;
-            else
-            {
+            if ((rnd > 0.9f || (m_useIntelligentJump && CheckIfAnyJumpPossible())) && m_useJump) { //rnd > 0.9f || //--> for better testing without random
+                m_currentMovementState = MovementState.Jump;
+            } else {
                 ChangeDirection();
-                CurrentMovementState = MovementState.Move;
+                m_currentMovementState = MovementState.Move;
             }
         }
     }
 
-
-    void SetMovementPattern()
+    private void SetMovementPattern()
     {
-        switch (CurrentMovementState)
-        {
-            case MovementState.Chase:
-                {
-                    if (ObjectToChase.position.x > transform.position.x)
-                    {
-                        CurrentMovementDirection = MovementDirection.Right;
-                        CurrentVelocity = Vector2.right * MovementSpeed + new Vector2(0, CurrentVelocity.y);
-                    }
-                    else
-                    {
-                        CurrentMovementDirection = MovementDirection.Left;
-                        CurrentVelocity = Vector2.left * MovementSpeed + new Vector2(0, CurrentVelocity.y);
-                    }
-                    CurrentMovementState = MovementState.Decide;
-                    break;
+        switch (currentMovementState) {
+            case MovementState.Chase: {
+                if (m_objectToChase.position.x > transform.position.x) {
+                    m_currentMovementDirection = MovementDirection.Right;
+                    m_rb.velocity = new Vector2(m_movementSpeed, m_rb.velocity.y);
+                } else {
+                    m_currentMovementDirection = MovementDirection.Left;
+                    m_rb.velocity = new Vector2(-m_movementSpeed, m_rb.velocity.y);
                 }
+                m_currentMovementState = MovementState.Decide;
+                break;
+            }
 
-            case MovementState.Move:
-                {
-                    DirectionCounter--;
-                    if (DirectionCounter < 0 || actor.collision.left || actor.collision.right)
-                        ChangeDirection();
-                    if (CurrentMovementDirection == MovementDirection.Right)
-                        CurrentVelocity = Vector2.right * MovementSpeed + new Vector2(0, CurrentVelocity.y);
-                    else
-                        CurrentVelocity = Vector2.left * MovementSpeed + new Vector2(0, CurrentVelocity.y);
-                    CurrentMovementState = MovementState.Decide;
-                    break;
+            case MovementState.Move: {
+                m_directionCounter--;
+                if (m_directionCounter < 0 || m_actor.contacts.left || m_actor.contacts.right) {
+                    ChangeDirection();
                 }
-            case MovementState.Jump:
-                {
-                    CurrentVelocity = Jump(JumpDirection);
-                    Jumping = true;
-                    DirectionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
-                    CurrentMovementState = MovementState.Decide; //Falling
-                    break;
+                if (currentMovementDirection == MovementDirection.Right) {
+                    m_rb.velocity = Vector2.right * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                } else {
+                    m_rb.velocity = Vector2.left * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
                 }
-            case MovementState.Falling:
-                {
-                    //vllt hier velocity nochmal setzen (vector2.x = 0 if movementdirection = none)
-                    //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
-                    if (actor.collision.below)
-                    {
-                        Jumping = false;
-                        CurrentMovementState = MovementState.Decide;
-                    }
-                    break;
+                m_currentMovementState = MovementState.Decide;
+                break;
+            }
+            case MovementState.Jump: {
+                m_rb.velocity = Jump(m_jumpDirection);
+                m_jumping = true;
+                m_directionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
+                m_currentMovementState = MovementState.Decide; //Falling
+                break;
+            }
+            case MovementState.Falling: {
+                //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
+                if (m_actor.contacts.below) {
+                    m_jumping = false;
+                    m_currentMovementState = MovementState.Decide;
                 }
+                break;
+            }
         }
     }
 
-    void ChangeDirection()
+    private void ChangeDirection()
     {
-        if (CurrentMovementDirection == MovementDirection.Left)
-            CurrentMovementDirection = MovementDirection.Right;
-        else
-            CurrentMovementDirection = MovementDirection.Left;
-        DirectionCounter = 200 + Random.Range(0, 200);
+        if (currentMovementDirection == MovementDirection.Left) {
+            m_currentMovementDirection = MovementDirection.Right;
+        } else {
+            m_currentMovementDirection = MovementDirection.Left;
+        }
+        m_directionCounter = 200 + Random.Range(0, 200);
     }
 
-    void Movement()
+    private Transform PlayerInSight()
     {
-        ApplyGravity();
-        CheckCollissions();
-        actor.velocity = CurrentVelocity;
-    }
-
-    void CheckCollissions()
-    {
-        if (actor.collision.above || actor.collision.below)
-            actor.velocity = new Vector2(CurrentVelocity.x, 0);
-        if (actor.collision.left || actor.collision.right)
-            actor.velocity = new Vector2(0, CurrentVelocity.y);
-    }
-
-    void ApplyGravity()
-    {
-        CurrentVelocity += Vector2.up * (-10 * Time.deltaTime);
-        CurrentVelocity = new Vector2(CurrentVelocity.x, Mathf.Clamp(CurrentVelocity.y, -Gravity, float.MaxValue));
-    }
-
-    Transform PlayerInSight()
-    {
-        Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, ChaseRadius);
-        for (int i = 0; i < ColliderInRange.Length; i++)
-        {
-            if (ColliderInRange[i].CompareTag("Player"))
-            {
-                float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers);
-                if (hit == false)
-                    return ColliderInRange[i].transform;
+        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_chaseRadius);
+        for (int i = 0; i < colliderInRange.Length; i++) {
+            if (colliderInRange[i].CompareTag("Player")) {
+                float rayCastLength = Vector2.Distance(transform.position, colliderInRange[i].transform.position);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, (colliderInRange[i].transform.position - transform.position), rayCastLength, m_sightBlockingLayers);
+                if (hit == false) {
+                    return colliderInRange[i].transform;
+                }
             }
         }
         return null;
     }
 
-    bool GroundBelow()
+    private Vector2 Jump(Vector2 _jumpDirection)
     {
-        if (actor.collision.below)
-            return true;
-        return false;
-    }
-    Vector2 Jump(Vector2 _JumpDirection)
-    {
-        return new Vector2(_JumpDirection.x, _JumpDirection.y) * 10; //10 = jumpforce --> variable erstellen //vllt siehts besser aus wenn er seine aktuelle velocity behält?
+        return new Vector2(_jumpDirection.x, _jumpDirection.y) * 10; //10 = jumpforce --> variable erstellen //vllt siehts besser aus wenn er seine aktuelle velocity behält?
     }
 
-    bool CheckGroundAhead() //if yes --> decide jump or not //layermask? doesnt hit background?
+    private bool CheckGroundAhead() //if yes --> decide jump or not //layermask? doesnt hit background?
     {
         RaycastHit2D hit;
-        if (CurrentMovementDirection == MovementDirection.Left)
-            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
-        else
-            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
-        if (hit.collider != null)
+        if (currentMovementDirection == MovementDirection.Left) {
+            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, m_coll.bounds.extents.y + 0.2f);
+        } else {
+            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, m_coll.bounds.extents.y + 0.2f);
+        }
+        if (hit.collider != null) {
             return true;
+        }
         return false;
     }
 
-    bool CheckIfAnyJumpPossible() //denke es muss nur noch bisschen an den zahlen geshraubt werden --> was ist mit vector normalisieren
+    private bool CheckIfAnyJumpPossible() //denke es muss nur noch bisschen an den zahlen geshraubt werden --> was ist mit vector normalisieren
     {
-        bool JumpPossible = false;
+        bool jumpPossible = false;
 
-        if (CurrentMovementDirection == MovementDirection.Right)
-        {
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * 10, 10))
-            {
-                JumpPossible = true;
-                JumpDirection = new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
+        if (currentMovementDirection == MovementDirection.Right) {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+                jumpPossible = true;
+                m_jumpDirection = new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * 10, 10))
-            {
-                JumpPossible = true;
-                JumpDirection = new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+                jumpPossible = true;
+                m_jumpDirection = new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * 10, 10))
-            {
-                JumpPossible = true;
-                JumpDirection = new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+                jumpPossible = true;
+                m_jumpDirection = new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
         }
-        if (CurrentMovementDirection == MovementDirection.Left)
-        {
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * 10, 10))
-            {
-                JumpPossible = true;
-                JumpDirection = new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
+        if (currentMovementDirection == MovementDirection.Left) {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+                jumpPossible = true;
+                m_jumpDirection = new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * 10, 10))
-            {
-                JumpPossible = true;
-                JumpDirection = new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+                jumpPossible = true;
+                m_jumpDirection = new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * 10, 10))
-            {
-                JumpPossible = true;
-                JumpDirection = new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+                jumpPossible = true;
+                m_jumpDirection = new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
         }
-        return JumpPossible;
+        return jumpPossible;
     }
 
-    bool CheckJumpPath(Vector2 _startPosition, Vector2 _launchVelocity, float _gravity)
+    private bool CheckJumpPath(Vector2 _startPosition, Vector2 _launchVelocity, float _gravity)
     {
         //DotParent.transform.position = _startPosition;
-        float TimeBetweenDots = 0.08f; //dafür variable im editor erstellen
-        int NumOfChecks = 0;
-        bool HitSmth = false;
-        float ThrowTime = 0f;
-        while (HitSmth == false && NumOfChecks < 50) //30 = max num of checks
+        float timeBetweenDots = 0.08f; //dafür variable im editor erstellen
+        int numOfChecks = 0;
+        bool hitSmth = false;
+        float throwTime = 0f;
+        while (hitSmth == false && numOfChecks < 50) //30 = max num of checks
         {
-            NumOfChecks++;
-            Vector2 StartPosition = CalculatePosition(ThrowTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
-            ThrowTime += TimeBetweenDots;
-            Vector2 TargetPosition = CalculatePosition(ThrowTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
-            float RaycastLenght = (TargetPosition - StartPosition).magnitude;
-            RaycastHit2D hit = Physics2D.Raycast(StartPosition, (TargetPosition - StartPosition), RaycastLenght, SightBlockingLayers); //anstatt sightblocking vllt movementblocking nehmen
-            if (hit.collider != null && hit.collider.transform.position.y <= hit.point.y) //position compare
-                HitSmth = true;
-            else if (hit.collider != null && hit.collider.transform.position.y > hit.point.y)
+            numOfChecks++;
+            Vector2 StartPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
+            throwTime += timeBetweenDots;
+            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
+            float raycastLength = (targetPosition - StartPosition).magnitude;
+            RaycastHit2D hit = Physics2D.Raycast(StartPosition, (targetPosition - StartPosition), raycastLength, m_sightBlockingLayers); //anstatt sightblocking vllt movementblocking nehmen
+            if (hit.collider != null && hit.collider.transform.position.y <= hit.point.y) { //position compare
+                hitSmth = true;
+            } else if (hit.collider != null && hit.collider.transform.position.y > hit.point.y) {
                 return false;
-            /*
-            if (hit.collider == null)
-            {
-                GameObject trajectoryDot = Instantiate(DotPrefab);
-                trajectoryDot.transform.SetParent(DotParent.transform);
-                trajectoryDot.transform.position = StartPosition;
             }
-            */
         }
-        return HitSmth;
+        return hitSmth;
     }
 
-    Vector2 CalculatePosition(float elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition, Vector2 _gravity)
+    private Vector2 CalculatePosition(float _elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition, Vector2 _gravity)
     {
-        return _gravity * elapsedTime * elapsedTime * 0.5f + _launchVelocity * elapsedTime + _initialPosition;
+        return _gravity * _elapsedTime * _elapsedTime * 0.5f + _launchVelocity * _elapsedTime + _initialPosition;
     }
 }

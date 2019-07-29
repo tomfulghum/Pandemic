@@ -13,23 +13,39 @@ public class MovingObject : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
-    private MovingObjectManager manager = null;
+    //private MovingObjectManager manager = null;
     private Vector2 translation = Vector2.zero;
+    private Rigidbody2D m_rb;
 
     //*******************************//
     //    MonoBehaviour Functions    //
     //*******************************//
 
+    private void Awake()
+    {
+        m_rb = GetComponent<Rigidbody2D>();
+    }
+
     private void Start()
     {
-        manager = MovingObjectManager.Instance;
-        manager.Register(this);
+        //manager = MovingObjectManager.Instance;
+        //manager.Register(this);
     }
 
     private void OnDestroy()
     {
-        manager.Deregister(this);
+        //manager.Deregister(this);
     }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    collision.transform.parent = transform;
+    //}
+    //
+    //private void OnTriggerExit2D(Collider2D collision)
+    //{
+    //    collision.transform.parent = null;
+    //}
 
     //************************//
     //    Public Functions    //
