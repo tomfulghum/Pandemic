@@ -39,6 +39,11 @@ public class PlagueFlyerAnim : MonoBehaviour
         else
             anim.SetBool("Dive", false);
 
+        if (enemy.CurrentMovementState == Borb.MovementState.Dazed)
+            anim.SetBool("Stuck", true);
+        else
+            anim.SetBool("Stuck", false);
+
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
         if (enemy.CurrentMovementDirection == Borb.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;

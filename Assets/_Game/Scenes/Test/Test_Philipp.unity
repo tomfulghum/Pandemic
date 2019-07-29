@@ -4236,6 +4236,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1693525880915519421, guid: b047f64e4615a8343b3dc770905f550a,
+        type: 3}
+      propertyPath: ContactDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1693525880915519422, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}
       propertyPath: m_Offset.x
@@ -4255,6 +4260,16 @@ PrefabInstance:
         type: 3}
       propertyPath: SightBlockingLayers.m_Bits
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693525880915519417, guid: b047f64e4615a8343b3dc770905f550a,
+        type: 3}
+      propertyPath: UseHeightAdjustments
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1693525880915519417, guid: b047f64e4615a8343b3dc770905f550a,
+        type: 3}
+      propertyPath: FlightHeight
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b047f64e4615a8343b3dc770905f550a, type: 3}
