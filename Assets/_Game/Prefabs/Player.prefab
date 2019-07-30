@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 5293281134618775217}
   - component: {fileID: 191007883}
   m_Layer: 10
-  m_Name: PlayerNew
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,13 +274,15 @@ MonoBehaviour:
   m_smashSpeed: 20
   m_layerMask:
     serializedVersion: 2
-    m_Bits: 6144
+    m_Bits: 6400
   m_controllerTolerance: 0.5
   m_dashSpeed: 20
   m_dashDuration: 0.2
   m_dashCooldown: 0.5
   m_timeToCombo: 0.1
   m_meleeAttackTime: 0.3
+  m_hitFreezeTime: 0.5
+  m_hitKnockbackTime: 0.2
 --- !u!114 &5293281134618775217
 MonoBehaviour:
   m_ObjectHideFlags: 0
