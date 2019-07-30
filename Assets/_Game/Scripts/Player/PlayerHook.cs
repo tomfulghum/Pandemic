@@ -162,6 +162,8 @@ public class PlayerHook : MonoBehaviour
     private Coroutine m_hookCooldown = null;
 
     private GameObject m_pickedUpObject;
+
+    private PlayerInput m_input;
     private Actor2D m_actor;
     private PlayerMovement m_pm;
 
@@ -175,6 +177,8 @@ public class PlayerHook : MonoBehaviour
         m_totalHookPoints = new List<Collider2D>();
         m_controllerDirection = Vector2.zero;
         m_lastMousePostion = Input.mousePosition;
+
+        m_input = GetComponent<PlayerInput>();
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         //float ScaleMultiplier = RadiusVisualization.gameObject.transform.localScale.x / transform.localScale.x; //ist noch fehlerhaft
@@ -186,30 +190,30 @@ public class PlayerHook : MonoBehaviour
         if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();
-           
+
             if (!m_usingController) {
                 Vector2 currentMousePosition = Input.mousePosition;
                 m_lastMousePostion = currentMousePosition;
                 m_mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 m_mouseDirection = (m_mousePosition - (Vector2)transform.position).normalized;
-            } else { 
-                m_controllerDirection.x = Input.GetAxis("Horizontal");
-                m_controllerDirection.y = Input.GetAxis("Vertical");
+            } else {
+                m_controllerDirection.x = m_input.player.GetAxis(m_input.aimHorizontalAxis);
+                m_controllerDirection.y = m_input.player.GetAxis(m_input.aimVerticalAxis);
                 m_controllerDirection = m_controllerDirection.normalized;
             }
 
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {
-                m_contDirWithoutDeadzone.x = Input.GetAxis("Horizontal");
-                m_contDirWithoutDeadzone.y = Input.GetAxis("Vertical");
+            if (m_input.player.GetAxis(m_input.aimHorizontalAxis) != 0 || m_input.player.GetAxis(m_input.aimVerticalAxis) != 0) {
+                m_contDirWithoutDeadzone.x = m_input.player.GetAxis(m_input.aimHorizontalAxis);
+                m_contDirWithoutDeadzone.y = m_input.player.GetAxis(m_input.aimVerticalAxis);
             }
 
             if ((m_currentHookState != HookState.Active && m_currentHookState != HookState.Cooldown || CanUseHook()) && m_currentHookState != HookState.JumpBack) { //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
-                if (Input.GetButton("Hook") || Input.GetAxis("ControllerHook") == 1) {
+                if (m_input.player.GetButton(m_input.hookButton)) {
                     if (m_pickedUpObject != null && (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp || m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.TravellingToPlayer))
                         AimThrow();
                     else
                         SearchTargetPoint();
-                } else if ((Input.GetButtonUp("Hook") || Input.GetAxis("ControllerHook") == 0) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook()))) {
+                } else if ((m_input.player.GetButtonUp(m_input.hookButton)) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook()))) {
                     if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null) { //könnte evtl sein das man PickedUpObject in dem Frame gedroppt hat --> relativ sicher
                         ThrowObject(m_throwVelocity);
                     } else {
@@ -287,7 +291,7 @@ public class PlayerHook : MonoBehaviour
         } else {
             m_throwVelocity = GetAimDirection(m_mouseDirection); //wird das funktionieren? // wenn ja wie gut? --> funktioniert ganz ok --> bei maus wird immer mit maximaler kraft geworfen
         }
-        if (Input.GetButtonDown("Fire1")) {
+        if (m_input.player.GetButtonDown(m_input.jumpButton)) {
             m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
             m_pickedUpObject = null;
             DeactivateHook();
@@ -343,7 +347,7 @@ public class PlayerHook : MonoBehaviour
         Vector2 ropeDirection = (m_currentSelectedTarget.transform.position - transform.position).normalized;
         ropeDirection *= -ropeDirection.magnitude; //opposite direction
 
-        if (Input.GetButtonDown("Fire3")) { //  && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle //-->removed additional pull criteria
+        if (m_input.player.GetButtonDown(m_input.attackButton)) { //  && Mathf.Abs(Vector2.Angle(RopeDirection, ControllerDirection.normalized)) < ContrAdditionalPullAngle //-->removed additional pull criteria
             m_buttonPresses--;
             if (transform.position.x > m_currentSelectedTarget.transform.position.x) {
                 transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
@@ -430,20 +434,19 @@ public class PlayerHook : MonoBehaviour
         }
 
         Vector2 direction = m_usingController ? m_controllerDirection : m_mouseDirection;
-        if (m_usingController == false) {
-            if (m_currentHookState == HookState.SearchTarget) {
-                m_currentSelectedTarget = FindNearestTargetInRange(direction);
-            } else if (m_currentSelectedTarget != FindNearestTargetInRange(direction)) { // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
-                if (FindNearestTargetInRange(direction) != null && FindNearestTargetInRange(m_mouseDirection).CompareTag("HookPoint")) {
-                    m_currentSwitchTarget = FindNearestTargetInRange(direction);
-                    m_currentHookState = HookState.SwitchTarget;
-                } else if (FindNearestTargetInRange(direction) == null) {
-                    m_currentSwitchTarget = FindNearestTargetInRange(direction);
-                    m_currentHookState = HookState.SwitchTarget;
-                }
+
+        if (m_currentHookState == HookState.SearchTarget) {
+            m_currentSelectedTarget = FindNearestTargetInRange(direction);
+        } else if (m_currentSelectedTarget != FindNearestTargetInRange(direction)) { // && FindNearestTargetInRange(MouseDirection).CompareTag("HookPoint")
+            if (FindNearestTargetInRange(direction) != null && FindNearestTargetInRange(m_mouseDirection).CompareTag("HookPoint")) {
+                m_currentSwitchTarget = FindNearestTargetInRange(direction);
+                m_currentHookState = HookState.SwitchTarget;
+            } else if (FindNearestTargetInRange(direction) == null) {
+                m_currentSwitchTarget = FindNearestTargetInRange(direction);
+                m_currentHookState = HookState.SwitchTarget;
             }
-            VisualizeCone(m_mouseDirection);
         }
+        VisualizeCone(direction);
 
         SlowTime();
         m_currentTimeActive += Time.deltaTime / Time.timeScale;
@@ -527,7 +530,7 @@ public class PlayerHook : MonoBehaviour
             cancelCondition = true;
         }
 
-        if (m_cancelHookWithSpace && (Input.GetButton("Jump") || Input.GetButton("Fire1")) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance) { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
+        if (m_cancelHookWithSpace && (m_input.player.GetButton(m_input.jumpButton)) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance) { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
             cancelCondition = true;
         }
 
