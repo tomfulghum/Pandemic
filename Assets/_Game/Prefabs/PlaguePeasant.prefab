@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_contactDamage: 0
-  m_maxHealth: 6
+  m_maxHealth: 4
 --- !u!61 &1537124147410351524
 BoxCollider2D:
   m_ObjectHideFlags: 0

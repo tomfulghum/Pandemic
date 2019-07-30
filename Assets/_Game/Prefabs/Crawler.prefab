@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_movementSpeed: 1
   m_chaseRadius: 3
-  m_jumpForce: 40
+  m_jumpForce: 15
   m_useIntelligentJump: 1
   m_useJump: 1
   m_sightBlockingLayers:
