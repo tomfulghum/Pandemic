@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8267296876648001088}
   - component: {fileID: 8267296876648001118}
   - component: {fileID: 8267296876648001119}
+  - component: {fileID: 5919290874452356717}
   m_Layer: 11
   m_Name: Crawler
   m_TagString: Enemy
@@ -98,17 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0764b8e3ed0778a47ba74bd25866ff60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMovementState: 1
-  CurrentMovementDirection: 0
-  Gravity: 10
-  MovementSpeed: 1
-  ChaseRadius: 3
-  UseIntelligentJump: 1
-  UseJump: 1
-  SightBlockingLayers:
+  m_movementSpeed: 1
+  m_chaseRadius: 3
+  m_useIntelligentJump: 1
+  m_useJump: 1
+  m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
-  Jumping: 0
 --- !u!114 &8267296876648001090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,12 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyState: 0
-  ContactDamage: 1
-  MaxHealth: 6
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 1024
+  m_contactDamage: 0
+  m_maxHealth: 6
 --- !u!61 &8267296876648001089
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -165,26 +158,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
-      serializedVersion: 2
-      m_Bits: 0
-    above:
-      serializedVersion: 2
-      m_Bits: 256
-    below:
-      serializedVersion: 2
-      m_Bits: 256
+  m_contactFilter:
     left:
       serializedVersion: 2
       m_Bits: 256
     right:
       serializedVersion: 2
       m_Bits: 256
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+    below:
+      serializedVersion: 2
+      m_Bits: 256
+    above:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!114 &8267296876648001118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,3 +202,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &5919290874452356717
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8267296876648001095}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0.25
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

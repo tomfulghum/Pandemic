@@ -121,7 +121,7 @@ public class CrawlingEnemy : MonoBehaviour
         m_objectToChase = PlayerInSight();
         if (m_objectToChase != null) {
             m_currentMovementState = MovementState.Chase;
-        } else if (!m_actor.contacts.below) {
+        } else if (!m_actor.contacts.below) { //&&CheckGroundBelow
             m_currentMovementState = MovementState.Falling;
         } else if (CheckGroundAhead()) {
             m_currentMovementState = MovementState.Move;
@@ -173,7 +173,7 @@ public class CrawlingEnemy : MonoBehaviour
             }
             case MovementState.Falling: {
                 //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
-                if (m_actor.contacts.below) {
+                if (m_actor.contacts.below) { //&&CheckGroundBelow
                     m_jumping = false;
                     m_currentMovementState = MovementState.Decide;
                 }
