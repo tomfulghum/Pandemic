@@ -85,6 +85,7 @@ public class PlayerCombat : MonoBehaviour
 
     private Coroutine m_knockbackCoroutine = null;
 
+    private PlayerInput m_input;
     private Actor2D m_actor;
     private PlayerMovement m_pm;
     private SpriteRenderer m_spriteRenderer;
@@ -99,6 +100,8 @@ public class PlayerCombat : MonoBehaviour
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_enemiesHit = new List<Collider2D>();
         m_xAxis = Input.GetAxis("Horizontal");
+
+        m_input = GetComponent<PlayerInput>();
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
@@ -109,17 +112,17 @@ public class PlayerCombat : MonoBehaviour
         if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Waiting || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Attacking) {
             SetPlayerState();
             SetFacingDirection(); //ist es klug jedes frame zu setzen? --> wenn ja so einbauen das es auch funktioniert 
-            if (Input.GetButtonDown("Dash") && m_currentAttackState == AttackState.None && m_dashCoolDownActive == false) {  //&& (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance)
+            if (m_input.player.GetButtonDown(m_input.dashButton) && m_currentAttackState == AttackState.None && m_dashCoolDownActive == false) {  //&& (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance)
                 StartCoroutine(Dash());
             }
 
-            if ((Input.GetButtonDown("Fire3") || m_alreadyAttacked) && (m_currentAttackState == AttackState.None || m_currentAttackState == AttackState.Attack) && m_attackCoolDownActive == false) {
+            if ((m_input.player.GetButtonDown(m_input.attackButton) || m_alreadyAttacked) && (m_currentAttackState == AttackState.None || m_currentAttackState == AttackState.Attack) && m_attackCoolDownActive == false) {
                 if (m_comboActive) {
                     m_alreadyAttacked = true;
                 }
 
                 if (m_meleeAttack == null) {
-                    m_attackDirection = GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                    m_attackDirection = GetAttackDirection(m_input.player.GetAxis(m_input.aimHorizontalAxis), m_input.player.GetAxis(m_input.aimVerticalAxis));
                     m_meleeAttack = StartCoroutine(AttackSequence(m_attackNumber));
                 } else if (m_currentlyAttacking == false) {
                     StopCoroutine(m_meleeAttack);
@@ -127,7 +130,7 @@ public class PlayerCombat : MonoBehaviour
                 }
             }
 
-            if (!m_actor.contacts.below && Input.GetAxis("MeteorSmash") > m_controllerTolerance && m_currentAttackState == AttackState.None) {
+            if (!m_actor.contacts.below && m_input.player.GetAxis(m_input.smashButton) > m_controllerTolerance && m_currentAttackState == AttackState.None) {
                 StartMeteorSmash();
             }
 
@@ -207,7 +210,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void SetFacingDirection()
     {
-        float currentJoystickDirection = Input.GetAxis("Horizontal");
+        float currentJoystickDirection = m_input.player.GetAxis(m_input.aimHorizontalAxis);
         if (currentJoystickDirection != m_xAxis) {
             if (currentJoystickDirection < 0) {
                 m_facingLeft = true;
@@ -246,16 +249,16 @@ public class PlayerCombat : MonoBehaviour
             direction = Vector2.right;
         }
 
-        if (Input.GetAxis("Vertical") < -m_controllerTolerance) {
+        if (m_input.player.GetAxis(m_input.aimVerticalAxis) < -m_controllerTolerance) {
             direction = Vector2.down;
         }
-        if (Input.GetAxis("Vertical") > m_controllerTolerance) {
+        if (m_input.player.GetAxis(m_input.aimVerticalAxis) > m_controllerTolerance) {
             direction = Vector2.up;
         }
-        if (Input.GetAxis("Horizontal") < -m_controllerTolerance) {
+        if (m_input.player.GetAxis(m_input.aimHorizontalAxis) < -m_controllerTolerance) {
             direction = Vector2.left;
         }
-        if (Input.GetAxis("Horizontal") > m_controllerTolerance) {
+        if (m_input.player.GetAxis(m_input.aimHorizontalAxis) > m_controllerTolerance) {
             direction = Vector2.right;
         }
 
@@ -319,14 +322,14 @@ public class PlayerCombat : MonoBehaviour
 
     private void AttackMove()
     {
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0) //was ist mit down und up?
+        if (m_input.player.GetAxis(m_input.aimVerticalAxis) != 0 || m_input.player.GetAxis(m_input.aimHorizontalAxis) != 0) //was ist mit down und up?
         {
             if (m_meleeAttack != null) {
                 StopCoroutine(m_meleeAttack);
             }
-            if (GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) == Vector2.left) {
+            if (GetAttackDirection(m_input.player.GetAxis(m_input.aimHorizontalAxis), m_input.player.GetAxis(m_input.aimVerticalAxis)) == Vector2.left) {
                 m_meleeMovement = StartCoroutine(AttackMovement(20, new Vector2(-1, -1), 7 + 1 / m_meleeAttackTime));
-            } else if ((GetAttackDirection(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) == Vector2.right)) {
+            } else if ((GetAttackDirection(m_input.player.GetAxis(m_input.aimHorizontalAxis), m_input.player.GetAxis(m_input.aimVerticalAxis)) == Vector2.right)) {
                 m_meleeMovement = StartCoroutine(AttackMovement(20, new Vector2(1, -1), 7 + 1 / m_meleeAttackTime));
             }
         }
