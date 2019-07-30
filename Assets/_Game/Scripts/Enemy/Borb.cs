@@ -4,131 +4,186 @@ using UnityEngine;
 
 public class Borb : MonoBehaviour
 {
-    public enum MovementState { Decide, Move, FlyUp, Nosedive, Dazed, Chase }
-    public enum MovementDirection { None, Left, Right }
+    //**********************//
+    //    Internal Types    //
+    //**********************//
 
-    [HideInInspector] public MovementState CurrentMovementState = MovementState.Decide; //vllt am anfang auf decide
-    [HideInInspector] public MovementDirection CurrentMovementDirection = MovementDirection.Left;
+    public enum MovementState
+    {
+        Decide,
+        Move,
+        FlyUp,
+        Nosedive,
+        Dazed,
+        Chase
+    }
+    public enum MovementDirection
+    {
+        None,
+        Left,
+        Right
+    }
 
-    public float ChaseRange = 3f; //evlt reicht coneangle
-    public float ConeAngle = 35;
-    public float MovementSpeed = 3f;
-    public float DiveSpeed = 20f;
-    public float StunTime = 2f;
-    public float FlightHeight = 8f;
-    public bool UseHeightAdjustments;
-    float currentStunTime;
-    public LayerMask SightBlockingLayers;
+    //************************//
+    //    Inspector Fields    //
+    //************************//
 
-    int DirectionCounter;
-    float flightHeight; //bei knockback zurück auf die flight height //--> change in height above ground
+    [SerializeField] private float m_chaseRange = 3f; //evlt reicht coneangle
+    [SerializeField] private float m_coneAngle = 35;
 
-    float DiveTriggerRange = 0.2f;
+    [SerializeField] private float m_movementSpeed = 3f;
+    [SerializeField] private float m_diveSpeed = 20f;
 
-    Transform ObjectToChase;
-    Actor2D actor;
-    Enemy enemy;
+    [SerializeField] private float m_stunTime = 2f;
+
+    [SerializeField] private float m_targetFlightHeight = 8f;
+    [SerializeField] private bool m_useHeightAdjustments;
+
+    [SerializeField] private LayerMask m_sightBlockingLayers = default;
+
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public MovementState currentMovementState
+    {
+        get { return m_currentMovementState; }
+    }
+
+    public MovementDirection currentMovementDirection
+    {
+        get { return m_currentMovementDirection; }
+    }
+
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private MovementState m_currentMovementState = MovementState.Decide; //vllt am anfang auf decide
+    private MovementDirection m_currentMovementDirection = MovementDirection.Left;
+
+    private float m_currentStunTime;
+    private int m_directionCounter;
+
+    private float m_flightHeight; //bei knockback zurück auf die flight height //--> change in height above ground
+    private float m_diveTriggerRange = 0.2f;
+
+    private Transform m_objectToChase;
+    private Actor2D m_actor;
+    private Enemy m_enemy;
+    private Rigidbody2D m_rb;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     // Start is called before the first frame update
     void Start()
     {
-        currentStunTime = StunTime;
-        flightHeight = transform.position.y;
+        m_currentStunTime = m_stunTime;
+        m_flightHeight = transform.position.y;
         SetFlightHeight();
-        actor = GetComponent<Actor2D>();
-        enemy = GetComponent<Enemy>();
+        m_actor = GetComponent<Actor2D>();
+        m_enemy = GetComponent<Enemy>();
+        m_rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemy.currentEnemyState == Enemy.EnemyState.Moving)
+        if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving)
         {
             SetMovementState();
             VisualizeChaseCone();
-            if (UseHeightAdjustments)
+            if (m_useHeightAdjustments)
                 SetFlightHeight();
 
-            switch (CurrentMovementState)
+            switch (m_currentMovementState)
             {
                 case MovementState.Move: //irgendwo evtl noch des stuck einbauen
                     {
                         CheckFlightHeight();
-                        DirectionCounter--;
-                        if (DirectionCounter < 0)
+                        m_directionCounter--;
+                        if (m_directionCounter < 0)
                             ChangeDirection();
                         FlyInDirection();
                         break;
                     }
                 case MovementState.Chase:
                     {
-                        if (ObjectToChase.position.x < transform.position.x)
-                            CurrentMovementDirection = MovementDirection.Left;
+                        if (m_objectToChase.position.x < transform.position.x)
+                            m_currentMovementDirection = MovementDirection.Left;
                         else
-                            CurrentMovementDirection = MovementDirection.Right;
+                            m_currentMovementDirection = MovementDirection.Right;
                         FlyInDirection();
                         break;
                     }
                 case MovementState.Nosedive:
                     {
                         if (CheckGroundHit() == false)
-                            actor.velocity = Vector2.down * DiveSpeed;
+                            m_rb.velocity = Vector2.down * m_diveSpeed;
                         else if (CheckPlayerHit())
                         {
-                            CurrentMovementState = MovementState.FlyUp;
+                            m_currentMovementState = MovementState.FlyUp;
                         }
                         else
                         {
-                            currentStunTime = StunTime;
-                            CurrentMovementState = MovementState.Dazed;
+                            m_currentStunTime = m_stunTime;
+                            m_currentMovementState = MovementState.Dazed;
                         }
                         //CurrentMovementState = MovementState.FlyUp;
                         break;
                     }
                 case MovementState.Dazed:
                     {
-                        currentStunTime -= Time.deltaTime;
-                        if (currentStunTime < 0)
-                            CurrentMovementState = MovementState.FlyUp;
+                        m_currentStunTime -= Time.deltaTime;
+                        if (m_currentStunTime < 0)
+                            m_currentMovementState = MovementState.FlyUp;
                         break;
                     }
             }
         }
     }
 
-    void SetFlightHeight()
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private void SetFlightHeight()
     {
-        float DistanceToGround = GetDistanceToGround(new Vector2(transform.position.x, flightHeight));
-        if (DistanceToGround != FlightHeight)
+        float distanceToGround = GetDistanceToGround(new Vector2(transform.position.x, m_flightHeight));
+        if (distanceToGround != m_targetFlightHeight)
         {
-            float HeightDifference = Mathf.Abs(DistanceToGround - FlightHeight);
-            if (DistanceToGround <= FlightHeight)
-                flightHeight += HeightDifference;
+            float heightDifference = Mathf.Abs(distanceToGround - m_targetFlightHeight);
+            if (distanceToGround <= m_targetFlightHeight)
+                m_flightHeight += heightDifference;
             else
-                flightHeight -= HeightDifference;
+                m_flightHeight -= heightDifference;
         }
     }
 
-    void VisualizeChaseCone()
+    private void VisualizeChaseCone()
     {
-        Vector2 DirectionLine = Vector2.down * GetDistanceToGround(transform.position);
-        Vector2 LeftArc = RotateVector(DirectionLine, ConeAngle);
-        Vector2 RightArc = RotateVector(DirectionLine, -ConeAngle);
+        Vector2 directionLine = Vector2.down * GetDistanceToGround(transform.position);
+        Vector2 leftArc = RotateVector(directionLine, m_coneAngle);
+        Vector2 rightArc = RotateVector(directionLine, -m_coneAngle);
 
-        Debug.DrawLine(transform.position, (Vector2)transform.position + DirectionLine);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + LeftArc);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + RightArc);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + directionLine);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + leftArc);
+        Debug.DrawLine(transform.position, (Vector2)transform.position + rightArc);
     }
 
-    bool CheckGroundHit()
+    private bool CheckGroundHit()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, DiveSpeed * Time.deltaTime + GetComponent<Collider2D>().bounds.extents.y, SightBlockingLayers); //evlt anstatt 1 die distanz berechnen die er in dem frame zurückgelegt hat //divespeed * Time.deltatime //oder evtl if distance to ground <= 0.1f / 0 oder so
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, m_diveSpeed * Time.deltaTime + GetComponent<Collider2D>().bounds.extents.y, m_sightBlockingLayers); //evlt anstatt 1 die distanz berechnen die er in dem frame zurückgelegt hat //divespeed * Time.deltatime //oder evtl if distance to ground <= 0.1f / 0 oder so
         if (hit.collider != null)
             return true;
         return false;
     }
 
 
-    bool CheckPlayerHit() //besser wäre wenn es mit raycasts funktioniert oder durch eine funktion in enemy
+    private bool CheckPlayerHit() //besser wäre wenn es mit raycasts funktioniert oder durch eine funktion in enemy
     {
         Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
         Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0); //hitbox anpassen --> evtl etwas größer machen
@@ -149,87 +204,89 @@ public class Borb : MonoBehaviour
         */
     }
 
-    float GetDistanceToGround(Vector3 _position)
+    private float GetDistanceToGround(Vector3 _position)
     {
         float Distance = -1f;
-        RaycastHit2D hit = Physics2D.Raycast(_position, Vector2.down, Mathf.Infinity, SightBlockingLayers); //evtl eigene layermask //hier nur für ground layer benötigt
+        RaycastHit2D hit = Physics2D.Raycast(_position, Vector2.down, Mathf.Infinity, m_sightBlockingLayers); //evtl eigene layermask //hier nur für ground layer benötigt
         if (hit.collider != null)
             Distance = hit.distance;
         return Distance;
     }
 
-    void FlyInDirection()
+    private void FlyInDirection()
     {
-        if (CurrentMovementDirection == MovementDirection.Right)
-            actor.velocity = Vector2.right * MovementSpeed;
+        if (m_currentMovementDirection == MovementDirection.Right)
+            m_rb.velocity = Vector2.right * m_movementSpeed;
         else
-            actor.velocity = Vector2.left * MovementSpeed;
+            m_rb.velocity = Vector2.left * m_movementSpeed;
     }
 
-    void SetMovementState()
+    private void SetMovementState()
     {
-        if (CurrentMovementState != MovementState.Nosedive && CurrentMovementState != MovementState.Dazed) //später ändern
+        if (m_currentMovementState != MovementState.Nosedive && m_currentMovementState != MovementState.Dazed) //später ändern
         {
-            ObjectToChase = PlayerInSight();
-            if (ObjectToChase != null && ChasePlayer() && transform.position.y == flightHeight)
-                if (Mathf.Abs(transform.position.x - ObjectToChase.position.x) < DiveTriggerRange)
-                    CurrentMovementState = MovementState.Nosedive;
+            m_objectToChase = PlayerInSight();
+            if (m_objectToChase != null && ChasePlayer() && transform.position.y == m_flightHeight)
+                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange)
+                    m_currentMovementState = MovementState.Nosedive;
                 else
-                    CurrentMovementState = MovementState.Chase;
+                    m_currentMovementState = MovementState.Chase;
             else
-                CurrentMovementState = MovementState.Move;
+                m_currentMovementState = MovementState.Move;
         }
     }
 
-    bool ChasePlayer()
+    private bool ChasePlayer()
     {
-        if (Mathf.Abs(ObjectToChase.position.x - transform.position.x) < ChaseRange)
+        if (Mathf.Abs(m_objectToChase.position.x - transform.position.x) < m_chaseRange)
             return true;
         return false;
     }
 
-    Transform PlayerInSight()
+    private Transform PlayerInSight()
     {
-        Collider2D[] ColliderInRange = Physics2D.OverlapCircleAll(transform.position, 10); //später evtl auch besser machen GetDistanceToGround()
-        for (int i = 0; i < ColliderInRange.Length; i++)
+        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, 10); //später evtl auch besser machen GetDistanceToGround()
+        for (int i = 0; i < colliderInRange.Length; i++)
         {
-            if (ColliderInRange[i].CompareTag("Player"))
+            if (colliderInRange[i].CompareTag("Player"))
             {
-                float RayCastLenght = Vector2.Distance(transform.position, ColliderInRange[i].transform.position);
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, (ColliderInRange[i].transform.position - transform.position), RayCastLenght, SightBlockingLayers); //hier auch sight block?
-                Vector2 BorbToPlayer = (ColliderInRange[i].transform.position - transform.position).normalized;
-                float AngleInDeg = Vector2.Angle(BorbToPlayer, Vector2.down);
-                if (hit == false && AngleInDeg < ConeAngle)
-                    return ColliderInRange[i].transform;
+                float rayCastLenght = Vector2.Distance(transform.position, colliderInRange[i].transform.position);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, (colliderInRange[i].transform.position - transform.position), rayCastLenght, m_sightBlockingLayers); //hier auch sight block?
+                Vector2 borbToPlayer = (colliderInRange[i].transform.position - transform.position).normalized;
+                float angleInDeg = Vector2.Angle(borbToPlayer, Vector2.down);
+                if (hit == false && angleInDeg < m_coneAngle)
+                    return colliderInRange[i].transform;
             }
         }
         return null;
     }
 
-    void ChangeDirection()
+    private void ChangeDirection()
     {
-        if (CurrentMovementDirection == MovementDirection.Left)
-            CurrentMovementDirection = MovementDirection.Right;
+        if (m_currentMovementDirection == MovementDirection.Left)
+            m_currentMovementDirection = MovementDirection.Right;
         else
-            CurrentMovementDirection = MovementDirection.Left;
-        DirectionCounter = 150 + Random.Range(0, 100);
+            m_currentMovementDirection = MovementDirection.Left;
+        m_directionCounter = 150 + Random.Range(0, 100);
     }
 
-    void CheckFlightHeight() //später noch besser machen
+    private void CheckFlightHeight() //später noch besser machen
     {
-        if (transform.position.y != flightHeight)
+        if (transform.position.y != m_flightHeight)
         {
-            if (transform.position.y < flightHeight)
+            if (transform.position.y < m_flightHeight)
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.05f, transform.position.z);
+            //m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y + 1);
             else
                 transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, transform.position.z);
+            // m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y - 1);
 
-            if (Mathf.Abs(transform.position.y - flightHeight) < 0.1f)
-                transform.position = new Vector3(transform.position.x, flightHeight, transform.position.z);
+            if (Mathf.Abs(transform.position.y - m_flightHeight) < 0.1f)
+                transform.position = new Vector3(transform.position.x, m_flightHeight, transform.position.z);
         }
     }
 
-    Vector2 RotateVector(Vector2 v, float degrees)
+    private Vector2 RotateVector(Vector2 v, float degrees)
     {
         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
         float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);

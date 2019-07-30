@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6374442912641036238
 Transform:
   m_ObjectHideFlags: 0
@@ -122,26 +122,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
-      serializedVersion: 2
-      m_Bits: 0
-    above:
-      serializedVersion: 2
-      m_Bits: 2304
-    below:
-      serializedVersion: 2
-      m_Bits: 2304
+  m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 2304
+      m_Bits: 256
     right:
       serializedVersion: 2
-      m_Bits: 2304
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+      m_Bits: 256
+    below:
+      serializedVersion: 2
+      m_Bits: 256
+    above:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!114 &6374442912641036241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,10 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49c9797c96701f4ea0e67007723ad5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentObjectState: 0
-  Gravity: 10
-  SpeedMultiplier: 1.4
-  ObjectToFollow: {fileID: 0}
 --- !u!95 &6374442912641036245
 Animator:
   serializedVersion: 3

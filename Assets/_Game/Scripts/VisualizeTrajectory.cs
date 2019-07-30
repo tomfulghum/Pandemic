@@ -11,7 +11,7 @@ public class VisualizeTrajectory : MonoBehaviour
     [SerializeField] [Range(0, 100)] private int m_numOfVisualDots = 50;
     [SerializeField] private float m_timeBetweenDots = 0.07f; //besseren namen finden
     [SerializeField] private GameObject m_dotPrefab = null;
-    [SerializeField] private LayerMask m_layerMask = default;
+    [SerializeField] private LayerMask m_layerMask = default; //womit "kollidiert" das flugobject
 
     //**********************//
     //    Private Fields    //

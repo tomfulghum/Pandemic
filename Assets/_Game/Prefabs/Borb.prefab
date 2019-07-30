@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1693525880915519392}
   - component: {fileID: 1693525880915519393}
   - component: {fileID: 1693525880915519417}
+  - component: {fileID: 6626893083885945748}
   m_Layer: 11
   m_Name: Borb
   m_TagString: Enemy
@@ -98,12 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyState: 0
-  ContactDamage: 1
-  MaxHealth: 3
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 1024
+  m_contactDamage: 0
+  m_maxHealth: 3
 --- !u!61 &1693525880915519422
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -117,7 +114,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.11114383, y: -0.036281645}
+  m_Offset: {x: -0.09663135, y: -0.036281586}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -128,7 +125,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7792368, y: 2.1915793}
+  m_Size: {x: 1.6921712, y: 2.1915793}
   m_EdgeRadius: 0
 --- !u!114 &1693525880915519423
 MonoBehaviour:
@@ -142,26 +139,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
+  m_contactFilter:
+    left:
+      serializedVersion: 2
+      m_Bits: 0
+    right:
+      serializedVersion: 2
+      m_Bits: 0
+    below:
       serializedVersion: 2
       m_Bits: 0
     above:
       serializedVersion: 2
-      m_Bits: 256
-    below:
-      serializedVersion: 2
-      m_Bits: 256
-    left:
-      serializedVersion: 2
-      m_Bits: 256
-    right:
-      serializedVersion: 2
-      m_Bits: 256
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+      m_Bits: 0
 --- !u!95 &1693525880915519392
 Animator:
   serializedVersion: 3
@@ -206,15 +196,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086b7e42d24a92a4b830393df030bac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMovementState: 0
-  CurrentMovementDirection: 0
-  ChaseRange: 3
-  ConeAngle: 30
-  MovementSpeed: 3
-  DiveSpeed: 20
-  StunTime: 2
-  FlightHeight: 8
-  UseHeightAdjustments: 0
-  SightBlockingLayers:
+  m_chaseRange: 3
+  m_coneAngle: 35
+  m_movementSpeed: 3
+  m_diveSpeed: 20
+  m_stunTime: 2
+  m_targetFlightHeight: 8
+  m_useHeightAdjustments: 0
+  m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
+--- !u!50 &6626893083885945748
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693525880915519416}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1000
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
