@@ -37,7 +37,7 @@ public class Borb : MonoBehaviour
     [SerializeField] private float m_stunTime = 2f;
 
     [SerializeField] private float m_targetFlightHeight = 8f;
-    [SerializeField] private bool m_useHeightAdjustments;
+    [SerializeField] private bool m_useHeightAdjustments = false;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
 
