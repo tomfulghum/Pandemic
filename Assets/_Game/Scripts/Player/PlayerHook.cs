@@ -166,6 +166,7 @@ public class PlayerHook : MonoBehaviour
     private PlayerInput m_input;
     private Actor2D m_actor;
     private PlayerMovement m_pm;
+    private Rigidbody2D m_rb;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -181,8 +182,7 @@ public class PlayerHook : MonoBehaviour
         m_input = GetComponent<PlayerInput>();
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
-        //float ScaleMultiplier = RadiusVisualization.gameObject.transform.localScale.x / transform.localScale.x; //ist noch fehlerhaft
-        // RadiusVisualization.gameObject.transform.localScale = new Vector3(RadiusVisualization.gameObject.transform.localScale.x * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.y * ScaleMultiplier, RadiusVisualization.gameObject.transform.localScale.z * ScaleMultiplier);
+        m_rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -245,7 +245,7 @@ public class PlayerHook : MonoBehaviour
                         break;
                     }
                 }
-                if (cancelCondition) {
+                if (cancelCondition || m_rb.velocity == Vector2.zero) {
                     if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy) {
                         StartCoroutine(JumpBack());
                     } else {
