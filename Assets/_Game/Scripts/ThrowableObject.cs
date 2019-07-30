@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //requires Component Actor2d
+//bei inactive evtl jegliche bewegung deaktivieren
 public class ThrowableObject : MonoBehaviour
 {
     //**********************//
     //    Internal Types    //
     //**********************//
 
-    public enum ThrowableState { Inactive, TravellingToPlayer, PickedUp, Thrown } // getter
+    public enum ThrowableState { Inactive, TravellingToPlayer, PickedUp, Thrown } 
 
     //************************//
     //    Inspector Fields    //
     //************************//
 
-    //[SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object typ einstellen
+    //[SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object type einstellen
 
     //******************//
     //    Properties    //
