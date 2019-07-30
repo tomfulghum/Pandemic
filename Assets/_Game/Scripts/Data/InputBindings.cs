@@ -8,6 +8,7 @@ public class InputBindings : ScriptableObject
     public string attackButtonName = "Attack";
     public string dashButtonName = "Dash";
     public string smashButtonName = "Smash";
+    public string interactButtonName = "Interact";
     public string moveHorizontalAxisName = "MoveHorizontal";
     public string aimHorizontalAxisName = "AimHorizontal";
     public string aimVerticalAxisName = "AimVertical";
