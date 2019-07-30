@@ -33,6 +33,7 @@ public class Borb : MonoBehaviour
 
     [SerializeField] private float m_movementSpeed = 3f;
     [SerializeField] private float m_diveSpeed = 20f;
+    [SerializeField] private float m_verticalSpeed = 1.5f;
 
     [SerializeField] private float m_stunTime = 2f;
 
@@ -103,11 +104,13 @@ public class Borb : MonoBehaviour
             {
                 case MovementState.Move: //irgendwo evtl noch des stuck einbauen
                     {
-                        CheckFlightHeight();
+                        //CheckFlightHeight();
                         m_directionCounter--;
-                        if (m_directionCounter < 0)
+                        if (m_directionCounter < 0 || m_actor.contacts.left || m_actor.contacts.right)
                             ChangeDirection();
                         FlyInDirection();
+                        if (CheckFlightHeight() == false && CheckCeilingHit() == false)
+                           AdjustFlightHeight();
                         break;
                     }
                 case MovementState.Chase:
@@ -182,6 +185,14 @@ public class Borb : MonoBehaviour
         return false;
     }
 
+    private bool CheckCeilingHit()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, m_verticalSpeed * Time.deltaTime + GetComponent<Collider2D>().bounds.extents.y, m_sightBlockingLayers); //anstatt dive speed fly up speed
+        if (hit.collider != null)
+            return true;
+        return false;
+    }
+
 
     private bool CheckPlayerHit() //besser wäre wenn es mit raycasts funktioniert oder durch eine funktion in enemy
     {
@@ -226,7 +237,7 @@ public class Borb : MonoBehaviour
         if (m_currentMovementState != MovementState.Nosedive && m_currentMovementState != MovementState.Dazed) //später ändern
         {
             m_objectToChase = PlayerInSight();
-            if (m_objectToChase != null && ChasePlayer() && transform.position.y == m_flightHeight)
+            if (m_objectToChase != null && ChasePlayer() && (transform.position.y == m_flightHeight || CheckCeilingHit()))
                 if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange)
                     m_currentMovementState = MovementState.Nosedive;
                 else
@@ -270,20 +281,24 @@ public class Borb : MonoBehaviour
         m_directionCounter = 150 + Random.Range(0, 100);
     }
 
-    private void CheckFlightHeight() //später noch besser machen
+    private void AdjustFlightHeight()
     {
+        if (Mathf.Abs(transform.position.y - m_flightHeight) < 0.1f) //könnte gefährlich werden falls der plague flyer mehr als 0.1f pro frame zurücklegen kann
+            transform.position = new Vector3(transform.position.x, m_flightHeight, transform.position.z);
         if (transform.position.y != m_flightHeight)
         {
             if (transform.position.y < m_flightHeight)
-                transform.position = new Vector3(transform.position.x, transform.position.y + 0.05f, transform.position.z);
-            //m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y + 1);
+                m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y + m_verticalSpeed);
             else
-                transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, transform.position.z);
-            // m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y - 1);
-
-            if (Mathf.Abs(transform.position.y - m_flightHeight) < 0.1f)
-                transform.position = new Vector3(transform.position.x, m_flightHeight, transform.position.z);
+                m_rb.velocity = new Vector2(m_rb.velocity.x, m_rb.velocity.y - m_verticalSpeed);
         }
+    }
+
+    private bool CheckFlightHeight() //funktioniert nur deshalb weil kurz davor die velocity neu gesetzt wird
+    {
+        if (transform.position.y != m_flightHeight)
+            return false;
+        return true;
     }
 
     private Vector2 RotateVector(Vector2 v, float degrees)

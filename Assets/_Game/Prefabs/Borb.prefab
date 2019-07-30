@@ -200,6 +200,7 @@ MonoBehaviour:
   m_coneAngle: 35
   m_movementSpeed: 3
   m_diveSpeed: 20
+  m_verticalSpeed: 1.5
   m_stunTime: 2
   m_targetFlightHeight: 8
   m_useHeightAdjustments: 0
