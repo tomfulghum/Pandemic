@@ -116,9 +116,8 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private LayerMask m_hookPointLayer = default; //default layer einstellen
     [SerializeField] private bool m_slowTimeWhileAiming = default;
 
-    [SerializeField] private float m_minThrowVelocity = 5f;
-    [SerializeField] private float m_maxThrowVelocity = 15f;
-    [SerializeField] private float m_throwingSpeedMultiplier = 1.4f;
+    [SerializeField] private float m_minThrowVelocity = 15f;
+    [SerializeField] private float m_maxThrowVelocity = 25f;
 
     [SerializeField] private float m_maxTimeToWinRopeFight = 3f;
     [SerializeField] private int m_numOfButtonPresses = 10;
@@ -146,17 +145,13 @@ public class PlayerHook : MonoBehaviour
 
     private Collider2D m_currentSelectedTarget; // Position des HookPoints
     private Collider2D m_currentSwitchTarget; //aktuelles ziel im cone
-    private Vector2 m_targetPosition;
+    private Vector2 m_targetPosition; //glaube 1 von beiden reicht
     private Vector2 m_currentTargetPosition;
 
     private Vector2 m_controllerDirection;
     private Vector2 m_contDirWithoutDeadzone;
-    private Vector2 m_lastMousePostion;
     private Vector2 m_mouseDirection;
-    private Vector2 m_mousePosition;
     private Vector2 m_throwVelocity;
-
-    private Vector2 m_currentVelocity;
 
     private Coroutine m_hookCooldown = null;
 
@@ -177,7 +172,6 @@ public class PlayerHook : MonoBehaviour
         m_normalTimeScale = Time.timeScale;
         m_totalHookPoints = new List<Collider2D>();
         m_controllerDirection = Vector2.zero;
-        m_lastMousePostion = Input.mousePosition;
 
         m_input = GetComponent<PlayerInput>();
         m_actor = GetComponent<Actor2D>();
@@ -193,10 +187,9 @@ public class PlayerHook : MonoBehaviour
 
             if (!m_usingController)
             {
-                Vector2 currentMousePosition = Input.mousePosition;
-                m_lastMousePostion = currentMousePosition;
-                m_mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                m_mouseDirection = (m_mousePosition - (Vector2)transform.position).normalized;
+                Vector2 mousePosition = Input.mousePosition;
+                mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                m_mouseDirection = (mousePosition - (Vector2)transform.position).normalized;
             }
             else
             {
@@ -207,7 +200,6 @@ public class PlayerHook : MonoBehaviour
                     m_controllerDirection.y = m_input.player.GetAxis(m_input.aimVerticalAxis);
                     m_controllerDirection = m_controllerDirection.normalized;
                 }
-                //Debug.Log(m_controllerDirection);
             }
 
             if (m_input.player.GetAxis(m_input.aimHorizontalAxis) != 0 || m_input.player.GetAxis(m_input.aimVerticalAxis) != 0)
@@ -220,9 +212,6 @@ public class PlayerHook : MonoBehaviour
             { //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
                 if (m_input.player.GetButton(m_input.hookButton))
                 {
-                    Debug.Log(m_pickedUpObject);
-                    if (m_pickedUpObject != null)
-                        Debug.Log(m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState);
                     if (m_pickedUpObject != null && (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp || m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.TravellingToPlayer))
                         AimThrow();
                     else
@@ -231,7 +220,7 @@ public class PlayerHook : MonoBehaviour
                 else if ((m_input.player.GetButtonUp(m_input.hookButton)) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook())))
                 {
                     if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null)
-                    { //könnte evtl sein das man PickedUpObject in dem Frame gedroppt hat --> relativ sicher
+                    { 
                         ThrowObject(m_throwVelocity);
                     }
                     else
@@ -242,10 +231,8 @@ public class PlayerHook : MonoBehaviour
                 }
             }
 
-            Debug.Log(m_currentHookState);
             if (m_currentHookState == HookState.Active) // || (CurrentHookState == HookState.SwitchTarget && CurrentSelectedTarget != null)
             {
-                Debug.Log(m_currentTargetType);
                 bool cancelCondition = false;
                 switch (m_currentTargetType)
                 {
@@ -263,7 +250,6 @@ public class PlayerHook : MonoBehaviour
                     case HookType.Throw:
                         {
                             cancelCondition = PullObject();
-                            Debug.Log("cancel condition: " + cancelCondition);
                             break;
                         }
                     case HookType.None:
@@ -274,8 +260,6 @@ public class PlayerHook : MonoBehaviour
                 }
                 if (cancelCondition)
                 {
-                    Debug.Log("cancelled hook here");
-                    //Debug.Log(m_reachedTarget);
                     if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy)
                     {
                         StartCoroutine(JumpBack());
@@ -311,6 +295,7 @@ public class PlayerHook : MonoBehaviour
     private void ThrowObject(Vector2 _throwVelocity)
     {
         //GetComponent<VisualizeTrajectory>().RemoveVisualDots();
+        //Debug.Log("throw velocity: " + _throwVelocity);
         m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity);
         m_pickedUpObject = null;
         DeactivateHook();
@@ -345,8 +330,8 @@ public class PlayerHook : MonoBehaviour
     {
         m_pm.DisableUserInput(true);
         float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
-        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity * m_throwingSpeedMultiplier; //falls wir nicht lerpen --> public float ThrowSpeed
-        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, -Physics2D.gravity.y);
+        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity; //falls wir nicht lerpen --> public float ThrowSpeed
+        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, Physics2D.gravity);
         return throwVelocity;
     }
 
@@ -385,7 +370,6 @@ public class PlayerHook : MonoBehaviour
         {
             cancelCondition = true;
             m_pickedUpObject = m_currentSelectedTarget.gameObject;
-            Debug.Log("picked up");
         }
         return cancelCondition;
     }
@@ -401,11 +385,11 @@ public class PlayerHook : MonoBehaviour
             m_buttonPresses--;
             if (transform.position.x > m_currentSelectedTarget.transform.position.x)
             {
-                transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x + 0.3f, transform.position.y, transform.position.z);
             }
             else
             {
-                transform.position = new Vector3(transform.position.x - 0.2f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(transform.position.x - 0.3f, transform.position.y, transform.position.z);
             }
             if (transform.position.x != m_currentSelectedTarget.transform.position.x)
             {
@@ -417,7 +401,7 @@ public class PlayerHook : MonoBehaviour
         bool CancelCondition = false;
         if (m_buttonPresses <= 0)
         {
-            if (m_currentSelectedTarget.transform.parent.GetComponent<Enemy>() != null)
+            if (m_currentSelectedTarget.transform.parent != null && m_currentSelectedTarget.transform.parent.GetComponent<Enemy>() != null)
             { //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
                 m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 15, 4); //4 evtl auch als parameter hit priority übergeben
             }
@@ -483,7 +467,6 @@ public class PlayerHook : MonoBehaviour
         Time.timeScale = m_normalTimeScale;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         m_currentTimeActive = 0;
-        m_currentVelocity = Vector2.zero;
     }
 
     private void SearchTargetPoint()
@@ -679,7 +662,6 @@ public class PlayerHook : MonoBehaviour
         {
             if (m_currentSelectedTarget != null && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance && m_currentTargetType != HookType.Throw)
             {
-                Debug.Log("cancelled hook");
                 return true;
             }
         }
