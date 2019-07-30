@@ -34,6 +34,7 @@ public class CrawlingEnemy : MonoBehaviour
 
     [SerializeField] private float m_movementSpeed = 1f;
     [SerializeField] private float m_chaseRadius = 3f;
+    [SerializeField] private float m_jumpForce = 15f; //um die selbe wurfbahn zu kriegen: doppelte jumpforce = vierfache gravity
     [SerializeField] private bool m_useIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
     [SerializeField] private bool m_useJump = true; //ändern in eine intelligenz skala von 1 - 10 oder so
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
@@ -209,7 +210,7 @@ public class CrawlingEnemy : MonoBehaviour
 
     private Vector2 Jump(Vector2 _jumpDirection)
     {
-        return new Vector2(_jumpDirection.x, _jumpDirection.y) * 10; //10 = jumpforce --> variable erstellen //vllt siehts besser aus wenn er seine aktuelle velocity behält?
+        return new Vector2(_jumpDirection.x, _jumpDirection.y) * m_jumpForce; //10 = jumpforce --> variable erstellen //vllt siehts besser aus wenn er seine aktuelle velocity behält?
     }
 
     private bool CheckGroundAhead() //if yes --> decide jump or not //layermask? doesnt hit background?
@@ -231,29 +232,29 @@ public class CrawlingEnemy : MonoBehaviour
         bool jumpPossible = false;
 
         if (currentMovementDirection == MovementDirection.Right) {
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
         }
         if (currentMovementDirection == MovementDirection.Left) {
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * 10, 10)) {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
@@ -261,7 +262,7 @@ public class CrawlingEnemy : MonoBehaviour
         return jumpPossible;
     }
 
-    private bool CheckJumpPath(Vector2 _startPosition, Vector2 _launchVelocity, float _gravity)
+    private bool CheckJumpPath(Vector2 _startPosition, Vector2 _launchVelocity)
     {
         //DotParent.transform.position = _startPosition;
         float timeBetweenDots = 0.08f; //dafür variable im editor erstellen
@@ -271,9 +272,9 @@ public class CrawlingEnemy : MonoBehaviour
         while (hitSmth == false && numOfChecks < 50) //30 = max num of checks
         {
             numOfChecks++;
-            Vector2 StartPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
+            Vector2 StartPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
             throwTime += timeBetweenDots;
-            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition, new Vector2(0, -_gravity));
+            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
             float raycastLength = (targetPosition - StartPosition).magnitude;
             RaycastHit2D hit = Physics2D.Raycast(StartPosition, (targetPosition - StartPosition), raycastLength, m_sightBlockingLayers); //anstatt sightblocking vllt movementblocking nehmen
             if (hit.collider != null && hit.collider.transform.position.y <= hit.point.y) { //position compare
@@ -285,8 +286,8 @@ public class CrawlingEnemy : MonoBehaviour
         return hitSmth;
     }
 
-    private Vector2 CalculatePosition(float _elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition, Vector2 _gravity)
+    private Vector2 CalculatePosition(float _elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition)
     {
-        return _gravity * _elapsedTime * _elapsedTime * 0.5f + _launchVelocity * _elapsedTime + _initialPosition;
+        return Physics2D.gravity * _elapsedTime * _elapsedTime * 0.5f + _launchVelocity * _elapsedTime + _initialPosition;
     }
 }

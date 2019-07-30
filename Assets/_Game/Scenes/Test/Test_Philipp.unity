@@ -3204,6 +3204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_movementSpeed: 1
   m_chaseRadius: 3
+  m_jumpForce: 40
   m_useIntelligentJump: 1
   m_useJump: 1
   m_sightBlockingLayers:
@@ -3440,7 +3441,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711081431}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.04, y: -10.88, z: 0}
+  m_LocalPosition: {x: -52.31, y: -10.88, z: 0}
   m_LocalScale: {x: -1.03, y: 0.014195607, z: 0.067302}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3631,6 +3632,11 @@ PrefabInstance:
     - target: {fileID: 1537124147410351544, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5776664087256983666, guid: 78f08bbd4dd89054f98abee5dc41dcca,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4070,7 +4076,7 @@ PrefabInstance:
     - target: {fileID: 8267296876648001117, guid: 609341781e9cf9042a67b4e548a5fc37,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.36
+      value: -41.62
       objectReference: {fileID: 0}
     - target: {fileID: 8267296876648001117, guid: 609341781e9cf9042a67b4e548a5fc37,
         type: 3}
@@ -4121,11 +4127,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5919290874452356717, guid: 609341781e9cf9042a67b4e548a5fc37,
-        type: 3}
-      propertyPath: m_GravityScale
-      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 609341781e9cf9042a67b4e548a5fc37, type: 3}
