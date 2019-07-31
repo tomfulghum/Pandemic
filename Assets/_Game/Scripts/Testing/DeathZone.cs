@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
+    /*
     private GameObject myPlayer;
     private Vector3 v3OldPos;
     private int iFrames;
@@ -35,4 +36,5 @@ public class DeathZone : MonoBehaviour
         if (other.transform.CompareTag("Player"))
             other.transform.position = v3OldPos;
     }
+    */
 }
