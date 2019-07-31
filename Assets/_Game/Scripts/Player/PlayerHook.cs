@@ -331,7 +331,7 @@ public class PlayerHook : MonoBehaviour
         m_pm.DisableUserInput(true);
         float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
         Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity; //falls wir nicht lerpen --> public float ThrowSpeed
-        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity, Physics2D.gravity);
+        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity);
         return throwVelocity;
     }
 

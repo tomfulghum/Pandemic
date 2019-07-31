@@ -506,21 +506,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_usingController
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_minThrowVelocity
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_maxThrowVelocity
-      value: 25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
 --- !u!1 &162499437
@@ -4066,11 +4051,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ThrowableObject
       objectReference: {fileID: 0}
-    - target: {fileID: 6374442912641036237, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4126,11 +4106,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9143351079570227116, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
-        type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf85e7df2a3b90b4f9421ec368e0b54a, type: 3}
 --- !u!1001 &6626893083885945746
@@ -4148,7 +4123,7 @@ PrefabInstance:
     - target: {fileID: 1693525880915519416, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1693525880915519394, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}

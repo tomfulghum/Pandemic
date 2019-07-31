@@ -16,7 +16,7 @@ public class ThrowableObject : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    //[SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object type einstellen
+    [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
 
     //******************//
     //    Properties    //
@@ -52,7 +52,6 @@ public class ThrowableObject : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log(currentObjectState);
         switch (currentObjectState)
         {
             case ThrowableState.TravellingToPlayer:
@@ -68,7 +67,6 @@ public class ThrowableObject : MonoBehaviour
             case ThrowableState.PickedUp:
                 {
                     m_rb.MovePosition(m_objectToFollow.GetComponent<Rigidbody2D>().position);
-                    //kinematic machen
                     break;
                 }
             case ThrowableState.Inactive:
@@ -77,12 +75,12 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Thrown:
                 {
-                    //Debug.Log("throw velocity in object: " + m_rb.velocity);
                     CheckEnemyHit();
                     GetComponent<SpriteRenderer>().color = Color.yellow;
                     if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
                     {
                         m_rb.velocity = Vector2.zero;
+                        m_rb.gravityScale = 1f;
                         m_currentObjectState = ThrowableState.Inactive;
                         GetComponent<SpriteRenderer>().color = Color.blue;
                     }
@@ -130,12 +128,15 @@ public class ThrowableObject : MonoBehaviour
         m_currentObjectState = ThrowableState.TravellingToPlayer;
         m_speed = _speed;
         m_targetReachedTolerance = _targetReachedTolerance;
+        m_rb.isKinematic = true;
     }
 
     public void Throw(Vector2 _velocity) // nur ein parameter 
     {
-        m_rb.velocity = _velocity;
+        m_rb.velocity = _velocity * m_speedMultiplier;
+        m_rb.gravityScale *= Mathf.Pow(m_speedMultiplier, 2);
         m_currentObjectState = ThrowableState.Thrown;
+        m_rb.isKinematic = false;
     }
 
     public void Drop()

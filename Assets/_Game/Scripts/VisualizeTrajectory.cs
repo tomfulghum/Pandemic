@@ -47,7 +47,7 @@ public class VisualizeTrajectory : MonoBehaviour
     //    Public Functions    //
     //************************//
 
-    public void VisualizeDots(Vector2 _startPosition, Vector2 _launchVelocity, Vector2 _gravity) //gravity sollte irgendwoanders gesetzt werden --> am besten von dem object das geworfen wird
+    public void VisualizeDots(Vector2 _startPosition, Vector2 _launchVelocity) //gravity sollte irgendwoanders gesetzt werden --> am besten von dem object das geworfen wird
     {
         RemoveVisualDots();
         m_dotParent.transform.position = _startPosition;
@@ -56,9 +56,9 @@ public class VisualizeTrajectory : MonoBehaviour
         bool hitSmth = false;
         float throwTime = 0f;
         while (hitSmth == false && m_dotParent.transform.childCount < m_numOfVisualDots) { //|| currentnum of dots > max num of visualdots --> als sicherung --> da funktioniert noch was nicht sogut
-            Vector2 startPosition = CalculatePosition(throwTime, _launchVelocity, m_dotParent.transform.position, _gravity);
+            Vector2 startPosition = CalculatePosition(throwTime, _launchVelocity, m_dotParent.transform.position, Physics2D.gravity);
             throwTime += m_timeBetweenDots; //dafür variable aus dem editor nehmen 
-            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, m_dotParent.transform.position, _gravity);
+            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, m_dotParent.transform.position, Physics2D.gravity);
             float raycastLength = (targetPosition - startPosition).magnitude;
             RaycastHit2D hit = Physics2D.Raycast(startPosition, (targetPosition - startPosition), raycastLength, m_layerMask); //vllt anstatt 1 irgendwas ausrechnen?
             if (hit.collider == null) {

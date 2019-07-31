@@ -242,7 +242,6 @@ MonoBehaviour:
   m_cancelHookWithSpace: 1
   m_cancelHookWithNewHook: 1
   m_cancelDistancePercentage: 0.5
-  m_additionalTravelDistance: 0
   m_formOfTimeSlow: 1
   m_radiusVisualization: {fileID: 5293281135746816196}
   m_hookPointFilter:
@@ -252,12 +251,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   m_slowTimeWhileAiming: 1
-  m_minThrowVelocity: 5
-  m_maxThrowVelocity: 15
-  m_throwingSpeedMultiplier: 1.4
+  m_minThrowVelocity: 15
+  m_maxThrowVelocity: 30
   m_maxTimeToWinRopeFight: 3
   m_numOfButtonPresses: 10
-  m_usingController: 0
+  m_usingController: 1
 --- !u!114 &5293281134618775224
 MonoBehaviour:
   m_ObjectHideFlags: 0
