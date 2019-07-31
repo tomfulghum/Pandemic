@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5293281134618775230}
   - component: {fileID: 5293281134618775225}
   - component: {fileID: 5293281134618775224}
+  - component: {fileID: 102156905579829246}
   - component: {fileID: 5293281134618775217}
   - component: {fileID: 191007883}
   m_Layer: 10
@@ -283,6 +284,19 @@ MonoBehaviour:
   m_meleeAttackTime: 0.3
   m_hitFreezeTime: 0.5
   m_hitKnockbackTime: 0.2
+--- !u!114 &102156905579829246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5293281134618775227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861de59ba0146a943a4f13c0cf36e5a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_normalKeyCount: 0
 --- !u!114 &5293281134618775217
 MonoBehaviour:
   m_ObjectHideFlags: 0
