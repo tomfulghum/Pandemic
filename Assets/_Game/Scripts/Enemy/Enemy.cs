@@ -160,4 +160,18 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         }
         m_currentHitPriority = _hitPriority;
     }
+
+    public void SetFreeze(bool _freeze)
+    {
+        if(_freeze)
+        {
+            m_rb.isKinematic = true;
+            m_rb.velocity = Vector2.zero;
+            m_currentEnemyState = EnemyState.Disabled;
+        } else
+        {
+            m_rb.isKinematic = false;
+            m_currentEnemyState = EnemyState.Moving;
+        }
+    }
 }

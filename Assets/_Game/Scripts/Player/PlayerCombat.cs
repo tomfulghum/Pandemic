@@ -471,10 +471,15 @@ public class PlayerCombat : MonoBehaviour
         m_invincible = true;
         GetComponent<SpriteRenderer>().color = Color.red; //for visualization
 
-        Vector2 direction = ((Vector2)transform.position - _knockBackOrigin).normalized;
+        Vector2 direction = ((Vector2)transform.position - _knockBackOrigin).normalized; //veraltet
+        if (_knockBackOrigin.x < transform.position.x)
+            direction = new Vector2(0.5f, 0.5f).normalized;
+        else
+            direction = new Vector2(-0.5f, 0.5f).normalized;
 
         if (_enemy) {
-            _enemy.frozen = true;
+            // _enemy.frozen = true;
+            _enemy.SetFreeze(true);
         }
 
         yield return new WaitForSeconds(m_hitFreezeTime); // Freeze time
@@ -484,7 +489,8 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(m_hitKnockbackTime); // Knockback time
 
         if (_enemy) {
-            _enemy.frozen = false;
+            // _enemy.frozen = false;
+            _enemy.SetFreeze(false);
         }
 
         m_pm.momentum = m_pm.externalVelocity;

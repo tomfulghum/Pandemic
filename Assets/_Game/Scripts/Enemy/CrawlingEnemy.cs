@@ -26,7 +26,7 @@ public class CrawlingEnemy : MonoBehaviour
         None,
         Left,
         Right
-    } 
+    }
 
     //************************//
     //    Inspector Fields    //
@@ -95,6 +95,20 @@ public class CrawlingEnemy : MonoBehaviour
 
     void Update()
     {
+
+        if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving)
+        { 
+            if (currentMovementState == MovementState.Decide)
+            { // && CurrentMovementState != MovementState.Falling) //warum?
+                SetNextMove();
+            }
+            if (currentMovementState != MovementState.Decide)
+            {
+                SetMovementPattern();
+            }
+        }
+
+        /*
         if (!m_enemy.frozen) {
             m_rb.isKinematic = false;
 
@@ -110,6 +124,7 @@ public class CrawlingEnemy : MonoBehaviour
             m_rb.isKinematic = true;
             m_rb.velocity = Vector2.zero;
         }
+        */
     }
 
     //*************************//
@@ -120,17 +135,27 @@ public class CrawlingEnemy : MonoBehaviour
     {
         //jump direction auf default stellen? --> brauchts das überhaupt?
         m_objectToChase = PlayerInSight();
-        if (m_objectToChase != null) {
+        if (m_objectToChase != null)
+        {
             m_currentMovementState = MovementState.Chase;
-        } else if (!m_actor.contacts.below) { //&&CheckGroundBelow
+        }
+        else if (!m_actor.contacts.below)
+        { //&&CheckGroundBelow
             m_currentMovementState = MovementState.Falling;
-        } else if (CheckGroundAhead()) {
+        }
+        else if (CheckGroundAhead())
+        {
             m_currentMovementState = MovementState.Move;
-        } else if (CheckGroundAhead() == false) {
+        }
+        else if (CheckGroundAhead() == false)
+        {
             float rnd = Random.Range(0f, 1f);
-            if ((rnd > 0.9f || (m_useIntelligentJump && CheckIfAnyJumpPossible())) && m_useJump) { //rnd > 0.9f || //--> for better testing without random
+            if ((rnd > 0.9f || (m_useIntelligentJump && CheckIfAnyJumpPossible())) && m_useJump)
+            { //rnd > 0.9f || //--> for better testing without random
                 m_currentMovementState = MovementState.Jump;
-            } else {
+            }
+            else
+            {
                 ChangeDirection();
                 m_currentMovementState = MovementState.Move;
             }
@@ -139,55 +164,71 @@ public class CrawlingEnemy : MonoBehaviour
 
     private void SetMovementPattern()
     {
-        switch (currentMovementState) {
-            case MovementState.Chase: {
-                if (m_objectToChase.position.x > transform.position.x) {
-                    m_currentMovementDirection = MovementDirection.Right;
-                    m_rb.velocity = new Vector2(m_movementSpeed, m_rb.velocity.y);
-                } else {
-                    m_currentMovementDirection = MovementDirection.Left;
-                    m_rb.velocity = new Vector2(-m_movementSpeed, m_rb.velocity.y);
-                }
-                m_currentMovementState = MovementState.Decide;
-                break;
-            }
-
-            case MovementState.Move: {
-                m_directionCounter--;
-                if (m_directionCounter < 0 || m_actor.contacts.left || m_actor.contacts.right) {
-                    ChangeDirection();
-                }
-                if (currentMovementDirection == MovementDirection.Right) {
-                    m_rb.velocity = Vector2.right * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
-                } else {
-                    m_rb.velocity = Vector2.left * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
-                }
-                m_currentMovementState = MovementState.Decide;
-                break;
-            }
-            case MovementState.Jump: {
-                m_rb.velocity = Jump(m_jumpDirection);
-                m_jumping = true;
-                m_directionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
-                m_currentMovementState = MovementState.Decide; //Falling
-                break;
-            }
-            case MovementState.Falling: {
-                //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
-                if (m_actor.contacts.below) { //&&CheckGroundBelow
-                    m_jumping = false;
+        switch (currentMovementState)
+        {
+            case MovementState.Chase:
+                {
+                    if (m_objectToChase.position.x > transform.position.x)
+                    {
+                        m_currentMovementDirection = MovementDirection.Right;
+                        m_rb.velocity = new Vector2(m_movementSpeed, m_rb.velocity.y);
+                    }
+                    else
+                    {
+                        m_currentMovementDirection = MovementDirection.Left;
+                        m_rb.velocity = new Vector2(-m_movementSpeed, m_rb.velocity.y);
+                    }
                     m_currentMovementState = MovementState.Decide;
+                    break;
                 }
-                break;
-            }
+
+            case MovementState.Move:
+                {
+                    m_directionCounter--;
+                    if (m_directionCounter < 0 || m_actor.contacts.left || m_actor.contacts.right)
+                    {
+                        ChangeDirection();
+                    }
+                    if (currentMovementDirection == MovementDirection.Right)
+                    {
+                        m_rb.velocity = Vector2.right * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                    }
+                    else
+                    {
+                        m_rb.velocity = Vector2.left * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                    }
+                    m_currentMovementState = MovementState.Decide;
+                    break;
+                }
+            case MovementState.Jump:
+                {
+                    m_rb.velocity = Jump(m_jumpDirection);
+                    m_jumping = true;
+                    m_directionCounter = 200 + Random.Range(0, 200); //vllt unnötig? oder besser wo anders?
+                    m_currentMovementState = MovementState.Decide; //Falling
+                    break;
+                }
+            case MovementState.Falling:
+                {
+                    //gegner bewegt sich mit seiner velcoity aus move weiter --> irgendwas dagegen tun
+                    if (m_actor.contacts.below)
+                    { //&&CheckGroundBelow
+                        m_jumping = false;
+                        m_currentMovementState = MovementState.Decide;
+                    }
+                    break;
+                }
         }
     }
 
     private void ChangeDirection()
     {
-        if (currentMovementDirection == MovementDirection.Left) {
+        if (currentMovementDirection == MovementDirection.Left)
+        {
             m_currentMovementDirection = MovementDirection.Right;
-        } else {
+        }
+        else
+        {
             m_currentMovementDirection = MovementDirection.Left;
         }
         m_directionCounter = 200 + Random.Range(0, 200);
@@ -196,11 +237,14 @@ public class CrawlingEnemy : MonoBehaviour
     private Transform PlayerInSight()
     {
         Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_chaseRadius);
-        for (int i = 0; i < colliderInRange.Length; i++) {
-            if (colliderInRange[i].CompareTag("Player")) {
+        for (int i = 0; i < colliderInRange.Length; i++)
+        {
+            if (colliderInRange[i].CompareTag("Player"))
+            {
                 float rayCastLength = Vector2.Distance(transform.position, colliderInRange[i].transform.position);
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, (colliderInRange[i].transform.position - transform.position), rayCastLength, m_sightBlockingLayers);
-                if (hit == false) {
+                if (hit == false)
+                {
                     return colliderInRange[i].transform;
                 }
             }
@@ -216,12 +260,16 @@ public class CrawlingEnemy : MonoBehaviour
     private bool CheckGroundAhead() //if yes --> decide jump or not //layermask? doesnt hit background?
     {
         RaycastHit2D hit;
-        if (currentMovementDirection == MovementDirection.Left) {
+        if (currentMovementDirection == MovementDirection.Left)
+        {
             hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, m_coll.bounds.extents.y + 0.2f);
-        } else {
+        }
+        else
+        {
             hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, m_coll.bounds.extents.y + 0.2f);
         }
-        if (hit.collider != null) {
+        if (hit.collider != null)
+        {
             return true;
         }
         return false;
@@ -231,30 +279,38 @@ public class CrawlingEnemy : MonoBehaviour
     {
         bool jumpPossible = false;
 
-        if (currentMovementDirection == MovementDirection.Right) {
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
+        if (currentMovementDirection == MovementDirection.Right)
+        {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * m_jumpForce))
+            {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * m_jumpForce))
+            {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
+            if (CheckJumpPath(transform.position, new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * m_jumpForce))
+            {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
         }
-        if (currentMovementDirection == MovementDirection.Left) {
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
+        if (currentMovementDirection == MovementDirection.Left)
+        {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized * m_jumpForce))
+            {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(-Mathf.Cos(60 * Mathf.Deg2Rad), Mathf.Sin(60 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized * m_jumpForce))
+            {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(-Mathf.Cos(45 * Mathf.Deg2Rad), Mathf.Sin(45 * Mathf.Deg2Rad)).normalized;
             }
-            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * m_jumpForce)) {
+            if (CheckJumpPath(transform.position, new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized * m_jumpForce))
+            {
                 jumpPossible = true;
                 m_jumpDirection = new Vector2(-Mathf.Cos(75 * Mathf.Deg2Rad), Mathf.Sin(75 * Mathf.Deg2Rad)).normalized;
             }
@@ -277,9 +333,12 @@ public class CrawlingEnemy : MonoBehaviour
             Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
             float raycastLength = (targetPosition - StartPosition).magnitude;
             RaycastHit2D hit = Physics2D.Raycast(StartPosition, (targetPosition - StartPosition), raycastLength, m_sightBlockingLayers); //anstatt sightblocking vllt movementblocking nehmen
-            if (hit.collider != null && hit.collider.transform.position.y <= hit.point.y) { //position compare
+            if (hit.collider != null && hit.collider.transform.position.y <= hit.point.y)
+            { //position compare
                 hitSmth = true;
-            } else if (hit.collider != null && hit.collider.transform.position.y > hit.point.y) {
+            }
+            else if (hit.collider != null && hit.collider.transform.position.y > hit.point.y)
+            {
                 return false;
             }
         }

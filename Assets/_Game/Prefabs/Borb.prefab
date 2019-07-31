@@ -72,7 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_enemy: {fileID: 1693525880915519421}
   m_enabled: 0
-  m_force: 30
+  m_force: 12
 --- !u!1 &1693525880915519416
 GameObject:
   m_ObjectHideFlags: 0

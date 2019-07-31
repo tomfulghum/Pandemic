@@ -4140,11 +4140,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Borb
       objectReference: {fileID: 0}
-    - target: {fileID: 1693525880915519416, guid: b047f64e4615a8343b3dc770905f550a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1693525880915519394, guid: b047f64e4615a8343b3dc770905f550a,
         type: 3}
       propertyPath: m_LocalPosition.x
