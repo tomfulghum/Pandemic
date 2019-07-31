@@ -74,6 +74,7 @@ public class Borb : MonoBehaviour
     private Actor2D m_actor;
     private Enemy m_enemy;
     private Rigidbody2D m_rb;
+    private EnemyKnockback m_ekb;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -88,6 +89,7 @@ public class Borb : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_ekb = GetComponentInChildren<EnemyKnockback>();
     }
 
     // Update is called once per frame
@@ -129,11 +131,13 @@ public class Borb : MonoBehaviour
                         else if (CheckPlayerHit())
                         {
                             m_currentMovementState = MovementState.FlyUp;
+                            m_ekb.IsEnemyLethal(false);
                         }
                         else
                         {
                             m_currentStunTime = m_stunTime;
                             m_currentMovementState = MovementState.Dazed;
+                            m_ekb.IsEnemyLethal(false);
                         }
                         //CurrentMovementState = MovementState.FlyUp;
                         break;
@@ -238,8 +242,10 @@ public class Borb : MonoBehaviour
         {
             m_objectToChase = PlayerInSight();
             if (m_objectToChase != null && ChasePlayer() && (transform.position.y == m_flightHeight || CheckCeilingHit()))
-                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange)
+                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange) {
                     m_currentMovementState = MovementState.Nosedive;
+                    m_ekb.IsEnemyLethal(true);
+                }
                 else
                     m_currentMovementState = MovementState.Chase;
             else

@@ -163,7 +163,8 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) {
+        /*
+        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) { //not needed anymore
             m_colorChangeCounter++;
             if (m_colorChangeCounter % 5 == 0) {
                 m_spriteRenderer.color = Color.white;
@@ -171,6 +172,7 @@ public class PlayerCombat : MonoBehaviour
                 m_spriteRenderer.color = m_originalColor;
             }
         }
+        */
     }
 
     //*************************//
@@ -439,7 +441,7 @@ public class PlayerCombat : MonoBehaviour
         m_invincible = false;
     }
 
-    private IEnumerator KnockBack(float _repetitions, Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
+    private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
     {
         //PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
         //m_pm.DisableUserInput(true);
@@ -467,6 +469,7 @@ public class PlayerCombat : MonoBehaviour
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
         m_pm.DisableUserInput(true);
         m_invincible = true;
+        GetComponent<SpriteRenderer>().color = Color.red; //for visualization
 
         Vector2 direction = ((Vector2)transform.position - _knockBackOrigin).normalized;
 
@@ -489,6 +492,8 @@ public class PlayerCombat : MonoBehaviour
         m_invincible = false;
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         m_pm.DisableUserInput(false);
+
+        GetComponent<SpriteRenderer>().color = Color.white; // for visualization
     }
 
     //************************//
@@ -505,7 +510,7 @@ public class PlayerCombat : MonoBehaviour
             if (m_knockbackCoroutine != null) {
                 StopCoroutine(m_knockbackCoroutine);
             }
-            m_knockbackCoroutine = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce, _enemy));
+            m_knockbackCoroutine = StartCoroutine(KnockBack(_knockBackOrigin, _knockBackForce, _enemy));
         }
     }
 
