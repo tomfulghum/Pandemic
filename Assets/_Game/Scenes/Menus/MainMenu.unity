@@ -3435,56 +3435,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Here are some credits
-
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-    bla
-
-
-'
+  m_text: "A Game by \r\nLucky Charm\r\n*Logo Lucky Charm*\r\n\r\n\r\n\r\n\r\n\r\n\r\nIDEA\r\nDaniel
+    Probst\r\nKatharina Franz\r\n\r\n\r\nGAME DESIGN\r\nDaniel Probst\r\nYannick Arndt\r\n\r\n\r\nPROGRAMMING
+    LEAD\r\nFrederic Fulghum\r\n\r\nPROGRAMMING\r\nFrederic Fulghum\r\nPhilipp Glas\r\n\r\nTECH
+    SUPPORT\r\nFrederic Fulghum\r\n\r\n\r\nART LEAD\r\nKatharina Franz\r\n\r\nCONCEPT
+    ART\r\nKatharina Franz \r\nFlorian Mazreku\r\n\r\nCHARACTER CREATION\r\nKatharina
+    Franz\r\n\r\nENVIRONMENT ART\r\nThora Waldmann\r\nMichelle \"Myo\" Sonntag\r\nPorseng
+    Klara Kisa\r\nFlorian Mazreku\r\n\r\n2D ART\r\nFlorian Mazreku\r\n\r\nCHARACTER
+    ANIMATION\r\nKatharina Franz\r\n\r\n\r\nTECH ART\r\nAlex Kuth\r\n\r\nVISUAL EFFECTS\r\nAlex
+    Kuth\r\n\r\n\r\nLEVEL DESIGN\r\nDaniel Probst\r\nYannick Arndt\r\n\r\n\r\nPRODUCING\r\nDaniel
+    Probst\r\n\r\n\r\nMADE WITH\r\n*unity logo*\r\n\r\n\r\nSTUDENTS PROJECT AT\r\n*MDH
+    logo*\r\n\r\n\r\nSUPPORTING INSTRUCTORS\r\nProf. Dominik Mieth\r\nProf. Henning
+    Janssen\r\nProf. Dr. Christoph Minnameier\r\nJakob Thomsen\r\nUtz Wagner\r\n\r\n\r\nSPECIAL
+    THANKS\r\nAll our Playtesters\r\nOur Families and Friends\r\nTeam Cherry \r\nRubber
+    Duck\r\nJulian Betz\r\nMD.I\r\nFreddy\r\nAttila (Hannibal)\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
