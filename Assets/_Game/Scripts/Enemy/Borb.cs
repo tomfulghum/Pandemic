@@ -201,7 +201,6 @@ public class Borb : MonoBehaviour
 
     private bool CheckPlayerHit() //funktioniert nocht nicht
     {
-        Debug.Log(PlayerHook.CurrentPlayerState);
         if(m_objectToChase != null && PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) //funktioniert nicht wenn borb aktuell nosedive macht und ein anderer gegner den spieler getroffen hat --> aber fürs erste ein quick fix
         {
             return true;

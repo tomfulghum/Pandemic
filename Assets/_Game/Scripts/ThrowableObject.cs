@@ -142,7 +142,8 @@ public class ThrowableObject : MonoBehaviour
     public void Drop()
     {
         m_currentObjectState = ThrowableState.Inactive;
+        m_rb.isKinematic = false;
         m_objectToFollow = null;
-        m_actor.velocity = Vector2.zero;
+        m_rb.velocity = Vector2.zero;
     }
 }
