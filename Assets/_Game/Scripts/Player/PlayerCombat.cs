@@ -312,10 +312,10 @@ public class PlayerCombat : MonoBehaviour
             Vector2 MovementDirection = _direction.normalized;
             m_pm.externalVelocity = MovementDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
             if (m_actor.contacts.above || m_actor.contacts.below) {
-                m_pm.externalVelocity = new Vector2(m_actor.velocity.x, 0);
+                m_pm.externalVelocity = new Vector2(m_pm.externalVelocity.x, 0);
             }
             if (m_actor.contacts.left || m_actor.contacts.right) {
-                m_pm.externalVelocity = new Vector2(0, m_actor.velocity.y);
+                m_pm.externalVelocity = new Vector2(0, m_pm.externalVelocity.y);
             }
 
             yield return new WaitForSeconds(0.005f);
