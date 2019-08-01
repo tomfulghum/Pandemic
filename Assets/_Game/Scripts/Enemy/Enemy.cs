@@ -88,6 +88,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                 Destroy(gameObject, 2f); //despawn time //evtl länger?
                 m_currentEnemyState = EnemyState.Dead;
             }
+            /*
             if (currentEnemyState == EnemyState.Hit) {
                 m_colorChangeCounter++;
                 if (m_colorChangeCounter % 5 == 0)
@@ -95,6 +96,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
                 else
                     m_spriteRenderer.color = m_originalColor;
             }
+            */
         }
     }
 
@@ -111,20 +113,42 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
 
     //besser machen und die schwerkraft usw alles mitberechnen --> evtl in ein anderes script //check collissions evtl auch woanders rein
     //was soll passieren wenn man den gegner / spieler in die wand knockt?
-    private IEnumerator KnockBack(float _repetitions, Transform _knockBackOrigin, float _knockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen
+    private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce) //deactivate layer collission? //geht mit dem neuen system von freddie evtl nichtmerh //knockback direction hier festlegen //freeze player -_> eher nciht
     {
+        //m_currentHealth--;
+        //m_currentEnemyState = EnemyState.Hit;
+        //
+        //Vector2 direction = ((Vector2)transform.position - _knockBackOrigin).normalized; //veraltet
+        //if (_knockBackOrigin.x < transform.position.x)
+        //    direction = new Vector2(0.5f, 0.5f).normalized;
+        //else
+        //    direction = new Vector2(-0.5f, 0.5f).normalized;
+        //
+        //SetFreeze(true); //overkill?
+        //
+        //yield return new WaitForSeconds(0.5f); // Freeze time //m_hitFreezeTime
+        //
+        //m_rb.velocity = direction * _knockBackForce;
+        //
+        //yield return new WaitForSeconds(0.2f); // Knockback time //m_hitKnockbackTime
+        //
+        //m_currentHitPriority = 0;
+        //m_currentEnemyState = EnemyState.Moving;
+        //SetFreeze(false); //overkill?
+
+
         m_currentHealth--;
         m_currentEnemyState = EnemyState.Hit;
-        for (int i = 0; i < _repetitions; i++) {
+        for (int i = 0; i < 10; i++) {
             float test = 1 - Mathf.Pow((i), 3) / 100; //warum?
             if (test < 0) {
                 test = 0;
             }
             int additionalPosition = 0;
-            if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) { //KnockBacktolerance or so
+            if (Mathf.Abs(transform.position.x - _knockBackOrigin.x) < 0.15f) { //KnockBacktolerance or so
                 additionalPosition = 10;
             }
-            Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + additionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
+            Vector2 KnockBackDirection = ((Vector2)transform.position - new Vector2(_knockBackOrigin.x + additionalPosition, _knockBackOrigin.y)).normalized;
             m_rb.velocity = KnockBackDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
             if (m_actor.contacts.above || m_actor.contacts.below) {
                 m_rb.velocity = new Vector2(m_rb.velocity.x, 0);
@@ -132,7 +156,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             if (m_actor.contacts.left || m_actor.contacts.right) {
                 m_rb.velocity = new Vector2(0, m_rb.velocity.y);
             }
-
+        
             yield return new WaitForSeconds(0.03f);
         }
         m_spriteRenderer.color = m_originalColor;
@@ -145,17 +169,17 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     //    Public Functions    //
     //************************//
 
-    public void GetHit(Transform _knockBackOrigin, float _knockBackForce, int _hitPriority) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
+    public void GetHit(Vector2 _knockBackOrigin, float _knockBackForce, int _hitPriority) //bandaid fix for knockbackdirectino //jedesmal move prio checken und dann entscheiden ob man genockbacked wird oder nicht
     {
         if (currentEnemyState == EnemyState.Dead) { //nochmal überprüfen ob das klappt
             return;
         }
         //vllt die überprüfung ob der hit gilt hier rein machen
         if (currentEnemyState != EnemyState.Hit) {
-            m_enemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce));
+            m_enemyKnockBack = StartCoroutine(KnockBack(_knockBackOrigin, _knockBackForce));
         } else if (currentEnemyState == EnemyState.Hit && _hitPriority > m_currentHitPriority) { //evtl reicht auch >= //ist das wirklich so ein guter ansatz?
             StopCoroutine(m_enemyKnockBack);
-            m_enemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce));
+            m_enemyKnockBack = StartCoroutine(KnockBack( _knockBackOrigin, _knockBackForce));
         }
         m_currentHitPriority = _hitPriority;
     }

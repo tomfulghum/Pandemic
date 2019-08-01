@@ -147,14 +147,14 @@ public class PlayerCombat : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, 1, m_layerMask);
                 if (hit.collider != null) {
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy")) {
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 15, m_currentHitPriority);
+                        hit.collider.GetComponent<Enemy>().GetHit(transform.position, 15, m_currentHitPriority);
                     } else {
                         StopMeteorSmash();
                     }
                 }
 
                 if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy")) { // geht nicht weil actor nicht mit enemy kollidiert
-                    m_actor.contacts.below.GetComponent<Enemy>().GetHit(transform, 15, m_currentHitPriority);
+                    m_actor.contacts.below.GetComponent<Enemy>().GetHit(transform.position, 15, m_currentHitPriority);
                 }
 
                 if (m_actor.contacts.below && !m_actor.contacts.below.CompareTag("Enemy")) {
@@ -234,7 +234,7 @@ public class PlayerCombat : MonoBehaviour
                 Vector2 direction = _direction.normalized;
                 float angleInDeg = Vector2.Angle(playerToCollider, direction);
                 if (angleInDeg < 90) {
-                    hit.collider.GetComponent<Enemy>().GetHit(transform, 7, m_currentHitPriority); //wie bei throwable object umstellen
+                    hit.collider.GetComponent<Enemy>().GetHit(transform.position, 7, m_currentHitPriority); //wie bei throwable object umstellen
                     enemiesHit.Add(hit.collider);
                 }
             }

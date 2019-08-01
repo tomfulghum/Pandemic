@@ -405,7 +405,7 @@ public class PlayerHook : MonoBehaviour
         {
             if (m_currentSelectedTarget.transform.parent != null && m_currentSelectedTarget.transform.parent.GetComponent<Enemy>() != null)
             { //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
-                m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 15, 4); //4 evtl auch als parameter hit priority übergeben
+                m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform.position, 15, 4); //4 evtl auch als parameter hit priority übergeben
             }
             CancelCondition = true;
         }
