@@ -30,6 +30,7 @@ public class PlaguePeasant : MonoBehaviour
     [SerializeField] private float m_chaseRadius = 3f;
     [SerializeField] private float m_movementSpeed = 1f;
 
+    [SerializeField] private float m_minShootDistance = 10f;
     [SerializeField] private float m_projectileSpeed = 15f;
     [SerializeField] private GameObject m_projectile;
 
@@ -187,7 +188,7 @@ public class PlaguePeasant : MonoBehaviour
     {
         m_objectToChase = PlayerInSight(); //attack einplanen
         m_player = PlayerInPercetpionRadius();
-        if (m_player != null && m_objectToChase == null && m_rangedAttackOnCooldown == false)
+        if (m_player != null && m_objectToChase == null && m_rangedAttackOnCooldown == false && Vector2.Distance(m_player.position, transform.position) > m_minShootDistance) //nur wenn spieler weit genug von plauge peasant weg ist schießt er
         {
             m_currentMovementState = MovementState.RangedAttack;
             if (m_player.position.x > transform.position.x)

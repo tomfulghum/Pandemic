@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private bool m_contactDamage = false;
     [SerializeField] private int m_maxHealth = 6;
 
     //******************//
