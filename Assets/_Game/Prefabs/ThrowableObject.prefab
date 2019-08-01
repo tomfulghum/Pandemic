@@ -126,16 +126,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 2304
     right:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 2304
     below:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 2304
     above:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 2304
 --- !u!114 &6374442912641036241
 MonoBehaviour:
   m_ObjectHideFlags: 0
