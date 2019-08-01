@@ -14,6 +14,9 @@ TextureImporter:
   - first:
       213: -817452496414639526
     second: spr_PlattformHousesSpriteSheet01_3
+  - first:
+      213: 5700179854620327176
+    second: spr_PlattformHousesSpriteSheet01_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -101,7 +104,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 625
+        width: 500
         height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -110,7 +113,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c159b95b7beefba49ad50fb28d811ba2
+      spriteID: 0256cda2449a4024988a13a308368c56
       internalID: 8320664847722193888
       vertices: []
       indices: 
@@ -120,9 +123,9 @@ TextureImporter:
       name: spr_PlattformHousesSpriteSheet01_1
       rect:
         serializedVersion: 2
-        x: 625
+        x: 500
         y: 0
-        width: 625
+        width: 500
         height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -131,7 +134,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c913d7ab443a3c4ca038e6f00f2e063
+      spriteID: 0a0b68cdbe8119e4da6c102155eccb46
       internalID: -8790073440227628347
       vertices: []
       indices: 
@@ -141,9 +144,9 @@ TextureImporter:
       name: spr_PlattformHousesSpriteSheet01_2
       rect:
         serializedVersion: 2
-        x: 1250
+        x: 1000
         y: 0
-        width: 625
+        width: 500
         height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -152,7 +155,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91903c0eb331bd0429666b73c1fb4385
+      spriteID: 2b399b8c10976484e90db279495e0acf
       internalID: 8226892142671599835
       vertices: []
       indices: 
@@ -162,9 +165,9 @@ TextureImporter:
       name: spr_PlattformHousesSpriteSheet01_3
       rect:
         serializedVersion: 2
-        x: 1875
+        x: 1500
         y: 0
-        width: 625
+        width: 500
         height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -173,8 +176,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b64d3e3d5c99fb49abc715bb304667c
+      spriteID: 56c4b2051971b2c4780aa115afe63747
       internalID: -817452496414639526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_PlattformHousesSpriteSheet01_4
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 0
+        width: 500
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bee2ae3aa3f5d84bac626fefc0db7e6
+      internalID: 5700179854620327176
       vertices: []
       indices: 
       edges: []
