@@ -1,9 +1,10 @@
 ﻿using System;
+using Rewired;
 using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
-    /*
+    
     private GameObject myPlayer;
     private Vector3 v3OldPos;
     private int iFrames;
@@ -18,16 +19,11 @@ public class DeathZone : MonoBehaviour
     private void Update()
     {
         iFrames++;
-        if (iFrames >= 90)
+        if (iFrames >= 90 && myPlayer.GetComponent<Actor2D>().contacts.below)
         {
-            if (!myPlayer.GetComponent<Actor2D>().collision.below)
-                return;
-            if (myPlayer.GetComponent<Actor2D>().collision.below.gameObject.layer == 8)
-            {
                 v3OldPos = myPlayer.transform.position;
                 iFrames = 0;
                 Debug.Log("Saved");
-            }
         }
     }
 
@@ -36,5 +32,5 @@ public class DeathZone : MonoBehaviour
         if (other.transform.CompareTag("Player"))
             other.transform.position = v3OldPos;
     }
-    */
+    
 }
