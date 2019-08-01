@@ -1,7 +1,13 @@
 fileFormatVersion: 2
-guid: a5596a5ddf27b3041be4567344ce7c95
+guid: 7cb8f840360806e4b8b236c3f43cf130
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 6922271420567691300
+    second: spr_HouseRoofBrickSpritesheet01_0
+  - first:
+      213: -3439268674950008656
+    second: spr_HouseRoofBrickSpritesheet01_1
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -82,11 +88,53 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: spr_HouseRoofBrickSpritesheet01_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 250
+        width: 500
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88ade6c9dbb94464095993c2e16f2100
+      internalID: 6922271420567691300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_HouseRoofBrickSpritesheet01_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 500
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d04c9a2aa74f2f4ca5fe22edcbcfbd0
+      internalID: -3439268674950008656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 64109a5f39ca9da40a7c39dbf0bbdbe2
+    spriteID: c33e03d2473b3ce4898f56f71ee7313f
     internalID: 0
     vertices: []
     indices: 
