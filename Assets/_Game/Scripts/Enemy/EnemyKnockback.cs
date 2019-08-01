@@ -20,4 +20,9 @@ public class EnemyKnockback : MonoBehaviour
             }
         }
     }
+
+    public void IsEnemyLethal(bool _enabled)
+    {
+        m_enabled = _enabled;
+    }
 }

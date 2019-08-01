@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     public enum EnemyState //usw. //evtl moving besser namen
     {
         Moving,
+        Disabled,
         Hit,
         Dead
     }
@@ -55,6 +56,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     private Actor2D m_actor = null; // vllt reich der actor auf crawling enemy
     private Collider2D m_coll = null;
     private Rigidbody2D m_rb = null;
+    private EnemyKnockback m_ekb;
     private SpriteRenderer m_spriteRenderer = null;
     private int m_currentHitPriority = 0;
 
@@ -67,6 +69,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         m_actor = GetComponent<Actor2D>();
         m_coll = GetComponent<Collider2D>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_ekb = GetComponentInChildren<EnemyKnockback>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_currentHealth = m_maxHealth;
@@ -82,6 +85,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         if (currentEnemyState != EnemyState.Dead) {
             if (m_currentHealth <= 0) {
                 m_actor.velocity = Vector2.zero;
+                m_ekb.IsEnemyLethal(false);
                 Destroy(gameObject, 2f); //despawn time //evtl länger?
                 m_currentEnemyState = EnemyState.Dead;
             }
@@ -155,5 +159,19 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             m_enemyKnockBack = StartCoroutine(KnockBack(10, _knockBackOrigin, _knockBackForce));
         }
         m_currentHitPriority = _hitPriority;
+    }
+
+    public void SetFreeze(bool _freeze)
+    {
+        if(_freeze)
+        {
+            m_rb.isKinematic = true;
+            m_rb.velocity = Vector2.zero;
+            m_currentEnemyState = EnemyState.Disabled;
+        } else
+        {
+            m_rb.isKinematic = false;
+            m_currentEnemyState = EnemyState.Moving;
+        }
     }
 }

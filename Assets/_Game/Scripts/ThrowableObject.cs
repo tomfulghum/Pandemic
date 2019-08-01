@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //requires Component Actor2d
+//bei inactive evtl jegliche bewegung deaktivieren
 public class ThrowableObject : MonoBehaviour
 {
     //**********************//
     //    Internal Types    //
     //**********************//
 
-    public enum ThrowableState { Inactive, TravellingToPlayer, PickedUp, Thrown } // getter
+    public enum ThrowableState { Inactive, TravellingToPlayer, PickedUp, Thrown }
 
     //************************//
     //    Inspector Fields    //
     //************************//
 
-    //[SerializeField] [Range(1, 3)] private float m_speedMultiplier = 1.4f; //später per object typ einstellen
+    [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
 
     //******************//
     //    Properties    //
@@ -32,7 +33,6 @@ public class ThrowableObject : MonoBehaviour
 
     private ThrowableState m_currentObjectState = ThrowableState.Inactive;
 
-    private Vector2 m_currentVelocity;
     private Transform m_objectToFollow;
     private float m_speed;
     private float m_targetReachedTolerance;
@@ -52,33 +52,40 @@ public class ThrowableObject : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        switch (currentObjectState) {
-            case ThrowableState.TravellingToPlayer: {
-                Vector2 objectVelocity = (m_objectToFollow.transform.position - transform.position).normalized * m_speed;
-                m_rb.velocity = objectVelocity;
-                if (Vector2.Distance(transform.position, m_objectToFollow.transform.position) < m_targetReachedTolerance) {
-                    m_currentObjectState = ThrowableState.PickedUp;
+        switch (currentObjectState)
+        {
+            case ThrowableState.TravellingToPlayer:
+                {
+                    Vector2 objectVelocity = (m_objectToFollow.transform.position - transform.position).normalized * m_speed;
+                    m_rb.velocity = objectVelocity;
+                    if (Vector2.Distance(transform.position, m_objectToFollow.transform.position) < m_targetReachedTolerance)
+                    {
+                        m_currentObjectState = ThrowableState.PickedUp;
+                    }
+                    break;
                 }
-                break;
-            }
-            case ThrowableState.PickedUp: {
-                m_rb.MovePosition(m_objectToFollow.GetComponent<Rigidbody2D>().position);
-                break;
-            }
-            case ThrowableState.Inactive: {
-                break;
-            }
-            case ThrowableState.Thrown: {
-                CheckEnemyHit();
-                GetComponent<SpriteRenderer>().color = Color.yellow;
-                if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right) {
-                    m_currentVelocity = Vector2.zero;
-                    m_rb.velocity = m_currentVelocity;
-                    m_currentObjectState = ThrowableState.Inactive;
-                    GetComponent<SpriteRenderer>().color = Color.blue;
+            case ThrowableState.PickedUp:
+                {
+                    m_rb.MovePosition(m_objectToFollow.GetComponent<Rigidbody2D>().position);
+                    break;
                 }
-                break;
-            }
+            case ThrowableState.Inactive:
+                {
+                    break;
+                }
+            case ThrowableState.Thrown:
+                {
+                    CheckEnemyHit();
+                    GetComponent<SpriteRenderer>().color = Color.yellow;
+                    if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
+                    {
+                        m_rb.velocity = Vector2.zero;
+                        m_rb.gravityScale = 1f;
+                        m_currentObjectState = ThrowableState.Inactive;
+                        GetComponent<SpriteRenderer>().color = Color.blue;
+                    }
+                    break;
+                }
         }
     }
 
@@ -89,19 +96,24 @@ public class ThrowableObject : MonoBehaviour
     private void CheckEnemyHit()
     {
         Transform enemy = null;
-        if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy")) {
+        if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy"))
+        {
             enemy = m_actor.contacts.below;
         }
-        if (m_actor.contacts.above && m_actor.contacts.above.CompareTag("Enemy")) {
+        if (m_actor.contacts.above && m_actor.contacts.above.CompareTag("Enemy"))
+        {
             enemy = m_actor.contacts.above;
         }
-        if (m_actor.contacts.left && m_actor.contacts.left.CompareTag("Enemy")) {
+        if (m_actor.contacts.left && m_actor.contacts.left.CompareTag("Enemy"))
+        {
             enemy = m_actor.contacts.left;
         }
-        if (m_actor.contacts.right && m_actor.contacts.right.CompareTag("Enemy")) {
+        if (m_actor.contacts.right && m_actor.contacts.right.CompareTag("Enemy"))
+        {
             enemy = m_actor.contacts.right;
         }
-        if (enemy != null) {
+        if (enemy != null)
+        {
             enemy.GetComponent<Enemy>().GetHit(transform, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
         }
     }
@@ -116,12 +128,15 @@ public class ThrowableObject : MonoBehaviour
         m_currentObjectState = ThrowableState.TravellingToPlayer;
         m_speed = _speed;
         m_targetReachedTolerance = _targetReachedTolerance;
+        m_rb.isKinematic = true;
     }
 
     public void Throw(Vector2 _velocity) // nur ein parameter 
     {
-        m_rb.velocity = _velocity;
+        m_rb.velocity = _velocity * m_speedMultiplier;
+        m_rb.gravityScale *= Mathf.Pow(m_speedMultiplier, 2);
         m_currentObjectState = ThrowableState.Thrown;
+        m_rb.isKinematic = false;
     }
 
     public void Drop()

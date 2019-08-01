@@ -26,8 +26,8 @@ TagManager:
   - Ground
   - HookPoint
   - Player
-  - SmallEnemy
-  - BigEnemy
+  - Enemy
+  - 
   - 
   - 
   - 
