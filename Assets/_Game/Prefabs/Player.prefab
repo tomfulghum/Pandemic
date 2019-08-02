@@ -243,7 +243,7 @@ MonoBehaviour:
   m_cancelHookWithSpace: 1
   m_cancelHookWithNewHook: 1
   m_cancelDistancePercentage: 0.5
-  m_formOfTimeSlow: 1
+  m_formOfTimeSlow: 3
   m_radiusVisualization: {fileID: 5293281135746816196}
   m_hookPointFilter:
     serializedVersion: 2
@@ -313,7 +313,7 @@ MonoBehaviour:
     type: 3}
   m_ObjectCollission:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2304
 --- !u!114 &191007883
 MonoBehaviour:
   m_ObjectHideFlags: 0

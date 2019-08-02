@@ -303,6 +303,10 @@ public class PlayerHook : MonoBehaviour
     private void AimThrow()
     {
         m_currentHookState = HookState.Aiming;
+        //Vector2 MomentumVelocity = m_rb.velocity; //freddie fragen
+        m_pm.DisableUserInput(true);
+        m_pm.externalVelocity = Physics2D.gravity * 0.5f;
+        //m_pm.momentum = MomentumVelocity;
 
         if (m_slowTimeWhileAiming)
         {
@@ -327,7 +331,6 @@ public class PlayerHook : MonoBehaviour
 
     private Vector2 GetAimDirection(Vector2 _direction) //evlt während aim den spieler anhalten oder bewegung verlangsamen //schauen ob man die deadzone lassen kann ansonsten als parameter übergeben
     {
-        m_pm.DisableUserInput(true);
         float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
         Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity; //falls wir nicht lerpen --> public float ThrowSpeed
         GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity);
@@ -402,7 +405,7 @@ public class PlayerHook : MonoBehaviour
         {
             if (m_currentSelectedTarget.transform.parent != null && m_currentSelectedTarget.transform.parent.GetComponent<Enemy>() != null)
             { //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
-                m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform, 15, 4); //4 evtl auch als parameter hit priority übergeben
+                m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform.position, 15, 4); //4 evtl auch als parameter hit priority übergeben
             }
             CancelCondition = true;
         }
@@ -550,6 +553,7 @@ public class PlayerHook : MonoBehaviour
                         {
                             m_buttonPresses = m_numOfButtonPresses;
                             m_pm.DisableUserInput(true); // kann evtl nach oben
+                            m_pm.externalVelocity = Physics2D.gravity * 0.5f; // kann evtl nach oben
                             break;
                         }
                     case HookType.Throw:

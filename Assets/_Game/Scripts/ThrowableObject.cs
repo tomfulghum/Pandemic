@@ -114,7 +114,7 @@ public class ThrowableObject : MonoBehaviour
         }
         if (enemy != null)
         {
-            enemy.GetComponent<Enemy>().GetHit(transform, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
+            enemy.GetComponent<Enemy>().GetHit(transform.position, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
         }
     }
 
@@ -142,7 +142,8 @@ public class ThrowableObject : MonoBehaviour
     public void Drop()
     {
         m_currentObjectState = ThrowableState.Inactive;
+        m_rb.isKinematic = false;
         m_objectToFollow = null;
-        m_actor.velocity = Vector2.zero;
+        m_rb.velocity = Vector2.zero;
     }
 }

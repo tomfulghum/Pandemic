@@ -147,14 +147,14 @@ public class PlayerCombat : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, 1, m_layerMask);
                 if (hit.collider != null) {
                     if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy")) {
-                        hit.collider.GetComponent<Enemy>().GetHit(transform, 15, m_currentHitPriority);
+                        hit.collider.GetComponent<Enemy>().GetHit(transform.position, 15, m_currentHitPriority);
                     } else {
                         StopMeteorSmash();
                     }
                 }
 
                 if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy")) { // geht nicht weil actor nicht mit enemy kollidiert
-                    m_actor.contacts.below.GetComponent<Enemy>().GetHit(transform, 15, m_currentHitPriority);
+                    m_actor.contacts.below.GetComponent<Enemy>().GetHit(transform.position, 15, m_currentHitPriority);
                 }
 
                 if (m_actor.contacts.below && !m_actor.contacts.below.CompareTag("Enemy")) {
@@ -234,7 +234,7 @@ public class PlayerCombat : MonoBehaviour
                 Vector2 direction = _direction.normalized;
                 float angleInDeg = Vector2.Angle(playerToCollider, direction);
                 if (angleInDeg < 90) {
-                    hit.collider.GetComponent<Enemy>().GetHit(transform, 7, m_currentHitPriority); //wie bei throwable object umstellen
+                    hit.collider.GetComponent<Enemy>().GetHit(transform.position, 7, m_currentHitPriority); //wie bei throwable object umstellen
                     enemiesHit.Add(hit.collider);
                 }
             }
@@ -312,10 +312,10 @@ public class PlayerCombat : MonoBehaviour
             Vector2 MovementDirection = _direction.normalized;
             m_pm.externalVelocity = MovementDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
             if (m_actor.contacts.above || m_actor.contacts.below) {
-                m_pm.externalVelocity = new Vector2(m_actor.velocity.x, 0);
+                m_pm.externalVelocity = new Vector2(m_pm.externalVelocity.x, 0);
             }
             if (m_actor.contacts.left || m_actor.contacts.right) {
-                m_pm.externalVelocity = new Vector2(0, m_actor.velocity.y);
+                m_pm.externalVelocity = new Vector2(0, m_pm.externalVelocity.y);
             }
 
             yield return new WaitForSeconds(0.005f);

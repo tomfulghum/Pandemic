@@ -41,6 +41,7 @@ public class Borb : MonoBehaviour
     [SerializeField] private bool m_useHeightAdjustments = false;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
+    [SerializeField] private BoxCollider2D m_knockBackCollider;
 
     //******************//
     //    Properties    //
@@ -112,7 +113,7 @@ public class Borb : MonoBehaviour
                             ChangeDirection();
                         FlyInDirection();
                         if (CheckFlightHeight() == false && CheckCeilingHit() == false)
-                           AdjustFlightHeight();
+                            AdjustFlightHeight();
                         break;
                     }
                 case MovementState.Chase:
@@ -126,13 +127,13 @@ public class Borb : MonoBehaviour
                     }
                 case MovementState.Nosedive:
                     {
+                        //if (CheckPlayerHit())
+                        //{
+                        //    m_currentMovementState = MovementState.FlyUp;
+                        //    m_ekb.IsEnemyLethal(false);
+                        //}
                         if (CheckGroundHit() == false)
                             m_rb.velocity = Vector2.down * m_diveSpeed;
-                        else if (CheckPlayerHit())
-                        {
-                            m_currentMovementState = MovementState.FlyUp;
-                            m_ekb.IsEnemyLethal(false);
-                        }
                         else
                         {
                             m_currentStunTime = m_stunTime;
@@ -197,24 +198,26 @@ public class Borb : MonoBehaviour
         return false;
     }
 
-
-    private bool CheckPlayerHit() //besser wäre wenn es mit raycasts funktioniert oder durch eine funktion in enemy
+    private bool CheckPlayerHit() //funktioniert nocht nicht
     {
-        Vector2 ColliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
-        Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, ColliderBox, 0); //hitbox anpassen --> evtl etwas größer machen
+        if(m_objectToChase != null && PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) //funktioniert nicht wenn borb aktuell nosedive macht und ein anderer gegner den spieler getroffen hat --> aber fürs erste ein quick fix
+        {
+            return true;
+        }
+        return false;
+        /*
+        Vector2 ColliderBox = new Vector2(m_knockBackCollider.size.x * m_knockBackCollider.transform.localScale.x, m_knockBackCollider.size.y * m_knockBackCollider.transform.localScale.y);
+        Collider2D[] col = Physics2D.OverlapBoxAll(m_knockBackCollider.transform.position, ColliderBox, 0); 
+        Debug.Log(col.Length);
         foreach (Collider2D collider in col)
         {
+            Debug.Log(collider.gameObject);
             if (collider.CompareTag("Player"))
             {
+                Debug.Log("hit player");
                 return true;
             }
         }
-        return false;
-
-        /*
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, DiveSpeed * Time.deltaTime + GetComponent<Collider2D>().bounds.extents.y); 
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
-            return true;
         return false;
         */
     }
@@ -242,7 +245,8 @@ public class Borb : MonoBehaviour
         {
             m_objectToChase = PlayerInSight();
             if (m_objectToChase != null && ChasePlayer() && (transform.position.y == m_flightHeight || CheckCeilingHit()))
-                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange) {
+                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange)
+                {
                     m_currentMovementState = MovementState.Nosedive;
                     m_ekb.IsEnemyLethal(true);
                 }
@@ -317,5 +321,15 @@ public class Borb : MonoBehaviour
         v.x = (cos * tx) - (sin * ty);
         v.y = (sin * tx) + (cos * ty);
         return v;
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void CancelNosedive()
+    {
+        m_currentMovementState = MovementState.FlyUp;
+        m_ekb.IsEnemyLethal(false);
     }
 }

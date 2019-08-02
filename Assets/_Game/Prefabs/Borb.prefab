@@ -73,6 +73,7 @@ MonoBehaviour:
   m_enemy: {fileID: 1693525880915519421}
   m_enabled: 0
   m_force: 12
+  m_anim: {fileID: 0}
 --- !u!1 &1693525880915519416
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 3
 --- !u!61 &1693525880915519422
 BoxCollider2D:
@@ -216,16 +216,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
     right:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
     below:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
     above:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 256
 --- !u!95 &1693525880915519392
 Animator:
   serializedVersion: 3
@@ -281,6 +281,7 @@ MonoBehaviour:
   m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
+  m_knockBackCollider: {fileID: 944225328}
 --- !u!50 &6626893083885945748
 Rigidbody2D:
   serializedVersion: 4
