@@ -467,6 +467,7 @@ public class PlayerHook : MonoBehaviour
 
         m_timeSlowTest = 0; //wofür?
         ResetHookPoints();
+        m_totalHookPoints.Clear();
         Time.timeScale = m_normalTimeScale;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         m_currentTimeActive = 0;
