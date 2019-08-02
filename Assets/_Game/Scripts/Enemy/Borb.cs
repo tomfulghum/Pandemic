@@ -127,11 +127,11 @@ public class Borb : MonoBehaviour
                     }
                 case MovementState.Nosedive:
                     {
-                        if (CheckPlayerHit())
-                        {
-                            m_currentMovementState = MovementState.FlyUp;
-                            m_ekb.IsEnemyLethal(false);
-                        }
+                        //if (CheckPlayerHit())
+                        //{
+                        //    m_currentMovementState = MovementState.FlyUp;
+                        //    m_ekb.IsEnemyLethal(false);
+                        //}
                         if (CheckGroundHit() == false)
                             m_rb.velocity = Vector2.down * m_diveSpeed;
                         else
@@ -197,7 +197,6 @@ public class Borb : MonoBehaviour
             return true;
         return false;
     }
-
 
     private bool CheckPlayerHit() //funktioniert nocht nicht
     {
@@ -322,5 +321,15 @@ public class Borb : MonoBehaviour
         v.x = (cos * tx) - (sin * ty);
         v.y = (sin * tx) + (cos * ty);
         return v;
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void CancelNosedive()
+    {
+        m_currentMovementState = MovementState.FlyUp;
+        m_ekb.IsEnemyLethal(false);
     }
 }
