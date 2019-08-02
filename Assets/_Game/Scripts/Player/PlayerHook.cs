@@ -147,6 +147,7 @@ public class PlayerHook : MonoBehaviour
     private Collider2D m_currentSwitchTarget; //aktuelles ziel im cone
     private Vector2 m_targetPosition; //glaube 1 von beiden reicht
     private Vector2 m_currentTargetPosition;
+    private Vector2 m_startPosition;
 
     private Vector2 m_controllerDirection;
     private Vector2 m_contDirWithoutDeadzone;
@@ -466,6 +467,7 @@ public class PlayerHook : MonoBehaviour
 
         m_timeSlowTest = 0; //wofür?
         ResetHookPoints();
+        m_totalHookPoints.Clear();
         Time.timeScale = m_normalTimeScale;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         m_currentTimeActive = 0;
@@ -524,6 +526,7 @@ public class PlayerHook : MonoBehaviour
                 m_currentSelectedTarget = m_currentSwitchTarget;
             }
             m_currentHookState = HookState.Active;
+            m_startPosition = transform.position; //aktuell nur für den hookabbruch bug bei keiner velocity
             if (m_currentSelectedTarget != null) //evtl alle noch vorherigen sachen resetten?
             {
                 //Debug.Log("hier"); //resettet alle values wenn auch wenn man nicht switched --> evtl nur if hookstate != active und active erst am ende der funktion setzen
@@ -596,7 +599,7 @@ public class PlayerHook : MonoBehaviour
             cancelCondition = true;
         }
 
-        if (m_rb.velocity == Vector2.zero)
+        if (m_rb.velocity == Vector2.zero && m_startPosition != (Vector2)transform.position) 
         {
             cancelCondition = true;
         }
