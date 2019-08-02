@@ -1,0 +1,317 @@
+fileFormatVersion: 2
+guid: 4fd3544375b3b2d48935803a41393ecd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -625708504193888869
+    second: spr_balcony_spritesheet_0
+  - first:
+      213: -6596575777776373278
+    second: spr_balcony_spritesheet_1
+  - first:
+      213: 4555080087730375255
+    second: spr_balcony_spritesheet_2
+  - first:
+      213: 72937045523448278
+    second: spr_balcony_spritesheet_3
+  - first:
+      213: -3354812147446881775
+    second: spr_balcony_spritesheet_4
+  - first:
+      213: -127086657038105548
+    second: spr_balcony_spritesheet_5
+  - first:
+      213: -4045914680706689769
+    second: spr_balcony_spritesheet_6
+  - first:
+      213: 1909324520188525713
+    second: spr_balcony_spritesheet_7
+  - first:
+      213: -9092377047277283344
+    second: spr_balcony_spritesheet_8
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 293.3333
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c4c37431ab618043ae1db08c2b27ebd
+      internalID: -625708504193888869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 293
+        width: 333
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3e752f469fe2b8498eb1e611e995fcd
+      internalID: -6596575777776373278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 293.3333
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dbdf57f08353744c964a6440ca5ce99
+      internalID: 4555080087730375255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 147.33333
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76ec36fbe1cefcd439df6ed0e1f9a634
+      internalID: 72937045523448278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 147.33333
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36e3a575924552b4895639a4000b2bfd
+      internalID: -3354812147446881775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 147.33333
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2a80f8751c785e4cbbc60a1f0a83126
+      internalID: -127086657038105548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1.3333282
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d79dfa6466db43442ae67e0d6a8eab33
+      internalID: -4045914680706689769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 1.3333282
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36094f947df3c0f4cbc00b4b4ffe16dd
+      internalID: 1909324520188525713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_balcony_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 1.3333282
+        width: 333.33334
+        height: 146.66667
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5eaf8cf1c2097242b1a5a9e236e48c9
+      internalID: -9092377047277283344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: cd4f7790eb80a9a498de77701939dacb
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
