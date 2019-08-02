@@ -306,6 +306,11 @@ MonoBehaviour:
   m_enabled: 1
   m_force: 10
   m_anim: {fileID: 1537124147410351546}
+  m_onSuccesfulHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!61 &7905160224761441090
 BoxCollider2D:
   m_ObjectHideFlags: 0
