@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuSceneName: MainMenu
-  gameSceneName: Test_Freddy_2
+  gameSceneName: Blockout_Docks
   player: {fileID: 854585367}
 --- !u!1001 &809897309692127648
 PrefabInstance:
