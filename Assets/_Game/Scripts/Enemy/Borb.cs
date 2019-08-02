@@ -127,12 +127,7 @@ public class Borb : MonoBehaviour
                     }
                 case MovementState.Nosedive:
                     {
-                        //if (CheckPlayerHit())
-                        //{
-                        //    m_currentMovementState = MovementState.FlyUp;
-                        //    m_ekb.IsEnemyLethal(false);
-                        //}
-                        if (CheckGroundHit() == false)
+                        if (CheckGroundHit() == false && m_actor.contacts.below == false)
                             m_rb.velocity = Vector2.down * m_diveSpeed;
                         else
                         {
@@ -196,30 +191,6 @@ public class Borb : MonoBehaviour
         if (hit.collider != null)
             return true;
         return false;
-    }
-
-    private bool CheckPlayerHit() //funktioniert nocht nicht
-    {
-        if(m_objectToChase != null && PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) //funktioniert nicht wenn borb aktuell nosedive macht und ein anderer gegner den spieler getroffen hat --> aber fürs erste ein quick fix
-        {
-            return true;
-        }
-        return false;
-        /*
-        Vector2 ColliderBox = new Vector2(m_knockBackCollider.size.x * m_knockBackCollider.transform.localScale.x, m_knockBackCollider.size.y * m_knockBackCollider.transform.localScale.y);
-        Collider2D[] col = Physics2D.OverlapBoxAll(m_knockBackCollider.transform.position, ColliderBox, 0); 
-        Debug.Log(col.Length);
-        foreach (Collider2D collider in col)
-        {
-            Debug.Log(collider.gameObject);
-            if (collider.CompareTag("Player"))
-            {
-                Debug.Log("hit player");
-                return true;
-            }
-        }
-        return false;
-        */
     }
 
     private float GetDistanceToGround(Vector3 _position)
