@@ -37,12 +37,23 @@ public class Lever : MonoBehaviour
         m_interactable.conditionDelegate -= CheckCondition;
     }
 
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private bool CheckCondition()
+    {
+        return m_interactable.player && m_interactable.player.GetComponent<PlayerInventory>().normalKeyCount >= m_requiredKeyCount;
+    }
+
     //************************//
     //    Public Functions    //
     //************************//
 
-    public bool CheckCondition()
+    public void Use()
     {
-        return m_interactable.player && m_interactable.player.GetComponent<PlayerInventory>().normalKeyCount >= m_requiredKeyCount;
+        if (m_interactable.player) {
+            m_interactable.player.GetComponent<PlayerInventory>().RemoveNormalKeys(m_requiredKeyCount);
+        }
     }
 }
