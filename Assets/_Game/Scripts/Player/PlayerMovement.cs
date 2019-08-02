@@ -106,9 +106,6 @@ public class PlayerMovement : MonoBehaviour
         UpdateMovement();
         UpdateJump();
 
-        // Clamp vertical speed to maximum falling speed
-        m_rb.velocity = new Vector2(m_rb.velocity.x, Mathf.Clamp(m_rb.velocity.y, -m_maxFallingSpeed, float.MaxValue));
-
         m_lastContacts = m_actor.contacts;
     }
 
@@ -196,6 +193,10 @@ public class PlayerMovement : MonoBehaviour
 
         // Update velocity
         m_rb.velocity = new Vector2(horizontalVelocity, m_rb.velocity.y);
+
+        // Clamp vertical speed to maximum falling speed
+        m_rb.velocity = new Vector2(m_rb.velocity.x, Mathf.Clamp(m_rb.velocity.y, -m_maxFallingSpeed, float.MaxValue));
+
         m_inputState.lastMovement = movement;
     }
 
