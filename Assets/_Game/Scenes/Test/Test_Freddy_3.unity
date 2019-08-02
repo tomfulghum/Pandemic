@@ -1467,6 +1467,12 @@ MonoBehaviour:
   m_enemy: {fileID: 8639581624216961065}
   m_enabled: 1
   m_force: 12
+  m_anim: {fileID: 0}
+  m_onSuccesfulHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!61 &879622363
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1540,6 +1546,12 @@ MonoBehaviour:
   m_enemy: {fileID: 0}
   m_enabled: 1
   m_force: 30
+  m_anim: {fileID: 0}
+  m_onSuccesfulHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!61 &893197518
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3170,7 +3182,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 6
 --- !u!114 &1561935062
 MonoBehaviour:
@@ -4336,7 +4347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 6
 --- !u!95 &2731464159554457663
 Animator:
@@ -4476,7 +4486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 6
 --- !u!114 &4960312879962886750
 MonoBehaviour:
@@ -5035,7 +5044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 1
   m_maxHealth: 6
 --- !u!61 &8639581624216961066
 BoxCollider2D:
