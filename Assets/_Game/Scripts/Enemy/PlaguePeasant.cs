@@ -31,13 +31,15 @@ public class PlaguePeasant : MonoBehaviour
     [SerializeField] private float m_movementSpeed = 1f;
 
     [SerializeField] private float m_minShootDistance = 10f;
+    [SerializeField] private List<int> m_AimAngles;
+    [SerializeField] private List<int> m_ThrowForces;
     [SerializeField] private float m_projectileSpeed = 15f;
     [SerializeField] private GameObject m_projectile;
 
     [SerializeField] private Transform m_projectileStartPos;
     [SerializeField] private GameObject m_attackHitBox;
 
-    [SerializeField] private LayerMask m_sightBlockingLayers;
+    [SerializeField] private LayerMask m_sightBlockingLayers = default;
 
     //ranged attack evtl erst triggern wenn der spieler eine gewisse distanz vom enemy hat
     //CheckGroundAhead //--> bool use intelligent edgemovement?
@@ -63,7 +65,7 @@ public class PlaguePeasant : MonoBehaviour
     private MovementState m_currentMovementState = MovementState.Decide; 
     private MovementDirection m_currentMovementDirection = MovementDirection.Left;
 
-    private float m_perceptionRadius = 15f;
+    private float m_perceptionRadius = 30f;
     private float m_perceptionAngle = 15f;
 
     private int m_directionCounter;
@@ -184,12 +186,13 @@ public class PlaguePeasant : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    void SetMovementState()
+    private void SetMovementState()
     {
         m_objectToChase = PlayerInSight(); //attack einplanen
         m_player = PlayerInPercetpionRadius();
         if (m_player != null && m_objectToChase == null && m_rangedAttackOnCooldown == false && Vector2.Distance(m_player.position, transform.position) > m_minShootDistance) //nur wenn spieler weit genug von plauge peasant weg ist schießt er
         {
+            //ShootProjectile(); //test für targeting
             m_currentMovementState = MovementState.RangedAttack;
             if (m_player.position.x > transform.position.x)
                 m_currentMovementDirection = MovementDirection.Right;
@@ -210,27 +213,60 @@ public class PlaguePeasant : MonoBehaviour
         }
     }
 
-    IEnumerator RangedAttack()
+    private IEnumerator RangedAttack()
     {
         m_rangedAttackActive = true;
         GetComponent<Animator>().SetTrigger("RangedAttack");
         m_rangedAttackOnCooldown = true;
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.001f);
         m_rangedAttackOnCooldown = false;
     }
 
-    void ShootProjectile() //sollte ein start transform (mundposition bekommen)
+    private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
         GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
-        if (currentMovementDirection == MovementDirection.Left)
-            projectile.GetComponent<Rigidbody2D>().velocity = Vector2.left * m_projectileSpeed;
-        else
-            projectile.GetComponent<Rigidbody2D>().velocity = Vector2.right * m_projectileSpeed;
+        projectile.GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+        //if (currentMovementDirection == MovementDirection.Left)
+        //    projectile.GetComponent<Rigidbody2D>().velocity = Vector2.left * m_projectileSpeed;
+        //else
+        //    projectile.GetComponent<Rigidbody2D>().velocity = Vector2.right * m_projectileSpeed;
         m_rangedAttackActive = false;
     }
 
+    private Vector2 CalculateOptimalThrow()
+    {
+        Vector2 launchVelocity = Vector2.zero;
+        float minDistanceToPlayer = Mathf.Infinity;
+        foreach(int force in m_ThrowForces)
+        {
+            foreach(int angle in m_AimAngles)
+            {
+                if (currentMovementDirection == MovementDirection.Right)
+                {
+                    Vector2 landingPosition = CalculateThrowLandingPosition(m_projectileStartPos.position, new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force);
+                    if(Vector2.Distance(landingPosition, m_player.position) < minDistanceToPlayer)
+                    {
+                        launchVelocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force;
+                        minDistanceToPlayer = Vector2.Distance(landingPosition, m_player.position);
+                    }
+                }               
+                else
+                {
+                    Vector2 landingPosition = CalculateThrowLandingPosition(m_projectileStartPos.position, new Vector2(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force);
+                    if (Vector2.Distance(landingPosition, m_player.position) < minDistanceToPlayer)
+                    {
+                        launchVelocity = new Vector2(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force;
+                        minDistanceToPlayer = Vector2.Distance(landingPosition, m_player.position);
+                    }
+                }             
+            }
+        }
+        return launchVelocity;
+    }
 
-    Transform PlayerInPercetpionRadius()
+
+    private Transform PlayerInPercetpionRadius()
     {
         Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_perceptionRadius);
         for (int i = 0; i < colliderInRange.Length; i++)
@@ -260,7 +296,7 @@ public class PlaguePeasant : MonoBehaviour
         return null;
     }
 
-    Transform PlayerInSight()
+    private Transform PlayerInSight()
     {
         Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_chaseRadius);
         for (int i = 0; i < colliderInRange.Length; i++)
@@ -276,7 +312,7 @@ public class PlaguePeasant : MonoBehaviour
         return null;
     }
 
-    void ChangeDirection()
+    private void ChangeDirection()
     {
         if (currentMovementDirection == MovementDirection.Left)
             m_currentMovementDirection = MovementDirection.Right;
@@ -285,7 +321,7 @@ public class PlaguePeasant : MonoBehaviour
         m_directionCounter = 150 + Random.Range(0, 150);
     }
 
-    bool CheckGroundAhead()
+    private bool CheckGroundAhead()
     {
         RaycastHit2D hit;
         if (currentMovementDirection == MovementDirection.Left)
@@ -295,5 +331,33 @@ public class PlaguePeasant : MonoBehaviour
         if (hit.collider != null)
             return true;
         return false;
+    }
+
+    private Vector2 CalculateThrowLandingPosition(Vector2 _startPosition, Vector2 _launchVelocity)
+    {
+        //DotParent.transform.position = _startPosition;
+        float timeBetweenDots = 0.08f; //dafür variable im editor erstellen
+        int numOfChecks = 0;
+        bool hitSmth = false;
+        float throwTime = 0f;
+        while (hitSmth == false && numOfChecks < 50) //30 = max num of checks
+        {
+            numOfChecks++;
+            Vector2 StartPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
+            throwTime += timeBetweenDots;
+            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
+            float raycastLength = (targetPosition - StartPosition).magnitude;
+            RaycastHit2D hit = Physics2D.Raycast(StartPosition, (targetPosition - StartPosition), raycastLength, m_sightBlockingLayers); //anstatt sightblocking vllt movementblocking nehmen
+            if (hit.collider != null)
+            {
+                return hit.point;
+            }
+        }
+        return Vector2.zero; ;
+    }
+
+    private Vector2 CalculatePosition(float _elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition)
+    {
+        return Physics2D.gravity * _elapsedTime * _elapsedTime * 0.5f + _launchVelocity * _elapsedTime + _initialPosition;
     }
 }
