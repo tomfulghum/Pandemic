@@ -47,6 +47,7 @@ public class MenuManager : MonoBehaviour
         }
 
         while (loadSceneAsync != null && !loadSceneAsync.isDone) {
+            Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress);
             yield return null;
         }
 
