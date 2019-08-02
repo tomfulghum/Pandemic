@@ -17,7 +17,7 @@ public class EmittParticlesSimultaneously : MonoBehaviour
     void Update()
     {
         float probability = Random.Range(0.0f, 1.0f);
-        Debug.Log(probability);
+        //Debug.Log(probability);
         if (probability > 0.8f && !sys1.IsAlive() && !sys2.IsAlive()) {
             sys1.Play();
             sys2.Play();
