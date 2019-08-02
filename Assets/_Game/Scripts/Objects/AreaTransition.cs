@@ -26,7 +26,6 @@ public class AreaTransition : MonoBehaviour
 
     private AreaController m_controller = default;
     private AreaTransitionManager manager;
-    private bool transitioning = false;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -39,9 +38,8 @@ public class AreaTransition : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!transitioning) {
+        if (collision.CompareTag("Player")) {
             manager.Transition(m_controller.area, m_transitionArea, m_transitionId);
-            transitioning = true;
         }
     }
 }
