@@ -124,6 +124,7 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private int m_numOfButtonPresses = 10;
     //[SerializeField] private float m_contrAdditionalPullAngle = 30f; //angles können eigentlich int sein
     [SerializeField] private bool m_usingController = false;
+    [SerializeField] private bool m_useSmartTargetingForEverything = false;
 
     //**********************//
     //    Private Fields    //
@@ -735,8 +736,8 @@ public class PlayerHook : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (hookPointsInRange[i].transform.position - transform.position), rayCastLength, m_hookPointFilter);
             if (hit == false)
             {
-                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive)
-                { //noch keine soute lösung
+                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive) //noch keine sogute lösung
+                { 
                     hookPointsInSight.Add(hookPointsInRange[i]);
                 }
                 else if (!hookPointsInRange[i].CompareTag("Throwable"))
@@ -754,7 +755,11 @@ public class PlayerHook : MonoBehaviour
             Vector2 playerToColliderDirection = (hookPointsInSight[i].transform.position - transform.position).normalized;
             float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
 
-            if (angleInDeg < m_angle || Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius)
+            if (angleInDeg < m_angle || (Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius && m_useSmartTargetingForEverything))
+            {
+                hookPointsInCone.Add(hookPointsInSight[i]);
+            }
+            if (angleInDeg < m_angle || (Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius && hookPointsInSight[i].CompareTag("Throwable")))
             {
                 hookPointsInCone.Add(hookPointsInSight[i]);
             }
