@@ -4030,6 +4030,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlaguePeasant
       objectReference: {fileID: 0}
+    - target: {fileID: 1537124147410351526, guid: 78f08bbd4dd89054f98abee5dc41dcca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1537124147410351544, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4713,12 +4718,12 @@ PrefabInstance:
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -37.05
+      value: 2.16
       objectReference: {fileID: 0}
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.37
+      value: 23.94
       objectReference: {fileID: 0}
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}

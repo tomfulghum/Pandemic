@@ -223,7 +223,7 @@ public class PlayerHook : MonoBehaviour
                 else if ((m_input.player.GetButtonUp(m_input.hookButton)) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook())))
                 {
                     if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null)
-                    { 
+                    {
                         ThrowObject(m_throwVelocity);
                     }
                     else
@@ -602,7 +602,7 @@ public class PlayerHook : MonoBehaviour
             cancelCondition = true;
         }
 
-        if (m_rb.velocity == Vector2.zero && m_startPosition != (Vector2)transform.position) 
+        if (m_rb.velocity == Vector2.zero && m_startPosition != (Vector2)transform.position)
         {
             cancelCondition = true;
         }
@@ -737,7 +737,7 @@ public class PlayerHook : MonoBehaviour
             if (hit == false)
             {
                 if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive) //noch keine sogute lösung
-                { 
+                {
                     hookPointsInSight.Add(hookPointsInRange[i]);
                 }
                 else if (!hookPointsInRange[i].CompareTag("Throwable"))
@@ -809,7 +809,8 @@ public class PlayerHook : MonoBehaviour
     {
         for (int i = 0; i < m_totalHookPoints.Count; i++)
         {
-            m_totalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
+            if (m_totalHookPoints[i] != null)
+                m_totalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
@@ -853,13 +854,13 @@ public class PlayerHook : MonoBehaviour
 
     public void CancelHook()
     {
+        DeactivateHook(true);
+        GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
         if (m_pickedUpObject != null)
         {
             m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
             m_pickedUpObject = null;
         }
-        DeactivateHook(true);
-        GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
     }
 }
 
