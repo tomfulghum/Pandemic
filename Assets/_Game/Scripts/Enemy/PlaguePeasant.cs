@@ -35,6 +35,7 @@ public class PlaguePeasant : MonoBehaviour
     [SerializeField] private List<int> m_ThrowForces;
     [SerializeField] private float m_projectileSpeed = 15f;
     [SerializeField] private GameObject m_projectile;
+    [SerializeField] private GameObject m_pickUpProjectile;
 
     [SerializeField] private Transform m_projectileStartPos;
     [SerializeField] private GameObject m_attackHitBox;
@@ -225,7 +226,11 @@ public class PlaguePeasant : MonoBehaviour
 
     private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
-        GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+        GameObject projectile = new GameObject();
+        //if(Random.Range(0f, 1f) > 0.7f)
+            projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+        //else
+            //projectile = Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
         projectile.GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
         //if (currentMovementDirection == MovementDirection.Left)
         //    projectile.GetComponent<Rigidbody2D>().velocity = Vector2.left * m_projectileSpeed;

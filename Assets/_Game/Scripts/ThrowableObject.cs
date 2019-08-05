@@ -72,6 +72,10 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Inactive:
                 {
+                    if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
+                    {
+                        m_rb.velocity = Vector2.zero; //könnte das object dadurch an der decke kleben?
+                    }
                     break;
                 }
             case ThrowableState.Thrown:
@@ -127,6 +131,7 @@ public class ThrowableObject : MonoBehaviour
 
     public void PickUp(Transform _target, float _speed, float _targetReachedTolerance)
     {
+        m_rb.velocity = Vector2.zero;
         m_objectToFollow = _target;
         m_currentObjectState = ThrowableState.TravellingToPlayer;
         m_speed = _speed;

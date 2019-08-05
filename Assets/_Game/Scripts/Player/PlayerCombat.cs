@@ -29,8 +29,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private int m_maxHealth = 10;
     [SerializeField] private Transform m_respawnPoint;
     [SerializeField] private Text m_healthVisualization;
+    [SerializeField] private bool m_allowMeleeAttack = false;
     [SerializeField] private float m_attackRange = 2.5f;
-    [SerializeField] private float m_smashSpeed = 20f;
+    //[SerializeField] private float m_smashSpeed = 20f;
     [SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
     [SerializeField] private float m_controllerTolerance = 0.5f;
 
@@ -60,7 +61,7 @@ public class PlayerCombat : MonoBehaviour
     private AttackState m_currentAttackState = AttackState.None;
 
 
-    private int m_CurrentHealth;
+    private int m_currentHealth;
     private float m_attackAngle = 25f; //veraltet nur noch füs visuelle da
 
     private bool m_attacking;
@@ -103,7 +104,7 @@ public class PlayerCombat : MonoBehaviour
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
     private void Start()
     {
-        m_CurrentHealth = m_maxHealth;
+        m_currentHealth = m_maxHealth;
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_enemiesHit = new List<Collider2D>();
         m_xAxis = Input.GetAxis("Horizontal");
@@ -125,7 +126,7 @@ public class PlayerCombat : MonoBehaviour
                 StartCoroutine(Dash());
             }
 
-            if ((m_input.player.GetButtonDown(m_input.attackButton) || m_alreadyAttacked) && (m_currentAttackState == AttackState.None || m_currentAttackState == AttackState.Attack) && m_attackCoolDownActive == false)
+            if (((m_input.player.GetButtonDown(m_input.attackButton) || m_alreadyAttacked) && (m_currentAttackState == AttackState.None || m_currentAttackState == AttackState.Attack) && m_attackCoolDownActive == false) && m_allowMeleeAttack)
             {
                 if (m_comboActive)
                 {
@@ -244,7 +245,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 m_facingLeft = false;
             }
-            m_xAxis = currentJoystickDirection;
+            m_xAxis = currentJoystickDirection; //wofür ?
         }
     }
 
@@ -492,16 +493,20 @@ public class PlayerCombat : MonoBehaviour
 
     private void TakeDamage()
     {
-        m_CurrentHealth--;
-        if (m_healthVisualization != null)
-            m_healthVisualization.text = "Health: " + m_CurrentHealth + " / " + m_maxHealth;
-        if (m_CurrentHealth <= 0)
+        m_currentHealth--;
+        UpdateHealthVisual();
+        if (m_currentHealth <= 0)
         {
             transform.position = m_respawnPoint.position;
-            m_CurrentHealth = m_maxHealth;
-            if (m_healthVisualization != null)
-                m_healthVisualization.text = "Health: " + m_CurrentHealth + " / " + m_maxHealth;
+            m_currentHealth = m_maxHealth;
+            UpdateHealthVisual();
         }
+    }
+
+    void UpdateHealthVisual()
+    {
+        if (m_healthVisualization != null)
+            m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_maxHealth;
     }
 
     private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
@@ -587,6 +592,15 @@ public class PlayerCombat : MonoBehaviour
             }
             m_knockbackCoroutine = StartCoroutine(KnockBack(_knockBackOrigin, _knockBackForce, _enemy));
         }
+    }
+
+    public void HealUp(int _healValue)
+    {
+        if ((m_currentHealth + _healValue) <= m_maxHealth)
+            m_currentHealth += _healValue;
+        else
+            m_currentHealth = m_maxHealth;
+        UpdateHealthVisual();
     }
 
     //GetHit //Stagger ...
