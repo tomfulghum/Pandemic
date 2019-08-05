@@ -216,14 +216,11 @@ public class PlayerCombat : MonoBehaviour
         m_dashCoolDownActive = true;
         Vector2 velocity = Vector2.zero;
         m_currentAttackState = AttackState.Dash;
+        SetFacingDirection();
         if (m_facingLeft)
-        {
             velocity = Vector2.left; // immer auf die timescale achten wegen dem hook / Time.timeScale --> kann man überhaupt während einem timeslow dashen?
-        }
         else
-        {
             velocity = Vector2.right;
-        }
 
         m_pm.DisableUserInput(true);
         m_pm.externalVelocity = velocity * m_dashSpeed;

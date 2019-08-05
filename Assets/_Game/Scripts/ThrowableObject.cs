@@ -17,6 +17,7 @@ public class ThrowableObject : MonoBehaviour
     //************************//
 
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
+    [SerializeField] private bool m_destroyOnImpact = false;
 
     //******************//
     //    Properties    //
@@ -75,7 +76,7 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Thrown:
                 {
-                    CheckEnemyHit();
+                    CheckEnemyHit(); //vllt allgemein kollissionsüberprüfung machen
                     GetComponent<SpriteRenderer>().color = Color.yellow;
                     if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
                     {
@@ -83,6 +84,8 @@ public class ThrowableObject : MonoBehaviour
                         m_rb.gravityScale = 1f;
                         m_currentObjectState = ThrowableState.Inactive;
                         GetComponent<SpriteRenderer>().color = Color.blue;
+                        if (m_destroyOnImpact)
+                            Destroy(gameObject);
                     }
                     break;
                 }

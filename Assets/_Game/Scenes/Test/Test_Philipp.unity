@@ -2552,7 +2552,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Health: 10/10'
+  m_Text: 'Health: 10 / 10'
 --- !u!222 &1095084045
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4922,6 +4922,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_contactFilter.above.m_Bits
       value: 2304
+      objectReference: {fileID: 0}
+    - target: {fileID: 6374442912641036241, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
+        type: 3}
+      propertyPath: m_destroyOnImpact
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf85e7df2a3b90b4f9421ec368e0b54a, type: 3}
