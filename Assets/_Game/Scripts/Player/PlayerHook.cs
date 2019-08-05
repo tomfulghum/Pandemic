@@ -755,11 +755,7 @@ public class PlayerHook : MonoBehaviour
             Vector2 playerToColliderDirection = (hookPointsInSight[i].transform.position - transform.position).normalized;
             float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
 
-            if (angleInDeg < m_angle || (Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius && m_useSmartTargetingForEverything))
-            {
-                hookPointsInCone.Add(hookPointsInSight[i]);
-            }
-            if (angleInDeg < m_angle || (Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius && hookPointsInSight[i].CompareTag("Throwable")))
+            if (angleInDeg < m_angle || (Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius && (hookPointsInSight[i].CompareTag("Throwable") || m_useSmartTargetingForEverything)))
             {
                 hookPointsInCone.Add(hookPointsInSight[i]);
             }
