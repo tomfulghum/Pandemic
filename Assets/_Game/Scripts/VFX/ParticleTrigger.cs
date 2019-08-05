@@ -20,7 +20,7 @@ public class ParticleTrigger : MonoBehaviour
             Vector2 newPos = collisionEvents[i].intersection;
             GameObject obj = Instantiate(partSysOnCollision, newPos, transform.rotation);
             obj.GetComponent<ParticleSystem>().Play();
-            Debug.Log("yey");
+            //Debug.Log("yey");
         }
     }
 }
