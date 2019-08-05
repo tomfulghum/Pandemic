@@ -502,6 +502,8 @@ public class PlayerCombat : MonoBehaviour
         {
             transform.position = m_respawnPoint.position;
             m_CurrentHealth = m_maxHealth;
+            if (m_healthVisualization != null)
+                m_healthVisualization.text = "Health: " + m_CurrentHealth + " / " + m_maxHealth;
         }
     }
 

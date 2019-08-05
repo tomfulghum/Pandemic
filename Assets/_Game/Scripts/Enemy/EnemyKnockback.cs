@@ -15,7 +15,7 @@ public class EnemyKnockback : MonoBehaviour
     {
         if (m_enabled && collision.CompareTag("Player")) {
             if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collision.gameObject.GetComponent<PlayerCombat>().currentAttackState != PlayerCombat.AttackState.Smash) { //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
-                collision.gameObject.GetComponent<PlayerCombat>().GetHit(transform.position, m_force, m_enemy); //10 --> besseren fix finden
+                collision.gameObject.GetComponent<PlayerCombat>().GetHit(transform.parent.position, m_force, m_enemy); //10 --> besseren fix finden
                 collision.gameObject.GetComponent<PlayerHook>().CancelHook();
                 m_onSuccesfulHit?.Invoke();
                 if (m_anim != null) {
