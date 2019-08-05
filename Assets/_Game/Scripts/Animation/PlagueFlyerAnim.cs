@@ -4,56 +4,74 @@ using UnityEngine;
 
 public class PlagueFlyerAnim : MonoBehaviour
 {
-    public GameObject Skull;
-    Borb enemy; // in das richtige script um
-    Animator anim;
-    bool TriggeredDeath = false;
-    // Start is called before the first frame update
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] private GameObject m_skull;
+
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private bool m_triggeredDeath = false;
+
+    private Borb m_enemy; 
+    private Animator m_anim;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     void Start()
     {
-        enemy = GetComponent<Borb>();
-        anim = GetComponent<Animator>();
+        m_enemy = GetComponent<Borb>();
+        m_anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        if (m_enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Dead && m_triggeredDeath == false)
         {
-            anim.SetTrigger("Death");
-            TriggeredDeath = true;
+            m_anim.SetTrigger("Death");
+            m_triggeredDeath = true;
         }
 
-        if (enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Hit)
-            anim.SetBool("Hit", true); //später evtl trigger
+        if (m_enemy.GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Hit)
+            m_anim.SetBool("Hit", true); //später evtl trigger
         else
-            anim.SetBool("Hit", false);
+            m_anim.SetBool("Hit", false);
 
-        if (enemy.currentMovementState == Borb.MovementState.Chase)
-            anim.SetFloat("AngryFlight", 1);
+        if (m_enemy.currentMovementState == Borb.MovementState.Chase)
+            m_anim.SetFloat("AngryFlight", 1);
         else
-            anim.SetFloat("AngryFlight", 0);
+            m_anim.SetFloat("AngryFlight", 0);
 
-        if (enemy.currentMovementState == Borb.MovementState.Nosedive)
-            anim.SetBool("Dive", true);
+        if (m_enemy.currentMovementState == Borb.MovementState.Nosedive)
+            m_anim.SetBool("Dive", true);
         else
-            anim.SetBool("Dive", false);
+            m_anim.SetBool("Dive", false);
 
-        if (enemy.currentMovementState == Borb.MovementState.Dazed)
-            anim.SetBool("Stuck", true);
+        if (m_enemy.currentMovementState == Borb.MovementState.Dazed)
+            m_anim.SetBool("Stuck", true);
         else
-            anim.SetBool("Stuck", false);
+            m_anim.SetBool("Stuck", false);
 
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
-        if (enemy.currentMovementDirection == Borb.MovementDirection.Left)
+        if (m_enemy.currentMovementDirection == Borb.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
         else
             GetComponent<SpriteRenderer>().flipX = true;
     }
 
-    void Death()
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private void Death()
     {
-        GameObject PlagueFlyerSkull = Instantiate(Skull, transform.position, transform.rotation);
+        GameObject PlagueFlyerSkull = Instantiate(m_skull, transform.position, transform.rotation);
         if (GetComponent<SpriteRenderer>().flipX == true)
         {
             PlagueFlyerSkull.GetComponent<SpriteRenderer>().flipX = true;
@@ -62,7 +80,7 @@ public class PlagueFlyerAnim : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
+    private void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
     {
         if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
