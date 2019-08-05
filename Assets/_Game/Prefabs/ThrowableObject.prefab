@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speedMultiplier: 1.3
+  m_maxThrowCount: 100
 --- !u!95 &6374442912641036245
 Animator:
   serializedVersion: 3

@@ -17,7 +17,7 @@ public class ThrowableObject : MonoBehaviour
     //************************//
 
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
-    [SerializeField] private bool m_destroyOnImpact = false;
+    [SerializeField] private int m_maxThrowCount = 1;
 
     //******************//
     //    Properties    //
@@ -36,6 +36,7 @@ public class ThrowableObject : MonoBehaviour
 
     private Transform m_objectToFollow;
     private float m_speed;
+    private int m_currentThrowCount;
     private float m_targetReachedTolerance;
     private Actor2D m_actor;
     private Rigidbody2D m_rb;
@@ -46,6 +47,7 @@ public class ThrowableObject : MonoBehaviour
 
     void Start()
     {
+        m_currentThrowCount = m_maxThrowCount;
         m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
     }
@@ -88,7 +90,8 @@ public class ThrowableObject : MonoBehaviour
                         m_rb.gravityScale = 1f;
                         m_currentObjectState = ThrowableState.Inactive;
                         GetComponent<SpriteRenderer>().color = Color.blue;
-                        if (m_destroyOnImpact)
+                        m_currentThrowCount--;
+                        if (m_currentThrowCount <= 0)
                             Destroy(gameObject);
                     }
                     break;
