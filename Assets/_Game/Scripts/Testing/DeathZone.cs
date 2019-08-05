@@ -28,7 +28,7 @@ public class DeathZone : MonoBehaviour
             {
                     v3OldPos = myPlayer.transform.position;
                     iFrames = 0;
-                    Debug.Log("Saved");
+                    //Debug.Log("Saved");
             }
     }
 
