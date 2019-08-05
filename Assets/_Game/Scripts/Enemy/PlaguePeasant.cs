@@ -226,16 +226,10 @@ public class PlaguePeasant : MonoBehaviour
 
     private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
-        GameObject projectile = new GameObject();
-        //if(Random.Range(0f, 1f) > 0.7f)
-            projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
-        //else
-            //projectile = Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
-        projectile.GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
-        //if (currentMovementDirection == MovementDirection.Left)
-        //    projectile.GetComponent<Rigidbody2D>().velocity = Vector2.left * m_projectileSpeed;
-        //else
-        //    projectile.GetComponent<Rigidbody2D>().velocity = Vector2.right * m_projectileSpeed;
+        if(Random.Range(0f, 1f) < 0.7f)
+            Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+        else
+            Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
         m_rangedAttackActive = false;
     }
 

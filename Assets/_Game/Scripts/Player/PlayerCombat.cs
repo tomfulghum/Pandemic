@@ -586,6 +586,8 @@ public class PlayerCombat : MonoBehaviour
             //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
             //was ist mit attacksequence usw.? die auch stoppen?
             //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
+            
+            //evtl stop coroutine dash //+ hier den check machen ob der spieler geknockbacked wird 
             if (m_knockbackCoroutine != null)
             {
                 StopCoroutine(m_knockbackCoroutine);

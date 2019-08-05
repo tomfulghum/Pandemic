@@ -853,7 +853,11 @@ public class PlayerHook : MonoBehaviour
 
     public void CancelHook()
     {
-        //StopAllCoroutines(); --> brauch ich das? jump back?
+        if (m_pickedUpObject != null)
+        {
+            m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
+            m_pickedUpObject = null;
+        }
         DeactivateHook(true);
         GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
     }

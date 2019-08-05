@@ -187,8 +187,8 @@ MonoBehaviour:
   m_chaseRadius: 3
   m_movementSpeed: 1
   m_minShootDistance: 10
-  m_AimAngles: 
-  m_ThrowForces: 
+  m_AimAngles: 0a000000140000001e00000028000000320000003c00000046000000500000005a00000064000000
+  m_ThrowForces: 0a0000000f00000014000000190000001e00000023000000280000002d000000
   m_projectileSpeed: 15
   m_projectile: {fileID: 4965027916167049090, guid: e2a4965312517f74f8a7fa91dd4b38a9,
     type: 3}
@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537124148537606515}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.18, y: 1.14, z: -10.631735}
+  m_LocalPosition: {x: 1.18, y: 1.14, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 5}
   m_Children: []
   m_Father: {fileID: 1537124147410351544}
