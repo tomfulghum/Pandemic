@@ -5,14 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //[SerializeField] private List<Area> m_areas = default;
+
+    public static GameManager Instance
     {
-        
+        get;
+        private set;
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameState state
+    {
+        get { return m_state; }
+    }
+
+    private GameState m_state;
+
+    private void Awake()
+    {
+        if (Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else {
+            Destroy(this);
+        }
+
+        m_state = new GameState();
+    }
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

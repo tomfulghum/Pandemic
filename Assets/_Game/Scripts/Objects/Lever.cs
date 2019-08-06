@@ -11,11 +11,13 @@ public class Lever : MonoBehaviour
     //**********************//
 
     [SerializeField] private int m_requiredKeyCount = 0;
+    [SerializeField] private bool m_oneTimeUse = true;
 
     //**********************//
     //    Private Fields    //
     //**********************//
 
+    private LeverState m_state;
     private Interactable m_interactable;
 
     //*******************************//
@@ -24,6 +26,7 @@ public class Lever : MonoBehaviour
 
     private void Awake()
     {
+        m_state = new LeverState();
         m_interactable = GetComponent<Interactable>();
     }
 
@@ -52,8 +55,29 @@ public class Lever : MonoBehaviour
 
     public void Use()
     {
+        if (m_oneTimeUse) {
+            m_state.used = true;
+            m_interactable.enabled = false;
+        }
+    }
+
+    public void RemoveKeysFromPlayer()
+    {
         if (m_interactable.player) {
             m_interactable.player.GetComponent<PlayerInventory>().RemoveNormalKeys(m_requiredKeyCount);
         }
+    }
+
+    public void SetState(LeverState _state)
+    {
+        m_state = _state;
+        if (m_state.used) {
+            m_interactable.SimulateInteraction();
+        }
+    }
+
+    public LeverState GetState()
+    {
+        return m_state;
     }
 }

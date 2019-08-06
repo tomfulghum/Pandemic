@@ -47,12 +47,16 @@ public class MenuManager : MonoBehaviour
         }
 
         while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-            Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress);
+            Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress * 100);
             yield return null;
         }
 
         AreaController controller = FindObjectOfType<AreaController>();
-        controller.InitializeArea(player, 0);
+        if (controller) {
+            controller.InitializeArea(player, 0);
+        } else {
+            Debug.LogErrorFormat("{0}: Could not find AreaController!", name);
+        }
         player.SetActive(true);
     }
 

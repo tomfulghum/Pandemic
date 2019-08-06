@@ -25,7 +25,7 @@ public class AreaTransition : MonoBehaviour
     //**********************//
 
     private AreaController m_controller = default;
-    private AreaTransitionManager manager;
+    private AreaTransitionManager m_manager;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -33,13 +33,13 @@ public class AreaTransition : MonoBehaviour
 
     private void Start()
     {
-        manager = AreaTransitionManager.Instance;
+        m_manager = AreaTransitionManager.Instance;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) {
-            manager.Transition(m_controller.area, m_transitionArea, m_transitionId);
+            m_manager.Transition(m_controller.area, m_transitionArea, m_transitionId);
         }
     }
 }

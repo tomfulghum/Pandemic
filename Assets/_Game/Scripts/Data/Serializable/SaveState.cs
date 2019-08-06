@@ -2,7 +2,9 @@
 [System.Serializable]
 public class SaveState
 {
-    public Area area;
-    public int transitionId;
+
+
+    public Area currentArea;
+    public int currentTransitionId;
     public int score;
 }

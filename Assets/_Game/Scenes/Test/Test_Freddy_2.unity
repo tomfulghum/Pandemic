@@ -1477,6 +1477,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
         type: 3}
+      propertyPath: m_normalKeys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_levers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
       propertyPath: m_area
       value: 
       objectReference: {fileID: 11400000, guid: d8c135e42439c894cb9559e569916b08,
@@ -1491,6 +1501,16 @@ PrefabInstance:
       propertyPath: m_areaTransitions.Array.data[1]
       value: 
       objectReference: {fileID: 691468014}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_levers.Array.data[0]
+      value: 
+      objectReference: {fileID: 7730400634861071720}
+    - target: {fileID: 4539053430607678168, guid: 03c61d6974fb13549842843e3633b0bf,
+        type: 3}
+      propertyPath: m_normalKeys.Array.data[0]
+      value: 
+      objectReference: {fileID: 5194107419182736586}
     - target: {fileID: 4539053430607678169, guid: 03c61d6974fb13549842843e3633b0bf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1607,6 +1627,12 @@ MonoBehaviour:
   m_enemy: {fileID: 8639581624216961065}
   m_enabled: 1
   m_force: 12
+  m_anim: {fileID: 0}
+  m_onSuccesfulHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!61 &879622363
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1680,6 +1706,12 @@ MonoBehaviour:
   m_enemy: {fileID: 0}
   m_enabled: 1
   m_force: 30
+  m_anim: {fileID: 0}
+  m_onSuccesfulHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!61 &893197518
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2990,7 +3022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 6
 --- !u!114 &1561935062
 MonoBehaviour:
@@ -4150,7 +4181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 6
 --- !u!95 &2731464159554457663
 Animator:
@@ -4290,7 +4320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 0
   m_maxHealth: 6
 --- !u!114 &4960312879962886750
 MonoBehaviour:
@@ -4444,6 +4473,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5e1bddf050fe954b9be1aca03d41048, type: 3}
+--- !u!114 &5194107419182736586 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5194107420418022268, guid: b5e1bddf050fe954b9be1aca03d41048,
+    type: 3}
+  m_PrefabInstance: {fileID: 5194107419182736585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a46b9c052f0aa244aa5ac3c95131e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5604368767054617376
 Transform:
   m_ObjectHideFlags: 0
@@ -4800,6 +4841,18 @@ PrefabInstance:
       objectReference: {fileID: 76259067}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 716fae43c977e924b931b6eeb720dbf7, type: 3}
+--- !u!114 &7730400634861071720 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7730400636914639044, guid: 716fae43c977e924b931b6eeb720dbf7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7730400634861071719}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d18951f90b91e459db13dee33a2eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8395664884270402695
 GameObject:
   m_ObjectHideFlags: 0
@@ -4849,7 +4902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_contactDamage: 1
   m_maxHealth: 6
 --- !u!61 &8639581624216961066
 BoxCollider2D:
