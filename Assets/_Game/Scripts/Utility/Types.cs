@@ -19,3 +19,6 @@ public enum CollisionDirection
     LEFT,
     RIGHT
 }
+
+// Used to assign unique identifiers to scriptable objects
+public class UniqueIdentifierAttribute : PropertyAttribute { }

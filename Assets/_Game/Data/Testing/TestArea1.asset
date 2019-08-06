@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
   m_Name: TestArea1
   m_EditorClassIdentifier: 
-  id: 0
+  id: d6f10ab0c2a0e574fa7bdf76ed423f7c
   sceneName: Test_Freddy

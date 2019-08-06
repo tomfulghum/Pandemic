@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "NewArea", menuName = "Pandemic/Area")]
 public class Area : ScriptableObject
 {
-    public int id;
+    [UniqueIdentifier]
+    public string id;
     public string sceneName;
 }

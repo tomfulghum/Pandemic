@@ -3,11 +3,11 @@
 [System.Serializable]
 public class AreaState 
 {
-    public Area area;
+    public string area;
     public List<NormalKeyState> normalKeyStates;
     public List<LeverState> leverStates;
 
-    public AreaState(Area _area, List<NormalKey> _normalKeys, List<Lever> _levers)
+    public AreaState(string _area, List<NormalKey> _normalKeys, List<Lever> _levers)
     {
         area = _area;
 

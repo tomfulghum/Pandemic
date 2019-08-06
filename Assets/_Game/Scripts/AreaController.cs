@@ -36,7 +36,7 @@ public class AreaController : MonoBehaviour
 
     private void Awake()
     {
-        m_state = new AreaState(m_area, m_normalKeys, m_levers);
+        m_state = new AreaState(m_area.id, m_normalKeys, m_levers);
     }
 
     private void OnValidate()

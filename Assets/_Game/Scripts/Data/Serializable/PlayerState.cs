@@ -2,14 +2,14 @@
 [System.Serializable]
 public class PlayerState
 {
-    public Area currentArea;
-    public int currentTransitionId ;
-    public int score;
+    public string currentArea;
+    public int currentTransitionId;
+    public int normalKeyCount;
 
     public PlayerState(Area _currentArea)
     {
-        currentArea = _currentArea;
+        currentArea = _currentArea.id;
         currentTransitionId = 0;
-        score = 0;
+        normalKeyCount = 0;
     }
 }

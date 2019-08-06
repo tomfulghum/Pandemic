@@ -707,6 +707,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
+      propertyPath: m_areas.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 854585367}
@@ -721,5 +726,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8c135e42439c894cb9559e569916b08,
         type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_areas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d6f10ab0c2a0e574fa7bdf76ed423f7c,
+        type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_areas.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d8c135e42439c894cb9559e569916b08,
+        type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_menuSceneName
+      value: MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_startArea
+      value: 
+      objectReference: {fileID: 11400000, guid: d8c135e42439c894cb9559e569916b08,
+        type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_player
+      value: 
+      objectReference: {fileID: 854585367}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c11fa1eff3defda468637526b629958d, type: 3}
