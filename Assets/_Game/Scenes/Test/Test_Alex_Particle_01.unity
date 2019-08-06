@@ -2754,7 +2754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 172592277}
   - component: {fileID: 172592276}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spr_house_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2944,7 +2944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 215758704}
   - component: {fileID: 215758703}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spr_house_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7645,7 +7645,7 @@ GameObject:
   m_Component:
   - component: {fileID: 643835886}
   - component: {fileID: 643835885}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spr_rooftop_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7724,7 +7724,7 @@ GameObject:
   m_Component:
   - component: {fileID: 645076637}
   - component: {fileID: 645076636}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spr_house_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9250,7 +9250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 805326420}
   - component: {fileID: 805326419}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spr_house_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13553,7 +13553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1465627062}
   - component: {fileID: 1465627061}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spr_house_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
