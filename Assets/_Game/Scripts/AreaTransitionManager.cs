@@ -68,7 +68,7 @@ public class AreaTransitionManager : MonoBehaviour
         if (!SceneManager.GetSceneByName(_to).isLoaded) {
             loadSceneAsync = SceneManager.LoadSceneAsync(_to, LoadSceneMode.Additive);
             while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-                Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress * 100);
+                Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress * 100f);
                 yield return null;
             }
         }

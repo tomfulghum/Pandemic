@@ -4,10 +4,12 @@
 public class GameState
 {
     public List<AreaState> areaStates;
+    public PlayerState playerState;
 
-    public GameState()
+    public GameState(Area _currentArea)
     {
         areaStates = new List<AreaState>();
+        playerState = new PlayerState(_currentArea);
     }
 
     public AreaState GetAreaState(Area _area)

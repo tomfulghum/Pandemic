@@ -17,9 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/Test/Test_Freddy.unity
     guid: a0f52356655f7474ea18747123397b32
-  - enabled: 0
-    path: 
-    guid: ec87cfce6dd86d9438d7abf9dbeb3207
   - enabled: 1
     path: Assets/_Game/Scenes/Levels/Blockout_Rooftops.unity
     guid: afc75509293a0314ab65fe371f3dd0d3
@@ -35,4 +32,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/Test/Test_Daniel_Tilesets.unity
     guid: 8fb1fd099790eb14c9535e251e137bc5
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/Test_Freddy_2.unity
+    guid: b49f6dd49bbda4c43ab6e1e46697e41a
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/Test_Freddy_3.unity
+    guid: d73be84981125264a8cd06cdd1b6eb99
   m_configObjects: {}
