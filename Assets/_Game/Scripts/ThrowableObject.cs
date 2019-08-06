@@ -17,6 +17,7 @@ public class ThrowableObject : MonoBehaviour
     //************************//
 
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
+    [SerializeField] private int m_throwCount = 1;
 
     //******************//
     //    Properties    //
@@ -35,6 +36,7 @@ public class ThrowableObject : MonoBehaviour
 
     private Transform m_objectToFollow;
     private float m_speed;
+    private bool m_hitGround = false;
     private float m_targetReachedTolerance;
     private Actor2D m_actor;
     private Rigidbody2D m_rb;
@@ -71,11 +73,22 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Inactive:
                 {
+                    if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
+                    {
+                        m_rb.velocity = Vector2.zero; //könnte das object dadurch an der decke kleben?
+                        if(m_hitGround == false) //facotored den drop nicht mit ein / schlimm?
+                        {
+                            m_throwCount--;
+                            if (m_throwCount <= 0)
+                                Destroy(gameObject);
+                            m_hitGround = true;
+                        }
+                    }
                     break;
                 }
             case ThrowableState.Thrown:
                 {
-                    CheckEnemyHit();
+                    CheckEnemyHit(); //vllt allgemein kollissionsüberprüfung machen
                     GetComponent<SpriteRenderer>().color = Color.yellow;
                     if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
                     {
@@ -124,6 +137,7 @@ public class ThrowableObject : MonoBehaviour
 
     public void PickUp(Transform _target, float _speed, float _targetReachedTolerance)
     {
+        m_rb.velocity = Vector2.zero;
         m_objectToFollow = _target;
         m_currentObjectState = ThrowableState.TravellingToPlayer;
         m_speed = _speed;
@@ -137,6 +151,7 @@ public class ThrowableObject : MonoBehaviour
         m_rb.gravityScale *= Mathf.Pow(m_speedMultiplier, 2);
         m_currentObjectState = ThrowableState.Thrown;
         m_rb.isKinematic = false;
+        m_hitGround = false;
     }
 
     public void Drop()

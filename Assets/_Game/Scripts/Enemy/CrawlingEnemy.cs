@@ -37,6 +37,7 @@ public class CrawlingEnemy : MonoBehaviour
     [SerializeField] private float m_jumpForce = 15f; //um die selbe wurfbahn zu kriegen: doppelte jumpforce = vierfache gravity
     [SerializeField] private bool m_useIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
     [SerializeField] private bool m_useJump = true; //ändern in eine intelligenz skala von 1 - 10 oder so
+    [SerializeField] private bool m_useRandomJumping = true;
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
 
     //******************//
@@ -97,7 +98,7 @@ public class CrawlingEnemy : MonoBehaviour
     {
 
         if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving)
-        { 
+        {
             if (currentMovementState == MovementState.Decide)
             { // && CurrentMovementState != MovementState.Falling) //warum?
                 SetNextMove();
@@ -107,24 +108,6 @@ public class CrawlingEnemy : MonoBehaviour
                 SetMovementPattern();
             }
         }
-
-        /*
-        if (!m_enemy.frozen) {
-            m_rb.isKinematic = false;
-
-            if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving) { //GetComponent<Enemy>().CurrentEnemyState != Enemy.EnemyState.Dead
-                if (currentMovementState == MovementState.Decide) { // && CurrentMovementState != MovementState.Falling)
-                    SetNextMove();
-                }
-                if (currentMovementState != MovementState.Decide) {
-                    SetMovementPattern();
-                }
-            }
-        } else {
-            m_rb.isKinematic = true;
-            m_rb.velocity = Vector2.zero;
-        }
-        */
     }
 
     //*************************//

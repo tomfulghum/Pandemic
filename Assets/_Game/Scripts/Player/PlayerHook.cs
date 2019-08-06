@@ -57,7 +57,8 @@ public class PlayerHook : MonoBehaviour
         Hook,
         Attacking,
         Moving,
-        Disabled
+        Disabled,
+        Dead
     }
 
     public enum TimeSlow
@@ -123,6 +124,7 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private int m_numOfButtonPresses = 10;
     //[SerializeField] private float m_contrAdditionalPullAngle = 30f; //angles können eigentlich int sein
     [SerializeField] private bool m_usingController = false;
+    [SerializeField] private bool m_useSmartTargetingForEverything = false;
 
     //**********************//
     //    Private Fields    //
@@ -221,7 +223,7 @@ public class PlayerHook : MonoBehaviour
                 else if ((m_input.player.GetButtonUp(m_input.hookButton)) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook())))
                 {
                     if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null)
-                    { 
+                    {
                         ThrowObject(m_throwVelocity);
                     }
                     else
@@ -404,6 +406,7 @@ public class PlayerHook : MonoBehaviour
         bool CancelCondition = false;
         if (m_buttonPresses <= 0)
         {
+            //m_currentSelectedTarget.GetComponent<PullableObject>().Funktionsname();
             if (m_currentSelectedTarget.transform.parent != null && m_currentSelectedTarget.transform.parent.GetComponent<Enemy>() != null)
             { //hier kommt später die funktion hin die regelt was passiert wenn der spieler gewinnt
                 m_currentSelectedTarget.transform.parent.GetComponent<Enemy>().GetHit(transform.position, 15, 4); //4 evtl auch als parameter hit priority übergeben
@@ -599,7 +602,7 @@ public class PlayerHook : MonoBehaviour
             cancelCondition = true;
         }
 
-        if (m_rb.velocity == Vector2.zero && m_startPosition != (Vector2)transform.position) 
+        if (m_rb.velocity == Vector2.zero && m_startPosition != (Vector2)transform.position)
         {
             cancelCondition = true;
         }
@@ -733,8 +736,8 @@ public class PlayerHook : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (hookPointsInRange[i].transform.position - transform.position), rayCastLength, m_hookPointFilter);
             if (hit == false)
             {
-                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive)
-                { //noch keine soute lösung
+                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive) //noch keine sogute lösung
+                {
                     hookPointsInSight.Add(hookPointsInRange[i]);
                 }
                 else if (!hookPointsInRange[i].CompareTag("Throwable"))
@@ -752,7 +755,7 @@ public class PlayerHook : MonoBehaviour
             Vector2 playerToColliderDirection = (hookPointsInSight[i].transform.position - transform.position).normalized;
             float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
 
-            if (angleInDeg < m_angle || Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius)
+            if (angleInDeg < m_angle || (Vector2.Distance(transform.position, hookPointsInSight[i].transform.position) < m_safetyRadius && (hookPointsInSight[i].CompareTag("Throwable") || m_useSmartTargetingForEverything)))
             {
                 hookPointsInCone.Add(hookPointsInSight[i]);
             }
@@ -806,7 +809,8 @@ public class PlayerHook : MonoBehaviour
     {
         for (int i = 0; i < m_totalHookPoints.Count; i++)
         {
-            m_totalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
+            if (m_totalHookPoints[i] != null)
+                m_totalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 
@@ -850,9 +854,13 @@ public class PlayerHook : MonoBehaviour
 
     public void CancelHook()
     {
-        //StopAllCoroutines(); --> brauch ich das? jump back?
         DeactivateHook(true);
         GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
+        if (m_pickedUpObject != null)
+        {
+            m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
+            m_pickedUpObject = null;
+        }
     }
 }
 

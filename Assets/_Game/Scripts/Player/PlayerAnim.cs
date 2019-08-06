@@ -4,48 +4,75 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
-    bool FacingLeft;
 
-    Actor2D actor;
-    Rigidbody2D m_rb;
-    Animator anim;
-    // Start is called before the first frame update
-    void Start()
+    //**********************//
+    //    Private Fields    //
+    //**********************//
+
+    private bool m_facingLeft;
+
+    private Actor2D m_actor;
+    private Rigidbody2D m_rb;
+    private Animator m_anim;
+    private PlayerCombat m_pc;
+
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
+    private void Start()
     {
-        actor = GetComponent<Actor2D>();
+        m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        m_anim = GetComponent<Animator>();
+        m_pc = GetComponent<PlayerCombat>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         SetFacingDirection();
         if (Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f)
         {
-            anim.SetFloat("RunSpeed", m_rb.velocity.magnitude);
+            m_anim.SetFloat("RunSpeed", m_rb.velocity.magnitude);
         }
         else
         {
-            anim.SetFloat("RunSpeed", -0.1f);
+            m_anim.SetFloat("RunSpeed", -0.1f);
         }
+        if(m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
+        {
+            m_anim.SetBool("Dash", true);
+        } else
+        {
+            m_anim.SetBool("Dash", false);
+        }
+
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
-        if (FacingLeft == false)
+        if (m_facingLeft == false)
             GetComponent<SpriteRenderer>().flipX = false;
         else
             GetComponent<SpriteRenderer>().flipX = true;
     }
 
-    void SetFacingDirection() //only for anim //can differ from facing direc in player combat //should change later
+
+
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+
+    private void SetFacingDirection() //only for anim //can differ from facing direc in player combat //should change later
     {
         float CurrentJoystickDirection = Input.GetAxis("Horizontal");
         if (CurrentJoystickDirection < 0)
-            FacingLeft = true;
+            m_facingLeft = true;
         else if (CurrentJoystickDirection > 0)
-            FacingLeft = false;
+            m_facingLeft = false;
     }
 
-    void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
+    private void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
     {
         if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
