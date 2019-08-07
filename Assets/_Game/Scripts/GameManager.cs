@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     //************************//
 
     [SerializeField] private string m_menuSceneName = "";
-    [SerializeField] private Area m_startArea = default;
+    [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
-    [SerializeField] private List<Area> m_areas = default;
+    [SerializeField] private List<AreaData> m_areas = default;
 
     //******************//
     //    Properties    //
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         get { return m_state; }
     }
 
-    public Area currentArea { get; set; }
+    public SpawnPointData currentSpawnPoint { get; set; }
 
     //**********************//
     //    Private Fields    //
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
-        m_state = new GameState(m_startArea);
+        m_state = new GameState(m_startPoint);
         m_formatter = new BinaryFormatter();
         m_savePath = Application.persistentDataPath + "/savefile.sav";
     }
@@ -75,7 +75,11 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync(m_menuSceneName);
 
-        string loadSceneName = m_areas.Find(x => x.id == m_state.playerState.currentArea).sceneName;
+        if (currentSpawnPoint == null) {
+            currentSpawnPoint = m_startPoint;
+        }
+
+        string loadSceneName = currentSpawnPoint.area.sceneName;
 
         AsyncOperation loadSceneAsync = null;
         if (!SceneManager.GetSceneByName(loadSceneName).isLoaded) {
@@ -89,8 +93,7 @@ public class GameManager : MonoBehaviour
 
         AreaController controller = FindObjectOfType<AreaController>();
         if (controller) {
-            controller.InitializeArea(m_player, m_state.playerState.currentTransitionId);
-            currentArea = controller.area;
+            controller.InitializeArea(m_player, currentSpawnPoint);
         } else {
             Debug.LogErrorFormat("{0}: Could not find AreaController!", name);
         }
@@ -100,14 +103,28 @@ public class GameManager : MonoBehaviour
     private void SavePlayerState()
     {
         PlayerState playerState = m_state.playerState;
-        playerState.currentArea = currentArea.id;
-        playerState.currentTransitionId = 0;
+        playerState.currentSpawnPoint = currentSpawnPoint.id;
         playerState.normalKeyCount = m_player.GetComponent<PlayerInventory>().normalKeyCount;
     }
 
     private void LoadPlayerState()
     {
+        currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
         m_player.GetComponent<PlayerInventory>().AddNormalKeys(m_state.playerState.normalKeyCount);
+    }
+
+    private SpawnPointData FindSpawnPoint(string _id)
+    {
+        SpawnPointData spawnPoint = null;
+        foreach (var area in m_areas) {
+            spawnPoint = area.FindSpawnPoint(_id);
+
+            if (spawnPoint) {
+                break;
+            }
+        }
+
+        return spawnPoint;
     }
 
     //************************//
@@ -120,9 +137,10 @@ public class GameManager : MonoBehaviour
             FileStream file = File.Open(m_savePath, FileMode.Open);
             m_state = (GameState)m_formatter.Deserialize(file);
             file.Close();
+
+            LoadPlayerState();
         }
 
-        LoadPlayerState();
         StartCoroutine(LoadGameCoroutine());
     }
 

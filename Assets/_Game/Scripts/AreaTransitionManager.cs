@@ -45,7 +45,7 @@ public class AreaTransitionManager : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private IEnumerator TransitionCoroutine(string _from, string _to, int _transitionId, GameObject _player)
+    private IEnumerator TransitionCoroutine(string _from, string _to, SpawnPointData _spawnPoint, GameObject _player)
     {
         m_transitioning = true;
         float halfTransitionTime = m_transitionTime / 2f;
@@ -77,9 +77,9 @@ public class AreaTransitionManager : MonoBehaviour
         SceneManager.SetActiveScene(to);
 
         AreaController controller = FindObjectOfType<AreaController>();
-        controller.InitializeArea(_player, _transitionId);
-        GameManager.Instance.currentArea = controller.area;
+        controller.InitializeArea(_player, _spawnPoint);
 
+        GameManager.Instance.currentSpawnPoint = _spawnPoint;
         GameManager.Instance.SaveGame();
 
         _player.SetActive(true);
@@ -93,16 +93,16 @@ public class AreaTransitionManager : MonoBehaviour
     //    Public Functions    //
     //************************//
 
-    public void Transition(Area _fromArea, Area _toArea, int _transitionId)
+    public void Transition(AreaData _fromArea, SpawnPointData _spawnPoint)
     {
         if (m_transitioning) {
             Debug.LogWarningFormat("{0}: Transition already in progress!", name);
             return;
         }
 
-        Debug.LogFormat("{0}: Transitioning from area {1} to area {2} with transition id {3}.", name, _fromArea.sceneName, _toArea.sceneName, _transitionId);
+        Debug.LogFormat("{0}: Transitioning from area {1} to area {2} with spawn point {3}.", name, _fromArea.sceneName, _spawnPoint.area.sceneName, _spawnPoint.name);
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(TransitionCoroutine(_fromArea.sceneName, _toArea.sceneName, _transitionId, player));
+        StartCoroutine(TransitionCoroutine(_fromArea.sceneName, _spawnPoint.area.sceneName, _spawnPoint, player));
     }
 }

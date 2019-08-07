@@ -8,9 +8,9 @@ public class AreaController : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private Area m_area = default;
+    [SerializeField] private AreaData m_area = default;
     [SerializeField] private GameObject m_playerFollowCamera = default;
-    [SerializeField] private List<AreaTransition> m_areaTransitions = default;
+    [SerializeField] private List<SpawnPoint> m_spawnPoints = default;
 
     [Header("Saveable Objects")]
 
@@ -22,7 +22,7 @@ public class AreaController : MonoBehaviour
     //    Properties    //
     //******************//
 
-    public Area area { get { return m_area; } }
+    public AreaData area { get { return m_area; } }
 
     //**********************//
     //    Private Fields    //
@@ -39,28 +39,9 @@ public class AreaController : MonoBehaviour
         m_state = new AreaState(m_area.id, m_normalKeys, m_levers);
     }
 
-    private void OnValidate()
-    {
-        RegisterWithTransitions();
-    }
-
-    private void Start()
-    {
-        RegisterWithTransitions();
-    }
-
     //*************************//
     //    Private Functions    //
     //*************************//
-
-    private void RegisterWithTransitions()
-    {
-        foreach (var transition in m_areaTransitions) {
-            if (transition) {
-                transition.controller = this;
-            }
-        }
-    }
 
     private void InitializeNormalKeys()
     {
@@ -85,10 +66,10 @@ public class AreaController : MonoBehaviour
     //    Public Functions    //
     //************************//
 
-    public void InitializeArea(GameObject _player, int _transitionId)
+    public void InitializeArea(GameObject _player, SpawnPointData _spawnPoint)
     {
-        AreaTransition transition = m_areaTransitions.Find(x => x.transitionId == _transitionId);
-        if (transition) {
+        SpawnPoint spawnPoint = m_spawnPoints.Find(x => x.spawnPointData == _spawnPoint);
+        if (spawnPoint) {
             GameState gameState = GameManager.Instance.state;
             AreaState areaState = gameState.GetAreaState(m_area);
             if (areaState == null) {
@@ -100,11 +81,16 @@ public class AreaController : MonoBehaviour
             InitializeNormalKeys();
             InitializeLevers();
 
-            _player.transform.position = transition.spawnPoint.position;
+            _player.transform.position = spawnPoint.transform.position;
             CinemachineVirtualCamera cam = Instantiate(m_playerFollowCamera, _player.transform.position, Quaternion.identity).GetComponent<CinemachineVirtualCamera>();
             cam.Follow = _player.transform;
         } else {
-            Debug.LogError("[AreaController] Invalid transition ID! (" + _transitionId + ")");
+            Debug.LogErrorFormat("{0}: Could not find spawn point {1}!", name, _spawnPoint.name);
         }
+    }
+
+    public SpawnPointData GetSpawnPointData(string _id)
+    {
+        return m_spawnPoints.Find(x => x.spawnPointData.id.Equals(_id)).spawnPointData;
     }
 }

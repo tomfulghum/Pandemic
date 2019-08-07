@@ -2,14 +2,12 @@
 [System.Serializable]
 public class PlayerState
 {
-    public string currentArea;
-    public int currentTransitionId;
+    public string currentSpawnPoint;
     public int normalKeyCount;
 
-    public PlayerState(Area _currentArea)
+    public PlayerState(SpawnPointData _currentSpawnPoint)
     {
-        currentArea = _currentArea.id;
-        currentTransitionId = 0;
+        currentSpawnPoint = _currentSpawnPoint.id;
         normalKeyCount = 0;
     }
 }
