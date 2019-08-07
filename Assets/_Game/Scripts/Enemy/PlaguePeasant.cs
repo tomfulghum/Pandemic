@@ -73,6 +73,10 @@ public class PlaguePeasant : MonoBehaviour
     private int m_idleCounter;
     private int m_sitCounter;
 
+    private float m_rangedAnimSpeedMultiplier = 1f;
+    private float m_rangedAttackSin = 1f;
+    private float m_rangedAttackAnimSpeed = 2f;
+
     private bool m_rangedAttackActive; //? private?
     private bool m_rangedAttackOnCooldown;
 
@@ -93,6 +97,7 @@ public class PlaguePeasant : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
+        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed);
     }
 
     // Update is called once per frame
@@ -218,7 +223,7 @@ public class PlaguePeasant : MonoBehaviour
         }
     }
 
-    private IEnumerator RangedAttack()
+    private IEnumerator RangedAttack() //ändern --> auf animation speed umstellen
     {
         m_rangedAttackActive = true;
         GetComponent<Animator>().SetTrigger("RangedAttack");
@@ -231,12 +236,20 @@ public class PlaguePeasant : MonoBehaviour
     private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
         m_rangedAttackActive = false;
+        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed + (Mathf.Sin(m_rangedAttackSin) * m_rangedAnimSpeedMultiplier));
+        m_rangedAttackSin += 0.1f;
         if (m_player == null)
             return;
         if (Random.Range(0f, 1f) < 0.7f)
-            Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+        {
+            GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+            projectile.GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+            projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
+        }
         else
+        {
             Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+        }
     }
 
     private Vector2 CalculateOptimalThrow()
