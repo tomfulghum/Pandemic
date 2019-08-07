@@ -8,24 +8,14 @@ public class AreaTransition : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private int m_transitionId = 0;
-    [SerializeField] private Area m_transitionArea = default;
-    [SerializeField] private Transform m_spawnPoint = default;
-
-    //******************//
-    //    Properties    //
-    //******************//
-
-    public AreaController controller { set { m_controller = value; } }
-    public int transitionId { get { return m_transitionId; } }
-    public Transform spawnPoint { get { return m_spawnPoint; } }
+    [SerializeField] private SpawnPointData m_transitionSpawnPoint;
 
     //**********************//
     //    Private Fields    //
     //**********************//
 
     private AreaController m_controller = default;
-    private AreaTransitionManager manager;
+    private AreaTransitionManager m_manager = default;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -33,13 +23,18 @@ public class AreaTransition : MonoBehaviour
 
     private void Start()
     {
-        manager = AreaTransitionManager.Instance;
+        m_controller = FindObjectOfType<AreaController>();
+        m_manager = AreaTransitionManager.Instance;
+
+        if (!m_controller) {
+            Debug.LogErrorFormat("{0}: Could not find area controller!", name);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player")) {
-            manager.Transition(m_controller.area, m_transitionArea, m_transitionId);
+            m_manager.Transition(m_controller.area, m_transitionSpawnPoint);
         }
     }
 }

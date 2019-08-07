@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
   m_Name: TestArea1
   m_EditorClassIdentifier: 
-  id: 0
-  sceneName: Test_Freddy
+  m_id: d6f10ab0c2a0e574fa7bdf76ed423f7c
+  m_sceneName: Test_Freddy
+  m_spawnPoints:
+  - {fileID: 11400000, guid: 4000de8f1ffa582428f34927956e8040, type: 2}
+  - {fileID: 11400000, guid: 7beb230f5040f454d9aa65c904b11fda, type: 2}

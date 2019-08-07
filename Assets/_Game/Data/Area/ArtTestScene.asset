@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
   m_Name: ArtTestScene
   m_EditorClassIdentifier: 
-  id: 1234
+  id: 44d1c282033192a409313cef2c99dce1
   sceneName: Test_Daniel_Tilesets

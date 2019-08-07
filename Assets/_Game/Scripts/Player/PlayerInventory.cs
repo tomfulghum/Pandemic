@@ -34,4 +34,9 @@ public class PlayerInventory : MonoBehaviour
     {
         m_normalKeyCount++;
     }
+
+    public void AddNormalKeys(int _count)
+    {
+        m_normalKeyCount += _count;
+    }
 }

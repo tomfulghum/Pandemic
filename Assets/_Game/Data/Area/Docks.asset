@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
   m_Name: Docks
   m_EditorClassIdentifier: 
-  id: 1
+  id: 25f7e166f5ac26f4e88fbf123a50446f
   sceneName: Blockout_Docks

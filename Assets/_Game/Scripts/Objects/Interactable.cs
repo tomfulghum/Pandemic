@@ -18,7 +18,10 @@ public class Interactable : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
+    [Tooltip("The main effect(s) this interactable causes when interacted with. This is also called when an objects state is set by the save state loader.")]
     [SerializeField] private UnityEvent m_onInteraction = default;
+    [Tooltip("All side effects caused by interaction. This is not called when the state is set externally.")]
+    [SerializeField] private UnityEvent m_onInteractionSideEffects = default;
 
     //******************//
     //    Properties    //
@@ -67,6 +70,7 @@ public class Interactable : MonoBehaviour
             }
 
             if (conditionMet) {
+                m_onInteractionSideEffects?.Invoke();
                 m_onInteraction?.Invoke();
             }
         }  
@@ -84,5 +88,14 @@ public class Interactable : MonoBehaviour
         if (collision.CompareTag("Player")) {
             m_player = null;
         }
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void SimulateInteraction()
+    {
+        m_onInteraction?.Invoke();
     }
 }
