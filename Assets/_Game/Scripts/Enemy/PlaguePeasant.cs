@@ -230,11 +230,13 @@ public class PlaguePeasant : MonoBehaviour
 
     private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
+        m_rangedAttackActive = false;
+        if (m_player == null)
+            return;
         if (Random.Range(0f, 1f) < 0.7f)
             Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
         else
             Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
-        m_rangedAttackActive = false;
     }
 
     private Vector2 CalculateOptimalThrow()

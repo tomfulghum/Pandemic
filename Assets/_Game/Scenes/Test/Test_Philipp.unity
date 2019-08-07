@@ -4800,6 +4800,11 @@ PrefabInstance:
       propertyPath: m_maxThrowCount
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6374442912641036241, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
+        type: 3}
+      propertyPath: m_throwCount
+      value: 10000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf85e7df2a3b90b4f9421ec368e0b54a, type: 3}
 --- !u!1001 &6626893083885945746
