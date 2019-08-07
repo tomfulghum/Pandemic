@@ -1,0 +1,917 @@
+fileFormatVersion: 2
+guid: f8325e7b468de2941809e900fdbf1853
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1594488658930145517
+    second: TilesetTests3_0
+  - first:
+      213: 7519130947883264772
+    second: TilesetTests3_1
+  - first:
+      213: 7406786232325595079
+    second: TilesetTests3_2
+  - first:
+      213: -1942664677314260178
+    second: TilesetTests3_3
+  - first:
+      213: -6065389478153531244
+    second: TilesetTests3_4
+  - first:
+      213: -2124606116723554488
+    second: TilesetTests3_5
+  - first:
+      213: 1684876875415488541
+    second: TilesetTests3_6
+  - first:
+      213: -9014209232211397484
+    second: TilesetTests3_7
+  - first:
+      213: 5525423879601028887
+    second: TilesetTests3_8
+  - first:
+      213: -2347941793144447854
+    second: TilesetTests3_9
+  - first:
+      213: -4755689069661373520
+    second: TilesetTests3_10
+  - first:
+      213: -9157001951901802633
+    second: TilesetTests3_11
+  - first:
+      213: 5027700241330438338
+    second: TilesetTests3_12
+  - first:
+      213: -3920077166842007141
+    second: TilesetTests3_13
+  - first:
+      213: 8635480287885515731
+    second: TilesetTests3_14
+  - first:
+      213: -5551389572434869800
+    second: TilesetTests3_15
+  - first:
+      213: 7482104437403581229
+    second: TilesetTests3_16
+  - first:
+      213: -2464687997308243176
+    second: TilesetTests3_17
+  - first:
+      213: -3599670597827191037
+    second: TilesetTests3_18
+  - first:
+      213: -2092237477884371459
+    second: TilesetTests3_19
+  - first:
+      213: 3714295351925439016
+    second: TilesetTests3_20
+  - first:
+      213: 4023470756780122408
+    second: TilesetTests3_21
+  - first:
+      213: 4823229106893428361
+    second: TilesetTests3_22
+  - first:
+      213: 2769675205163941078
+    second: TilesetTests3_23
+  - first:
+      213: -1206341982218246822
+    second: TilesetTests3_24
+  - first:
+      213: -2585603986237916121
+    second: TilesetTests3_25
+  - first:
+      213: 8789722129655948577
+    second: TilesetTests3_26
+  - first:
+      213: -7903686855040348214
+    second: TilesetTests3_27
+  - first:
+      213: 2365486370370206370
+    second: TilesetTests3_28
+  - first:
+      213: -5455385958498000669
+    second: TilesetTests3_29
+  - first:
+      213: 3517357286861752447
+    second: TilesetTests3_30
+  - first:
+      213: -557436790109022969
+    second: TilesetTests3_31
+  - first:
+      213: 6913970024934714845
+    second: TilesetTests3_32
+  - first:
+      213: 3717005150466852173
+    second: TilesetTests3_33
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TilesetTests3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e94f51f8897b64479bdd961fe9cc870
+      internalID: 1594488658930145517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_1
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cdaaa2e310fe0e40a4f2a6ec09f4523
+      internalID: 7519130947883264772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_2
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2db0735e2934238498b2cadf315784e8
+      internalID: 7406786232325595079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_3
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e77c21b7aa5d5346a371a2a923c1d56
+      internalID: -1942664677314260178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_4
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1dd154961050644a9ad7900eb5c7d72
+      internalID: -6065389478153531244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_5
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6d41282282f5d54d815d82a7f2acd07
+      internalID: -2124606116723554488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_6
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 1999.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5cf12928e2c1f54db7be6b9d44d721d
+      internalID: 1684876875415488541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b8969776d38d445b303fb3632d7426
+      internalID: -9014209232211397484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_8
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2a3318cbec83844a83baaca3edef5a1
+      internalID: 5525423879601028887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_9
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 330573965a73443448758eea166b2755
+      internalID: -2347941793144447854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_10
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd5f38ae3e2c4854fbe1cc268b7d040f
+      internalID: -4755689069661373520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_11
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8775cc70e975ed49b6a59045940c82d
+      internalID: -9157001951901802633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_12
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80fb702e78feec9458146feb6d702de7
+      internalID: 5027700241330438338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_13
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 1500.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3822d44fff40cf24aa1729bcb229c1af
+      internalID: -3920077166842007141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bb92ea3d5b24d7408c8c4e6a2590ecc
+      internalID: 8635480287885515731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_15
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba440c086e389494fb65b5c260a1e9b3
+      internalID: -5551389572434869800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_16
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 931bd7e7c145787459e9c9a3471e9f89
+      internalID: 7482104437403581229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_17
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f980e68a97fe8214699957a6d00aaba8
+      internalID: -2464687997308243176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_18
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97d70dae073cf6a49a7866528e5fc2e4
+      internalID: -3599670597827191037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_19
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d56a2e7e9a8d664a9cf624ecde2428d
+      internalID: -2092237477884371459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_20
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 1001.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7d2203470eb44442b52aa237341c5ed
+      internalID: 3714295351925439016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed37b5c87c439fd4fbb3e9f8d0569ca1
+      internalID: 4023470756780122408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_22
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47154a3c7347ea44e835b543b53a94c3
+      internalID: 4823229106893428361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_23
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fd6dc7c6ec534249a79ac6603485144
+      internalID: 2769675205163941078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_24
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21b8e1711b1d0aa4789d635ff7d8c002
+      internalID: -1206341982218246822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_25
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6202d5ba065b29499cc39a7c304fbe5
+      internalID: -2585603986237916121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_26
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b85758d6921986741bb8daec5e46b2cb
+      internalID: 8789722129655948577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_27
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 502.2
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e93395ef023be242b0613bd09f23686
+      internalID: -7903686855040348214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3.2000122
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4dfb77b2334f354ab735587e186add1
+      internalID: 2365486370370206370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_29
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 3.2000122
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cbefc99738d6ac47b328dbf1a808c0e
+      internalID: -5455385958498000669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_30
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 3.2000122
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c41bcf21e857d548a77d288476d1f5d
+      internalID: 3517357286861752447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_31
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 3.2000122
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a7035050d9537c42a8bc6453705fb2e
+      internalID: -557436790109022969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_32
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 3.2000122
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef7c7b13a93d6204c8d3bb6ee0600abc
+      internalID: 6913970024934714845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesetTests3_33
+      rect:
+        serializedVersion: 2
+        x: 3000
+        y: 3.2000122
+        width: 500
+        height: 499.8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21e12b0425a908f4c9011ea9db52abbe
+      internalID: 3717005150466852173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: f86c1a8630447634f8be8ed33141cc17
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
