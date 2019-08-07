@@ -80,4 +80,10 @@ public class HookPointVisualization : MonoBehaviour
         var angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         m_pointer.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
+
+    public void SetObjectScale(float _hookRange) //erstmal nur ne zwischenlösung bis mir was besseres einfällt
+    {
+        transform.localScale = new Vector3(0.5f, 0.5f, 1);
+        transform.localScale *= _hookRange;
+    }
 }

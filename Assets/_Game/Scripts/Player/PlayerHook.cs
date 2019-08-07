@@ -112,7 +112,7 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private bool m_cancelHookWithNewHook = true;
     [SerializeField] private float m_cancelDistancePercentage = 0.5f; //wie viel prozent des abstands der spieler geschafft haben muss bevor er den hook abbrechen kann
     [SerializeField] private TimeSlow m_formOfTimeSlow = TimeSlow.FastSlow;
-    [SerializeField] private GameObject m_radiusVisualization = default; //rename
+    //[SerializeField] private GameObject m_radiusVisualization = default; //rename
     [SerializeField] private GameObject m_hookPointVisualization = default; //rename
     [SerializeField] private LayerMask m_hookPointFilter = default; //Filter Layer to only get Hook Points in Sight
     [SerializeField] private LayerMask m_hookPointLayer = default; //default layer einstellen
@@ -181,6 +181,9 @@ public class PlayerHook : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         m_rb = GetComponent<Rigidbody2D>();
+
+        if (m_hookPointVisualization != null)
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().SetObjectScale(m_hookRadius);
     }
 
     void Update()
@@ -464,10 +467,10 @@ public class PlayerHook : MonoBehaviour
 
     private void ResetValues()
     {
-        if (m_radiusVisualization != null)
-        {
-            m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
-        }
+        //if (m_radiusVisualization != null)
+        //{
+        //    m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
+        //}
 
         if (m_hookPointVisualization != null)
         {
@@ -489,12 +492,12 @@ public class PlayerHook : MonoBehaviour
             m_currentHookState = HookState.SearchTarget;
         }
 
-        if (m_radiusVisualization != null)
-        {
-            m_radiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
-            m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
-            m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
-        }
+        //if (m_radiusVisualization != null)
+        //{
+        //    m_radiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
+        //    m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
+        //    m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+        //}
 
         if (m_hookPointVisualization != null)
         {

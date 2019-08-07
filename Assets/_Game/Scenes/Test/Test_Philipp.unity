@@ -4718,7 +4718,7 @@ MonoBehaviour:
   m_cancelHookWithNewHook: 1
   m_cancelDistancePercentage: 0.5
   m_formOfTimeSlow: 3
-  m_radiusVisualization: {fileID: 5293281135891174967}
+  m_radiusVisualization: {fileID: 0}
   m_hookPointVisualization: {fileID: 1563180656}
   m_hookPointFilter:
     serializedVersion: 2
@@ -4748,9 +4748,6 @@ MonoBehaviour:
   m_maxHealth: 10
   m_respawnPoint: {fileID: 1421564348}
   m_healthVisualization: {fileID: 1095084044}
-  m_layerMask:
-    serializedVersion: 2
-    m_Bits: 6400
   m_dashSpeed: 20
   m_dashDuration: 0.3
   m_dashCooldown: 0.4
