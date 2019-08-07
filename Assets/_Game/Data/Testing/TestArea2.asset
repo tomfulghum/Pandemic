@@ -16,5 +16,5 @@ MonoBehaviour:
   m_sceneName: Test_Freddy_2
   m_spawnPoints:
   - {fileID: 11400000, guid: 5347b12353f36af43bf2ef3b4cdf0265, type: 2}
-  - {fileID: 11400000, guid: bb803949305e27c42ba0cc98ee5bb058, type: 2}
   - {fileID: 11400000, guid: 572c0333aee062b4491f878cd9a344d0, type: 2}
+  - {fileID: 11400000, guid: bb803949305e27c42ba0cc98ee5bb058, type: 2}
