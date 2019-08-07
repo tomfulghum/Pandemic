@@ -113,6 +113,7 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private float m_cancelDistancePercentage = 0.5f; //wie viel prozent des abstands der spieler geschafft haben muss bevor er den hook abbrechen kann
     [SerializeField] private TimeSlow m_formOfTimeSlow = TimeSlow.FastSlow;
     [SerializeField] private GameObject m_radiusVisualization = default; //rename
+    [SerializeField] private GameObject m_hookPointVisualization = default; //rename
     [SerializeField] private LayerMask m_hookPointFilter = default; //Filter Layer to only get Hook Points in Sight
     [SerializeField] private LayerMask m_hookPointLayer = default; //default layer einstellen
     [SerializeField] private bool m_slowTimeWhileAiming = default;
@@ -468,6 +469,11 @@ public class PlayerHook : MonoBehaviour
             m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
         }
 
+        if (m_hookPointVisualization != null)
+        {
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().ActivateVisuals(false);
+        }
+
         m_timeSlowTest = 0; //wofür?
         ResetHookPoints();
         m_totalHookPoints.Clear();
@@ -490,6 +496,11 @@ public class PlayerHook : MonoBehaviour
             m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
         }
 
+        if (m_hookPointVisualization != null)
+        {
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().ActivateVisuals(true);
+        }
+
         Vector2 direction = m_usingController ? m_controllerDirection : m_mouseDirection;
 
         if (m_currentHookState == HookState.SearchTarget)
@@ -510,6 +521,12 @@ public class PlayerHook : MonoBehaviour
             }
         }
         VisualizeCone(direction);
+
+        if (m_hookPointVisualization != null)
+        {
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().SetPointerDirection(direction);
+        }
+
 
         SlowTime();
         m_currentTimeActive += Time.deltaTime / Time.timeScale;

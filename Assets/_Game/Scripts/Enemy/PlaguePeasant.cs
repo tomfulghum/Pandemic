@@ -33,17 +33,17 @@ public class PlaguePeasant : MonoBehaviour
     [SerializeField] private float m_movementSpeed = 1f;
 
     [SerializeField] private float m_minShootDistance = 10f;
-    [SerializeField] private List<int> m_AimAngles;
-    [SerializeField] private List<int> m_ThrowForces;
+    [SerializeField] private List<int> m_AimAngles = default; // überarbeiten zu neuenm system
+    [SerializeField] private List<int> m_ThrowForces = default;
 
-    [SerializeField] private float m_minThrowAngle = 30;
-    [SerializeField] private float m_maxThrowAngle = 60;
+    //[SerializeField] private float m_minThrowAngle = 30; //not yet implemented
+    //[SerializeField] private float m_maxThrowAngle = 60;
 
-    [SerializeField] private GameObject m_projectile;
-    [SerializeField] private GameObject m_pickUpProjectile;
+    [SerializeField] private GameObject m_projectile = default;
+    [SerializeField] private GameObject m_pickUpProjectile = default;
 
-    [SerializeField] private Transform m_projectileStartPos;
-    [SerializeField] private GameObject m_attackHitBox;
+    [SerializeField] private Transform m_projectileStartPos = default;
+    //[SerializeField] private GameObject m_attackHitBox = default;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
 

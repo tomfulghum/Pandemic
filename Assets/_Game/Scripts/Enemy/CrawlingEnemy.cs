@@ -37,7 +37,7 @@ public class CrawlingEnemy : MonoBehaviour
     [SerializeField] private float m_jumpForce = 15f; //um die selbe wurfbahn zu kriegen: doppelte jumpforce = vierfache gravity
     [SerializeField] private bool m_useIntelligentJump = true; // default false? //variable jumpprobability --> if 0 then no jump
     [SerializeField] private bool m_useJump = true; //ändern in eine intelligenz skala von 1 - 10 oder so
-    [SerializeField] private bool m_useRandomJumping = true;
+    //[SerializeField] private bool m_useRandomJumping = true; //not yet implemented
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
 
     //******************//

@@ -27,20 +27,15 @@ public class PlayerCombat : MonoBehaviour
     //************************//
 
     [SerializeField] private int m_maxHealth = 10;
-    [SerializeField] private Transform m_respawnPoint;
-    [SerializeField] private Text m_healthVisualization;
-    [SerializeField] private bool m_allowMeleeAttack = false;
-    [SerializeField] private float m_attackRange = 2.5f;
-    //[SerializeField] private float m_smashSpeed = 20f;
-    [SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
-    [SerializeField] private float m_controllerTolerance = 0.5f;
+    [SerializeField] private Transform m_respawnPoint = default;
+    [SerializeField] private Text m_healthVisualization = default;
+    
+    //[SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
+   // [SerializeField] private float m_controllerTolerance = 0.5f; //brauch ich die noch?
 
     [SerializeField] private float m_dashSpeed = 20f;
     [SerializeField] private float m_dashDuration = 0.2f;
     [SerializeField] private float m_dashCooldown = 0.5f;
-
-    [SerializeField] private float m_timeToCombo = 0.1f;
-    [SerializeField] private float m_meleeAttackTime = 0.3f;
 
     [SerializeField] private float m_hitFreezeTime = 0.5f;
     [SerializeField] private float m_hitKnockbackTime = 0.2f;
@@ -62,7 +57,7 @@ public class PlayerCombat : MonoBehaviour
 
 
     private int m_currentHealth;
-    private float m_attackAngle = 25f; //veraltet nur noch füs visuelle da
+    //private float m_attackAngle = 25f; //veraltet nur noch füs visuelle da
 
     private bool m_attacking;
     private bool m_facingLeft;
@@ -75,20 +70,19 @@ public class PlayerCombat : MonoBehaviour
     private int m_colorChangeCounter;
 
     //Combo Attack Test
-    private int m_attackNumber;
-    private Coroutine m_meleeAttack;
-    private Coroutine m_meleeMovement;
-    private bool m_currentlyAttacking;
-    private float m_currentAngle;
-    private bool m_alreadyAttacked;
-    private bool m_attackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
+    //private int m_attackNumber;
+    //private Coroutine m_meleeAttack;
+    //private Coroutine m_meleeMovement;
+    //private bool m_currentlyAttacking;
+    //private float m_currentAngle;
+    //private bool m_alreadyAttacked;
+    //private bool m_attackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
     private bool m_dashCoolDownActive; //--> irgendwie besser lösen
-    private bool m_comboActive;
+    //private bool m_comboActive;
 
-    private bool m_invincible; //After every attack some invincibility frames --> change later to a priority system
-    private float m_invincibilityTime = 0.2f; //time during which the player is invincible --> priority system?, invincibility time evtl per move?
+    private bool m_invincible; 
 
-    private int m_currentHitPriority = 1;
+    //private int m_currentHitPriority = 1;
 
     private Coroutine m_knockbackCoroutine = null;
     private Coroutine m_dashCoroutine = null;
@@ -188,13 +182,6 @@ public class PlayerCombat : MonoBehaviour
         {
             m_facingLeft = false;
         }
-    }
-
-    private IEnumerator InvincibilityFrames(float _duration)
-    {
-        m_invincible = true;
-        yield return new WaitForSeconds(_duration);
-        m_invincible = false;
     }
 
     private void TakeDamage()

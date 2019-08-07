@@ -45,9 +45,6 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     private EnemyState m_currentEnemyState = EnemyState.Moving;
 
     private int m_currentHealth = 0;
-    private int m_colorChangeCounter = 0;
-
-    private Color m_originalColor = default;
 
     private bool m_frozen = false;
 
@@ -70,7 +67,6 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         m_rb = GetComponent<Rigidbody2D>();
         m_ekb = GetComponentInChildren<EnemyKnockback>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
-        m_originalColor = GetComponent<SpriteRenderer>().color;
         m_currentHealth = m_maxHealth;
     }
 
@@ -159,8 +155,6 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         
             yield return new WaitForSeconds(0.03f);
         }
-        m_spriteRenderer.color = m_originalColor;
-        m_colorChangeCounter = 0;
         m_currentHitPriority = 0;
         m_currentEnemyState = EnemyState.Moving;
     }

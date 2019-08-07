@@ -8,7 +8,7 @@ public class EnemyKnockback : MonoBehaviour
     [SerializeField] private Enemy m_enemy = default;
     [SerializeField] private bool m_enabled = true;
     [SerializeField] private float m_force = 30f;
-    [SerializeField] private Animator m_anim;
+    [SerializeField] private Animator m_anim = default;
     [SerializeField] private UnityEvent m_onSuccesfulHit = default;
 
     private void OnTriggerStay2D(Collider2D collision)
