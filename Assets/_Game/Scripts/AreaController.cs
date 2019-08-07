@@ -10,7 +10,6 @@ public class AreaController : MonoBehaviour
 
     [SerializeField] private AreaData m_area = default;
     [SerializeField] private GameObject m_playerFollowCamera = default;
-    [SerializeField] private List<SpawnPoint> m_spawnPoints = default;
 
     [Header("Saveable Objects")]
 
@@ -29,6 +28,7 @@ public class AreaController : MonoBehaviour
     //**********************//
 
     private AreaState m_state = default;
+    private List<SpawnPoint> m_spawnPoints = default;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -37,6 +37,7 @@ public class AreaController : MonoBehaviour
     private void Awake()
     {
         m_state = new AreaState(m_area.id, m_normalKeys, m_levers);
+        m_spawnPoints = new List<SpawnPoint>(FindObjectsOfType<SpawnPoint>());
     }
 
     //*************************//

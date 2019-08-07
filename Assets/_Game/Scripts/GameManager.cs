@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
         SceneManager.UnloadSceneAsync(m_menuSceneName);
 
         if (currentSpawnPoint == null) {
+            Debug.LogFormat("{0}: Resetting spawn point.", name);
             currentSpawnPoint = m_startPoint;
         }
 
@@ -87,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
 
         while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-            Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress * 100f);
+            Debug.LogFormat("{0}: Loading game scene: {1}%", name, loadSceneAsync.progress * 100f);
             yield return null;
         }
 
@@ -102,9 +103,8 @@ public class GameManager : MonoBehaviour
 
     private void SavePlayerState()
     {
-        PlayerState playerState = m_state.playerState;
-        playerState.currentSpawnPoint = currentSpawnPoint.id;
-        playerState.normalKeyCount = m_player.GetComponent<PlayerInventory>().normalKeyCount;
+        m_state.playerState.currentSpawnPoint = currentSpawnPoint.id;
+        m_state.playerState.normalKeyCount = m_player.GetComponent<PlayerInventory>().normalKeyCount;
     }
 
     private void LoadPlayerState()

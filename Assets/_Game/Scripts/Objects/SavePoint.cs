@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+[RequireComponent(typeof(Interactable))]
 
 public class SavePoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private SpawnPointData m_spawnPoint = default;
 
-    // Update is called once per frame
-    void Update()
+    public void SaveGame()
     {
-        
+        GameManager.Instance.currentSpawnPoint = m_spawnPoint;
+        GameManager.Instance.SaveGame();
     }
 }
