@@ -713,7 +713,7 @@ public class PlayerHook : MonoBehaviour
     }
 
     private Collider2D FindNearestTargetInRange(Vector2 _searchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz
-    {
+    {//vllt mit nur einer liste arbeiten und nach und nach sachen entfernen?
         if (_searchDirection == Vector2.zero)
         {
             return null;
@@ -768,13 +768,14 @@ public class PlayerHook : MonoBehaviour
 
         Collider2D nearestTargetPoint = new Collider2D();
         float lowestAngle = Mathf.Infinity;
+        bool onlyThrowableObjectsInCone = CheckHookPointsInCone(hookPointsInCone);
         for (int i = 0; i < hookPointsInCone.Count; i++) //bisher kein check ob throwable or not --> siehe old function
         {
             Vector2 playerToColliderDirection = (hookPointsInCone[i].transform.position - transform.position).normalized;
             float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
             if (angleInDeg < lowestAngle)
             {
-                if (hookPointsInCone.Count > 1)
+                if (hookPointsInCone.Count > 1 && onlyThrowableObjectsInCone == false)
                 {
                     if (hookPointsInCone[i].CompareTag("Throwable")) //evlt noch ne bessere lösung finden
                     {
@@ -803,6 +804,16 @@ public class PlayerHook : MonoBehaviour
             nearestTargetPoint.GetComponent<SpriteRenderer>().color = Color.green;
         }
         return nearestTargetPoint;
+    }
+
+    private bool CheckHookPointsInCone(List<Collider2D> _hookPointsInCone) //returns true if all objects in cone are throwable (better targeting for multiple throwable objects in cone)
+    {
+        for(int i = 0; i < _hookPointsInCone.Count; i++)
+        {
+            if (_hookPointsInCone[i].CompareTag("Throwable") == false)
+                return false;
+        }
+        return true;
     }
 
     private void ResetHookPoints() //müssten eigentlich nur hookpoints in TotalHookPoints sein
