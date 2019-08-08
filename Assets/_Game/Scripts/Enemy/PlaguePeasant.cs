@@ -248,6 +248,12 @@ public class PlaguePeasant : MonoBehaviour
         GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed + (Mathf.Sin(m_rangedAttackSin) * m_rangedAnimSpeedMultiplier));
         m_rangedAttackSin += 0.1f;
 
+
+        GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+        projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(m_projectileTargetPosition);
+        projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
+
+        /*
         if (Random.Range(0f, 1f) < 0.7f)
         {
             GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
@@ -258,6 +264,7 @@ public class PlaguePeasant : MonoBehaviour
         {
             Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow(m_projectileTargetPosition);
         }
+        */
         m_rangedAttackActive = false;
     }
 
@@ -269,6 +276,37 @@ public class PlaguePeasant : MonoBehaviour
         float initialVelocity = horizontalDistance * Mathf.Sqrt(-Physics2D.gravity.y / 2 * (horizontalDistance * Mathf.Tan(_throwAngle * Mathf.Deg2Rad) - verticalDistance)) / Mathf.Cos(_throwAngle * Mathf.Deg2Rad);
        // float initialVelocity = Mathf.Sqrt(-Physics2D.gravity.y * Mathf.Pow(m_projectileTargetPosition.x, 2) / (2 * Mathf.Pow(Mathf.Cos(_throwAngle * Mathf.Deg2Rad), 2) * (m_projectileTargetPosition.y - m_projectileTargetPosition.x * Mathf.Tan(_throwAngle * Mathf.Deg2Rad))));
         return initialVelocity;
+    }
+
+    //max range nicht vergessen und evtl checken ob das ziel erreichbar ist
+
+    private Vector2 CaculateInitialVelocity(Vector2 _targetPosition) //wahrscheinlich bei x einfach die distanz nicht math abs machen und damit die richtung herausbekommen
+    {
+        float horizontalDistance = Mathf.Abs(m_projectileStartPos.position.x - _targetPosition.x);
+        float initialVelocity = Mathf.Sqrt(horizontalDistance * (-Physics2D.gravity.y / 2));
+        float horizontalVectorMultiplier = Mathf.Sqrt(2) * initialVelocity;
+        //Debug.Log("initial Velocity: " + initialVelocity);
+        //Debug.Log("initial Velocity final : " + horizontalVectorMultiplier);
+
+
+        float airTime = -2 / Physics2D.gravity.y * initialVelocity;
+        float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - _targetPosition.y);
+
+
+        float angle = Vector2.Angle(m_projectileStartPos.position, _targetPosition);
+        //Debug.Log("angle: " + angle);
+        float airTimeWithHeightDifference = 2 * initialVelocity * Mathf.Sin((45 - angle) * Mathf.Deg2Rad) / -Physics2D.gravity.y * Mathf.Cos(angle * Mathf.Deg2Rad); //test 1                                                                                                                                                       //Debug.Log("airtime: " + airTime);
+
+        //float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - _targetPosition.y);
+        float additionalVerticalVelocity = initialVelocity + (verticalDistance / airTimeWithHeightDifference);
+        float verticalVectorMultiplier = Mathf.Sqrt(2) * additionalVerticalVelocity;
+        //Debug.Log("additional velocity: " + additionalVerticalVelocity);
+
+        Vector2 throwVelocity = new Vector2(0.5f, 0.5f).normalized;
+        throwVelocity.x *= horizontalVectorMultiplier;
+        throwVelocity.y *= verticalVectorMultiplier;
+
+        return throwVelocity;
     }
 
     private Vector2 CalculateOptimalThrow(Vector2 _targetPosition)
