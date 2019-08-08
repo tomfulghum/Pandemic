@@ -45,12 +45,16 @@ public class AreaTransitionManager : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private IEnumerator TransitionCoroutine(string _from, string _to, SpawnPointData _spawnPoint, GameObject _player)
+    private IEnumerator TransitionCoroutine(string _from, SpawnPointData _spawnPoint, GameObject _player)
     {
         m_transitioning = true;
         float halfTransitionTime = m_transitionTime / 2f;
+        string to = _spawnPoint.area.sceneName;
 
-        _player.GetComponent<PlayerMovement>().DisableUserInput(true);
+        if (_player.activeInHierarchy) {
+            _player.GetComponent<PlayerMovement>().DisableUserInput(true);
+        }
+
         m_fader.FadeIn(halfTransitionTime);
         yield return new WaitForSeconds(halfTransitionTime);
 
@@ -65,16 +69,16 @@ public class AreaTransitionManager : MonoBehaviour
         _player.SetActive(false);
 
         AsyncOperation loadSceneAsync = null;
-        if (!SceneManager.GetSceneByName(_to).isLoaded) {
-            loadSceneAsync = SceneManager.LoadSceneAsync(_to, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByName(to).isLoaded) {
+            loadSceneAsync = SceneManager.LoadSceneAsync(to, LoadSceneMode.Additive);
             while (loadSceneAsync != null && !loadSceneAsync.isDone) {
                 Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress * 100f);
                 yield return null;
             }
         }
 
-        Scene to = SceneManager.GetSceneByName(_to);
-        SceneManager.SetActiveScene(to);
+        Scene toScene = SceneManager.GetSceneByName(to);
+        SceneManager.SetActiveScene(toScene);
 
         AreaController controller = FindObjectOfType<AreaController>();
         controller.InitializeArea(_player, _spawnPoint);
@@ -102,7 +106,13 @@ public class AreaTransitionManager : MonoBehaviour
 
         Debug.LogFormat("{0}: Transitioning from area {1} to area {2} with spawn point {3}.", name, _fromArea.sceneName, _spawnPoint.area.sceneName, _spawnPoint.name);
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(TransitionCoroutine(_fromArea.sceneName, _spawnPoint.area.sceneName, _spawnPoint, player));
+        GameObject player = GameManager.Instance.player;
+        StartCoroutine(TransitionCoroutine(_fromArea.sceneName, _spawnPoint, player));
+    }
+
+    public void LoadGameScene(string _menuScene, SpawnPointData _spawnPoint)
+    {
+        GameObject player = GameManager.Instance.player;
+        StartCoroutine(TransitionCoroutine(_menuScene, _spawnPoint, player));
     }
 }

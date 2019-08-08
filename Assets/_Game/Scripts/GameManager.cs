@@ -6,7 +6,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{    
+{
+    [System.Serializable]
+    private struct SaveFileCollection
+    {
+        public string file1;
+        public string file2;
+        public string file3;
+        public string file4;
+    }
+
     //************************//
     //    Inspector Fields    //
     //************************//
@@ -15,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
     [SerializeField] private List<AreaData> m_areas = default;
+    [SerializeField] private SaveFileCollection m_saveFileNames = default;
 
     //******************//
     //    Properties    //
@@ -29,6 +39,16 @@ public class GameManager : MonoBehaviour
 
     public SpawnPointData currentSpawnPoint { get; set; }
 
+    public SaveFileData[] saveFiles
+    {
+        get { return m_saveFiles; }
+    }
+
+    public GameObject player
+    {
+        get { return m_player; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -36,6 +56,9 @@ public class GameManager : MonoBehaviour
     private GameState m_state = default;
     private BinaryFormatter m_formatter = default;
     private string m_savePath = default;
+    private SaveFileData[] m_saveFiles = new SaveFileData[4];
+
+    private AreaTransitionManager m_areaTransitionManager = default;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -53,6 +76,7 @@ public class GameManager : MonoBehaviour
         m_state = new GameState(m_startPoint);
         m_formatter = new BinaryFormatter();
         m_savePath = Application.persistentDataPath + "/savefile.sav";
+        m_areaTransitionManager = FindObjectOfType<AreaTransitionManager>();
     }
 
     private void Start()
@@ -70,36 +94,6 @@ public class GameManager : MonoBehaviour
     //*************************//
     //    Private Functions    //
     //*************************//
-
-    private IEnumerator LoadGameCoroutine()
-    {
-        SceneManager.UnloadSceneAsync(m_menuSceneName);
-
-        if (currentSpawnPoint == null) {
-            Debug.LogFormat("{0}: Resetting spawn point.", name);
-            currentSpawnPoint = m_startPoint;
-        }
-
-        string loadSceneName = currentSpawnPoint.area.sceneName;
-
-        AsyncOperation loadSceneAsync = null;
-        if (!SceneManager.GetSceneByName(loadSceneName).isLoaded) {
-            loadSceneAsync = SceneManager.LoadSceneAsync(loadSceneName, LoadSceneMode.Additive);
-        }
-
-        while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-            Debug.LogFormat("{0}: Loading game scene: {1}%", name, loadSceneAsync.progress * 100f);
-            yield return null;
-        }
-
-        AreaController controller = FindObjectOfType<AreaController>();
-        if (controller) {
-            controller.InitializeArea(m_player, currentSpawnPoint);
-        } else {
-            Debug.LogErrorFormat("{0}: Could not find AreaController!", name);
-        }
-        m_player.SetActive(true);
-    }
 
     private void SavePlayerState()
     {
@@ -141,7 +135,7 @@ public class GameManager : MonoBehaviour
             LoadPlayerState();
         }
 
-        StartCoroutine(LoadGameCoroutine());
+        m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint);
     }
 
     public void SaveGame()
