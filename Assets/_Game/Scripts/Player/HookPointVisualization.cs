@@ -49,10 +49,10 @@ public class HookPointVisualization : MonoBehaviour
 
             if(angle < 0)
             {
-                m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z - 1);
+                m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z - 2);
             } else
             {
-                m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + 1);
+                m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + 2);
             }
 
             if(Mathf.Abs(angle) < 1.5f)
