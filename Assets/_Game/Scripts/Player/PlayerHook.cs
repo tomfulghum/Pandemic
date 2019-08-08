@@ -646,7 +646,7 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private void ProgressiveTimeSlow() //fast slow
+    private void ProgressiveTimeSlow() //fast slowvoid
     {
         if (Time.timeScale > m_maxTimeSlow)
         {

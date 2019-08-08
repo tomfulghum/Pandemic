@@ -73,10 +73,12 @@ public class HookPointVisualization : MonoBehaviour
 
     private void VisualizeTimeSlow()
     {
-        float slowTest = Time.deltaTime / Time.timeScale * test * 50;
+        float slowTest = Time.deltaTime / Time.timeScale * test * 100;
         //Debug.Log(slowTest);
         if (test > 0.1f)
-            test -= 0.08f;
+            test *= 0.96f;
+        else
+            test = 0;
         m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + slowTest);
     }
 
