@@ -8,6 +8,9 @@ public class HookPointVisualization : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
+    [SerializeField] private bool m_followPointer = true; //if false: visualizes time slow
+
+
     [SerializeField] private GameObject m_outerCircle = default;
     [SerializeField] private GameObject m_innerCircle = default;
     [SerializeField] private GameObject m_pointer = default;
@@ -18,6 +21,8 @@ public class HookPointVisualization : MonoBehaviour
     //**********************//
 
     private bool m_visualActive = false;
+
+    float test = 10;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -31,8 +36,11 @@ public class HookPointVisualization : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (m_visualActive)
+        if (m_visualActive && m_followPointer)
             AdjustInnerCircle();
+        if (m_visualActive && m_followPointer == false)
+            VisualizeTimeSlow();
+
     }
 
 
@@ -47,21 +55,29 @@ public class HookPointVisualization : MonoBehaviour
             float angle = Vector2.SignedAngle(m_innerCircle.transform.right, m_pointer.transform.right);
             float targetAngle = m_pointer.transform.eulerAngles.z;
 
-            if(angle < 0)
+            if (angle < 0)
             {
                 m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z - 2);
-            } else
+            }
+            else
             {
                 m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + 2);
             }
 
-            if(Mathf.Abs(angle) < 1.5f)
+            if (Mathf.Abs(angle) < 1.5f)
             {
                 m_innerCircle.transform.rotation = m_pointer.transform.rotation;
             }
-
-            Debug.Log("here");
         }
+    }
+
+    private void VisualizeTimeSlow()
+    {
+        float slowTest = Time.deltaTime / Time.timeScale * test * 50;
+        //Debug.Log(slowTest);
+        if (test > 0.1f)
+            test -= 0.08f;
+        m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + slowTest);
     }
 
     //************************//

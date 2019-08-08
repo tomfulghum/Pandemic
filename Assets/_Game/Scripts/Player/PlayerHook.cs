@@ -637,7 +637,7 @@ public class PlayerHook : MonoBehaviour
         return cancelCondition;
     }
 
-    private void ProgressiveTimeSlowTwo(float _x) //muss wahrscheinlihc nichtmal eine coroutine sein
+    private void ProgressiveTimeSlowTwo(float _x) 
     {
         if (Time.timeScale > m_maxTimeSlow)
         {
@@ -646,7 +646,7 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private void ProgressiveTimeSlow() //muss wahrscheinlihc nichtmal eine coroutine sein
+    private void ProgressiveTimeSlow() //fast slow
     {
         if (Time.timeScale > m_maxTimeSlow)
         {

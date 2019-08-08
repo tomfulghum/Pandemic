@@ -3990,6 +3990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5f402655d2e0546b36ae802adde465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_followPointer: 0
   m_outerCircle: {fileID: 710662383}
   m_innerCircle: {fileID: 2110426431}
   m_pointer: {fileID: 1033272824}
