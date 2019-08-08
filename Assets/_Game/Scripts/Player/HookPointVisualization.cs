@@ -44,20 +44,21 @@ public class HookPointVisualization : MonoBehaviour
     {
         if (m_innerCircle.transform.rotation != m_pointer.transform.rotation)
         {
-            // m_innerCircle.transform.rotation = Quaternion.Lerp(m_innerCircle.transform.rotation, Quaternion.FromToRotation(m_innerCircle.transform.position, m_pointer.transform.position - m_innerCircle.transform.position), Time.deltaTime * 2);
-            // m_innerCircle.transform.rotation = Quaternion.Lerp(m_innerCircle.transform.rotation, m_pointer.transform.rotation, Time.time * 1);
+            float angle = Vector2.SignedAngle(m_innerCircle.transform.right, m_pointer.transform.right);
+            float targetAngle = m_pointer.transform.eulerAngles.z;
 
-            float angle = Vector2.Angle(m_innerCircle.transform.right, m_pointer.transform.right);
-            m_innerCircle.transform.rotation = Quaternion.Lerp(m_innerCircle.transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), Time.deltaTime / Time.timeScale * 2);
+            if(angle < 0)
+            {
+                m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z - 1);
+            } else
+            {
+                m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + 1);
+            }
 
-            //Vector3 vectorToTarget = m_innerCircle.transform.position - m_pointer.transform.position;
-            //Debug.Log("vector to target: " + vectorToTarget);
-            ////float angle = Vector2.Angle(m_innerCircle.transform.right, m_pointer.transform.right);
-            //Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            //Debug.Log("q: " + q);
-            //m_innerCircle.transform.rotation = Quaternion.Slerp(m_innerCircle.transform.rotation, q, Time.deltaTime / Time.timeScale * 2);
-
-            //transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(angle - 90.0f, Vector3.forward), Time.deltaTime * 2);
+            if(Mathf.Abs(angle) < 1.5f)
+            {
+                m_innerCircle.transform.rotation = m_pointer.transform.rotation;
+            }
 
             Debug.Log("here");
         }

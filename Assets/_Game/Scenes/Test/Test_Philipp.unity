@@ -4712,13 +4712,12 @@ MonoBehaviour:
   m_hookSpeed: 15
   m_pullSpeed: 15
   m_maxTimeSlow: 0.1
-  m_maxTimeActive: 2
+  m_maxTimeActive: 20
   m_targetReachedTolerance: 0.2
   m_cancelHookWithSpace: 1
   m_cancelHookWithNewHook: 1
   m_cancelDistancePercentage: 0.5
   m_formOfTimeSlow: 3
-  m_radiusVisualization: {fileID: 0}
   m_hookPointVisualization: {fileID: 1563180656}
   m_hookPointFilter:
     serializedVersion: 2
@@ -5008,12 +5007,12 @@ PrefabInstance:
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.4
+      value: -2.4
       objectReference: {fileID: 0}
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.24
+      value: -3.63
       objectReference: {fileID: 0}
     - target: {fileID: 6374442912641036238, guid: cf85e7df2a3b90b4f9421ec368e0b54a,
         type: 3}
