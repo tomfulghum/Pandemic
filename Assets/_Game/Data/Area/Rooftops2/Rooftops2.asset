@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
-  m_Name: ArtTestScene
+  m_Name: Rooftops2
   m_EditorClassIdentifier: 
-  m_id: 44d1c282033192a409313cef2c99dce1
-  m_sceneName: 
-  m_spawnPoints: []
+  m_id: 49278e3d575846c408b6f974149ada5c
+  m_sceneName: Blockout_Rooftops02
+  m_spawnPoints:
+  - {fileID: 11400000, guid: 52171eabe1ab9c145aa2926494d2785f, type: 2}
+  - {fileID: 11400000, guid: afeb674f9927e3c4c81107f760aba401, type: 2}
