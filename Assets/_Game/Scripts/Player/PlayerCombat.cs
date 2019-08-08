@@ -29,9 +29,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private int m_maxHealth = 10;
     [SerializeField] private Transform m_respawnPoint = default; //old
     [SerializeField] private Text m_healthVisualization = default;
-    
+
     //[SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
-   // [SerializeField] private float m_controllerTolerance = 0.5f; //brauch ich die noch?
+    // [SerializeField] private float m_controllerTolerance = 0.5f; //brauch ich die noch?
 
     [SerializeField] private float m_dashSpeed = 20f;
     [SerializeField] private float m_dashDuration = 0.2f;
@@ -80,7 +80,7 @@ public class PlayerCombat : MonoBehaviour
     private bool m_dashCoolDownActive; //--> irgendwie besser lösen
     //private bool m_comboActive;
 
-    private bool m_invincible; 
+    private bool m_invincible;
 
     //private int m_currentHitPriority = 1;
 
@@ -190,9 +190,9 @@ public class PlayerCombat : MonoBehaviour
         UpdateHealthVisual();
         if (m_currentHealth <= 0)
         {
-            transform.position = m_respawnPoint.position;
             m_currentHealth = m_maxHealth;
             UpdateHealthVisual();
+            GameManager.Instance.LoadGame();
         }
     }
 
