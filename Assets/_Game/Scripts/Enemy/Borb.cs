@@ -41,7 +41,7 @@ public class Borb : MonoBehaviour
     [SerializeField] private bool m_useHeightAdjustments = false;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
-    [SerializeField] private BoxCollider2D m_knockBackCollider;
+    //[SerializeField] private BoxCollider2D m_knockBackCollider = default;
 
     //******************//
     //    Properties    //

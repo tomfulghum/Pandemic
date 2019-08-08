@@ -50,10 +50,13 @@ public class PlayerAnim : MonoBehaviour
         }
 
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
-        if (m_facingLeft == false)
-            GetComponent<SpriteRenderer>().flipX = false;
-        else
-            GetComponent<SpriteRenderer>().flipX = true;
+        if (m_pc.currentAttackState != PlayerCombat.AttackState.Dash)
+        {
+            if (m_facingLeft == false)
+                GetComponent<SpriteRenderer>().flipX = false;
+            else
+                GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
 
 

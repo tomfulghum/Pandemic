@@ -112,7 +112,8 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private bool m_cancelHookWithNewHook = true;
     [SerializeField] private float m_cancelDistancePercentage = 0.5f; //wie viel prozent des abstands der spieler geschafft haben muss bevor er den hook abbrechen kann
     [SerializeField] private TimeSlow m_formOfTimeSlow = TimeSlow.FastSlow;
-    [SerializeField] private GameObject m_radiusVisualization = default; //rename
+    //[SerializeField] private GameObject m_radiusVisualization = default; //rename
+    [SerializeField] private GameObject m_hookPointVisualization = default; //rename
     [SerializeField] private LayerMask m_hookPointFilter = default; //Filter Layer to only get Hook Points in Sight
     [SerializeField] private LayerMask m_hookPointLayer = default; //default layer einstellen
     [SerializeField] private bool m_slowTimeWhileAiming = default;
@@ -180,6 +181,9 @@ public class PlayerHook : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         m_rb = GetComponent<Rigidbody2D>();
+
+        if (m_hookPointVisualization != null)
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().SetObjectScale(m_hookRadius);
     }
 
     void Update()
@@ -463,9 +467,14 @@ public class PlayerHook : MonoBehaviour
 
     private void ResetValues()
     {
-        if (m_radiusVisualization != null)
+        //if (m_radiusVisualization != null)
+        //{
+        //    m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
+        //}
+
+        if (m_hookPointVisualization != null)
         {
-            m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().ActivateVisuals(false);
         }
 
         m_timeSlowTest = 0; //wofür?
@@ -483,11 +492,16 @@ public class PlayerHook : MonoBehaviour
             m_currentHookState = HookState.SearchTarget;
         }
 
-        if (m_radiusVisualization != null)
+        //if (m_radiusVisualization != null)
+        //{
+        //    m_radiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
+        //    m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
+        //    m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+        //}
+
+        if (m_hookPointVisualization != null)
         {
-            m_radiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
-            m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
-            m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().ActivateVisuals(true);
         }
 
         Vector2 direction = m_usingController ? m_controllerDirection : m_mouseDirection;
@@ -510,6 +524,12 @@ public class PlayerHook : MonoBehaviour
             }
         }
         VisualizeCone(direction);
+
+        if (m_hookPointVisualization != null)
+        {
+            m_hookPointVisualization.GetComponent<HookPointVisualization>().SetPointerDirection(direction);
+        }
+
 
         SlowTime();
         m_currentTimeActive += Time.deltaTime / Time.timeScale;
@@ -617,7 +637,7 @@ public class PlayerHook : MonoBehaviour
         return cancelCondition;
     }
 
-    private void ProgressiveTimeSlowTwo(float _x) //muss wahrscheinlihc nichtmal eine coroutine sein
+    private void ProgressiveTimeSlowTwo(float _x) 
     {
         if (Time.timeScale > m_maxTimeSlow)
         {
@@ -626,7 +646,7 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private void ProgressiveTimeSlow() //muss wahrscheinlihc nichtmal eine coroutine sein
+    private void ProgressiveTimeSlow() //fast slowvoid
     {
         if (Time.timeScale > m_maxTimeSlow)
         {
@@ -713,7 +733,7 @@ public class PlayerHook : MonoBehaviour
     }
 
     private Collider2D FindNearestTargetInRange(Vector2 _searchDirection) //evtl besser als find target oder so --> noch überlegn wie man die vector2.zero geschichte besser lösen könnte //not working? //hier evtl einen kleinen kreis als absicherung bei sehr nahen hookpoints --> cone erst aber einer gewissen distanz
-    {
+    {//vllt mit nur einer liste arbeiten und nach und nach sachen entfernen?
         if (_searchDirection == Vector2.zero)
         {
             return null;
@@ -768,13 +788,14 @@ public class PlayerHook : MonoBehaviour
 
         Collider2D nearestTargetPoint = new Collider2D();
         float lowestAngle = Mathf.Infinity;
+        bool onlyThrowableObjectsInCone = CheckHookPointsInCone(hookPointsInCone);
         for (int i = 0; i < hookPointsInCone.Count; i++) //bisher kein check ob throwable or not --> siehe old function
         {
             Vector2 playerToColliderDirection = (hookPointsInCone[i].transform.position - transform.position).normalized;
             float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
             if (angleInDeg < lowestAngle)
             {
-                if (hookPointsInCone.Count > 1)
+                if (hookPointsInCone.Count > 1 && onlyThrowableObjectsInCone == false)
                 {
                     if (hookPointsInCone[i].CompareTag("Throwable")) //evlt noch ne bessere lösung finden
                     {
@@ -803,6 +824,16 @@ public class PlayerHook : MonoBehaviour
             nearestTargetPoint.GetComponent<SpriteRenderer>().color = Color.green;
         }
         return nearestTargetPoint;
+    }
+
+    private bool CheckHookPointsInCone(List<Collider2D> _hookPointsInCone) //returns true if all objects in cone are throwable (better targeting for multiple throwable objects in cone)
+    {
+        for(int i = 0; i < _hookPointsInCone.Count; i++)
+        {
+            if (_hookPointsInCone[i].CompareTag("Throwable") == false)
+                return false;
+        }
+        return true;
     }
 
     private void ResetHookPoints() //müssten eigentlich nur hookpoints in TotalHookPoints sein

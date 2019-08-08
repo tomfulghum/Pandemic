@@ -13,7 +13,7 @@ public class ObjectSpawner : MonoBehaviour
 
     [SerializeField] private bool m_spawn = true;
     [SerializeField] private int m_maxNumOfActiveItems = 5;
-    [SerializeField] private GameObject m_objectToSpawn;
+    [SerializeField] private GameObject m_objectToSpawn = default;
 
     //**********************//
     //    Private Fields    //

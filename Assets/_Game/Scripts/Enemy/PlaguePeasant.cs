@@ -27,18 +27,23 @@ public class PlaguePeasant : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
+    [SerializeField] private bool m_dontMove = false;
+
     [SerializeField] private float m_chaseRadius = 3f;
     [SerializeField] private float m_movementSpeed = 1f;
 
     [SerializeField] private float m_minShootDistance = 10f;
-    [SerializeField] private List<int> m_AimAngles;
-    [SerializeField] private List<int> m_ThrowForces;
-    [SerializeField] private float m_projectileSpeed = 15f;
-    [SerializeField] private GameObject m_projectile;
-    [SerializeField] private GameObject m_pickUpProjectile;
+    [SerializeField] private List<int> m_AimAngles = default; // überarbeiten zu neuenm system
+    [SerializeField] private List<int> m_ThrowForces = default;
 
-    [SerializeField] private Transform m_projectileStartPos;
-    [SerializeField] private GameObject m_attackHitBox;
+    //[SerializeField] private float m_minThrowAngle = 30; //not yet implemented
+    //[SerializeField] private float m_maxThrowAngle = 60;
+
+    [SerializeField] private GameObject m_projectile = default;
+    [SerializeField] private GameObject m_pickUpProjectile = default;
+
+    [SerializeField] private Transform m_projectileStartPos = default;
+    //[SerializeField] private GameObject m_attackHitBox = default;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
 
@@ -63,8 +68,8 @@ public class PlaguePeasant : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
-    private MovementState m_currentMovementState = MovementState.Decide; 
-    private MovementDirection m_currentMovementDirection = MovementDirection.Left;
+    private MovementState m_currentMovementState = MovementState.Decide;
+    private MovementDirection m_currentMovementDirection = MovementDirection.Right;
 
     private float m_perceptionRadius = 30f;
     private float m_perceptionAngle = 15f;
@@ -73,8 +78,15 @@ public class PlaguePeasant : MonoBehaviour
     private int m_idleCounter;
     private int m_sitCounter;
 
+    private float m_rangedAnimSpeedMultiplier = 1f;
+    private float m_rangedAttackSin = 1f;
+    private float m_rangedAttackAnimSpeed = 2f;
+
     private bool m_rangedAttackActive; //? private?
     private bool m_rangedAttackOnCooldown;
+
+    //radius of circle
+    private Vector2 m_projectileTargetPosition;
 
     private Transform m_objectToChase;
     private Transform m_player;
@@ -93,6 +105,7 @@ public class PlaguePeasant : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
+        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed);
     }
 
     // Update is called once per frame
@@ -172,6 +185,7 @@ public class PlaguePeasant : MonoBehaviour
                         if (m_rangedAttackOnCooldown == false)
                             StartCoroutine(RangedAttack());
                         m_rb.velocity = Vector2.zero;
+                        m_currentMovementState = MovementState.Decide;
                         break;
                     }
                 case MovementState.Attack:
@@ -194,27 +208,32 @@ public class PlaguePeasant : MonoBehaviour
         if (m_player != null && m_objectToChase == null && m_rangedAttackOnCooldown == false && Vector2.Distance(m_player.position, transform.position) > m_minShootDistance) //nur wenn spieler weit genug von plauge peasant weg ist schießt er
         {
             //ShootProjectile(); //test für targeting
+            m_projectileTargetPosition = m_player.transform.position;
             m_currentMovementState = MovementState.RangedAttack;
             if (m_player.position.x > transform.position.x)
                 m_currentMovementDirection = MovementDirection.Right;
             else
                 m_currentMovementDirection = MovementDirection.Left;
         }
-        else if (m_rangedAttackActive == false)
+        else if (m_rangedAttackActive == false && m_dontMove == false)
         {
             if (m_objectToChase != null)
                 m_currentMovementState = MovementState.Chase;
-            else if (CheckGroundAhead() && currentMovementState != MovementState.Idle && currentMovementState != MovementState.Sit)
-                m_currentMovementState = MovementState.Move;
             else if (currentMovementState != MovementState.Idle && currentMovementState != MovementState.Sit)
             {
-                ChangeDirection();
-                m_currentMovementState = MovementState.Move;
+                if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
+                {
+                    ChangeDirection();
+                    m_currentMovementState = MovementState.Move;
+                }
+                else
+                    m_currentMovementState = MovementState.Move;
+
             }
         }
     }
 
-    private IEnumerator RangedAttack()
+    private IEnumerator RangedAttack() //ändern --> auf animation speed umstellen
     {
         m_rangedAttackActive = true;
         GetComponent<Animator>().SetTrigger("RangedAttack");
@@ -226,39 +245,58 @@ public class PlaguePeasant : MonoBehaviour
 
     private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
-        if(Random.Range(0f, 1f) < 0.7f)
-            Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed + (Mathf.Sin(m_rangedAttackSin) * m_rangedAnimSpeedMultiplier));
+        m_rangedAttackSin += 0.1f;
+
+        if (Random.Range(0f, 1f) < 0.7f)
+        {
+            GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+            projectile.GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow(m_projectileTargetPosition);
+            projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
+        }
         else
-            Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow();
+        {
+            Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CalculateOptimalThrow(m_projectileTargetPosition);
+        }
         m_rangedAttackActive = false;
     }
 
-    private Vector2 CalculateOptimalThrow()
+    
+    private float CalculateThrowVelocity(float _throwAngle)
+    {
+        float horizontalDistance = Mathf.Abs(m_projectileStartPos.position.x - m_projectileTargetPosition.x);
+        float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - m_projectileTargetPosition.y);
+        float initialVelocity = horizontalDistance * Mathf.Sqrt(-Physics2D.gravity.y / 2 * (horizontalDistance * Mathf.Tan(_throwAngle * Mathf.Deg2Rad) - verticalDistance)) / Mathf.Cos(_throwAngle * Mathf.Deg2Rad);
+       // float initialVelocity = Mathf.Sqrt(-Physics2D.gravity.y * Mathf.Pow(m_projectileTargetPosition.x, 2) / (2 * Mathf.Pow(Mathf.Cos(_throwAngle * Mathf.Deg2Rad), 2) * (m_projectileTargetPosition.y - m_projectileTargetPosition.x * Mathf.Tan(_throwAngle * Mathf.Deg2Rad))));
+        return initialVelocity;
+    }
+
+    private Vector2 CalculateOptimalThrow(Vector2 _targetPosition)
     {
         Vector2 launchVelocity = Vector2.zero;
         float minDistanceToPlayer = Mathf.Infinity;
-        foreach(int force in m_ThrowForces)
+        foreach (int force in m_ThrowForces)
         {
-            foreach(int angle in m_AimAngles)
+            foreach (int angle in m_AimAngles)
             {
                 if (currentMovementDirection == MovementDirection.Right)
                 {
                     Vector2 landingPosition = CalculateThrowLandingPosition(m_projectileStartPos.position, new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force);
-                    if(Vector2.Distance(landingPosition, m_player.position) < minDistanceToPlayer)
+                    if (Vector2.Distance(landingPosition, _targetPosition) < minDistanceToPlayer)
                     {
                         launchVelocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force;
-                        minDistanceToPlayer = Vector2.Distance(landingPosition, m_player.position);
+                        minDistanceToPlayer = Vector2.Distance(landingPosition, _targetPosition);
                     }
-                }               
+                }
                 else
                 {
                     Vector2 landingPosition = CalculateThrowLandingPosition(m_projectileStartPos.position, new Vector2(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force);
-                    if (Vector2.Distance(landingPosition, m_player.position) < minDistanceToPlayer)
+                    if (Vector2.Distance(landingPosition, _targetPosition) < minDistanceToPlayer)
                     {
                         launchVelocity = new Vector2(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force;
-                        minDistanceToPlayer = Vector2.Distance(landingPosition, m_player.position);
+                        minDistanceToPlayer = Vector2.Distance(landingPosition, _targetPosition);
                     }
-                }             
+                }
             }
         }
         return launchVelocity;

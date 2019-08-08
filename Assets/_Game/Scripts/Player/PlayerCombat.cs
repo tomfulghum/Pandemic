@@ -14,7 +14,7 @@ public class PlayerCombat : MonoBehaviour
     //    Internal Types    //
     //**********************//
 
-    public enum AttackState //attack state and attack type?
+    public enum AttackState //attack state in player state ändern
     {
         None,
         Attack,
@@ -27,20 +27,15 @@ public class PlayerCombat : MonoBehaviour
     //************************//
 
     [SerializeField] private int m_maxHealth = 10;
-    [SerializeField] private Transform m_respawnPoint;
-    [SerializeField] private Text m_healthVisualization;
-    [SerializeField] private bool m_allowMeleeAttack = false;
-    [SerializeField] private float m_attackRange = 2.5f;
-    //[SerializeField] private float m_smashSpeed = 20f;
-    [SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
-    [SerializeField] private float m_controllerTolerance = 0.5f;
+    [SerializeField] private Transform m_respawnPoint = default; //old
+    [SerializeField] private Text m_healthVisualization = default;
+
+    //[SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
+    // [SerializeField] private float m_controllerTolerance = 0.5f; //brauch ich die noch?
 
     [SerializeField] private float m_dashSpeed = 20f;
     [SerializeField] private float m_dashDuration = 0.2f;
     [SerializeField] private float m_dashCooldown = 0.5f;
-
-    [SerializeField] private float m_timeToCombo = 0.1f;
-    [SerializeField] private float m_meleeAttackTime = 0.3f;
 
     [SerializeField] private float m_hitFreezeTime = 0.5f;
     [SerializeField] private float m_hitKnockbackTime = 0.2f;
@@ -62,7 +57,7 @@ public class PlayerCombat : MonoBehaviour
 
 
     private int m_currentHealth;
-    private float m_attackAngle = 25f; //veraltet nur noch füs visuelle da
+    //private float m_attackAngle = 25f; //veraltet nur noch füs visuelle da
 
     private bool m_attacking;
     private bool m_facingLeft;
@@ -75,22 +70,22 @@ public class PlayerCombat : MonoBehaviour
     private int m_colorChangeCounter;
 
     //Combo Attack Test
-    private int m_attackNumber;
-    private Coroutine m_meleeAttack;
-    private Coroutine m_meleeMovement;
-    private bool m_currentlyAttacking;
-    private float m_currentAngle;
-    private bool m_alreadyAttacked;
-    private bool m_attackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
+    //private int m_attackNumber;
+    //private Coroutine m_meleeAttack;
+    //private Coroutine m_meleeMovement;
+    //private bool m_currentlyAttacking;
+    //private float m_currentAngle;
+    //private bool m_alreadyAttacked;
+    //private bool m_attackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
     private bool m_dashCoolDownActive; //--> irgendwie besser lösen
-    private bool m_comboActive;
+    //private bool m_comboActive;
 
-    private bool m_invincible; //After every attack some invincibility frames --> change later to a priority system
-    private float m_invincibilityTime = 0.2f; //time during which the player is invincible --> priority system?, invincibility time evtl per move?
+    private bool m_invincible;
 
-    private int m_currentHitPriority = 1;
+    //private int m_currentHitPriority = 1;
 
     private Coroutine m_knockbackCoroutine = null;
+    private Coroutine m_dashCoroutine = null;
 
     private PlayerInput m_input;
     private Actor2D m_actor;
@@ -123,74 +118,9 @@ public class PlayerCombat : MonoBehaviour
             SetFacingDirection(); //ist es klug jedes frame zu setzen? --> wenn ja so einbauen das es auch funktioniert 
             if (m_input.player.GetButtonDown(m_input.dashButton) && m_currentAttackState == AttackState.None && m_dashCoolDownActive == false)
             {  //&& (Input.GetAxis("Horizontal") < ControllerTolerance || Input.GetAxis("Horizontal") > ControllerTolerance)
-                StartCoroutine(Dash());
-            }
-
-            if (((m_input.player.GetButtonDown(m_input.attackButton) || m_alreadyAttacked) && (m_currentAttackState == AttackState.None || m_currentAttackState == AttackState.Attack) && m_attackCoolDownActive == false) && m_allowMeleeAttack)
-            {
-                if (m_comboActive)
-                {
-                    m_alreadyAttacked = true;
-                }
-
-                if (m_meleeAttack == null)
-                {
-                    m_attackDirection = GetAttackDirection(m_input.player.GetAxis(m_input.aimHorizontalAxis), m_input.player.GetAxis(m_input.aimVerticalAxis));
-                    m_meleeAttack = StartCoroutine(AttackSequence(m_attackNumber));
-                }
-                else if (m_currentlyAttacking == false)
-                {
-                    StopCoroutine(m_meleeAttack);
-                    m_meleeAttack = StartCoroutine(AttackSequence(m_attackNumber));
-                }
-            }
-
-            //if (!m_actor.contacts.below && m_input.player.GetAxis(m_input.smashButton) > m_controllerTolerance && m_currentAttackState == AttackState.None) {
-            //    StartMeteorSmash();
-            //}
-
-            if (m_currentAttackState == AttackState.Attack && m_currentlyAttacking)
-            {
-                VisualizeAttack(m_attackDirection);
-                foreach (Collider2D enemy in CheckEnemyHit(m_attackDirection))
-                {
-                    if (!m_enemiesHit.Contains(enemy))
-                    {
-                        m_enemiesHit.Add(enemy);
-                    }
-                }
-            }
-
-            //if (m_currentAttackState == AttackState.Smash) {
-            //    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, 1, m_layerMask);
-            //    if (hit.collider != null) {
-            //        if (hit.collider.CompareTag("BigEnemy") || hit.collider.CompareTag("Enemy")) {
-            //            hit.collider.GetComponent<Enemy>().GetHit(transform.position, 15, m_currentHitPriority);
-            //        } else {
-            //            StopMeteorSmash();
-            //        }
-            //    }
-            //
-            //    if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy")) { // geht nicht weil actor nicht mit enemy kollidiert
-            //        m_actor.contacts.below.GetComponent<Enemy>().GetHit(transform.position, 15, m_currentHitPriority);
-            //    }
-            //
-            //    if (m_actor.contacts.below && !m_actor.contacts.below.CompareTag("Enemy")) {
-            //        StopMeteorSmash();
-            //    }
-            //}
-        }
-
-        /*
-        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled) { //not needed anymore
-            m_colorChangeCounter++;
-            if (m_colorChangeCounter % 5 == 0) {
-                m_spriteRenderer.color = Color.white;
-            } else {
-                m_spriteRenderer.color = m_originalColor;
+                m_dashCoroutine = StartCoroutine(Dash());
             }
         }
-        */
     }
 
     //*************************//
@@ -232,263 +162,26 @@ public class PlayerCombat : MonoBehaviour
         m_dashCoolDownActive = false;
     }
 
+    private void CancelDash()
+    {
+        m_pm.externalVelocity = Vector2.zero;
+        StopCoroutine(m_dashCoroutine);
+        m_currentAttackState = AttackState.None;
+        m_pm.DisableUserInput(false);
+        m_dashCoolDownActive = false;
+    }
+
     private void SetFacingDirection()
     {
         float currentJoystickDirection = m_input.player.GetAxis(m_input.aimHorizontalAxis);
-        if (currentJoystickDirection != m_xAxis)
+        if (currentJoystickDirection < 0)
         {
-            if (currentJoystickDirection < 0)
-            {
-                m_facingLeft = true;
-            }
-            else if (currentJoystickDirection > 0)
-            {
-                m_facingLeft = false;
-            }
-            m_xAxis = currentJoystickDirection; //wofür ?
+            m_facingLeft = true;
         }
-    }
-
-    private List<Collider2D> CheckEnemyHit(Vector2 _direction) //return list with all enemies hit?
-    {
-        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_attackRange);
-        List<Collider2D> enemiesHit = new List<Collider2D>();
-        for (int i = 0; i < colliderInRange.Length; i++)
+        else if (currentJoystickDirection > 0)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (colliderInRange[i].transform.position - transform.position), m_attackRange, m_layerMask);
-            if (hit.collider != null && (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("BigEnemy")))
-            {
-                Vector2 playerToCollider = (colliderInRange[i].transform.position - transform.position).normalized;
-                Vector2 direction = _direction.normalized;
-                float angleInDeg = Vector2.Angle(playerToCollider, direction);
-                if (angleInDeg < 90)
-                {
-                    hit.collider.GetComponent<Enemy>().GetHit(transform.position, 7, m_currentHitPriority); //wie bei throwable object umstellen
-                    enemiesHit.Add(hit.collider);
-                }
-            }
+            m_facingLeft = false;
         }
-        return enemiesHit;
-    }
-
-    private Vector2 GetAttackDirection(float _xInput, float _yInput)
-    {
-        Vector2 direction;
-        if (m_facingLeft)
-        {
-            direction = Vector2.left;
-        }
-        else
-        {
-            direction = Vector2.right;
-        }
-
-        if (m_input.player.GetAxis(m_input.aimVerticalAxis) < -m_controllerTolerance)
-        {
-            direction = Vector2.down;
-        }
-        if (m_input.player.GetAxis(m_input.aimVerticalAxis) > m_controllerTolerance)
-        {
-            direction = Vector2.up;
-        }
-        if (m_input.player.GetAxis(m_input.aimHorizontalAxis) < -m_controllerTolerance)
-        {
-            direction = Vector2.left;
-        }
-        if (m_input.player.GetAxis(m_input.aimHorizontalAxis) > m_controllerTolerance)
-        {
-            direction = Vector2.right;
-        }
-
-        return direction;
-    }
-
-    private IEnumerator AttackCooldown() //vllt brauch ich das gar nicht --> testen ob es sich gut anfühlt
-    {
-        m_attackCoolDownActive = true;
-        yield return new WaitForSeconds(0.1f);
-        m_attackCoolDownActive = false;
-    }
-
-    private IEnumerator AttackSequence(int _numOfAttack) //darauf achten während dem air attack etwas gravity dazuzurechnen
-    {
-        m_comboActive = true;
-        m_currentAttackState = AttackState.Attack;
-        if (m_actor.contacts.below)
-        {
-            m_pm.DisableUserInput(true);
-        }
-
-        if (_numOfAttack == 0)
-        {
-            yield return StartCoroutine(FirstAttack());
-        }
-        if (_numOfAttack == 1)
-        {
-            yield return StartCoroutine(SecondAttack());
-        }
-        if (_numOfAttack == 2)
-        {
-            yield return StartCoroutine(ThirdAttack());
-        }
-
-        yield return new WaitForSeconds(m_timeToCombo);
-        m_pm.DisableUserInput(false);
-        m_currentAttackState = AttackState.None;
-        m_attackNumber = 0;
-        m_meleeAttack = null;
-        m_comboActive = false;
-        StartCoroutine(AttackCooldown());
-        m_currentHitPriority = 1;
-    }
-
-    private IEnumerator AttackMovement(float _repetitions, Vector2 _direction, float _knockBackForce) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
-    {
-        for (int i = 0; i < _repetitions; i++)
-        {
-            float test = 1 - Mathf.Pow((i), 2) / 100;
-            if (test < 0)
-                test = 0;
-
-            Vector2 MovementDirection = _direction.normalized;
-            m_pm.externalVelocity = MovementDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
-            if (m_actor.contacts.above || m_actor.contacts.below)
-            {
-                m_pm.externalVelocity = new Vector2(m_pm.externalVelocity.x, 0);
-            }
-            if (m_actor.contacts.left || m_actor.contacts.right)
-            {
-                m_pm.externalVelocity = new Vector2(0, m_pm.externalVelocity.y);
-            }
-
-            yield return new WaitForSeconds(0.005f);
-        }
-    }
-
-    private void AttackMove()
-    {
-        if (m_input.player.GetAxis(m_input.aimVerticalAxis) != 0 || m_input.player.GetAxis(m_input.aimHorizontalAxis) != 0) //was ist mit down und up?
-        {
-            if (m_meleeAttack != null)
-            {
-                StopCoroutine(m_meleeAttack);
-            }
-            if (GetAttackDirection(m_input.player.GetAxis(m_input.aimHorizontalAxis), m_input.player.GetAxis(m_input.aimVerticalAxis)) == Vector2.left)
-            {
-                m_meleeMovement = StartCoroutine(AttackMovement(20, new Vector2(-1, -1), 7 + 1 / m_meleeAttackTime));
-            }
-            else if ((GetAttackDirection(m_input.player.GetAxis(m_input.aimHorizontalAxis), m_input.player.GetAxis(m_input.aimVerticalAxis)) == Vector2.right))
-            {
-                m_meleeMovement = StartCoroutine(AttackMovement(20, new Vector2(1, -1), 7 + 1 / m_meleeAttackTime));
-            }
-        }
-    }
-
-    private IEnumerator FirstAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
-    {
-        if (m_actor.contacts.below)
-        {
-            AttackMove();
-        }
-        m_currentAngle = m_attackAngle;
-        m_attackNumber = 1;
-        m_currentlyAttacking = true;
-        m_alreadyAttacked = false;
-        m_currentHitPriority = 1;
-
-        yield return new WaitForSeconds(m_meleeAttackTime);
-        m_currentlyAttacking = false;
-    }
-
-    private IEnumerator SecondAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen --> nicht nötig weil movement in air nicht disabled ist
-    {
-        if (m_actor.contacts.below)
-        {
-            AttackMove();
-        }
-        m_currentAngle = m_attackAngle;
-        m_attackNumber = 2;
-        m_currentlyAttacking = true;
-        m_alreadyAttacked = false;
-        m_attackDirection = RotateVector(m_attackDirection, 20);
-        m_currentHitPriority = 2;
-
-        yield return new WaitForSeconds(m_meleeAttackTime);
-        m_currentlyAttacking = false;
-    }
-    private IEnumerator ThirdAttack() //darauf achten während dem air attack etwas gravity dazuzurechnen
-    {
-        m_comboActive = false;
-        if (m_actor.contacts.below)
-        {
-            AttackMove();
-        }
-        m_currentAngle = m_attackAngle;
-        m_currentlyAttacking = true;
-        m_alreadyAttacked = false;
-        m_attackDirection = RotateVector(m_attackDirection, -40);
-        m_currentHitPriority = 3;
-
-        yield return new WaitForSeconds(m_meleeAttackTime);
-        m_pm.DisableUserInput(false);
-        m_currentlyAttacking = false;
-        m_attackNumber = 0;
-        StopCoroutine(m_meleeAttack);
-        m_meleeAttack = null;
-        m_currentAttackState = AttackState.None; //function end attack schreiben
-        StartCoroutine(AttackCooldown());
-        m_currentHitPriority = 1;
-    }
-
-    private void VisualizeAttack(Vector2 _direction)
-    {
-        Vector2 directionLine = _direction.normalized * m_attackRange;
-        Vector2 leftArc = RotateVector(directionLine, m_attackAngle);
-        Vector2 rightArc = RotateVector(directionLine, -m_attackAngle);
-
-        Vector2 hitVisual = RotateVector(directionLine, m_currentAngle);
-        //CurrentAngle -= (AttackAngle*2) -  1 / FirstAttackTime; //Time.deltaTime?
-        m_currentAngle -= 1 * 1 / m_meleeAttackTime;
-
-        Debug.DrawLine(transform.position, (Vector2)transform.position + hitVisual, Color.red);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + directionLine, Color.green);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + leftArc, Color.green);
-        Debug.DrawLine(transform.position, (Vector2)transform.position + rightArc, Color.green);
-    }
-
-    //private void StartMeteorSmash() //rename
-    //{
-    //    m_invincible = true;
-    //    m_currentAttackState = AttackState.Smash;
-    //    Vector2 velocityDown = Vector2.down * m_smashSpeed;
-    //    m_pm.DisableUserInput(true);
-    //    m_pm.externalVelocity = velocityDown;
-    //}
-    //
-    //private void StopMeteorSmash()
-    //{
-    //    m_pm.DisableUserInput(false);
-    //    m_currentAttackState = AttackState.None;
-    //    StartCoroutine(InvincibilityFrames(m_invincibilityTime));
-    //}
-
-    private Vector2 RotateVector(Vector2 _v, float _degrees)
-    {
-        float sin = Mathf.Sin(_degrees * Mathf.Deg2Rad);
-        float cos = Mathf.Cos(_degrees * Mathf.Deg2Rad);
-
-        float tx = _v.x;
-        float ty = _v.y;
-        _v.x = (cos * tx) - (sin * ty);
-        _v.y = (sin * tx) + (cos * ty);
-        return _v;
-    }
-
-    private IEnumerator InvincibilityFrames(float _duration)
-    {
-        m_invincible = true;
-        yield return new WaitForSeconds(_duration);
-        m_invincible = false;
     }
 
     private void TakeDamage()
@@ -497,9 +190,9 @@ public class PlayerCombat : MonoBehaviour
         UpdateHealthVisual();
         if (m_currentHealth <= 0)
         {
-            transform.position = m_respawnPoint.position;
             m_currentHealth = m_maxHealth;
             UpdateHealthVisual();
+            GameManager.Instance.LoadGame();
         }
     }
 
@@ -511,29 +204,8 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
     {
-        //PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
-        //m_pm.DisableUserInput(true);
-        //
-        //StartCoroutine(InvincibilityFrames(m_invincibilityTime));
-        //
-        //for (int i = 0; i < _repetitions; i++) {
-        //    float test = 1 - Mathf.Pow((i), 3) / 100;
-        //    if (test < 0)
-        //        test = 0;
-        //    int additionalPosition = 0;
-        //    if (Mathf.Abs(transform.position.x - _knockBackOrigin.position.x) < 0.15f) {//KnockBacktolerance or so
-        //        additionalPosition = 10;
-        //    }
-        //    Vector2 KnockBackDirection = (transform.position - new Vector3(_knockBackOrigin.position.x + additionalPosition, _knockBackOrigin.position.y, _knockBackOrigin.position.z)).normalized;
-        //    m_pm.externalVelocity = KnockBackDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee //funktioniertt das mit der enemy collission?
-        //
-        //    yield return new WaitForSeconds(0.03f);
-        //}
-        //m_spriteRenderer.color = m_originalColor;
-        //m_colorChangeCounter = 0;
-        //PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
-        //m_pm.DisableUserInput(false);
-
+        if (m_currentAttackState == AttackState.Dash)
+            CancelDash();
 
         TakeDamage();
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
@@ -549,7 +221,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (_enemy)
         {
-            // _enemy.frozen = true;
             _enemy.SetFreeze(true);
         }
 
@@ -561,7 +232,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (_enemy)
         {
-            // _enemy.frozen = false;
             _enemy.SetFreeze(false);
         }
 
@@ -586,7 +256,7 @@ public class PlayerCombat : MonoBehaviour
             //sinvoll? oder vllt nur get hit wenn knock back aktuell nicht aktiv ist?
             //was ist mit attacksequence usw.? die auch stoppen?
             //StopAllCoroutines(); //wirklich alle stoppen? --> wahrscheinlich sinnvoll
-            
+
             //evtl stop coroutine dash //+ hier den check machen ob der spieler geknockbacked wird 
             if (m_knockbackCoroutine != null)
             {

@@ -8,7 +8,7 @@ public class PlagueFlyerAnim : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private GameObject m_skull;
+    [SerializeField] private GameObject m_skull = default;
 
     //**********************//
     //    Private Fields    //
