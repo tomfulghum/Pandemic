@@ -192,7 +192,7 @@ public class PlayerCombat : MonoBehaviour
         {
             m_currentHealth = m_maxHealth;
             UpdateHealthVisual();
-            GameManager.Instance.LoadGame();
+            GameManager.Instance.LoadLastSave();
         }
     }
 
