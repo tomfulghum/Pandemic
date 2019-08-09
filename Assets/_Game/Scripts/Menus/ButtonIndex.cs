@@ -10,7 +10,7 @@ public class ButtonIndex : MonoBehaviour
     //**********************//
 
     [SerializeField] bool keyDown = false;
-    [SerializeField] int maxIndex = 0;
+    [SerializeField] int maxIndex;
     [SerializeField] Button backButton = default;
 
     //*******************//

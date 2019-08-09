@@ -9,7 +9,7 @@ public class RollingCredits : MonoBehaviour
     //**********************//
 
     [SerializeField] int scrollSpeedPerSecond = 100;
-    [SerializeField] int delay = 1;
+    [SerializeField] int startPosY;
 
     //**********************//
     //    Private Fields    //
@@ -29,12 +29,12 @@ public class RollingCredits : MonoBehaviour
 
     private void Start()
     {
-        maxVector = new Vector3(0, delay, 0);
+        maxVector = new Vector3(0, -startPosY, 0);
     }
 
     void OnEnable()
     {
-        credits.anchoredPosition3D = new Vector3(0, -2900, 0);
+        credits.anchoredPosition3D = new Vector3(0, startPosY, 0);
     }
 
     void Update()
@@ -42,7 +42,7 @@ public class RollingCredits : MonoBehaviour
         credits.anchoredPosition3D += new Vector3(0, scrollSpeedPerSecond * Time.deltaTime, 0);
 
         if (credits.anchoredPosition3D.y > maxVector.y) {
-            credits.anchoredPosition3D = new Vector3(0, -2530, 0);
+            credits.anchoredPosition3D = new Vector3(0, startPosY, 0);
         }
     }
 }
