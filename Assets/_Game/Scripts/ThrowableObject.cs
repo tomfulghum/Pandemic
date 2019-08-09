@@ -4,6 +4,7 @@ using UnityEngine;
 
 //requires Component Actor2d
 //bei inactive evtl jegliche bewegung deaktivieren
+//object to follow wird auch nach dem throw nicht auf null gesetzt schlimm?
 public class ThrowableObject : MonoBehaviour
 {
     //**********************//
@@ -38,8 +39,10 @@ public class ThrowableObject : MonoBehaviour
     private float m_speed;
     private bool m_hitGround = false;
     private float m_targetReachedTolerance;
+
     private Actor2D m_actor;
     private Rigidbody2D m_rb;
+    private ObjectKnockBack m_okb;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -49,6 +52,7 @@ public class ThrowableObject : MonoBehaviour
     {
         m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_okb = GetComponentInChildren<ObjectKnockBack>();
     }
 
     // Update is called once per frame
@@ -88,46 +92,13 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Thrown:
                 {
-                    CheckEnemyHit(); //vllt allgemein kollissionsüberprüfung machen
                     GetComponent<SpriteRenderer>().color = Color.yellow;
                     if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
                     {
-                        m_rb.velocity = Vector2.zero;
-                        m_rb.gravityScale = 1f;
-                        m_currentObjectState = ThrowableState.Inactive;
-                        GetComponent<SpriteRenderer>().color = Color.blue;
+                        SetInactive();
                     }
                     break;
                 }
-        }
-    }
-
-    //*************************//
-    //    Private Functions    //
-    //*************************//
-
-    private void CheckEnemyHit()
-    {
-        Transform enemy = null;
-        if (m_actor.contacts.below && m_actor.contacts.below.CompareTag("Enemy"))
-        {
-            enemy = m_actor.contacts.below;
-        }
-        if (m_actor.contacts.above && m_actor.contacts.above.CompareTag("Enemy"))
-        {
-            enemy = m_actor.contacts.above;
-        }
-        if (m_actor.contacts.left && m_actor.contacts.left.CompareTag("Enemy"))
-        {
-            enemy = m_actor.contacts.left;
-        }
-        if (m_actor.contacts.right && m_actor.contacts.right.CompareTag("Enemy"))
-        {
-            enemy = m_actor.contacts.right;
-        }
-        if (enemy != null)
-        {
-            enemy.GetComponent<Enemy>().GetHit(transform.position, 25, 4); //besser machen --> direction object zu enemy + knockback force oder so ausrechnen //4 auch als parameter hit priority übergeben
         }
     }
 
@@ -152,6 +123,7 @@ public class ThrowableObject : MonoBehaviour
         m_currentObjectState = ThrowableState.Thrown;
         m_rb.isKinematic = false;
         m_hitGround = false;
+        m_okb.IsLethal(true);
     }
 
     public void Drop()
@@ -160,5 +132,14 @@ public class ThrowableObject : MonoBehaviour
         m_rb.isKinematic = false;
         m_objectToFollow = null;
         m_rb.velocity = Vector2.zero;
+    }
+
+    public void SetInactive()
+    {
+        m_okb.IsLethal(false);
+        m_rb.velocity = Vector2.zero;
+        m_rb.gravityScale = 1f;
+        m_currentObjectState = ThrowableState.Inactive;
+        GetComponent<SpriteRenderer>().color = Color.blue;
     }
 }

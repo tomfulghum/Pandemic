@@ -34,15 +34,12 @@ public class PlayerAnim : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Jumping)
-        {
-            //m_anim.SetTrigger("Jump");
-            m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
-        }
         m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
 
-        if (m_actor.contacts.below || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled || m_pc.currentAttackState != PlayerCombat.AttackState.Dash) 
+        if (m_actor.contacts.below || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled || m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
+        {
             m_anim.SetBool("JumpActive", false);
+        }
 
         if ((Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f) && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled)
             m_anim.SetBool("Moving", true);

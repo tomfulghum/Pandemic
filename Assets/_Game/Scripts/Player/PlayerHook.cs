@@ -56,7 +56,6 @@ public class PlayerHook : MonoBehaviour
         Waiting,
         Hook,
         Attacking,
-        Jumping,
         Moving,
         Disabled,
         Dead
