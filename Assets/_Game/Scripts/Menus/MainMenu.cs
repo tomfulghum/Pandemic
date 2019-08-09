@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayGame()
     {
-        GameManager.Instance.LoadGame();
+        //GameManager.Instance.LoadGame();
     }
 
     //Exit the game to desktop

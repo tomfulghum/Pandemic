@@ -12,24 +12,34 @@ public class MenuButton : MonoBehaviour
 
     [SerializeField] private Color unselectedColor;
     [SerializeField] private Color selectedColor;
-    [SerializeField] private TextMeshProUGUI textMeshPro;
-    
+
+    //********************//
+    //   Private Fields   //
+    //********************//
+
+    private List<TextMeshProUGUI> textMeshProList;
+
     //*******************************//
     //    MonoBehaviour Functions    //
     //*******************************//
 
     private void Start()
     {
+        textMeshProList = new List<TextMeshProUGUI>(GetComponentsInChildren<TextMeshProUGUI>(true));
     }
     void Update()
     {
         if (gameObject == EventSystem.current.currentSelectedGameObject) {
-            textMeshPro.color = selectedColor;
+            foreach (var textMP in textMeshProList) {
+                textMP.color = selectedColor;
+            }
             //if (Input.GetButtonDown("Submit")) {
             //    GetComponent<Button>().onClick.Invoke();
             //}
         } else {
-            textMeshPro.color = unselectedColor;
+            foreach (var textMP in textMeshProList) {
+                textMP.color = unselectedColor;
+            }
         }
     }
 }
