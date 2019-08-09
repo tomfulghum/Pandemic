@@ -708,7 +708,7 @@ PrefabInstance:
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
       propertyPath: m_areas.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
@@ -730,13 +730,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_areas.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: d6f10ab0c2a0e574fa7bdf76ed423f7c,
+      objectReference: {fileID: 11400000, guid: f82e120b1d310de4eba5f326fd83651b,
         type: 2}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
       propertyPath: m_areas.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: d8c135e42439c894cb9559e569916b08,
+      objectReference: {fileID: 11400000, guid: 49278e3d575846c408b6f974149ada5c,
         type: 2}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
@@ -758,7 +758,19 @@ PrefabInstance:
         type: 3}
       propertyPath: m_startPoint
       value: 
-      objectReference: {fileID: 11400000, guid: 5347b12353f36af43bf2ef3b4cdf0265,
+      objectReference: {fileID: 11400000, guid: d83559a3aa320334bb4222a4426fddc1,
+        type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_areas.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fe949d608cdff148830bc1705857d7a,
+        type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_areas.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 25f7e166f5ac26f4e88fbf123a50446f,
         type: 2}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
