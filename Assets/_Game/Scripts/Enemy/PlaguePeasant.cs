@@ -248,10 +248,11 @@ public class PlaguePeasant : MonoBehaviour
         GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed + (Mathf.Sin(m_rangedAttackSin) * m_rangedAnimSpeedMultiplier));
         m_rangedAttackSin += 0.1f;
 
-
-        GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
-        projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(m_projectileTargetPosition);
-        projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
+        GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //visualize trajectory später wieder entfernen
+        GetComponent<VisualizeTrajectory>().VisualizeDots(m_projectileStartPos.position, CaculateInitialVelocity(m_projectileTargetPosition));
+        //GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+        //projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(m_projectileTargetPosition);
+        //projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
 
         /*
         if (Random.Range(0f, 1f) < 0.7f)
@@ -293,7 +294,8 @@ public class PlaguePeasant : MonoBehaviour
         float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - _targetPosition.y);
 
 
-        float angle = Vector2.Angle(m_projectileStartPos.position, _targetPosition);
+        float angle = Vector2.SignedAngle(Vector2.right, _targetPosition - (Vector2)m_projectileStartPos.position);
+
         //Debug.Log("angle: " + angle);
         float airTimeWithHeightDifference = 2 * initialVelocity * Mathf.Sin((45 - angle) * Mathf.Deg2Rad) / -Physics2D.gravity.y * Mathf.Cos(angle * Mathf.Deg2Rad); //test 1                                                                                                                                                       //Debug.Log("airtime: " + airTime);
 
