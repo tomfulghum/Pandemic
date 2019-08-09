@@ -41,7 +41,10 @@ public class PlayerAnim : MonoBehaviour
         }
         m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
 
-        if (Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f)
+        if (m_actor.contacts.below || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled || m_pc.currentAttackState != PlayerCombat.AttackState.Dash) 
+            m_anim.SetBool("JumpActive", false);
+
+        if ((Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f) && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled)
             m_anim.SetBool("Moving", true);
         else
             m_anim.SetBool("Moving", false);
@@ -89,5 +92,15 @@ public class PlayerAnim : MonoBehaviour
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
         else if (!_flipX  && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void TriggerJumpAnim()
+    {
+        m_anim.SetBool("JumpActive", true);
+        m_anim.SetTrigger("Jump");
     }
 }

@@ -142,8 +142,7 @@ public class PlayerMovement : MonoBehaviour
             m_inputState.jumpTimer = accelerationTime;
             m_inputState.jumpCancelTimer = accelerationTime + floatingTime;
 
-            //PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Jumping;
-            GetComponent<Animator>().SetTrigger("Jump");
+            GetComponent<PlayerAnim>().TriggerJumpAnim();
         }
 
         // Cancel jump if the player releases the jump button
