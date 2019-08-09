@@ -83,9 +83,6 @@ public class AreaTransitionManager : MonoBehaviour
         AreaController controller = FindObjectOfType<AreaController>();
         controller.InitializeArea(_player, _spawnPoint);
 
-        //GameManager.Instance.currentSpawnPoint = _spawnPoint;
-        //GameManager.Instance.SaveGame();
-
         _player.SetActive(true);
         _player.GetComponent<PlayerMovement>().DisableUserInput(false);
 

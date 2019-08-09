@@ -7,24 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [System.Serializable]
-    private struct SaveFileCollection
-    {
-        public string file1;
-        public string file2;
-        public string file3;
-        public string file4;
-    }
-
     //************************//
     //    Inspector Fields    //
     //************************//
 
+    [SerializeField] private string m_saveFileName = "";
     [SerializeField] private string m_menuSceneName = "";
     [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
     [SerializeField] private List<AreaData> m_areas = default;
-    [SerializeField] private SaveFileCollection m_saveFileNames = default;
 
     //******************//
     //    Properties    //
@@ -37,12 +28,7 @@ public class GameManager : MonoBehaviour
         get { return m_state; }
     }
 
-    public SpawnPointData currentSpawnPoint { get; set; }
-
-    public SaveFileData[] saveFiles
-    {
-        get { return m_saveFiles; }
-    }
+    public SpawnPointData currentSpawnPoint { get; private set; }
 
     public GameObject player
     {
@@ -57,6 +43,7 @@ public class GameManager : MonoBehaviour
     private BinaryFormatter m_formatter = default;
     private string m_savePath = default;
     private SaveFileData[] m_saveFiles = new SaveFileData[4];
+    private int m_currentSaveFileIndex = -1;
 
     private AreaTransitionManager m_areaTransitionManager = default;
 
@@ -73,14 +60,17 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
-        m_state = new GameState(m_startPoint);
         m_formatter = new BinaryFormatter();
-        m_savePath = Application.persistentDataPath + "/savefile.sav";
+        m_savePath = Application.persistentDataPath + "/";
         m_areaTransitionManager = FindObjectOfType<AreaTransitionManager>();
     }
 
     private void Start()
     {
+        for (int i = 0; i < m_saveFiles.Length; i++) {
+            m_saveFiles[i] = LoadSaveFile(m_savePath + m_saveFileName + i);
+        }
+
         SceneManager.LoadScene(m_menuSceneName, LoadSceneMode.Additive);
     }
 
@@ -95,9 +85,9 @@ public class GameManager : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private void SavePlayerState()
+    private void SavePlayerState(SpawnPointData _spawnPoint)
     {
-        m_state.playerState.currentSpawnPoint = currentSpawnPoint.id;
+        m_state.playerState.currentSpawnPoint = _spawnPoint.id;
         m_state.playerState.normalKeyCount = m_player.GetComponent<PlayerInventory>().normalKeyCount;
     }
 
@@ -121,30 +111,113 @@ public class GameManager : MonoBehaviour
         return spawnPoint;
     }
 
+    private string GetAreaName(string _spawnPointId)
+    {
+        return m_areas.Find(x => x.id.Equals(FindSpawnPoint(_spawnPointId).area.id)).name;
+    }
+
+    private SaveFileData LoadSaveFile(string _path)
+    {
+        SaveFileData data = null;
+        if (File.Exists(_path)) {
+            FileStream file = File.Open(_path, FileMode.Open);
+            GameState gameState = (GameState)m_formatter.Deserialize(file);
+            data = new SaveFileData(gameState, GetAreaName(gameState.playerState.currentSpawnPoint));
+            file.Close();
+        }
+
+        return data;
+    }
+
+    private void SaveSaveFile(int _index, GameState _state)
+    {
+        if (!CheckSaveFileArrayBounds(_index)) {
+            return;
+        }
+        m_saveFiles[_index] = new SaveFileData(_state, GetAreaName(_state.playerState.currentSpawnPoint));
+        FileStream file = File.Create(m_savePath + m_saveFileName + _index);
+        m_formatter.Serialize(file, _state);
+
+        Debug.LogFormat("{0}: Saved file {1} to {2}.", name, _index, file.Name);
+
+        file.Close();
+    }
+
+    private bool CheckSaveFileArrayBounds(int _index)
+    {
+        if (_index < 0 || _index >= m_saveFiles.Length) {
+            Debug.LogErrorFormat("{0}: Save file index out of bounds! Must be larger than 0 and less than {1}.", name, m_saveFiles.Length);
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool SaveFileExists(int _index)
+    {
+        if (!CheckSaveFileArrayBounds(_index)) {
+            return false;
+        }
+
+        if (m_saveFiles[_index] == null) {
+            Debug.LogErrorFormat("{0}: Save file {1} does not exist!", name, _index);
+            return false;
+        }
+
+        return true;
+    }
+
     //************************//
     //    Public Functions    //
     //************************//
 
-    public void LoadGame()
+    public void LoadLastSave()
     {
-        if (File.Exists(m_savePath)) {
-            FileStream file = File.Open(m_savePath, FileMode.Open);
-            m_state = (GameState)m_formatter.Deserialize(file);
-            file.Close();
-
-            LoadPlayerState();
-        }
-
+        LoadPlayerState();
         m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint);
     }
 
-    public void SaveGame()
+    public void LoadSaveFile(int _index)
     {
-        SavePlayerState();
+        if(!SaveFileExists(_index)) {
+            return;
+        }
 
-        FileStream file = File.Create(m_savePath);
-        Debug.LogFormat("Saving game state to: {0}", file.Name);
-        m_formatter.Serialize(file, m_state);
-        file.Close();
+        m_currentSaveFileIndex = _index;
+        m_state = m_saveFiles[_index].state;
+        LoadLastSave();
+    }
+
+    public void CreateSaveFile(int _index)
+    {
+        if (!CheckSaveFileArrayBounds(_index)) {
+            return;
+        }
+
+        GameState gameState = new GameState(m_startPoint);
+        SaveSaveFile(_index, gameState);
+    }
+
+    public void DeleteSaveFile(int _index)
+    {
+        if (!SaveFileExists(_index)) {
+            return;
+        }
+
+        File.Delete(m_savePath + m_saveFileName + _index);
+        m_saveFiles[_index] = null;
+    }
+
+    public void SaveGame(SpawnPointData _spawnPoint)
+    {
+        currentSpawnPoint = _spawnPoint;
+        SavePlayerState(_spawnPoint);
+
+        SaveSaveFile(m_currentSaveFileIndex, m_state);
+    }
+
+    public SaveFileData GetSaveFileData(int _index)
+    {
+        return m_saveFiles[_index];
     }
 }

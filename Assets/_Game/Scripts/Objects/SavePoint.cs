@@ -8,7 +8,6 @@ public class SavePoint : MonoBehaviour
 
     public void SaveGame()
     {
-        GameManager.Instance.currentSpawnPoint = m_spawnPoint;
-        GameManager.Instance.SaveGame();
+        GameManager.Instance.SaveGame(m_spawnPoint);
     }
 }
