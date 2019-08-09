@@ -113,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1693525880915519394
 Transform:
   m_ObjectHideFlags: 0
@@ -298,7 +298,6 @@ MonoBehaviour:
   m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
-  m_knockBackCollider: {fileID: 944225328}
 --- !u!50 &6626893083885945748
 Rigidbody2D:
   serializedVersion: 4

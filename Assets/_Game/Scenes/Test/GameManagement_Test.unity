@@ -277,6 +277,11 @@ PrefabInstance:
       propertyPath: m_targetReachedTolerance
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5821141842305213151, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
 --- !u!1 &558886035
@@ -651,7 +656,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757922160}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
