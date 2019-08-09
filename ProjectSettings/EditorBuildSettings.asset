@@ -38,4 +38,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/Test/Test_Freddy_3.unity
     guid: d73be84981125264a8cd06cdd1b6eb99
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_Rooftops2.unity
+    guid: 1b5e8f73d9b523542bb904a608b9f0a2
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_FireCamp.unity
+    guid: 7894a64ae8ede1842ae27544dcdad09b
   m_configObjects: {}
