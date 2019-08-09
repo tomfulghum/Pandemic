@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//current player state hier rein mit puclic function set / get player state
 public class PlayerAnim : MonoBehaviour
 {
 
@@ -32,6 +34,13 @@ public class PlayerAnim : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if(PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Jumping)
+        {
+            //m_anim.SetTrigger("Jump");
+            m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
+        }
+        m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
+
         if (Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f)
             m_anim.SetBool("Moving", true);
         else
