@@ -9,8 +9,10 @@ public class HookPointVisualization : MonoBehaviour
     //************************//
 
     [SerializeField] private bool m_followPointer = true; //if false: visualizes time slow
+    [SerializeField] private bool m_activateBackGround = false; 
 
 
+    [SerializeField] private GameObject m_backGround = default;
     [SerializeField] private GameObject m_outerCircle = default;
     [SerializeField] private GameObject m_innerCircle = default;
     [SerializeField] private GameObject m_pointer = default;
@@ -88,6 +90,8 @@ public class HookPointVisualization : MonoBehaviour
 
     public void ActivateVisuals(bool _active)
     {
+        if (m_activateBackGround)
+            m_backGround.SetActive(_active);
         m_outerCircle.SetActive(_active);
         m_innerCircle.SetActive(_active);
         m_pointer.SetActive(_active);

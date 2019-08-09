@@ -237,7 +237,7 @@ public class PlayerCombat : MonoBehaviour
 
         m_pm.momentum = m_pm.externalVelocity;
 
-        m_invincible = false;
+        m_invincible = false; //extra invincibility in den knock back einbauen mit extra yield return wait
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         m_pm.DisableUserInput(false);
 

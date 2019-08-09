@@ -627,7 +627,7 @@ public class PlayerHook : MonoBehaviour
             cancelCondition = true;
         }
 
-        if (m_reachedTarget == false)
+        if (m_reachedTarget == false) //hier könnte der hook bug liegen --> unter gewissen umständen aktualisiert er zu oft
         {
             m_targetPosition = m_currentSelectedTarget.transform.position;
             m_currentTargetPosition = m_currentSelectedTarget.transform.position;

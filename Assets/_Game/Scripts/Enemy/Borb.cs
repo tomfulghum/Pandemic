@@ -39,6 +39,7 @@ public class Borb : MonoBehaviour
 
     [SerializeField] private float m_targetFlightHeight = 8f;
     [SerializeField] private bool m_useHeightAdjustments = false;
+    [SerializeField] private bool m_visualizeChaseRange = false;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
     //[SerializeField] private BoxCollider2D m_knockBackCollider = default;
@@ -99,7 +100,8 @@ public class Borb : MonoBehaviour
         if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving)
         {
             SetMovementState();
-            VisualizeChaseCone();
+            if (m_visualizeChaseRange)
+                VisualizeChaseCone();
             if (m_useHeightAdjustments)
                 SetFlightHeight();
 
