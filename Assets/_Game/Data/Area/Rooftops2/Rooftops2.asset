@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rooftops2
   m_EditorClassIdentifier: 
   m_id: 49278e3d575846c408b6f974149ada5c
-  m_sceneName: Blockout_Rooftops02
+  m_sceneName: Blockout_Rooftops2
   m_spawnPoints:
   - {fileID: 11400000, guid: 52171eabe1ab9c145aa2926494d2785f, type: 2}
   - {fileID: 11400000, guid: afeb674f9927e3c4c81107f760aba401, type: 2}
