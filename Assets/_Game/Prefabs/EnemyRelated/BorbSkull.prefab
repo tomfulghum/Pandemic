@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speedMultiplier: 1.3
-  m_throwCount: 1
+  m_throwCount: 2
 --- !u!50 &5959807051975829530
 Rigidbody2D:
   serializedVersion: 4
