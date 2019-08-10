@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxHealth: 3
+  m_maxHealth: 1
 --- !u!61 &1693525880915519422
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_stunTime: 2
   m_targetFlightHeight: 8
   m_useHeightAdjustments: 0
+  m_visualizeChaseRange: 0
   m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
