@@ -246,6 +246,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2760801925281497808, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.53333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760801925281497808, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1681699593
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760801925281497808, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000271426814205438, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000271426814205438, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 522651449982585514, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.8039216
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
 --- !u!1 &854585367 stripped
@@ -441,17 +471,17 @@ PrefabInstance:
     - target: {fileID: 5403070520701746060, guid: c66e232c2219393418b3e2076035f555,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 15.3
       objectReference: {fileID: 0}
     - target: {fileID: 5403070520701746060, guid: c66e232c2219393418b3e2076035f555,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 83.3
       objectReference: {fileID: 0}
     - target: {fileID: 5403070520701746060, guid: c66e232c2219393418b3e2076035f555,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 5403070520701746060, guid: c66e232c2219393418b3e2076035f555,
         type: 3}

@@ -165,26 +165,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
-      serializedVersion: 2
-      m_Bits: 0
-    above:
-      serializedVersion: 2
-      m_Bits: 0
-    below:
-      serializedVersion: 2
-      m_Bits: 0
+  m_contactFilter:
     left:
       serializedVersion: 2
       m_Bits: 0
     right:
       serializedVersion: 2
       m_Bits: 0
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+    below:
+      serializedVersion: 2
+      m_Bits: 0
+    above:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!61 &193550013
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -223,11 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyState: 0
-  ContactDamage: 1
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 1024
+  m_maxHealth: 6
 --- !u!114 &193550015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,13 +229,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0764b8e3ed0778a47ba74bd25866ff60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMovementState: 0
-  CurrentMovementDirection: 0
-  Gravity: 10
-  MovementSpeed: 1
-  ChaseRadius: 3
-  UseIntelligentJump: 1
-  SightBlockingLayers:
+  m_movementSpeed: 1
+  m_chaseRadius: 3
+  m_jumpForce: 15
+  m_useIntelligentJump: 1
+  m_useJump: 1
+  m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 0
 --- !u!212 &193550016
@@ -345,26 +333,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
-      serializedVersion: 2
-      m_Bits: 0
-    above:
-      serializedVersion: 2
-      m_Bits: 0
-    below:
-      serializedVersion: 2
-      m_Bits: 0
+  m_contactFilter:
     left:
       serializedVersion: 2
       m_Bits: 0
     right:
       serializedVersion: 2
       m_Bits: 0
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+    below:
+      serializedVersion: 2
+      m_Bits: 0
+    above:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!61 &199608679
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -403,11 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyState: 0
-  ContactDamage: 1
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 1024
+  m_maxHealth: 6
 --- !u!114 &199608681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,13 +397,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0764b8e3ed0778a47ba74bd25866ff60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMovementState: 0
-  CurrentMovementDirection: 0
-  Gravity: 10
-  MovementSpeed: 1
-  ChaseRadius: 3
-  UseIntelligentJump: 1
-  SightBlockingLayers:
+  m_movementSpeed: 1
+  m_chaseRadius: 3
+  m_jumpForce: 15
+  m_useIntelligentJump: 1
+  m_useJump: 1
+  m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 0
 --- !u!212 &199608682
@@ -518,7 +494,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286780264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -118.08, y: 23.86, z: 1102.4375}
+  m_LocalPosition: {x: -118.08, y: 23.86, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -621,26 +597,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
-      serializedVersion: 2
-      m_Bits: 0
-    above:
-      serializedVersion: 2
-      m_Bits: 0
-    below:
-      serializedVersion: 2
-      m_Bits: 0
+  m_contactFilter:
     left:
       serializedVersion: 2
       m_Bits: 0
     right:
       serializedVersion: 2
       m_Bits: 0
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+    below:
+      serializedVersion: 2
+      m_Bits: 0
+    above:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!61 &317992226
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -679,11 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyState: 0
-  ContactDamage: 1
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 1024
+  m_maxHealth: 6
 --- !u!114 &317992228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,13 +661,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0764b8e3ed0778a47ba74bd25866ff60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMovementState: 0
-  CurrentMovementDirection: 0
-  Gravity: 10
-  MovementSpeed: 1
-  ChaseRadius: 3
-  UseIntelligentJump: 1
-  SightBlockingLayers:
+  m_movementSpeed: 1
+  m_chaseRadius: 3
+  m_jumpForce: 15
+  m_useIntelligentJump: 1
+  m_useJump: 1
+  m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 0
 --- !u!212 &317992229
@@ -794,7 +758,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623210607}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -95.94, y: 24.29, z: 1102.4375}
+  m_LocalPosition: {x: -95.94, y: 24.29, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -976,26 +940,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d3e42456b4784f4c96aa00188cac95a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMasks:
-    moving:
-      serializedVersion: 2
-      m_Bits: 0
-    above:
-      serializedVersion: 2
-      m_Bits: 0
-    below:
-      serializedVersion: 2
-      m_Bits: 0
+  m_contactFilter:
     left:
       serializedVersion: 2
       m_Bits: 0
     right:
       serializedVersion: 2
       m_Bits: 0
-  rayInset: 0.015
-  horizontalRayCount: 4
-  verticalRayCount: 4
-  deltaPositionThreshold: 0.001
+    below:
+      serializedVersion: 2
+      m_Bits: 0
+    above:
+      serializedVersion: 2
+      m_Bits: 0
 --- !u!61 &683773693
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1034,11 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentEnemyState: 0
-  ContactDamage: 1
-  layer_mask:
-    serializedVersion: 2
-    m_Bits: 1024
+  m_maxHealth: 6
 --- !u!114 &683773695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1051,13 +1004,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0764b8e3ed0778a47ba74bd25866ff60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMovementState: 0
-  CurrentMovementDirection: 0
-  Gravity: 10
-  MovementSpeed: 1
-  ChaseRadius: 3
-  UseIntelligentJump: 1
-  SightBlockingLayers:
+  m_movementSpeed: 1
+  m_chaseRadius: 3
+  m_jumpForce: 15
+  m_useIntelligentJump: 1
+  m_useJump: 1
+  m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 0
 --- !u!212 &683773696
@@ -31842,7 +31794,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938544729}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -74.2, y: 23.79, z: 1102.4375}
+  m_LocalPosition: {x: -74.2, y: 23.79, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -32173,7 +32125,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036425245}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -86.26, y: 23.79, z: 1102.4375}
+  m_LocalPosition: {x: -86.26, y: 23.79, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -32269,7 +32221,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071453606}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -110.06, y: 23.85, z: 1102.4375}
+  m_LocalPosition: {x: -110.06, y: 23.85, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -32474,7 +32426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1280160376}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -75.57332, y: -11.6016655, z: 1102.4375}
+  m_LocalPosition: {x: -75.57332, y: -11.6016655, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -32679,7 +32631,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343930612}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -133.89, y: 23.99, z: 1102.4375}
+  m_LocalPosition: {x: -133.89, y: 23.99, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -32773,7 +32725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1509647156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.2, y: 44.4, z: -1102.4375}
+  m_LocalPosition: {x: 56.2, y: 44.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1671187990}
@@ -36725,7 +36677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671187989}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -77.10332, y: -6.671665, z: 1102.4375}
+  m_LocalPosition: {x: -77.10332, y: -6.671665, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -36935,7 +36887,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838403900}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -125.08, y: 23.85, z: 1102.4375}
+  m_LocalPosition: {x: -125.08, y: 23.85, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -37031,7 +36983,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873140544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -63.7, y: 23.79, z: 1102.4375}
+  m_LocalPosition: {x: -63.7, y: 23.79, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
@@ -37127,7 +37079,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980246443}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -134.01, y: 31.18, z: 1102.4375}
+  m_LocalPosition: {x: -134.01, y: 31.18, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 1509647157}
