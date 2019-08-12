@@ -10,6 +10,7 @@ public class AreaController : MonoBehaviour
 
     [SerializeField] private AreaData m_area = default;
     [SerializeField] private GameObject m_playerFollowCamera = default;
+    [SerializeField] private PolygonCollider2D m_areaCameraBounds = default;
 
     [Header("Saveable Objects")]
 
@@ -85,6 +86,7 @@ public class AreaController : MonoBehaviour
             _player.transform.position = spawnPoint.transform.position;
             CinemachineVirtualCamera cam = Instantiate(m_playerFollowCamera, _player.transform.position, Quaternion.identity).GetComponent<CinemachineVirtualCamera>();
             cam.Follow = _player.transform;
+            cam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = m_areaCameraBounds;
         } else {
             Debug.LogErrorFormat("{0}: Could not find spawn point {1}!", name, _spawnPoint.name);
         }

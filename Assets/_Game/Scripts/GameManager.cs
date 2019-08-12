@@ -113,7 +113,19 @@ public class GameManager : MonoBehaviour
 
     private string GetAreaName(string _spawnPointId)
     {
-        return m_areas.Find(x => x.id.Equals(FindSpawnPoint(_spawnPointId).area.id)).name;
+        SpawnPointData spawnPoint = FindSpawnPoint(_spawnPointId);
+
+        if (spawnPoint == null) {
+            Debug.LogErrorFormat("{0}: Could not find spawn point {1}!", name, _spawnPointId);
+            return "";
+        }
+
+        if (spawnPoint.area == null) {
+            Debug.LogErrorFormat("{0}: Spawn point {1} is missing an area!", name, _spawnPointId);
+            return "";
+        }
+
+        return m_areas.Find(x => x.id.Equals(spawnPoint.area.id)).name;
     }
 
     private SaveFileData LoadSaveFile(string _path)
