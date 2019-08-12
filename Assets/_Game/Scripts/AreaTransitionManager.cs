@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -45,7 +46,7 @@ public class AreaTransitionManager : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private IEnumerator TransitionCoroutine(string _from, SpawnPointData _spawnPoint, GameObject _player)
+    private IEnumerator TransitionCoroutine(string _from, SpawnPointData _spawnPoint, GameObject _player, Action _callback = null)
     {
         m_transitioning = true;
         float halfTransitionTime = m_transitionTime / 2f;
@@ -88,6 +89,8 @@ public class AreaTransitionManager : MonoBehaviour
 
         m_fader.FadeOut(halfTransitionTime);
         m_transitioning = false;
+
+        _callback?.Invoke();
     }
 
     //************************//
@@ -117,9 +120,9 @@ public class AreaTransitionManager : MonoBehaviour
         StartCoroutine(TransitionCoroutine(_fromArea.sceneName, _spawnPoint, player));
     }
 
-    public void LoadGameScene(string _menuScene, SpawnPointData _spawnPoint)
+    public void LoadGameScene(string _menuScene, SpawnPointData _spawnPoint, Action _callback = null)
     {
         GameObject player = GameManager.Instance.player;
-        StartCoroutine(TransitionCoroutine(_menuScene, _spawnPoint, player));
+        StartCoroutine(TransitionCoroutine(_menuScene, _spawnPoint, player, _callback));
     }
 }

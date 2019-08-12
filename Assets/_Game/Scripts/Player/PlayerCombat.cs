@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 
 //smash down stärke von der spieler höhe/falllänge abhängig machen
 //melee attack: kein input: stehenbleiben, input: bewegung in input richtung --> am besten wie beim knock back 
@@ -28,7 +28,7 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private int m_maxHealth = 10;
     [SerializeField] private Transform m_respawnPoint = default; //old
-    [SerializeField] private Text m_healthVisualization = default;
+    [SerializeField] private TextMeshProUGUI m_healthVisualization = default;
 
     //[SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
     // [SerializeField] private float m_controllerTolerance = 0.5f; //brauch ich die noch?
@@ -108,6 +108,8 @@ public class PlayerCombat : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         m_spriteRenderer = GetComponent<SpriteRenderer>();
+
+        UpdateHealthVisual();
     }
 
     private void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken

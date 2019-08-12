@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private string m_saveFileName = "";
     [SerializeField] private string m_menuSceneName = "";
+    [SerializeField] private GameObject m_ingameUI = default;
     [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
     [SerializeField] private List<AreaData> m_areas = default;
@@ -186,7 +187,9 @@ public class GameManager : MonoBehaviour
     public void LoadLastSave()
     {
         LoadPlayerState();
-        m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint);
+        m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint, () => {
+            m_ingameUI.SetActive(true);
+        });
     }
 
     public void LoadSaveFile(int _index)
