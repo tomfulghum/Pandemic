@@ -459,6 +459,11 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.8039216
       objectReference: {fileID: 0}
+    - target: {fileID: 5293281134618775230, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_groundToleranceTime
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: m_healthVisualization
