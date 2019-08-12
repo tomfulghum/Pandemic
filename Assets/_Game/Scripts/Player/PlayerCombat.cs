@@ -188,12 +188,6 @@ public class PlayerCombat : MonoBehaviour
     {
         m_currentHealth--;
         UpdateHealthVisual();
-        if (m_currentHealth <= 0)
-        {
-            m_currentHealth = m_maxHealth;
-            UpdateHealthVisual();
-            GameManager.Instance.LoadLastSave();
-        }
     }
 
     void UpdateHealthVisual()
@@ -242,6 +236,12 @@ public class PlayerCombat : MonoBehaviour
         m_pm.DisableUserInput(false);
 
         GetComponent<SpriteRenderer>().color = Color.white; // for visualization
+
+        if (m_currentHealth <= 0) {
+            m_currentHealth = m_maxHealth;
+            UpdateHealthVisual();
+            GameManager.Instance.LoadLastSave();
+        }
     }
 
     //************************//
