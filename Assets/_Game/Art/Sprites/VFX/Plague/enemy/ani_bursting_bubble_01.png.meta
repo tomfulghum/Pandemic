@@ -1,0 +1,293 @@
+fileFormatVersion: 2
+guid: 3c0803391a008e14787e2ccdadcf0db7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4191669106684739673
+    second: ani_bursting_bubble_01_0
+  - first:
+      213: 2350956736972465161
+    second: ani_bursting_bubble_01_1
+  - first:
+      213: -1310080161410438205
+    second: ani_bursting_bubble_01_2
+  - first:
+      213: 1948120578672817962
+    second: ani_bursting_bubble_01_3
+  - first:
+      213: -5891209082625437473
+    second: ani_bursting_bubble_01_4
+  - first:
+      213: 7680520038042706139
+    second: ani_bursting_bubble_01_5
+  - first:
+      213: 7030669426309257237
+    second: ani_bursting_bubble_01_6
+  - first:
+      213: 7051801388262886747
+    second: ani_bursting_bubble_01_7
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 266.6667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1b67032b1ae6cf42b509f3e7f5d59d1
+      internalID: 4191669106684739673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_1
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 266.6667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2577337f765321c478f10171d609ae66
+      internalID: 2350956736972465161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_2
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 266.6667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 456a4e68682003e4883a1bb21ead88fc
+      internalID: -1310080161410438205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 133.66667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e598a5de6d55f94ca192ee051620c21
+      internalID: 1948120578672817962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_4
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 134
+        width: 133
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27215d0c8ac30b849a232cf2c1c45092
+      internalID: -5891209082625437473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_5
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 133.66667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 770872868cb180049ab05c8eb7c72811
+      internalID: 7680520038042706139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.66667175
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e22d2d326c871104085c8eee8883eddd
+      internalID: 7030669426309257237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_bursting_bubble_01_7
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 0.66667175
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e936af8e09a6c87408eccf2efac757cb
+      internalID: 7051801388262886747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 1f580741be664684289346761a66e26f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
