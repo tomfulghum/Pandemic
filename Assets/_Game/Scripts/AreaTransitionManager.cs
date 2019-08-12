@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -93,6 +94,46 @@ public class AreaTransitionManager : MonoBehaviour
         _callback?.Invoke();
     }
 
+    private IEnumerator MenuTransitionCoroutine(string _menuScene, GameObject _player, Action _callback = null)
+    {
+        m_transitioning = true;
+        float halfTransitionTime = m_transitionTime / 2f;
+
+        m_fader.FadeIn(halfTransitionTime);
+        yield return new WaitForSeconds(halfTransitionTime);
+
+        List<Scene> loadedScenes = new List<Scene>();
+        for (int i = 0; i < SceneManager.sceneCount; i++) {
+            loadedScenes.Add(SceneManager.GetSceneAt(i));
+        }
+
+        foreach (Scene scene in loadedScenes) { 
+            AsyncOperation unloadSceneAsync = null;
+            if (scene.buildIndex != 0 && scene.isLoaded) {
+                unloadSceneAsync = SceneManager.UnloadSceneAsync(scene);
+                while (unloadSceneAsync != null && !unloadSceneAsync.isDone) {
+                    yield return null;
+                }
+            }
+        }
+
+        _player.SetActive(false);
+
+        AsyncOperation loadSceneAsync = null;
+        if (!SceneManager.GetSceneByName(_menuScene).isLoaded) {
+            loadSceneAsync = SceneManager.LoadSceneAsync(_menuScene, LoadSceneMode.Additive);
+            while (loadSceneAsync != null && !loadSceneAsync.isDone) {
+                Debug.LogFormat("Loading menu scene: {0}%", loadSceneAsync.progress * 100f);
+                yield return null;
+            }
+        }
+
+        m_fader.FadeOut(halfTransitionTime);
+        m_transitioning = false;
+
+        _callback?.Invoke();
+    }
+
     //************************//
     //    Public Functions    //
     //************************//
@@ -122,7 +163,23 @@ public class AreaTransitionManager : MonoBehaviour
 
     public void LoadGameScene(string _menuScene, SpawnPointData _spawnPoint, Action _callback = null)
     {
+        if (m_transitioning) {
+            Debug.LogWarningFormat("{0}: Transition already in progress!", name);
+            return;
+        }
+
         GameObject player = GameManager.Instance.player;
         StartCoroutine(TransitionCoroutine(_menuScene, _spawnPoint, player, _callback));
+    }
+
+    public void LoadMenuScene(string _menuScene, Action _callback = null)
+    {
+        if (m_transitioning) {
+            Debug.LogWarningFormat("{0}: Transition already in progress!", name);
+            return;
+        }
+
+        GameObject player = GameManager.Instance.player;
+        StartCoroutine(MenuTransitionCoroutine(_menuScene, player, _callback));
     }
 }

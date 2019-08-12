@@ -117,12 +117,12 @@ public class GameManager : MonoBehaviour
         SpawnPointData spawnPoint = FindSpawnPoint(_spawnPointId);
 
         if (spawnPoint == null) {
-            Debug.LogErrorFormat("{0}: Could not find spawn point {1}!", name, _spawnPointId);
+            Debug.LogErrorFormat("{0}: Could not find spawn point {1}! Maybe the area is missing from the GameManager or the area does not reference the spawn point?", name, _spawnPointId);
             return "";
         }
 
         if (spawnPoint.area == null) {
-            Debug.LogErrorFormat("{0}: Spawn point {1} is missing an area!", name, _spawnPointId);
+            Debug.LogErrorFormat("{0}: Spawn point {1} does not reference an area!", name, _spawnPointId);
             return "";
         }
 
@@ -183,6 +183,13 @@ public class GameManager : MonoBehaviour
     //************************//
     //    Public Functions    //
     //************************//
+
+    public void LoadMenuScene()
+    {
+        m_areaTransitionManager.LoadMenuScene(m_menuSceneName, () => {
+            m_ingameUI.SetActive(false);
+        });
+    }
 
     public void LoadLastSave()
     {
