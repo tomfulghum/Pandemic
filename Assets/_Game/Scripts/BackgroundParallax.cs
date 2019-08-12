@@ -35,14 +35,10 @@ public class BackgroundParallax : MonoBehaviour
 
     private void Update()
     {
-        CinemachineVirtualCamera activeCamera = (CinemachineVirtualCamera)m_mainCamera.ActiveVirtualCamera;
-
-        if (activeCamera) {
+        if (m_mainCamera) {
             foreach (var element in m_elements) {
-                if (activeCamera) {
-                    Vector3 parallaxPos = element.initialPosition + ((activeCamera.transform.position - transform.position) * m_parallaxFactor);
-                    element.transform.localPosition = new Vector3(parallaxPos.x, parallaxPos.y, element.transform.localPosition.z);
-                }
+                Vector3 parallaxPos = element.initialPosition + ((m_mainCamera.transform.position - transform.position) * m_parallaxFactor);
+                element.transform.localPosition = new Vector3(parallaxPos.x, parallaxPos.y, element.transform.localPosition.z);
             }
         }
     }

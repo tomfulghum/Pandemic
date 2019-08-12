@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     //**********************//
 
     [System.Serializable]
-    private struct InputState
+    public struct InputState
     {
         public Vector2 movement;
         public Vector2 lastMovement;
@@ -71,6 +71,11 @@ public class PlayerMovement : MonoBehaviour
     {
         get { return m_momentum; }
         set { m_momentum = value; }
+    }
+
+    public InputState inputState
+    {
+        get { return m_inputState; }
     }
 
     //**********************//

@@ -74,6 +74,11 @@ public class VisualizeTrajectory : MonoBehaviour
 
     public void RemoveVisualDots()
     {
+        if (!m_dotParent) {
+            m_dotParent = null;
+            return;
+        }
+
         foreach (Transform child in m_dotParent.transform) { //vllt später jedesmal wieder die gleichen objects benutzen -->object pooling --> check if num of visual dots == num of childs ansonsten neue erstellen usw.
             Destroy(child.gameObject);
         }

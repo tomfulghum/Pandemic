@@ -17,6 +17,7 @@ public class PlayerAnim : MonoBehaviour
     private Rigidbody2D m_rb;
     private Animator m_anim;
     private PlayerCombat m_pc;
+    private PlayerMovement m_pm;
 
 
     //*******************************//
@@ -29,19 +30,21 @@ public class PlayerAnim : MonoBehaviour
         m_rb = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
         m_pc = GetComponent<PlayerCombat>();
+        m_pm = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
     private void Update()
     {
         m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
+        m_anim.SetBool("Grounded", m_actor.contacts.below);
 
         if (m_actor.contacts.below || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled || m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
         {
             m_anim.SetBool("JumpActive", false);
         }
 
-        if ((Input.GetAxis("Horizontal") < -0.15f || Input.GetAxis("Horizontal") > 0.15f) && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled)
+        if (m_pm.inputState.movement != Vector2.zero && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled)
             m_anim.SetBool("Moving", true);
         else
             m_anim.SetBool("Moving", false);
@@ -76,7 +79,7 @@ public class PlayerAnim : MonoBehaviour
 
     private void SetFacingDirection() //only for anim //can differ from facing direc in player combat //should change later 
     {
-        float CurrentJoystickDirection = Input.GetAxis("Horizontal");
+        float CurrentJoystickDirection = m_pm.inputState.movement.x;
         if (CurrentJoystickDirection < 0)
             m_facingLeft = true;
         else if (CurrentJoystickDirection > 0)
