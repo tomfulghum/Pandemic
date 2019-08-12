@@ -5,10 +5,10 @@ using UnityEngine;
 public class EmittParticlesSimultaneously : MonoBehaviour
 {
 
-    [SerializeField] private GameObject partSys1;
-    [SerializeField] private GameObject partSys2;
-    private ParticleSystem sys1;
-    private ParticleSystem sys2;
+    [SerializeField] private GameObject partSys1 = default;
+    [SerializeField] private GameObject partSys2 = default;
+    private ParticleSystem sys1 = default;
+    private ParticleSystem sys2 = default;
     void Start()
     {
         sys1 = Instantiate(partSys1, transform).GetComponent<ParticleSystem>();

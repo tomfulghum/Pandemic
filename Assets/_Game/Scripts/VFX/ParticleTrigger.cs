@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ParticleTrigger : MonoBehaviour
 {
-    [SerializeField] private GameObject partSysOnCollision;
-    private List<ParticleCollisionEvent> collisionEvents;
-    private ParticleSystem thisPS;
+    [SerializeField] private GameObject partSysOnCollision = default;
+    private List<ParticleCollisionEvent> collisionEvents = default;
+    private ParticleSystem thisPS = default;
 
     private void Start()
     {

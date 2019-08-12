@@ -10,8 +10,8 @@ public class MenuButton : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
-    [SerializeField] private Color unselectedColor;
-    [SerializeField] private Color selectedColor;
+    [SerializeField] private Color unselectedColor = default;
+    [SerializeField] private Color selectedColor = default;
 
     //********************//
     //   Private Fields   //

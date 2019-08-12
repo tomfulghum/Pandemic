@@ -8,7 +8,7 @@ public class AreaTransition : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private SpawnPointData m_transitionSpawnPoint;
+    [SerializeField] private SpawnPointData m_transitionSpawnPoint = default;
 
     //**********************//
     //    Private Fields    //

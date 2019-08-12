@@ -9,7 +9,7 @@ public class RollingCredits : MonoBehaviour
     //**********************//
 
     [SerializeField] int scrollSpeedPerSecond = 100;
-    [SerializeField] int startPosY;
+    [SerializeField] int startPosY = 0;
 
     //**********************//
     //    Private Fields    //

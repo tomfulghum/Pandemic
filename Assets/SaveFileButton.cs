@@ -9,13 +9,13 @@ public class SaveFileButton : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
-    [SerializeField] private GameObject m_newGameText;
-    [SerializeField] private GameObject m_saveFileData;
-    [SerializeField] private TextMeshProUGUI m_healthText;
-    [SerializeField] private TextMeshProUGUI m_currencyText;
-    [SerializeField] private TextMeshProUGUI m_playtimeText;
-    [SerializeField] private TextMeshProUGUI m_areaText;
-    [SerializeField] private int m_index;
+    [SerializeField] private GameObject m_newGameText = default;
+    [SerializeField] private GameObject m_saveFileData = default;
+    [SerializeField] private TextMeshProUGUI m_healthText = default;
+    [SerializeField] private TextMeshProUGUI m_currencyText = default;
+    [SerializeField] private TextMeshProUGUI m_playtimeText = default;
+    [SerializeField] private TextMeshProUGUI m_areaText = default;
+    [SerializeField] private int m_index = 0;
 
     void Start()
     {
