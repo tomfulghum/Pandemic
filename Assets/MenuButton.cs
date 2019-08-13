@@ -10,8 +10,7 @@ public class MenuButton : MonoBehaviour
     //   Inspector Fields   //
     //**********************//
 
-    [SerializeField] private Color unselectedColor = default;
-    [SerializeField] private Color selectedColor = default;
+    [SerializeField] private ButtonHighlightData m_buttonHighlight;
 
     //********************//
     //   Private Fields   //
@@ -31,14 +30,11 @@ public class MenuButton : MonoBehaviour
     {
         if (gameObject == EventSystem.current.currentSelectedGameObject) {
             foreach (var textMP in textMeshProList) {
-                textMP.color = selectedColor;
+                textMP.color = m_buttonHighlight.selectedColor;
             }
-            //if (Input.GetButtonDown("Submit")) {
-            //    GetComponent<Button>().onClick.Invoke();
-            //}
         } else {
             foreach (var textMP in textMeshProList) {
-                textMP.color = unselectedColor;
+                textMP.color = m_buttonHighlight.unselectedColor;
             }
         }
     }
