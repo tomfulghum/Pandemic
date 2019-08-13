@@ -74,7 +74,7 @@ public class AreaTransitionManager : MonoBehaviour
         if (!SceneManager.GetSceneByName(to).isLoaded) {
             loadSceneAsync = SceneManager.LoadSceneAsync(to, LoadSceneMode.Additive);
             while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-                Debug.LogFormat("Loading game scene: {0}%", loadSceneAsync.progress * 100f);
+                Debug.LogFormat("{0}: Loading game scene: {1}%", name, loadSceneAsync.progress * 100f);
                 yield return null;
             }
         }
@@ -123,7 +123,7 @@ public class AreaTransitionManager : MonoBehaviour
         if (!SceneManager.GetSceneByName(_menuScene).isLoaded) {
             loadSceneAsync = SceneManager.LoadSceneAsync(_menuScene, LoadSceneMode.Additive);
             while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-                Debug.LogFormat("Loading menu scene: {0}%", loadSceneAsync.progress * 100f);
+                Debug.LogFormat("{0}: Loading menu scene: {1}%", name, loadSceneAsync.progress * 100f);
                 yield return null;
             }
         }
