@@ -34,7 +34,7 @@ public class NormalKey : MonoBehaviour
     public void AddKeyToPlayer()
     {
         if (m_interactable.player) {
-            m_interactable.player.GetComponent<PlayerInventory>().AddNormalKey();
+            m_interactable.player.GetComponent<PlayerInventory>().normalKeyCount += 1;
         }
     }
 

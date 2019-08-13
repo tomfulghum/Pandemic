@@ -19,34 +19,15 @@ public class PlayerInventory : MonoBehaviour
     public int normalKeyCount
     {
         get { return m_normalKeyCount; }
+        set 
+        {
+            m_normalKeyCount = value;
+            UpdateKeyVisualization();
+        }
     }
 
     private void UpdateKeyVisualization()
     {
         m_keysVisualization.text = "Keys: " + m_normalKeyCount;
-    }
-
-    //************************//
-    //    Public Functions    //
-    //************************//
-
-    public void RemoveNormalKeys(int _count)
-    {
-        if (m_normalKeyCount >= _count) {
-            m_normalKeyCount -= _count;
-            UpdateKeyVisualization();
-        }
-    }
-
-    public void AddNormalKey()
-    {
-        m_normalKeyCount++;
-        UpdateKeyVisualization();
-    }
-
-    public void AddNormalKeys(int _count)
-    {
-        m_normalKeyCount += _count;
-        UpdateKeyVisualization();
     }
 }

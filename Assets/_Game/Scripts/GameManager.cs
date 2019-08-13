@@ -68,10 +68,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < m_saveFiles.Length; i++) {
-            m_saveFiles[i] = LoadSaveFile(m_savePath + m_saveFileName + i);
-        }
-
+        RefreshSaveFiles();
         SceneManager.LoadScene(m_menuSceneName, LoadSceneMode.Additive);
     }
 
@@ -95,7 +92,7 @@ public class GameManager : MonoBehaviour
     private void LoadPlayerState()
     {
         currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
-        m_player.GetComponent<PlayerInventory>().AddNormalKeys(m_state.playerState.normalKeyCount);
+        m_player.GetComponent<PlayerInventory>().normalKeyCount = m_state.playerState.normalKeyCount;
     }
 
     private SpawnPointData FindSpawnPoint(string _id)
@@ -180,6 +177,22 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    private void RefreshSaveFiles()
+    {
+        for (int i = 0; i < m_saveFiles.Length; i++) {
+            RefreshSaveFile(i);
+        }
+    }
+
+    private void RefreshSaveFile(int _index)
+    {
+        if (!CheckSaveFileArrayBounds(_index)) {
+            return;
+        }
+
+        m_saveFiles[_index] = LoadSaveFile(m_savePath + m_saveFileName + _index);
+    }
+
     //************************//
     //    Public Functions    //
     //************************//
@@ -204,6 +217,8 @@ public class GameManager : MonoBehaviour
         if(!SaveFileExists(_index)) {
             return;
         }
+
+        RefreshSaveFile(_index);
 
         m_currentSaveFileIndex = _index;
         m_state = m_saveFiles[_index].state;
@@ -240,6 +255,7 @@ public class GameManager : MonoBehaviour
 
     public SaveFileData GetSaveFileData(int _index)
     {
+        RefreshSaveFile(_index);
         return m_saveFiles[_index];
     }
 }

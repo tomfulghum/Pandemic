@@ -64,7 +64,7 @@ public class Lever : MonoBehaviour
     public void RemoveKeysFromPlayer()
     {
         if (m_interactable.player) {
-            m_interactable.player.GetComponent<PlayerInventory>().RemoveNormalKeys(m_requiredKeyCount);
+            m_interactable.player.GetComponent<PlayerInventory>().normalKeyCount -= m_requiredKeyCount;
         }
     }
 

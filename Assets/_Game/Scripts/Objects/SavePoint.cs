@@ -4,10 +4,10 @@
 
 public class SavePoint : MonoBehaviour
 {
-    [SerializeField] private SpawnPointData m_spawnPoint = default;
+    [SerializeField] private SpawnPoint m_spawnPoint = default;
 
     public void SaveGame()
     {
-        GameManager.Instance.SaveGame(m_spawnPoint);
+        GameManager.Instance.SaveGame(m_spawnPoint.spawnPointData);
     }
 }

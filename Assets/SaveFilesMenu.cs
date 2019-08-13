@@ -10,13 +10,10 @@ public class SaveFilesMenu : MonoBehaviour
 
     public void LoadSaveFile(int _index)
     {
+        if (GameManager.Instance.GetSaveFileData(_index) == null) {
+            GameManager.Instance.CreateSaveFile(_index);
+        }
+
         GameManager.Instance.LoadSaveFile(_index);
     }
-
-    public void CreateSaveFile(int _index)
-    {
-        GameManager.Instance.CreateSaveFile(_index);
-
-    }
-
 }
