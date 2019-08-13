@@ -155,6 +155,11 @@ public class AreaTransitionManager : MonoBehaviour
             return;
         }
 
+        if (_spawnPoint.area == null) {
+            Debug.LogErrorFormat("{0}: Target spawn point's area is null!", name);
+            return;
+        }
+
         Debug.LogFormat("{0}: Transitioning from area {1} to area {2} with spawn point {3}.", name, _fromArea.sceneName, _spawnPoint.area.sceneName, _spawnPoint.name);
 
         GameObject player = GameManager.Instance.player;
