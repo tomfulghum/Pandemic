@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_ingameUI = default;
     [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
+    [SerializeField] private GameObject m_postProcessing = default;
     [SerializeField] private List<AreaData> m_areas = default;
 
     //******************//
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
     {
         RefreshSaveFiles();
         SceneManager.LoadScene(m_menuSceneName, LoadSceneMode.Additive);
+        m_postProcessing.SetActive(false);
     }
 
     private void Update()
@@ -209,6 +211,7 @@ public class GameManager : MonoBehaviour
     {
         m_areaTransitionManager.LoadMenuScene(m_menuSceneName, () => {
             m_ingameUI.SetActive(false);
+            m_postProcessing.SetActive(false);
             Destroy(m_currentPlayer);
             m_currentPlayer = null;
         });
@@ -222,6 +225,7 @@ public class GameManager : MonoBehaviour
 
         m_areaTransitionManager.LoadGameScene(currentSpawnPoint, () => {
             m_ingameUI.SetActive(true);
+            m_postProcessing.SetActive(true);
             LoadPlayerState();
             Destroy(oldPlayer);
         });
