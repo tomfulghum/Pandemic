@@ -33,7 +33,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject player
     {
-        get { return m_player; }
+        get 
+        {
+            if (!m_currentPlayer) {
+                Debug.LogWarningFormat("{0}: Current player is null!", name);
+            }
+            return m_currentPlayer;
+        }
     }
 
     //**********************//
@@ -45,6 +51,7 @@ public class GameManager : MonoBehaviour
     private string m_savePath = default;
     private SaveFileData[] m_saveFiles = new SaveFileData[4];
     private int m_currentSaveFileIndex = -1;
+    private GameObject m_currentPlayer = default;
 
     private AreaTransitionManager m_areaTransitionManager = default;
 
@@ -86,13 +93,14 @@ public class GameManager : MonoBehaviour
     private void SavePlayerState(SpawnPointData _spawnPoint)
     {
         m_state.playerState.currentSpawnPoint = _spawnPoint.id;
-        m_state.playerState.normalKeyCount = m_player.GetComponent<PlayerInventory>().normalKeyCount;
+        m_state.playerState.normalKeyCount = m_currentPlayer.GetComponent<PlayerInventory>().normalKeyCount;
+        m_state.playerState.health = m_currentPlayer.GetComponent<PlayerCombat>().currentHealth;
     }
 
     private void LoadPlayerState()
     {
         currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
-        m_player.GetComponent<PlayerInventory>().normalKeyCount = m_state.playerState.normalKeyCount;
+        m_currentPlayer.GetComponent<PlayerInventory>().normalKeyCount = m_state.playerState.normalKeyCount;
     }
 
     private SpawnPointData FindSpawnPoint(string _id)
@@ -201,14 +209,20 @@ public class GameManager : MonoBehaviour
     {
         m_areaTransitionManager.LoadMenuScene(m_menuSceneName, () => {
             m_ingameUI.SetActive(false);
+            Destroy(m_currentPlayer);
+            m_currentPlayer = null;
         });
     }
 
     public void LoadLastSave()
     {
+        GameObject oldPlayer = m_currentPlayer;
+        m_currentPlayer = Instantiate(m_player);
+
         LoadPlayerState();
         m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint, () => {
             m_ingameUI.SetActive(true);
+            Destroy(oldPlayer);
         });
     }
 

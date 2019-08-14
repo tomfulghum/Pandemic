@@ -29,8 +29,8 @@ public class SaveFileButton : MonoBehaviour
         if (data != null) {
             m_newGameText.SetActive(false);
             m_saveFileData.SetActive(true);
-            m_healthText.text = "" + data.health;
-            m_currencyText.text = "" + data.currency;
+            m_healthText.text = "Health: " + data.health;
+            m_currencyText.text = "Keys: " + data.currency;
             m_playtimeText.text = "" + data.playTime;
             m_areaText.text = data.area;
         } else {

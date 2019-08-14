@@ -49,6 +49,11 @@ public class PlayerCombat : MonoBehaviour
         get { return m_currentAttackState; }
     }
 
+    public int currentHealth
+    {
+        get { return m_currentHealth; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
