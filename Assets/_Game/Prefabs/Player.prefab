@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8297063339140033157
 Transform:
   m_ObjectHideFlags: 0
@@ -364,8 +364,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_followPointer: 1
-  m_activateBackGround: 0
-  m_backGround: {fileID: 0}
+  m_activateBackGround: 1
+  m_backGround: {fileID: 584968175783989091}
   m_outerCircle: {fileID: 1173388728848317208}
   m_innerCircle: {fileID: 1767342080726869190}
   m_pointer: {fileID: 2513012523473305197}
