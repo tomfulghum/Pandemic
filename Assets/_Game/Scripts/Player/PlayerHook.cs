@@ -128,6 +128,10 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private bool m_usingController = false;
     [SerializeField] private bool m_useSmartTargetingForEverything = false;
 
+    //experimental
+    [SerializeField] private float m_dashBoostActiveTime = 0.3f;
+    [SerializeField] [Range(0, 2)] private float m_dashSpeedMultiplier = 1f;
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -166,6 +170,12 @@ public class PlayerHook : MonoBehaviour
     private Actor2D m_actor;
     private PlayerMovement m_pm;
     private Rigidbody2D m_rb;
+
+
+    //experimental
+
+    private bool m_activatedAfterHookDash;
+    private Vector2 m_dashDirection;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -268,9 +278,14 @@ public class PlayerHook : MonoBehaviour
                 }
                 if (cancelCondition)
                 {
-                    if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy)
+                    //if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy)
+                    //{
+                    //    StartCoroutine(JumpBack());
+                    //}
+                    if(m_reachedTarget && m_activatedAfterHookDash)
                     {
-                        StartCoroutine(JumpBack());
+                        DeactivateHook();
+                        GetComponent<PlayerCombat>().DashInDirection(m_dashDirection * m_dashSpeedMultiplier, m_dashBoostActiveTime);
                     }
                     else
                     {
@@ -560,6 +575,11 @@ public class PlayerHook : MonoBehaviour
                 {
                     case HookType.Hook:
                         {
+
+                            //experimental
+                            m_activatedAfterHookDash = false;
+                            m_dashDirection = Vector2.zero;
+
                             m_reachedTarget = false; //evtl alles in einer funktion machen lassen für moving hookpoint
                             m_currentTargetPosition = m_currentSelectedTarget.transform.position;
                             m_cancelDistance = CalculateCancelDistance(transform.position, m_currentSelectedTarget.transform.position); //beachtet die zusätzliche TravelDistanceNicht
@@ -610,17 +630,28 @@ public class PlayerHook : MonoBehaviour
     private bool HookToTarget()
     {
         Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position);
+        //GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
+
         bool cancelCondition = false;
 
         if (Vector2.Distance(transform.position, m_currentTargetPosition) < m_targetReachedTolerance)
         { //wenn man sein ziel erreicht hat
             m_reachedTarget = true;
             cancelCondition = true;
+
+            //experimental
+            if (m_activatedAfterHookDash)
+                m_dashDirection = m_pm.externalVelocity;
         }
 
-        if (m_cancelHookWithSpace && (m_input.player.GetButton(m_input.jumpButton)) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
-        { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-            cancelCondition = true;
+        //if (m_cancelHookWithSpace && (m_input.player.GetButton(m_input.jumpButton)) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
+        //{ //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
+        //    cancelCondition = true;
+        //}
+
+        if (m_input.player.GetButton(m_input.jumpButton) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
+        {
+            m_activatedAfterHookDash = true;
         }
 
         if (m_rb.velocity == Vector2.zero && m_startPosition != (Vector2)transform.position)

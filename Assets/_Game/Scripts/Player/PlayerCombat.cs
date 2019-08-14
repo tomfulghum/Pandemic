@@ -93,6 +93,8 @@ public class PlayerCombat : MonoBehaviour
     private Coroutine m_knockbackCoroutine = null;
     private Coroutine m_dashCoroutine = null;
 
+    bool m_hookDashActive;
+
     private PlayerInput m_input;
     private Actor2D m_actor;
     private PlayerMovement m_pm;
@@ -172,6 +174,22 @@ public class PlayerCombat : MonoBehaviour
         m_currentAttackState = AttackState.None;
         yield return new WaitForSeconds(m_dashCooldown);
         m_dashCoolDownActive = false;
+    }
+
+    private IEnumerator HookDash(Vector2 _velocity, float time) //only experimental
+    {
+        m_hookDashActive = true;
+
+        Vector2 velocity = Vector2.zero;
+        m_currentAttackState = AttackState.Dash;
+
+        m_pm.DisableUserInput(true);
+        m_pm.externalVelocity = _velocity;
+        yield return new WaitForSeconds(time);
+        m_pm.DisableUserInput(false);
+        m_currentAttackState = AttackState.None;
+
+        m_hookDashActive = false;
     }
 
     private void CancelDash()
@@ -290,6 +308,12 @@ public class PlayerCombat : MonoBehaviour
         else
             m_currentHealth = m_attributes.maxHealth;
         UpdateHealthVisual();
+    }
+
+    public void DashInDirection(Vector2 _velocity, float time)
+    {
+        if (m_hookDashActive == false)
+            StartCoroutine(HookDash(_velocity, time));
     }
 
     //GetHit //Stagger ...
