@@ -52,6 +52,7 @@ public class PlayerCombat : MonoBehaviour
     public int currentHealth
     {
         get { return m_currentHealth; }
+        set { m_currentHealth = value; }
     }
 
     //**********************//
@@ -101,10 +102,14 @@ public class PlayerCombat : MonoBehaviour
     //    MonoBehaviour Functions    //
     //*******************************//
 
+    private void Awake()
+    {
+        m_currentHealth = m_maxHealth;
+    }
+
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
     private void Start()
     {
-        m_currentHealth = m_maxHealth;
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_enemiesHit = new List<Collider2D>();
         m_xAxis = Input.GetAxis("Horizontal");

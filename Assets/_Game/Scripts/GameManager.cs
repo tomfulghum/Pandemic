@@ -99,8 +99,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadPlayerState()
     {
-        currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
         m_currentPlayer.GetComponent<PlayerInventory>().normalKeyCount = m_state.playerState.normalKeyCount;
+        m_currentPlayer.GetComponent<PlayerCombat>().currentHealth = m_state.playerState.health;
     }
 
     private SpawnPointData FindSpawnPoint(string _id)
@@ -218,10 +218,11 @@ public class GameManager : MonoBehaviour
     {
         GameObject oldPlayer = m_currentPlayer;
         m_currentPlayer = Instantiate(m_player);
+        currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
 
-        LoadPlayerState();
-        m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint, () => {
+        m_areaTransitionManager.LoadGameScene(currentSpawnPoint, () => {
             m_ingameUI.SetActive(true);
+            LoadPlayerState();
             Destroy(oldPlayer);
         });
     }

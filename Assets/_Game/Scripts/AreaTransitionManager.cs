@@ -47,57 +47,14 @@ public class AreaTransitionManager : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private IEnumerator TransitionCoroutine(string _from, SpawnPointData _spawnPoint, GameObject _player, Action _callback = null)
+    private IEnumerator TransitionCoroutine(string _sceneName, GameObject _player, SpawnPointData _spawnPoint = null, Action _callback = null)
     {
         m_transitioning = true;
         float halfTransitionTime = m_transitionTime / 2f;
-        string to = _spawnPoint.area.sceneName;
 
         if (_player.activeInHierarchy) {
             _player.GetComponent<PlayerMovement>().DisableUserInput(true);
         }
-
-        m_fader.FadeIn(halfTransitionTime);
-        yield return new WaitForSeconds(halfTransitionTime);
-
-        AsyncOperation unloadSceneAsync = null;
-        if (SceneManager.GetSceneByName(_from).isLoaded) {
-            unloadSceneAsync = SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(_from));
-            while (unloadSceneAsync != null && !unloadSceneAsync.isDone) {
-                yield return null;
-            }
-        }
-
-        _player.SetActive(false);
-
-        AsyncOperation loadSceneAsync = null;
-        if (!SceneManager.GetSceneByName(to).isLoaded) {
-            loadSceneAsync = SceneManager.LoadSceneAsync(to, LoadSceneMode.Additive);
-            while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-                Debug.LogFormat("{0}: Loading game scene: {1}%", name, loadSceneAsync.progress * 100f);
-                yield return null;
-            }
-        }
-
-        Scene toScene = SceneManager.GetSceneByName(to);
-        SceneManager.SetActiveScene(toScene);
-
-        AreaController controller = FindObjectOfType<AreaController>();
-        controller.InitializeArea(_player, _spawnPoint);
-
-        _player.SetActive(true);
-        _player.GetComponent<PlayerMovement>().DisableUserInput(false);
-
-        m_fader.FadeOut(halfTransitionTime);
-        m_transitioning = false;
-
-        _callback?.Invoke();
-    }
-
-    private IEnumerator MenuTransitionCoroutine(string _menuScene, GameObject _player, Action _callback = null)
-    {
-        m_transitioning = true;
-        float halfTransitionTime = m_transitionTime / 2f;
 
         m_fader.FadeIn(halfTransitionTime);
         yield return new WaitForSeconds(halfTransitionTime);
@@ -107,7 +64,7 @@ public class AreaTransitionManager : MonoBehaviour
             loadedScenes.Add(SceneManager.GetSceneAt(i));
         }
 
-        foreach (Scene scene in loadedScenes) { 
+        foreach (Scene scene in loadedScenes) {
             AsyncOperation unloadSceneAsync = null;
             if (scene.buildIndex != 0 && scene.isLoaded) {
                 unloadSceneAsync = SceneManager.UnloadSceneAsync(scene);
@@ -120,16 +77,30 @@ public class AreaTransitionManager : MonoBehaviour
         _player.SetActive(false);
 
         AsyncOperation loadSceneAsync = null;
-        if (!SceneManager.GetSceneByName(_menuScene).isLoaded) {
-            loadSceneAsync = SceneManager.LoadSceneAsync(_menuScene, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByName(_sceneName).isLoaded) {
+            loadSceneAsync = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
             while (loadSceneAsync != null && !loadSceneAsync.isDone) {
-                Debug.LogFormat("{0}: Loading menu scene: {1}%", name, loadSceneAsync.progress * 100f);
+                Debug.LogFormat("{0}: Loading scene: {1}%", name, loadSceneAsync.progress * 100f);
                 yield return null;
             }
         }
 
+        Scene toScene = SceneManager.GetSceneByName(_sceneName);
+        SceneManager.SetActiveScene(toScene);
+
+        if (_spawnPoint != null) {
+
+            AreaController controller = FindObjectOfType<AreaController>();
+            controller.InitializeArea(_player, _spawnPoint);
+
+            _player.SetActive(true);
+            _player.GetComponent<PlayerMovement>().DisableUserInput(false);
+        }
+
         m_fader.FadeOut(halfTransitionTime);
         m_transitioning = false;
+
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
 
         _callback?.Invoke();
     }
@@ -163,18 +134,20 @@ public class AreaTransitionManager : MonoBehaviour
         Debug.LogFormat("{0}: Transitioning from area {1} to area {2} with spawn point {3}.", name, _fromArea.sceneName, _spawnPoint.area.sceneName, _spawnPoint.name);
 
         GameObject player = GameManager.Instance.player;
-        StartCoroutine(TransitionCoroutine(_fromArea.sceneName, _spawnPoint, player));
+        StartCoroutine(TransitionCoroutine(_spawnPoint.area.sceneName, player, _spawnPoint));
     }
 
-    public void LoadGameScene(string _menuScene, SpawnPointData _spawnPoint, Action _callback = null)
+    public void LoadGameScene(SpawnPointData _spawnPoint, Action _callback = null)
     {
         if (m_transitioning) {
             Debug.LogWarningFormat("{0}: Transition already in progress!", name);
             return;
         }
 
+        Debug.LogFormat("{0}: Loading area {1} with spawn point {2}.", name, _spawnPoint.area.sceneName, _spawnPoint.name);
+
         GameObject player = GameManager.Instance.player;
-        StartCoroutine(TransitionCoroutine(_menuScene, _spawnPoint, player, _callback));
+        StartCoroutine(TransitionCoroutine(_spawnPoint.area.sceneName, player, _spawnPoint, _callback));
     }
 
     public void LoadMenuScene(string _menuScene, Action _callback = null)
@@ -184,7 +157,9 @@ public class AreaTransitionManager : MonoBehaviour
             return;
         }
 
+        Debug.LogFormat("{0}: Loading menu scene.", name);
+
         GameObject player = GameManager.Instance.player;
-        StartCoroutine(MenuTransitionCoroutine(_menuScene, player, _callback));
+        StartCoroutine(TransitionCoroutine(_menuScene, player, null, _callback));
     }
 }

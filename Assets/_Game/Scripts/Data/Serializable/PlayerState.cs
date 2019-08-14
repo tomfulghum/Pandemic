@@ -10,6 +10,6 @@ public class PlayerState
     {
         currentSpawnPoint = _currentSpawnPoint.id;
         normalKeyCount = 0;
-        health = 0;
+        health = 10;
     }
 }

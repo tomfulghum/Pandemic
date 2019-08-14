@@ -180,7 +180,8 @@ MonoBehaviour:
   m_text: teeth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1264,7 +1265,8 @@ MonoBehaviour:
   m_text: teeth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1872,7 +1874,8 @@ MonoBehaviour:
   m_text: time
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2166,7 +2169,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &505904382
 GameObject:
@@ -4012,7 +4015,8 @@ MonoBehaviour:
   m_text: area
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4169,7 +4173,8 @@ MonoBehaviour:
   m_text: 'int '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5897,7 +5902,8 @@ MonoBehaviour:
   m_text: time
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7401,7 +7407,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1033440934
 GameObject:
@@ -8209,7 +8215,8 @@ MonoBehaviour:
   m_text: 'int '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9295,7 +9302,8 @@ MonoBehaviour:
   m_text: teeth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9452,7 +9460,8 @@ MonoBehaviour:
   m_text: time
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10043,7 +10052,8 @@ MonoBehaviour:
   m_text: time
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10356,7 +10366,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1441516943
 GameObject:
@@ -11776,7 +11786,8 @@ MonoBehaviour:
   m_text: teeth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12864,7 +12875,8 @@ MonoBehaviour:
   m_text: area
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13356,7 +13368,8 @@ MonoBehaviour:
   m_text: area
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13433,7 +13446,7 @@ MonoBehaviour:
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
   - {fileID: 0}
@@ -15024,7 +15037,8 @@ MonoBehaviour:
   m_text: area
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15549,7 +15563,8 @@ MonoBehaviour:
   m_text: 'int '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -15698,7 +15713,8 @@ MonoBehaviour:
   m_text: 'int '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17465,7 +17481,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2134333309
 GameObject:
