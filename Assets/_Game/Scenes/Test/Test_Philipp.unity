@@ -1835,6 +1835,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 584968175783989091, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 584968175783989091, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_Name
+      value: BackGround
+      objectReference: {fileID: 0}
     - target: {fileID: 5293281134618775216, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1899,11 +1909,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_healthVisualization
       value: 
-      objectReference: {fileID: 1095084044}
+      objectReference: {fileID: 0}
     - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: m_dashDuration
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_invincibilityTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5293281134618775219, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
@@ -1980,16 +1995,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_activateBackGround
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 584968175783989091, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 584968175783989091, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_Name
-      value: BackGround
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
@@ -4305,6 +4310,11 @@ PrefabInstance:
     - target: {fileID: 1537124147194040484, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_dontMove
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563673168081085035, guid: 78f08bbd4dd89054f98abee5dc41dcca,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -38,6 +38,7 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private float m_hitFreezeTime = 0.5f;
     [SerializeField] private float m_hitKnockbackTime = 0.2f;
+    [SerializeField] private float m_invincibilityTime = 1f;
 
     //******************//
     //    Properties    //
@@ -213,7 +214,7 @@ public class PlayerCombat : MonoBehaviour
             CancelDash();
 
         TakeDamage();
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled; //playerstate invincible?
         m_pm.DisableUserInput(true);
         m_invincible = true;
         GetComponent<SpriteRenderer>().color = Color.red; //for visualization
@@ -241,17 +242,23 @@ public class PlayerCombat : MonoBehaviour
         }
 
         m_pm.momentum = m_pm.externalVelocity;
-
-        m_invincible = false; //extra invincibility in den knock back einbauen mit extra yield return wait
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         m_pm.DisableUserInput(false);
 
-        GetComponent<SpriteRenderer>().color = Color.white; // for visualization
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Invincible;
+
+        GetComponent<SpriteRenderer>().color = Color.yellow;
 
         if (m_currentHealth <= 0) {
             UpdateHealthVisual();
             GameManager.Instance.Respawn();
         }
+
+        yield return new WaitForSeconds(m_invincibilityTime);
+
+        m_invincible = false; //extra invincibility in den knock back einbauen mit extra yield return wait
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
+
+        GetComponent<SpriteRenderer>().color = Color.white; // for visualization
     }
 
     //************************//

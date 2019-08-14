@@ -135,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
     private void ProcessJumpInput()
     {
         // Calculate jump parameters if the player presses the jump button
-        if (!m_inputDisabled && (m_actor.contacts.below || m_inputState.groundToleranceTimer >= 0) && m_input.player.GetButtonDown(m_input.jumpButton)) {
+        if (!m_inputDisabled && (m_actor.contacts.below || m_inputState.groundToleranceTimer > 0) && m_input.player.GetButtonDown(m_input.jumpButton)) {
             m_inputState.jump = true;
 
             float absGravity = Mathf.Abs(Physics2D.gravity.y);

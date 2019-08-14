@@ -15,7 +15,7 @@ public class ObjectKnockBack : MonoBehaviour //only for enemies atm
         {
             if (collision.GetComponent<Enemy>().currentEnemyState != Enemy.EnemyState.Dead)
             {
-                collision.GetComponent<Enemy>().GetHit(transform.position, 25, 4);
+                collision.GetComponent<Enemy>().GetHit(transform.position, m_force, 4);
                 m_onSuccesfulHit?.Invoke();
             }
         }

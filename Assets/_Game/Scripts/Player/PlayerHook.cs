@@ -58,6 +58,7 @@ public class PlayerHook : MonoBehaviour
         Attacking,
         Moving,
         Disabled,
+        Invincible,
         Dead
     }
 
