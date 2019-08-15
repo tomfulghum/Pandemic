@@ -12,8 +12,8 @@ public class SaveFileData
     public SaveFileData(GameState _state, string _area)
     {
         state = _state;
-        //health = _state.playerState.health;
-        //currency = _state.playerState.currency;
+        health = _state.playerState.health;
+        currency = _state.playerState.normalKeyCount;
         //playTime = _state.playTime;
         area = _area;
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_ingameUI = default;
     [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
+    [SerializeField] private PlayerAttributes m_playerAttributes = default;
+    [SerializeField] private GameObject m_postProcessing = default;
     [SerializeField] private List<AreaData> m_areas = default;
 
     //******************//
@@ -33,7 +35,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject player
     {
-        get { return m_player; }
+        get 
+        {
+            if (!m_currentPlayer) {
+                Debug.LogWarningFormat("{0}: Current player is null!", name);
+            }
+            return m_currentPlayer;
+        }
     }
 
     //**********************//
@@ -45,6 +53,7 @@ public class GameManager : MonoBehaviour
     private string m_savePath = default;
     private SaveFileData[] m_saveFiles = new SaveFileData[4];
     private int m_currentSaveFileIndex = -1;
+    private GameObject m_currentPlayer = default;
 
     private AreaTransitionManager m_areaTransitionManager = default;
 
@@ -70,6 +79,7 @@ public class GameManager : MonoBehaviour
     {
         RefreshSaveFiles();
         SceneManager.LoadScene(m_menuSceneName, LoadSceneMode.Additive);
+        m_postProcessing.SetActive(false);
     }
 
     private void Update()
@@ -86,13 +96,14 @@ public class GameManager : MonoBehaviour
     private void SavePlayerState(SpawnPointData _spawnPoint)
     {
         m_state.playerState.currentSpawnPoint = _spawnPoint.id;
-        m_state.playerState.normalKeyCount = m_player.GetComponent<PlayerInventory>().normalKeyCount;
+        m_state.playerState.normalKeyCount = m_currentPlayer.GetComponent<PlayerInventory>().normalKeyCount;
+        m_state.playerState.health = m_currentPlayer.GetComponent<PlayerCombat>().currentHealth;
     }
 
     private void LoadPlayerState()
     {
-        currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
-        m_player.GetComponent<PlayerInventory>().normalKeyCount = m_state.playerState.normalKeyCount;
+        m_currentPlayer.GetComponent<PlayerInventory>().normalKeyCount = m_state.playerState.normalKeyCount;
+        m_currentPlayer.GetComponent<PlayerCombat>().currentHealth = m_state.playerState.health;
     }
 
     private SpawnPointData FindSpawnPoint(string _id)
@@ -201,31 +212,48 @@ public class GameManager : MonoBehaviour
     {
         m_areaTransitionManager.LoadMenuScene(m_menuSceneName, () => {
             m_ingameUI.SetActive(false);
+            m_postProcessing.SetActive(false);
+            Destroy(m_currentPlayer);
+            m_currentPlayer = null;
         });
     }
 
-    public void LoadLastSave()
+    public void LoadLastSave(Action _callback = null)
     {
-        LoadPlayerState();
-        m_areaTransitionManager.LoadGameScene(m_menuSceneName, currentSpawnPoint, () => {
+        RefreshSaveFile(m_currentSaveFileIndex);
+        m_state = m_saveFiles[m_currentSaveFileIndex].state;
+
+        GameObject oldPlayer = m_currentPlayer;
+        m_currentPlayer = Instantiate(m_player);
+        currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
+
+        m_areaTransitionManager.LoadGameScene(currentSpawnPoint, () => {
             m_ingameUI.SetActive(true);
+            m_postProcessing.SetActive(true);
+            LoadPlayerState();
+            Destroy(oldPlayer);
+            _callback?.Invoke();
         });
     }
 
-    public void LoadSaveFile(int _index)
+    public void Respawn()
+    {
+        LoadLastSave(() => {
+            m_currentPlayer.GetComponent<PlayerCombat>().currentHealth = m_playerAttributes.maxHealth;
+        });
+    }
+
+    public void LoadSaveGame(int _index)
     {
         if(!SaveFileExists(_index)) {
             return;
         }
 
-        RefreshSaveFile(_index);
-
         m_currentSaveFileIndex = _index;
-        m_state = m_saveFiles[_index].state;
         LoadLastSave();
     }
 
-    public void CreateSaveFile(int _index)
+    public void CreateSaveGame(int _index)
     {
         if (!CheckSaveFileArrayBounds(_index)) {
             return;
@@ -235,7 +263,7 @@ public class GameManager : MonoBehaviour
         SaveSaveFile(_index, gameState);
     }
 
-    public void DeleteSaveFile(int _index)
+    public void DeleteSaveGame(int _index)
     {
         if (!SaveFileExists(_index)) {
             return;

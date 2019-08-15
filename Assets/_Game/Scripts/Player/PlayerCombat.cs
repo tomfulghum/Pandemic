@@ -26,8 +26,7 @@ public class PlayerCombat : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private int m_maxHealth = 10;
-    [SerializeField] private Transform m_respawnPoint = default; //old
+    [SerializeField] private PlayerAttributes m_attributes = default;
     [SerializeField] private TextMeshProUGUI m_healthVisualization = default;
 
     //[SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann
@@ -47,6 +46,12 @@ public class PlayerCombat : MonoBehaviour
     public AttackState currentAttackState
     {
         get { return m_currentAttackState; }
+    }
+
+    public int currentHealth
+    {
+        get { return m_currentHealth; }
+        set { m_currentHealth = value; }
     }
 
     //**********************//
@@ -96,10 +101,14 @@ public class PlayerCombat : MonoBehaviour
     //    MonoBehaviour Functions    //
     //*******************************//
 
+    private void Awake()
+    {
+
+    }
+
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
     private void Start()
     {
-        m_currentHealth = m_maxHealth;
         m_originalColor = GetComponent<SpriteRenderer>().color;
         m_enemiesHit = new List<Collider2D>();
         m_xAxis = Input.GetAxis("Horizontal");
@@ -195,7 +204,7 @@ public class PlayerCombat : MonoBehaviour
     void UpdateHealthVisual()
     {
         if (m_healthVisualization != null)
-            m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_maxHealth;
+            m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_attributes.maxHealth;
     }
 
     private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
@@ -240,9 +249,8 @@ public class PlayerCombat : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.white; // for visualization
 
         if (m_currentHealth <= 0) {
-            m_currentHealth = m_maxHealth;
             UpdateHealthVisual();
-            GameManager.Instance.LoadLastSave();
+            GameManager.Instance.Respawn();
         }
     }
 
@@ -270,10 +278,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void HealUp(int _healValue)
     {
-        if ((m_currentHealth + _healValue) <= m_maxHealth)
+        if ((m_currentHealth + _healValue) <= m_attributes.maxHealth)
             m_currentHealth += _healValue;
         else
-            m_currentHealth = m_maxHealth;
+            m_currentHealth = m_attributes.maxHealth;
         UpdateHealthVisual();
     }
 
