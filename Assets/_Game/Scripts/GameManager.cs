@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject m_ingameUI = default;
     [SerializeField] private SpawnPointData m_startPoint = default;
     [SerializeField] private GameObject m_player = default;
+    [SerializeField] private PlayerAttributes m_playerAttributes = default;
     [SerializeField] private GameObject m_postProcessing = default;
     [SerializeField] private List<AreaData> m_areas = default;
 
@@ -217,7 +218,7 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public void LoadLastSave()
+    public void LoadLastSave(Action _callback = null)
     {
         GameObject oldPlayer = m_currentPlayer;
         m_currentPlayer = Instantiate(m_player);
@@ -228,6 +229,14 @@ public class GameManager : MonoBehaviour
             m_postProcessing.SetActive(true);
             LoadPlayerState();
             Destroy(oldPlayer);
+            _callback?.Invoke();
+        });
+    }
+
+    public void Respawn()
+    {
+        LoadLastSave(() => {
+            m_currentPlayer.GetComponent<PlayerCombat>().currentHealth = m_playerAttributes.maxHealth;
         });
     }
 

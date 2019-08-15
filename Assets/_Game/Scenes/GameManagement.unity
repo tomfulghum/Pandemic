@@ -869,6 +869,12 @@ PrefabInstance:
       propertyPath: m_healthVisualization
       value: 
       objectReference: {fileID: 390341364}
+    - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_attributes
+      value: 
+      objectReference: {fileID: 11400000, guid: 313522a16af217743af27355aa1702e4,
+        type: 2}
     - target: {fileID: 102156905579829246, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: m_keysVisualization
@@ -1927,6 +1933,12 @@ PrefabInstance:
       propertyPath: m_postProcessing
       value: 
       objectReference: {fileID: 1295832854}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_playerAttributes
+      value: 
+      objectReference: {fileID: 11400000, guid: 313522a16af217743af27355aa1702e4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c11fa1eff3defda468637526b629958d, type: 3}
 --- !u!114 &8074933460114689808

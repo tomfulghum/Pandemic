@@ -26,7 +26,7 @@ public class PlayerCombat : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private int m_maxHealth = 10;
+    [SerializeField] private PlayerAttributes m_attributes = default;
     [SerializeField] private Transform m_respawnPoint = default; //old
     [SerializeField] private TextMeshProUGUI m_healthVisualization = default;
 
@@ -104,7 +104,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void Awake()
     {
-        m_currentHealth = m_maxHealth;
+
     }
 
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
@@ -205,7 +205,7 @@ public class PlayerCombat : MonoBehaviour
     void UpdateHealthVisual()
     {
         if (m_healthVisualization != null)
-            m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_maxHealth;
+            m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_attributes.maxHealth;
     }
 
     private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
@@ -250,9 +250,8 @@ public class PlayerCombat : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.white; // for visualization
 
         if (m_currentHealth <= 0) {
-            m_currentHealth = m_maxHealth;
             UpdateHealthVisual();
-            GameManager.Instance.LoadLastSave();
+            GameManager.Instance.Respawn();
         }
     }
 
@@ -280,10 +279,10 @@ public class PlayerCombat : MonoBehaviour
 
     public void HealUp(int _healValue)
     {
-        if ((m_currentHealth + _healValue) <= m_maxHealth)
+        if ((m_currentHealth + _healValue) <= m_attributes.maxHealth)
             m_currentHealth += _healValue;
         else
-            m_currentHealth = m_maxHealth;
+            m_currentHealth = m_attributes.maxHealth;
         UpdateHealthVisual();
     }
 
