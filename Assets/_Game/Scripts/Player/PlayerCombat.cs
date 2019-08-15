@@ -27,7 +27,6 @@ public class PlayerCombat : MonoBehaviour
     //************************//
 
     [SerializeField] private PlayerAttributes m_attributes = default;
-    [SerializeField] private Transform m_respawnPoint = default; //old
     [SerializeField] private TextMeshProUGUI m_healthVisualization = default;
 
     //[SerializeField] private LayerMask m_layerMask = default; //später renamen --> enemy hit mask oder so //ground ist wichtig das man gegner nicht durch wände schlagen kann

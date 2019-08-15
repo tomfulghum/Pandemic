@@ -13,7 +13,7 @@ public class SaveFilesDeleteMenu : MonoBehaviour
 
     public void DeleteSaveFile()
     {
-        GameManager.Instance.DeleteSaveFile(m_index);
+        GameManager.Instance.DeleteSaveGame(m_index);
 
     }
 }

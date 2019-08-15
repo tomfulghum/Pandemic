@@ -105,6 +105,26 @@ public class AreaTransitionManager : MonoBehaviour
         _callback?.Invoke();
     }
 
+    private IEnumerator SetbackCoroutine(GameObject _player, Vector2 _position)
+    {
+        m_transitioning = true;
+        float halfTransitionTime = m_transitionTime / 2f;
+
+        _player.GetComponent<PlayerMovement>().DisableUserInput(true);
+
+        m_fader.FadeIn(halfTransitionTime);
+        yield return new WaitForSeconds(halfTransitionTime);
+
+        _player.SetActive(false);
+        _player.transform.position = _position;
+        _player.SetActive(true);
+
+        _player.GetComponent<PlayerMovement>().DisableUserInput(false);
+
+        m_fader.FadeOut(halfTransitionTime);
+        m_transitioning = false;
+    }
+
     //************************//
     //    Public Functions    //
     //************************//
@@ -161,5 +181,15 @@ public class AreaTransitionManager : MonoBehaviour
 
         GameObject player = GameManager.Instance.player;
         StartCoroutine(TransitionCoroutine(_menuScene, player, null, _callback));
+    }
+
+    public void Setback(GameObject _player, Vector2 _position)
+    {
+        if (m_transitioning) {
+            Debug.LogWarningFormat("{0}: Transition already in progress!", name);
+            return;
+        }
+
+        StartCoroutine(SetbackCoroutine(_player, _position));
     }
 }

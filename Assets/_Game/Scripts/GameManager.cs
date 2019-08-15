@@ -220,6 +220,9 @@ public class GameManager : MonoBehaviour
 
     public void LoadLastSave(Action _callback = null)
     {
+        RefreshSaveFile(m_currentSaveFileIndex);
+        m_state = m_saveFiles[m_currentSaveFileIndex].state;
+
         GameObject oldPlayer = m_currentPlayer;
         m_currentPlayer = Instantiate(m_player);
         currentSpawnPoint = FindSpawnPoint(m_state.playerState.currentSpawnPoint);
@@ -240,20 +243,17 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public void LoadSaveFile(int _index)
+    public void LoadSaveGame(int _index)
     {
         if(!SaveFileExists(_index)) {
             return;
         }
 
-        RefreshSaveFile(_index);
-
         m_currentSaveFileIndex = _index;
-        m_state = m_saveFiles[_index].state;
         LoadLastSave();
     }
 
-    public void CreateSaveFile(int _index)
+    public void CreateSaveGame(int _index)
     {
         if (!CheckSaveFileArrayBounds(_index)) {
             return;
@@ -263,7 +263,7 @@ public class GameManager : MonoBehaviour
         SaveSaveFile(_index, gameState);
     }
 
-    public void DeleteSaveFile(int _index)
+    public void DeleteSaveGame(int _index)
     {
         if (!SaveFileExists(_index)) {
             return;
