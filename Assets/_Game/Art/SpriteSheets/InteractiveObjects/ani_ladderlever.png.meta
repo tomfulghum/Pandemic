@@ -1,7 +1,22 @@
 fileFormatVersion: 2
 guid: 41ce7fa288fd7fb43ab41addd363a9b7
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -7470095128257651403
+    second: ani_ladderlever_0
+  - first:
+      213: 185574302000047921
+    second: ani_ladderlever_1
+  - first:
+      213: 3115060175180595640
+    second: ani_ladderlever_2
+  - first:
+      213: -2407290883335215243
+    second: ani_ladderlever_3
+  - first:
+      213: 7564825074803937827
+    second: ani_ladderlever_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -60,7 +75,18 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -71,7 +97,112 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ani_ladderlever_0
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 109
+        width: 542
+        height: 782
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdce71341732bab4586e375a24490f03
+      internalID: -7470095128257651403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ladderlever_1
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 130
+        width: 578
+        height: 740
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50706e7e3ca39d24281e8265d0e38ad3
+      internalID: 185574302000047921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ladderlever_2
+      rect:
+        serializedVersion: 2
+        x: 2179
+        y: 159
+        width: 640
+        height: 682
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27644f4d04650cc4abb4cfb79757ebf7
+      internalID: 3115060175180595640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ladderlever_3
+      rect:
+        serializedVersion: 2
+        x: 3166
+        y: 199
+        width: 667
+        height: 603
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37d13a8c661595646b079e7fe0e3e8e3
+      internalID: -2407290883335215243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ladderlever_4
+      rect:
+        serializedVersion: 2
+        x: 4157
+        y: 225
+        width: 685
+        height: 550
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cd099db3d7f131458e094359151add0
+      internalID: 7564825074803937827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
