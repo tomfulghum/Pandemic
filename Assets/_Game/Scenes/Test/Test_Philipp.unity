@@ -4500,6 +4500,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlaguePeasant
       objectReference: {fileID: 0}
+    - target: {fileID: 1537124147410351526, guid: 78f08bbd4dd89054f98abee5dc41dcca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1537124147410351544, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -392,6 +392,8 @@ public class PlayerHook : MonoBehaviour
     private bool PullObject() //hier wahrscheinlihc picked up object setzen sobald throwable object = travelling to player und oben dann nur aim erlauben wenn picked up
     {
         bool cancelCondition = false;
+        GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
+
         if (m_currentSelectedTarget.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
         {
             cancelCondition = true;
