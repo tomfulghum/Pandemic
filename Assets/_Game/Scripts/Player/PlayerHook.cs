@@ -644,12 +644,12 @@ public class PlayerHook : MonoBehaviour
                 m_dashDirection = m_pm.externalVelocity;
         }
 
-        //if (m_cancelHookWithSpace && (m_input.player.GetButton(m_input.jumpButton)) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
-        //{ //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
-        //    cancelCondition = true;
-        //}
+        if (m_cancelHookWithSpace && (m_input.player.GetButton(m_input.jumpButton)) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
+        { //falls aktiviert: wenn space gedrückt und bereits ein prozentualer teil des weges erreich wurde
+            cancelCondition = true;
+        }
 
-        if (m_input.player.GetButton(m_input.jumpButton) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
+        if (m_input.player.GetButton(m_input.attackButton) && Vector2.Distance(transform.position, m_currentSelectedTarget.transform.position) < m_cancelDistance)
         {
             m_activatedAfterHookDash = true;
         }
