@@ -1839,7 +1839,7 @@ PrefabInstance:
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
       propertyPath: m_areas.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
@@ -1889,7 +1889,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_startPoint
       value: 
-      objectReference: {fileID: 11400000, guid: d83559a3aa320334bb4222a4426fddc1,
+      objectReference: {fileID: 11400000, guid: ef6d878a632d82f4c917a21b1bbc8ec7,
         type: 2}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}
@@ -1943,6 +1943,12 @@ PrefabInstance:
       propertyPath: m_playerAttributes
       value: 
       objectReference: {fileID: 11400000, guid: 313522a16af217743af27355aa1702e4,
+        type: 2}
+    - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
+        type: 3}
+      propertyPath: m_areas.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 65944adcecff42f44b85fee6c174f0de,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c11fa1eff3defda468637526b629958d, type: 3}
