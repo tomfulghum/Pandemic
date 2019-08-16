@@ -77,8 +77,7 @@ public class PlayerHook : MonoBehaviour
         Aiming,
         SwitchTarget,
         Active,
-        Cooldown,
-        JumpBack
+        Cooldown
     }
 
     enum HookType
@@ -227,7 +226,7 @@ public class PlayerHook : MonoBehaviour
                 m_contDirWithoutDeadzone.y = m_input.player.GetAxis(m_input.aimVerticalAxis);
             }
 
-            if ((m_currentHookState != HookState.Active && m_currentHookState != HookState.Cooldown || CanUseHook()) && m_currentHookState != HookState.JumpBack)
+            if ((m_currentHookState != HookState.Active && m_currentHookState != HookState.Cooldown || CanUseHook()))
             { //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
                 if (m_input.player.GetButton(m_input.hookButton))
                 {
@@ -247,6 +246,12 @@ public class PlayerHook : MonoBehaviour
                         ActivateHook();
                     }
                     ResetValues();
+                }
+
+
+                if(m_input.player.GetButton(m_input.throwButton) && m_pickedUpObject != null && m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
+                {
+                    AimThrow();
                 }
             }
 
@@ -279,10 +284,6 @@ public class PlayerHook : MonoBehaviour
                 }
                 if (cancelCondition)
                 {
-                    //if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy)
-                    //{
-                    //    StartCoroutine(JumpBack());
-                    //}
                     if(m_reachedTarget && m_activatedAfterHookDash && m_currentTargetType == HookType.Hook)
                     {
                         DeactivateHook();
@@ -389,15 +390,15 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private bool PullObject() //hier wahrscheinlihc picked up object setzen sobald throwable object = travelling to player und oben dann nur aim erlauben wenn picked up
+    private bool PullObject() //noch für die trennung abändern --> auf mpickedupobject ändern
     {
         bool cancelCondition = false;
         GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
 
-        if (m_currentSelectedTarget.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
+        if (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
         {
             cancelCondition = true;
-            m_pickedUpObject = m_currentSelectedTarget.gameObject;
+            //m_pickedUpObject = m_currentSelectedTarget.gameObject;
         }
         return cancelCondition;
     }
@@ -600,6 +601,7 @@ public class PlayerHook : MonoBehaviour
                         }
                     case HookType.Throw:
                         {
+                            m_pickedUpObject = m_currentSelectedTarget.gameObject;
                             m_currentSelectedTarget.GetComponent<ThrowableObject>().PickUp(transform, m_pullSpeed, m_targetReachedTolerance);
                             break;
                         }
@@ -733,27 +735,6 @@ public class PlayerHook : MonoBehaviour
         float totalDistance = Vector2.Distance(_startPoint, _endPoint);
         totalDistance *= 1 - m_cancelDistancePercentage;
         return totalDistance;
-    }
-
-    private IEnumerator JumpBack() //--> gibt noch bugs 
-    {
-        int x = 1;
-        if (transform.position.x > m_currentSelectedTarget.transform.parent.transform.position.x)
-        {
-            x = 1;
-        }
-        else
-        {
-            x = -1;
-        }
-
-        DeactivateHook();
-        m_pm.DisableUserInput(true);
-        m_currentHookState = HookState.JumpBack;
-        Vector2 jumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * m_hookSpeed; //evtl jump speed
-        m_pm.externalVelocity = jumpBackvelocity;
-        yield return new WaitForSeconds(0.4f * 10 / m_hookSpeed); //bessere lösung finden --> passt fürs erste
-        DeactivateHook();
     }
 
     private void SetVelocityTowardsTarget(Vector2 _targetPoint, float _speed) //rename //evlt speed auch als parameter übergeben
