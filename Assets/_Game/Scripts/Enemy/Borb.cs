@@ -29,6 +29,7 @@ public class Borb : MonoBehaviour
     //************************//
 
     [SerializeField] private float m_chaseRange = 3f; //evlt reicht coneangle
+    [SerializeField] private float m_circleRadius = 10;
     [SerializeField] private float m_coneAngle = 35;
 
     [SerializeField] private float m_movementSpeed = 3f;
@@ -239,7 +240,7 @@ public class Borb : MonoBehaviour
 
     private Transform PlayerInSight()
     {
-        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, 10); //später evtl auch besser machen GetDistanceToGround()
+        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_circleRadius); //später evtl auch besser machen GetDistanceToGround()
         for (int i = 0; i < colliderInRange.Length; i++)
         {
             if (colliderInRange[i].CompareTag("Player"))
