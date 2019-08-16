@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerKnockback : MonoBehaviour
 {
-    [SerializeField] private bool m_enabled = true;
     [SerializeField] private float m_force = 30f;
+
+    private bool m_enabled = false;
 
     private void OnTriggerStay2D(Collider2D collision)
     {

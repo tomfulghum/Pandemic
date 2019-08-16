@@ -33,11 +33,7 @@ public class PlaguePeasant : MonoBehaviour
     [SerializeField] private float m_movementSpeed = 1f;
 
     [SerializeField] private float m_minShootDistance = 10f;
-    [SerializeField] private List<int> m_AimAngles = default; // überarbeiten zu neuenm system
-    [SerializeField] private List<int> m_ThrowForces = default;
-
-    //[SerializeField] private float m_minThrowAngle = 30; //not yet implemented
-    //[SerializeField] private float m_maxThrowAngle = 60;
+    [SerializeField] private float m_targetPositionRadius = 3;
 
     [SerializeField] private GameObject m_projectile = default;
     [SerializeField] private GameObject m_pickUpProjectile = default;
@@ -46,6 +42,9 @@ public class PlaguePeasant : MonoBehaviour
     //[SerializeField] private GameObject m_attackHitBox = default;
 
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
+
+    [SerializeField] private float m_rangedAnimBaseSpeed = 2f;
+    [SerializeField] private float m_rangedAnimSpeedMultiplier = 1f;
 
     //ranged attack evtl erst triggern wenn der spieler eine gewisse distanz vom enemy hat
     //CheckGroundAhead //--> bool use intelligent edgemovement?
@@ -78,9 +77,7 @@ public class PlaguePeasant : MonoBehaviour
     private int m_idleCounter;
     private int m_sitCounter;
 
-    private float m_rangedAnimSpeedMultiplier = 1f;
     private float m_rangedAttackSin = 1f;
-    private float m_rangedAttackAnimSpeed = 2f;
 
     private bool m_rangedAttackActive; //? private?
     private bool m_rangedAttackOnCooldown;
@@ -105,7 +102,7 @@ public class PlaguePeasant : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
-        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed);
+        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAnimBaseSpeed);
     }
 
     // Update is called once per frame
@@ -207,7 +204,6 @@ public class PlaguePeasant : MonoBehaviour
         m_player = PlayerInPercetpionRadius();
         if (m_player != null && m_objectToChase == null && m_rangedAttackOnCooldown == false && Vector2.Distance(m_player.position, transform.position) > m_minShootDistance) //nur wenn spieler weit genug von plauge peasant weg ist schießt er
         {
-            //ShootProjectile(); //test für targeting
             m_projectileTargetPosition = m_player.transform.position;
             m_currentMovementState = MovementState.RangedAttack;
             if (m_player.position.x > transform.position.x)
@@ -245,14 +241,16 @@ public class PlaguePeasant : MonoBehaviour
 
     private void ShootProjectile() //sollte ein start transform (mundposition bekommen)
     {
-        GetComponent<Animator>().SetFloat("RangedAttackSpeed", m_rangedAttackAnimSpeed + (Mathf.Sin(m_rangedAttackSin) * m_rangedAnimSpeedMultiplier));
-        m_rangedAttackSin += 0.1f;
+        float shootingSpeed = m_rangedAnimBaseSpeed + (Mathf.Sin(m_rangedAttackSin) * m_rangedAnimSpeedMultiplier);
+        if (shootingSpeed == 0)
+            shootingSpeed += 0.1f;
+        GetComponent<Animator>().SetFloat("RangedAttackSpeed", shootingSpeed);
 
-        GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //visualize trajectory später wieder entfernen
-        GetComponent<VisualizeTrajectory>().VisualizeDots(m_projectileStartPos.position, CaculateInitialVelocity(m_projectileTargetPosition));
-        //GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
-        //projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(m_projectileTargetPosition);
-        //projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
+        //GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //visualize trajectory später wieder entfernen
+        //GetComponent<VisualizeTrajectory>().VisualizeDots(m_projectileStartPos.position, CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition)));
+        GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+        projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition));
+        projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
 
       
         //if (Random.Range(0f, 1f) < 0.7f)
@@ -269,79 +267,32 @@ public class PlaguePeasant : MonoBehaviour
         m_rangedAttackActive = false;
     }
 
-    
-    private float CalculateThrowVelocity(float _throwAngle)
-    {
-        float horizontalDistance = Mathf.Abs(m_projectileStartPos.position.x - m_projectileTargetPosition.x);
-        float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - m_projectileTargetPosition.y);
-        float initialVelocity = horizontalDistance * Mathf.Sqrt(-Physics2D.gravity.y / 2 * (horizontalDistance * Mathf.Tan(_throwAngle * Mathf.Deg2Rad) - verticalDistance)) / Mathf.Cos(_throwAngle * Mathf.Deg2Rad);
-       // float initialVelocity = Mathf.Sqrt(-Physics2D.gravity.y * Mathf.Pow(m_projectileTargetPosition.x, 2) / (2 * Mathf.Pow(Mathf.Cos(_throwAngle * Mathf.Deg2Rad), 2) * (m_projectileTargetPosition.y - m_projectileTargetPosition.x * Mathf.Tan(_throwAngle * Mathf.Deg2Rad))));
-        return initialVelocity;
-    }
-
     //max range nicht vergessen und evtl checken ob das ziel erreichbar ist
+
+    private Vector2 SetRandomTargetPoint(Vector2 _playerPosition)
+    {
+        Vector2 targetPoint = _playerPosition + Random.insideUnitCircle * m_targetPositionRadius;
+        return targetPoint;
+    }
 
     private Vector2 CaculateInitialVelocity(Vector2 _targetPosition) //wahrscheinlich bei x einfach die distanz nicht math abs machen und damit die richtung herausbekommen
     {
         float horizontalDistance = Mathf.Abs(m_projectileStartPos.position.x - _targetPosition.x);
+        float verticalDistance = m_projectileStartPos.position.y - _targetPosition.y;
+
         float initialVelocity = Mathf.Sqrt(horizontalDistance * (-Physics2D.gravity.y / 2));
-        float horizontalVectorMultiplier = Mathf.Sqrt(2) * initialVelocity;
-        //Debug.Log("initial Velocity: " + initialVelocity);
-        //Debug.Log("initial Velocity final : " + horizontalVectorMultiplier);
 
 
-        float airTime = -2 / Physics2D.gravity.y * initialVelocity;
-        float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - _targetPosition.y);
+        Vector2 throwVelocity = new Vector2(initialVelocity, initialVelocity);
 
+        float airTime = 2.0f * initialVelocity / Physics2D.gravity.y;
+        throwVelocity.y += verticalDistance / airTime;
 
-        float angle = Vector2.SignedAngle(Vector2.right, _targetPosition - (Vector2)m_projectileStartPos.position);
-
-        //Debug.Log("angle: " + angle);
-        float airTimeWithHeightDifference = 2 * initialVelocity * Mathf.Sin((45 - angle) * Mathf.Deg2Rad) / -Physics2D.gravity.y * Mathf.Cos(angle * Mathf.Deg2Rad); //test 1                                                                                                                                                       //Debug.Log("airtime: " + airTime);
-
-        //float verticalDistance = Mathf.Abs(m_projectileStartPos.position.y - _targetPosition.y);
-        float additionalVerticalVelocity = initialVelocity + (verticalDistance / airTimeWithHeightDifference);
-        float verticalVectorMultiplier = Mathf.Sqrt(2) * additionalVerticalVelocity;
-        //Debug.Log("additional velocity: " + additionalVerticalVelocity);
-
-        Vector2 throwVelocity = new Vector2(0.5f, 0.5f).normalized;
-        throwVelocity.x *= horizontalVectorMultiplier;
-        throwVelocity.y *= verticalVectorMultiplier;
+        if (_targetPosition.x < m_projectileStartPos.position.x)
+            throwVelocity.x *= -1;
 
         return throwVelocity;
     }
-
-    private Vector2 CalculateOptimalThrow(Vector2 _targetPosition)
-    {
-        Vector2 launchVelocity = Vector2.zero;
-        float minDistanceToPlayer = Mathf.Infinity;
-        foreach (int force in m_ThrowForces)
-        {
-            foreach (int angle in m_AimAngles)
-            {
-                if (currentMovementDirection == MovementDirection.Right)
-                {
-                    Vector2 landingPosition = CalculateThrowLandingPosition(m_projectileStartPos.position, new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force);
-                    if (Vector2.Distance(landingPosition, _targetPosition) < minDistanceToPlayer)
-                    {
-                        launchVelocity = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force;
-                        minDistanceToPlayer = Vector2.Distance(landingPosition, _targetPosition);
-                    }
-                }
-                else
-                {
-                    Vector2 landingPosition = CalculateThrowLandingPosition(m_projectileStartPos.position, new Vector2(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force);
-                    if (Vector2.Distance(landingPosition, _targetPosition) < minDistanceToPlayer)
-                    {
-                        launchVelocity = new Vector2(-Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized * force;
-                        minDistanceToPlayer = Vector2.Distance(landingPosition, _targetPosition);
-                    }
-                }
-            }
-        }
-        return launchVelocity;
-    }
-
 
     private Transform PlayerInPercetpionRadius()
     {
@@ -408,33 +359,5 @@ public class PlaguePeasant : MonoBehaviour
         if (hit.collider != null)
             return true;
         return false;
-    }
-
-    private Vector2 CalculateThrowLandingPosition(Vector2 _startPosition, Vector2 _launchVelocity)
-    {
-        //DotParent.transform.position = _startPosition;
-        float timeBetweenDots = 0.08f; //dafür variable im editor erstellen
-        int numOfChecks = 0;
-        bool hitSmth = false;
-        float throwTime = 0f;
-        while (hitSmth == false && numOfChecks < 50) //30 = max num of checks
-        {
-            numOfChecks++;
-            Vector2 StartPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
-            throwTime += timeBetweenDots;
-            Vector2 targetPosition = CalculatePosition(throwTime, _launchVelocity, _startPosition);
-            float raycastLength = (targetPosition - StartPosition).magnitude;
-            RaycastHit2D hit = Physics2D.Raycast(StartPosition, (targetPosition - StartPosition), raycastLength, m_sightBlockingLayers); //anstatt sightblocking vllt movementblocking nehmen
-            if (hit.collider != null)
-            {
-                return hit.point;
-            }
-        }
-        return Vector2.zero; ;
-    }
-
-    private Vector2 CalculatePosition(float _elapsedTime, Vector2 _launchVelocity, Vector2 _initialPosition)
-    {
-        return Physics2D.gravity * _elapsedTime * _elapsedTime * 0.5f + _launchVelocity * _elapsedTime + _initialPosition;
     }
 }

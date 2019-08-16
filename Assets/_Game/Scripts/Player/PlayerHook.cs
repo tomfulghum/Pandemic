@@ -403,6 +403,8 @@ public class PlayerHook : MonoBehaviour
     private bool RopePull()
     {
         Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position, Color.cyan);
+        GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
+
         Vector2 ropeDirection = (m_currentSelectedTarget.transform.position - transform.position).normalized;
         ropeDirection *= -ropeDirection.magnitude; //opposite direction
 
@@ -486,11 +488,6 @@ public class PlayerHook : MonoBehaviour
 
     private void ResetValues()
     {
-        //if (m_radiusVisualization != null)
-        //{
-        //    m_radiusVisualization.GetComponent<LineRenderer>().enabled = false;
-        //}
-
         if (m_hookPointVisualization != null)
         {
             m_hookPointVisualization.GetComponent<HookPointVisualization>().ActivateVisuals(false);
@@ -510,13 +507,6 @@ public class PlayerHook : MonoBehaviour
         {
             m_currentHookState = HookState.SearchTarget;
         }
-
-        //if (m_radiusVisualization != null)
-        //{
-        //    m_radiusVisualization.GetComponent<LineRenderer>().enabled = true; //only for radius circle --> remove/change later
-        //    m_radiusVisualization.GetComponent<DrawCircle>().radius = m_hookRadius;
-        //    m_radiusVisualization.GetComponent<DrawCircle>().CreatePoints();
-        //}
 
         if (m_hookPointVisualization != null)
         {
