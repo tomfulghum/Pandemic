@@ -1,0 +1,356 @@
+fileFormatVersion: 2
+guid: 817c517f34307a840a60f6c0bb81f64e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1925283883014964466
+    second: feuer Vordergrund_0
+  - first:
+      213: -1305509712905788873
+    second: feuer Vordergrund_1
+  - first:
+      213: 1789967290963525565
+    second: feuer Vordergrund_2
+  - first:
+      213: 6424949324554804622
+    second: feuer Vordergrund_3
+  - first:
+      213: -2774436011800527674
+    second: feuer Vordergrund_4
+  - first:
+      213: 200362327035584476
+    second: feuer Vordergrund_5
+  - first:
+      213: 2815717533789315688
+    second: feuer Vordergrund_6
+  - first:
+      213: 2594737292828863255
+    second: feuer Vordergrund_7
+  - first:
+      213: -8580316955781506343
+    second: feuer Vordergrund_8
+  - first:
+      213: 3098000631339388601
+    second: feuer Vordergrund_9
+  - first:
+      213: 6830236817538342674
+    second: feuer Vordergrund_10
+  - first:
+      213: -2031333732247676338
+    second: feuer Vordergrund_11
+  - first:
+      213: 6871198258790562713
+    second: feuer Vordergrund_12
+  - first:
+      213: 697910208669455744
+    second: feuer Vordergrund_13
+  - first:
+      213: 1183462609996862122
+    second: feuer Vordergrund_14
+  - first:
+      213: -6479203286703096923
+    second: feuer Vordergrund_15
+  - first:
+      213: -1742363613028551348
+    second: feuer Vordergrund_16
+  - first:
+      213: -8388033867436806269
+    second: feuer Vordergrund_17
+  - first:
+      213: 8845754447843775005
+    second: feuer Vordergrund_18
+  - first:
+      213: -4093124777766725607
+    second: feuer Vordergrund_19
+  - first:
+      213: 7896571945593721462
+    second: feuer Vordergrund_20
+  - first:
+      213: -8202019571826060964
+    second: feuer Vordergrund_21
+  - first:
+      213: 645049586529515548
+    second: feuer Vordergrund_22
+  - first:
+      213: -7781512878146211720
+    second: feuer Vordergrund_23
+  - first:
+      213: -6102528920775294337
+    second: feuer Vordergrund_24
+  - first:
+      213: -8820554950207966809
+    second: feuer Vordergrund_25
+  - first:
+      213: 8569386625387957938
+    second: feuer Vordergrund_26
+  - first:
+      213: -2868281828062563916
+    second: feuer Vordergrund_27
+  - first:
+      213: 895133688079622742
+    second: feuer Vordergrund_28
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: feuer Vordergrund_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2314
+        width: 1000
+        height: 229
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d5448c2b69f1ad4fbda3568ae6c69d1
+      internalID: 1925283883014964466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_1
+      rect:
+        serializedVersion: 2
+        x: 1273
+        y: 2247
+        width: 478
+        height: 431
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be9909cdebafd1d479389c8e287d6707
+      internalID: -1305509712905788873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_2
+      rect:
+        serializedVersion: 2
+        x: 2436
+        y: 2247
+        width: 147
+        height: 587
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f617d4e3839ac4a986876a2118bb40
+      internalID: 1789967290963525565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_3
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 1251
+        width: 265
+        height: 464
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 124a703617c27a943bdb91fc2dbb7b2a
+      internalID: 6424949324554804622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_4
+      rect:
+        serializedVersion: 2
+        x: 1237
+        y: 1250
+        width: 531
+        height: 303
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5d00352015b9c24da1a772f7c2f0f55
+      internalID: -2774436011800527674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_5
+      rect:
+        serializedVersion: 2
+        x: 2085
+        y: 1252
+        width: 827
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89c2b0c0e4e30834181a8da0d0e4f363
+      internalID: 200362327035584476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_6
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 251
+        width: 355
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e8522faa3dfa4b4a8850b7bdb7431c1
+      internalID: 2815717533789315688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: feuer Vordergrund_7
+      rect:
+        serializedVersion: 2
+        x: 1395
+        y: 250
+        width: 205
+        height: 439
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3e0081746d6fb94a9bccc6d6c980314
+      internalID: 2594737292828863255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 49dda06c6d06b87449c796de68cec6c1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
