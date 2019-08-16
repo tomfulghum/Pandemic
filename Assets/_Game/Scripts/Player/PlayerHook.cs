@@ -283,7 +283,7 @@ public class PlayerHook : MonoBehaviour
                     //{
                     //    StartCoroutine(JumpBack());
                     //}
-                    if(m_reachedTarget && m_activatedAfterHookDash)
+                    if(m_reachedTarget && m_activatedAfterHookDash && m_currentTargetType == HookType.Hook)
                     {
                         DeactivateHook();
                         GetComponent<PlayerCombat>().DashInDirection(m_dashDirection * m_dashSpeedMultiplier, m_dashBoostActiveTime);
