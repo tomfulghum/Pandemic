@@ -132,6 +132,7 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private float m_dashBoostActiveTime = 0.3f;
     [SerializeField] [Range(0, 2)] private float m_dashSpeedMultiplier = 1f;
 
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -454,6 +455,8 @@ public class PlayerHook : MonoBehaviour
         m_currentSelectedTarget = null; //vllt brauch ich das gar nicht ? //evlt nur currentselectedpoint == null
         m_currentSwitchTarget = null;
         m_pm.DisableUserInput(_disableInput);
+
+        GetComponentInChildren<DrawLine>().ActivateVisualization(false);
         ResetValues(); //weiß nicht ob das sogut ist?
         //evlt stop all coroutines? --> falls es von einem anderen script her aufgerufen wird
     }
@@ -630,7 +633,7 @@ public class PlayerHook : MonoBehaviour
     private bool HookToTarget()
     {
         Debug.DrawLine(transform.position, m_currentSelectedTarget.transform.position);
-        //GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
+        GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
 
         bool cancelCondition = false;
 
@@ -694,6 +697,8 @@ public class PlayerHook : MonoBehaviour
         {
             Vector2 temp = _direction * test;
             Debug.DrawLine(transform.position, (Vector2)transform.position + temp);
+            GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, (Vector2)transform.position + temp);
+
             RaycastHit2D hit = Physics2D.Raycast(transform.position, _direction, test, m_hookPointFilter); //weil player nichtmehr auf dem ignore raycast layer ist
             if (hit.collider != null)
             {
@@ -712,9 +717,11 @@ public class PlayerHook : MonoBehaviour
         {
             Vector2 temp = _direction * i;
             Debug.DrawLine(transform.position, (Vector2)transform.position + temp, Color.red);
+            GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, (Vector2)transform.position + temp);
             yield return new WaitForSeconds(0.03f);
         }
         m_currentHookState = HookState.Inactive;
+        GetComponentInChildren<DrawLine>().ActivateVisualization(false);
     }
 
     private bool CanUseHook()
