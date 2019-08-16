@@ -176,9 +176,10 @@ public class PlayerCombat : MonoBehaviour
         m_dashCoolDownActive = false;
     }
 
-    private IEnumerator HookDash(Vector2 _velocity, float time) //only experimental
+    private IEnumerator HookDash(Vector2 _velocity, float time) //only experimental //damage enemies
     {
         m_hookDashActive = true;
+        m_invincible = true;
 
         Vector2 velocity = Vector2.zero;
         m_currentAttackState = AttackState.Dash;
@@ -189,6 +190,7 @@ public class PlayerCombat : MonoBehaviour
         m_pm.DisableUserInput(false);
         m_currentAttackState = AttackState.None;
 
+        m_invincible = false;
         m_hookDashActive = false;
     }
 

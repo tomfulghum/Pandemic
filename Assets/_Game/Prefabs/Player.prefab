@@ -148,7 +148,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 9742d95eebbb6e0409444da27c4367b5, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7490196}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5f402655d2e0546b36ae802adde465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_followPointer: 1
+  m_useInnerCircle: 0
   m_activateBackGround: 1
   m_backGround: {fileID: 584968175783989091}
   m_outerCircle: {fileID: 1173388728848317208}
@@ -862,7 +862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d3da7698811c614f8efde8762b8a4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_zOffset: -1
+  m_zOffset: 0
 --- !u!1 &5594809771268935700
 GameObject:
   m_ObjectHideFlags: 0

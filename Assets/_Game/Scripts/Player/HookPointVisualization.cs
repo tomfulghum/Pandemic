@@ -10,7 +10,7 @@ public class HookPointVisualization : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private bool m_followPointer = true; //if false: visualizes time slow
+    [SerializeField] private bool m_useInnerCircle = true; //if false: visualizes time slow
     [SerializeField] private bool m_activateBackGround = false; 
 
 
@@ -40,10 +40,10 @@ public class HookPointVisualization : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (m_visualActive && m_followPointer)
+        if (m_visualActive && m_useInnerCircle)
             AdjustInnerCircle();
-        if (m_visualActive && m_followPointer == false)
-            VisualizeTimeSlow();
+        //if (m_visualActive && m_useInnerCircle == false)
+        //    VisualizeTimeSlow();
 
     }
 
@@ -89,10 +89,9 @@ public class HookPointVisualization : MonoBehaviour
     {
         if (m_activateBackGround)
             m_backGround.SetActive(_active);
-        if (m_followPointer == false && _active == false)
-            m_innerCircle.transform.eulerAngles = new Vector3(0, 0, 90);
+        if (m_useInnerCircle)
+            m_innerCircle.SetActive(_active);
         m_outerCircle.SetActive(_active);
-        m_innerCircle.SetActive(_active);
         m_pointer.SetActive(_active);
         m_visualActive = _active;
     }
