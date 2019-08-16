@@ -4500,11 +4500,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlaguePeasant
       objectReference: {fileID: 0}
-    - target: {fileID: 1537124147410351526, guid: 78f08bbd4dd89054f98abee5dc41dcca,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1537124147410351544, guid: 78f08bbd4dd89054f98abee5dc41dcca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4560,54 +4555,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1537124147194040484, guid: 78f08bbd4dd89054f98abee5dc41dcca,
-        type: 3}
-      propertyPath: m_pickUpProjectile
-      value: 
-      objectReference: {fileID: 3439243078841247861, guid: 1438589cb62993e439734bf8dfcaff38,
-        type: 3}
-    - target: {fileID: 1537124147194040484, guid: 78f08bbd4dd89054f98abee5dc41dcca,
-        type: 3}
-      propertyPath: m_dontMove
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6563673168081085035, guid: 78f08bbd4dd89054f98abee5dc41dcca,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1537124147410351547, guid: 78f08bbd4dd89054f98abee5dc41dcca,
-        type: 3}
-      propertyPath: m_maxHealth
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78f08bbd4dd89054f98abee5dc41dcca, type: 3}
---- !u!1 &1537124148649824844 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1537124147410351526, guid: 78f08bbd4dd89054f98abee5dc41dcca,
-    type: 3}
-  m_PrefabInstance: {fileID: 1537124148649824843}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1537124148649824845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1537124148649824844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee1b21e6ae325fd418e0821bc75baf12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_numOfVisualDots: 50
-  m_timeBetweenDots: 0.07
-  m_dotPrefab: {fileID: 991937809109260029, guid: c393b68217dcca1458e79330a80bb970,
-    type: 3}
-  m_ObjectCollission:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!1001 &2433884017908074102
 PrefabInstance:
   m_ObjectHideFlags: 0

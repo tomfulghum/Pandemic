@@ -234,6 +234,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if (m_currentAttackState == AttackState.Dash)
             CancelDash();
+        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Hook)
+            GetComponent<PlayerHook>().CancelHook();
 
         TakeDamage();
         PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled; //playerstate invincible?

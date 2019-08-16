@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1537124147194040484}
   - component: {fileID: 1537124147194040485}
   - component: {fileID: 4179308863273697656}
+  - component: {fileID: 1537124148649824845}
   m_Layer: 11
   m_Name: PlaguePeasant
   m_TagString: Enemy
@@ -101,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62da851499f3d6f4ca88e637b80e45aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxHealth: 2
+  m_maxHealth: 6
 --- !u!61 &1537124147410351524
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -188,16 +189,17 @@ MonoBehaviour:
   m_chaseRadius: 3
   m_movementSpeed: 1
   m_minShootDistance: 10
-  m_AimAngles: 0a000000140000001e00000028000000320000003c00000046000000500000005a00000064000000
-  m_ThrowForces: 0a0000000f00000014000000190000001e00000023000000280000002d000000
+  m_targetPositionRadius: 5
   m_projectile: {fileID: 4965027916167049090, guid: e2a4965312517f74f8a7fa91dd4b38a9,
     type: 3}
-  m_pickUpProjectile: {fileID: 4132245685370434834, guid: 5c19d780fa1898042bb7d66a1b80f594,
+  m_pickUpProjectile: {fileID: 3439243078841247861, guid: 1438589cb62993e439734bf8dfcaff38,
     type: 3}
   m_projectileStartPos: {fileID: 1537124148537606514}
   m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
+  m_rangedAnimBaseSpeed: 2
+  m_rangedAnimSpeedMultiplier: 1
 --- !u!114 &1537124147194040485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +233,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1537124148649824845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537124147410351526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1b21e6ae325fd418e0821bc75baf12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_numOfVisualDots: 50
+  m_timeBetweenDots: 0.07
+  m_dotPrefab: {fileID: 991937809109260029, guid: c393b68217dcca1458e79330a80bb970,
+    type: 3}
+  m_ObjectCollission:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1537124148537606515
 GameObject:
   m_ObjectHideFlags: 0

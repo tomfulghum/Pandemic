@@ -32,10 +32,9 @@ public class EnemyProjectile : MonoBehaviour
         {
             if (collider.CompareTag("Player"))
             {
-                if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && collider.gameObject.GetComponent<PlayerCombat>().currentAttackState != PlayerCombat.AttackState.Smash)
+                if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Invincible)
                 {
                     collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform.position, m_knockBackForce);
-                    collider.gameObject.GetComponent<PlayerHook>().CancelHook();
                 }
             }
         }
