@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour 
 {
+
+    //OLD SCRIPT --> USE OBJECTSPAWNER INSTEAD
     public bool Spawn;
     public GameObject enemy; //vllt als liste? ein random enemy aus der liste? 
     // Start is called before the first frame update

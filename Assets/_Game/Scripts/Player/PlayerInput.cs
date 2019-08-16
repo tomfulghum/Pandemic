@@ -20,6 +20,7 @@ public class PlayerInput : MonoBehaviour
     public string attackButton { get { return bindings.attackButtonName; } }
     public string dashButton { get { return bindings.dashButtonName; } }
     public string smashButton { get { return bindings.smashButtonName; } }
+    public string throwButton { get { return bindings.throwButtonName; } }
     public string interactButton { get { return bindings.interactButtonName; } }
     public string moveHorizontalAxis { get { return bindings.moveHorizontalAxisName; } }
     public string aimHorizontalAxis { get { return bindings.aimHorizontalAxisName; } }

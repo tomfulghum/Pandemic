@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class ObjectKnockBack : MonoBehaviour //only for enemies atm
+public class PlayerKnockback : MonoBehaviour
 {
-    [SerializeField] private bool m_enabled = false;
-    [SerializeField] private float m_force = 25f;
-    [SerializeField] private UnityEvent m_onSuccesfulHit = default;
+    [SerializeField] private float m_force = 30f;
+
+    private bool m_enabled = false;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -16,7 +15,6 @@ public class ObjectKnockBack : MonoBehaviour //only for enemies atm
             if (collision.GetComponent<Enemy>().currentEnemyState != Enemy.EnemyState.Dead)
             {
                 collision.GetComponent<Enemy>().GetHit(transform.position, m_force, 4);
-                m_onSuccesfulHit?.Invoke();
             }
         }
     }

@@ -29,6 +29,7 @@ public class Borb : MonoBehaviour
     //************************//
 
     [SerializeField] private float m_chaseRange = 3f; //evlt reicht coneangle
+    [SerializeField] private float m_circleRadius = 10;
     [SerializeField] private float m_coneAngle = 35;
 
     [SerializeField] private float m_movementSpeed = 3f;
@@ -76,7 +77,7 @@ public class Borb : MonoBehaviour
     private Actor2D m_actor;
     private Enemy m_enemy;
     private Rigidbody2D m_rb;
-    private EnemyKnockback m_ekb;
+    //private EnemyKnockback m_ekb;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -91,7 +92,7 @@ public class Borb : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
-        m_ekb = GetComponentInChildren<EnemyKnockback>();
+        //m_ekb = GetComponentInChildren<EnemyKnockback>();
     }
 
     // Update is called once per frame
@@ -135,7 +136,7 @@ public class Borb : MonoBehaviour
                         {
                             m_currentStunTime = m_stunTime;
                             m_currentMovementState = MovementState.Dazed;
-                            m_ekb.IsEnemyLethal(false);
+                            //m_ekb.IsEnemyLethal(false);
                         }
                         //CurrentMovementState = MovementState.FlyUp;
                         break;
@@ -221,7 +222,7 @@ public class Borb : MonoBehaviour
                 if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange)
                 {
                     m_currentMovementState = MovementState.Nosedive;
-                    m_ekb.IsEnemyLethal(true);
+                    //m_ekb.IsEnemyLethal(true);
                 }
                 else
                     m_currentMovementState = MovementState.Chase;
@@ -239,7 +240,7 @@ public class Borb : MonoBehaviour
 
     private Transform PlayerInSight()
     {
-        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, 10); //später evtl auch besser machen GetDistanceToGround()
+        Collider2D[] colliderInRange = Physics2D.OverlapCircleAll(transform.position, m_circleRadius); //später evtl auch besser machen GetDistanceToGround()
         for (int i = 0; i < colliderInRange.Length; i++)
         {
             if (colliderInRange[i].CompareTag("Player"))
@@ -303,6 +304,6 @@ public class Borb : MonoBehaviour
     public void CancelNosedive()
     {
         m_currentMovementState = MovementState.FlyUp;
-        m_ekb.IsEnemyLethal(false);
+        //m_ekb.IsEnemyLethal(false);
     }
 }

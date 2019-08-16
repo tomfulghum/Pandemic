@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//get max active time from player hook
 public class HookPointVisualization : MonoBehaviour
 {
     //************************//
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private bool m_followPointer = true; //if false: visualizes time slow
+    [SerializeField] private bool m_useInnerCircle = true; //if false: visualizes time slow
     [SerializeField] private bool m_activateBackGround = false; 
 
 
@@ -24,7 +26,7 @@ public class HookPointVisualization : MonoBehaviour
 
     private bool m_visualActive = false;
 
-    float test = 10;
+    private float m_hookMaxActiveTime = 2f;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -38,10 +40,10 @@ public class HookPointVisualization : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (m_visualActive && m_followPointer)
+        if (m_visualActive && m_useInnerCircle)
             AdjustInnerCircle();
-        if (m_visualActive && m_followPointer == false)
-            VisualizeTimeSlow();
+        //if (m_visualActive && m_useInnerCircle == false)
+        //    VisualizeTimeSlow();
 
     }
 
@@ -75,13 +77,8 @@ public class HookPointVisualization : MonoBehaviour
 
     private void VisualizeTimeSlow()
     {
-        float slowTest = Time.deltaTime / Time.timeScale * test * 100;
-        //Debug.Log(slowTest);
-        if (test > 0.1f)
-            test *= 0.96f;
-        else
-            test = 0;
-        m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + slowTest);
+        float rotPerUpdate = m_hookMaxActiveTime / 360;
+        m_innerCircle.transform.eulerAngles = new Vector3(0, 0, m_innerCircle.transform.eulerAngles.z + 3);
     }
 
     //************************//
@@ -92,8 +89,9 @@ public class HookPointVisualization : MonoBehaviour
     {
         if (m_activateBackGround)
             m_backGround.SetActive(_active);
+        if (m_useInnerCircle)
+            m_innerCircle.SetActive(_active);
         m_outerCircle.SetActive(_active);
-        m_innerCircle.SetActive(_active);
         m_pointer.SetActive(_active);
         m_visualActive = _active;
     }

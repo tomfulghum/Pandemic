@@ -38,6 +38,7 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private float m_hitFreezeTime = 0.5f;
     [SerializeField] private float m_hitKnockbackTime = 0.2f;
+    [SerializeField] private float m_invincibilityTime = 1f;
 
     //******************//
     //    Properties    //
@@ -91,6 +92,8 @@ public class PlayerCombat : MonoBehaviour
 
     private Coroutine m_knockbackCoroutine = null;
     private Coroutine m_dashCoroutine = null;
+
+    bool m_hookDashActive;
 
     private PlayerInput m_input;
     private Actor2D m_actor;
@@ -173,6 +176,26 @@ public class PlayerCombat : MonoBehaviour
         m_dashCoolDownActive = false;
     }
 
+    private IEnumerator HookDash(Vector2 _velocity, float time) //only experimental //damage enemies
+    {
+        m_hookDashActive = true;
+        m_invincible = true;
+        GetComponentInChildren<PlayerKnockback>().IsLethal(true);
+
+        Vector2 velocity = Vector2.zero;
+        m_currentAttackState = AttackState.Dash;
+
+        m_pm.DisableUserInput(true);
+        m_pm.externalVelocity = _velocity;
+        yield return new WaitForSeconds(time);
+        m_pm.DisableUserInput(false);
+        m_currentAttackState = AttackState.None;
+
+        GetComponentInChildren<PlayerKnockback>().IsLethal(false);
+        m_invincible = false;
+        m_hookDashActive = false;
+    }
+
     private void CancelDash()
     {
         m_pm.externalVelocity = Vector2.zero;
@@ -211,9 +234,11 @@ public class PlayerCombat : MonoBehaviour
     {
         if (m_currentAttackState == AttackState.Dash)
             CancelDash();
+        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Hook)
+            GetComponent<PlayerHook>().CancelHook();
 
         TakeDamage();
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled;
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled; //playerstate invincible?
         m_pm.DisableUserInput(true);
         m_invincible = true;
         GetComponent<SpriteRenderer>().color = Color.red; //for visualization
@@ -241,17 +266,23 @@ public class PlayerCombat : MonoBehaviour
         }
 
         m_pm.momentum = m_pm.externalVelocity;
-
-        m_invincible = false; //extra invincibility in den knock back einbauen mit extra yield return wait
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
         m_pm.DisableUserInput(false);
 
-        GetComponent<SpriteRenderer>().color = Color.white; // for visualization
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Invincible;
+
+        GetComponent<SpriteRenderer>().color = Color.yellow;
 
         if (m_currentHealth <= 0) {
             UpdateHealthVisual();
             GameManager.Instance.Respawn();
         }
+
+        yield return new WaitForSeconds(m_invincibilityTime);
+
+        m_invincible = false; //extra invincibility in den knock back einbauen mit extra yield return wait
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
+
+        GetComponent<SpriteRenderer>().color = Color.white; // for visualization
     }
 
     //************************//
@@ -283,6 +314,12 @@ public class PlayerCombat : MonoBehaviour
         else
             m_currentHealth = m_attributes.maxHealth;
         UpdateHealthVisual();
+    }
+
+    public void DashInDirection(Vector2 _velocity, float time)
+    {
+        if (m_hookDashActive == false)
+            StartCoroutine(HookDash(_velocity, time));
     }
 
     //GetHit //Stagger ...
