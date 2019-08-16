@@ -33,6 +33,9 @@ public class PlaguePeasant : MonoBehaviour
     [SerializeField] private float m_movementSpeed = 1f;
 
     [SerializeField] private float m_minShootDistance = 10f;
+
+    [SerializeField] private float m_perceptionRadius = 30f;
+    [SerializeField] private float m_perceptionAngle = 15f; 
     [SerializeField] private float m_targetPositionRadius = 3;
 
     [SerializeField] private GameObject m_projectile = default;
@@ -69,9 +72,6 @@ public class PlaguePeasant : MonoBehaviour
 
     private MovementState m_currentMovementState = MovementState.Decide;
     private MovementDirection m_currentMovementDirection = MovementDirection.Right;
-
-    private float m_perceptionRadius = 30f;
-    private float m_perceptionAngle = 15f;
 
     private int m_directionCounter;
     private int m_idleCounter;
