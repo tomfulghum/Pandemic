@@ -199,6 +199,7 @@ public class PlayerHook : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(CurrentPlayerState);
         if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();

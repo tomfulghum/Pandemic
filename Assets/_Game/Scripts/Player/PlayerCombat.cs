@@ -83,10 +83,10 @@ public class PlayerCombat : MonoBehaviour
     //private float m_currentAngle;
     //private bool m_alreadyAttacked;
     //private bool m_attackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
-    private bool m_dashCoolDownActive; //--> irgendwie besser lösen
+    private bool m_dashCoolDownActive = false; //--> irgendwie besser lösen
     //private bool m_comboActive;
 
-    private bool m_invincible;
+    private bool m_invincible = false;
 
     //private int m_currentHitPriority = 1;
 
@@ -268,7 +268,7 @@ public class PlayerCombat : MonoBehaviour
         m_pm.momentum = m_pm.externalVelocity;
         m_pm.DisableUserInput(false);
 
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Invincible;
+        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Invincible; //brauchen wir das?
 
         GetComponent<SpriteRenderer>().color = Color.yellow;
 
