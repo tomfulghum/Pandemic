@@ -21,7 +21,6 @@ public class EnemyProjectile : MonoBehaviour
 
     [SerializeField] private Rigidbody2D m_rb;
     [SerializeField] private Animator m_anim;
-    [SerializeField] private Actor2D m_actor;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -33,7 +32,6 @@ public class EnemyProjectile : MonoBehaviour
         Destroy(gameObject, m_lifetime);
         m_rb = GetComponent<Rigidbody2D>();
         m_anim = GetComponent<Animator>();
-        m_actor = GetComponent<Actor2D>();
     }
 
     // Update is called once per frame
@@ -42,28 +40,6 @@ public class EnemyProjectile : MonoBehaviour
         if (m_isLethal)
         {
             CorrectRotation();
-            Vector2 colliderBox = new Vector2(GetComponent<BoxCollider2D>().size.x * transform.localScale.x, GetComponent<BoxCollider2D>().size.y * transform.localScale.y);
-            Collider2D[] col = Physics2D.OverlapBoxAll(transform.position, colliderBox, 0, m_collidingLayers);
-            foreach (Collider2D collider in col)
-            {
-                if (collider.CompareTag("Player"))
-                {
-                    m_anim.SetFloat("HitPlayer", 1f);
-                    if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Invincible)
-                    {
-                        collider.gameObject.GetComponent<PlayerCombat>().GetHit(transform.position, m_knockBackForce);
-                    }
-                }
-            }
-            if (col.Length != 0 || m_actor.contacts.any == true)
-            {
-                m_isLethal = false;
-                m_rb.isKinematic = true;
-                transform.rotation = Quaternion.identity;
-                m_rb.velocity = Vector2.zero;
-                m_anim.SetTrigger("Destroy");
-                //Destroy(gameObject, m_anim.GetCurrentAnimatorStateInfo(0).length);
-            }
         }
     }
 
@@ -81,6 +57,22 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (m_isLethal && collision.CompareTag("Player"))
+        {
+            m_anim.SetFloat("HitPlayer", 1f);
+            if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Invincible)
+            {
+                collision.GetComponent<PlayerCombat>().GetHit(transform.position, m_knockBackForce);
+            }
+        }
+        m_isLethal = false;
+        m_rb.isKinematic = true;
+        transform.rotation = Quaternion.identity;
+        m_rb.velocity = Vector2.zero;
+        m_anim.SetTrigger("Destroy");
+    }
 
     //************************//
     //    Public Functions    //
