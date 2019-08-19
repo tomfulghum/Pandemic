@@ -30,6 +30,8 @@ public class FlameBrawlerAnim : MonoBehaviour
     {
         if (m_enemy.currentEnemyState == Enemy.EnemyState.Dead && m_triggeredDeath == false)
         {
+            if (m_fb.currentMovementDirection == FlameBrawler.MovementDirection.Right)
+                GetComponent<SpriteRenderer>().flipX = true; //nochmal anschaeun
             m_anim.SetTrigger("Death");
             m_triggeredDeath = true;
         }
