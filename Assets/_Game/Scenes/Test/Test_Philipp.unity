@@ -1889,6 +1889,12 @@ PrefabInstance:
       propertyPath: m_enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_attributes
+      value: 
+      objectReference: {fileID: 11400000, guid: 313522a16af217743af27355aa1702e4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
 --- !u!1 &980633236
@@ -4488,6 +4494,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speedMultiplier: 1.3
   m_throwCount: 10000
+  m_destructionColorGreen: 0
+  m_destructionEffect: {fileID: 0}
 --- !u!1001 &1537124148649824843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5029,6 +5037,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2754b2c81279afa429e81d26857b4bdc, type: 3}
+--- !u!1001 &6801927063698485069
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8443810355807091158, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_Name
+      value: PlaguePeasant_Projectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 43
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443810355807091156, guid: 7c2b5c59711a93b4c9007bc369277c38,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7c2b5c59711a93b4c9007bc369277c38, type: 3}
 --- !u!4 &7125163458277013112
 Transform:
   m_ObjectHideFlags: 0

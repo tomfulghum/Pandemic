@@ -258,6 +258,8 @@ public class PlaguePeasant : MonoBehaviour
             GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
             projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition));
             projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
+            if (m_currentMovementDirection == MovementDirection.Right)
+                projectile.GetComponent<SpriteRenderer>().flipX = true;
         }
         else
         {

@@ -1,43 +1,37 @@
 fileFormatVersion: 2
-guid: 91ecb1b6830c1674593ede1a099f5d6f
+guid: 2841f9845a147b0449218880c7d339f3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3072356200634725353
-    second: ani_PlagueSpit_Flying_0
+      213: 8961729191514588123
+    second: ani_ObjectPoof_0
   - first:
-      213: 8902457887073167332
-    second: ani_PlagueSpit_Flying_1
+      213: 6376502468798015714
+    second: ani_ObjectPoof_1
   - first:
-      213: 8081635418813678720
-    second: ani_PlagueSpit_Flying_2
+      213: -6903135397741079040
+    second: ani_ObjectPoof_2
   - first:
-      213: -8070738880809184173
-    second: ani_PlagueSpit_Flying_3
+      213: 31539281286270563
+    second: ani_ObjectPoof_3
   - first:
-      213: 1560140400730470336
-    second: ani_PlagueSpit_Flying_4
+      213: 6697927315448671272
+    second: ani_ObjectPoof_4
   - first:
-      213: 7055292479770509897
-    second: ani_PlagueSpit_Flying_5
+      213: -2720474529983386957
+    second: ani_ObjectPoof_5
   - first:
-      213: 2056315482965409243
-    second: ani_PlagueSpit_Flying_6
+      213: -6585162877195566042
+    second: ani_ObjectPoof_6
   - first:
-      213: 2069731063328127219
-    second: ani_PlagueSpit_Flying_7
+      213: 2013294444492048498
+    second: ani_ObjectPoof_7
   - first:
-      213: 895190576014465745
-    second: ani_PlagueSpit_Flying_8
+      213: 7500452252643074301
+    second: ani_ObjectPoof_8
   - first:
-      213: -6599444767533440101
-    second: ani_PlagueSpit_Flying_9
-  - first:
-      213: 4622987398909955169
-    second: ani_PlagueSpit_Flying_10
-  - first:
-      213: 3567624843548841925
-    second: ani_PlagueSpit_Flying_11
+      213: 41730729212143303
+    second: ani_ObjectPoof_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -96,7 +90,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -107,7 +101,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -120,253 +114,211 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_0
+      name: ani_ObjectPoof_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2500
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abf86afdbb793b944a821b2a06b69dff
+      internalID: 8961729191514588123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ObjectPoof_1
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 2500
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3865a1bf13f589458e7ac66bc684cb9
+      internalID: 6376502468798015714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ObjectPoof_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2000
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce977f27539d2c94ea2e099d24434f10
+      internalID: -6903135397741079040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ObjectPoof_3
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 2000
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8716f12cadc19194185e8580f0b931b9
+      internalID: 31539281286270563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ObjectPoof_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54e474bcabd09b548b19fe435e560335
+      internalID: 6697927315448671272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ObjectPoof_5
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1500
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5243683d68bc67845a3bf4d778170d1f
+      internalID: -2720474529983386957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_ObjectPoof_6
       rect:
         serializedVersion: 2
         x: 0
         y: 1000
         width: 500
         height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e45bd941d36e5245866ff0f6e5e5bb1
-      internalID: -3072356200634725353
+      spriteID: dce79393f1dd5bd46b25f3cf84eb9108
+      internalID: -6585162877195566042
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_1
+      name: ani_ObjectPoof_7
       rect:
         serializedVersion: 2
         x: 500
         y: 1000
         width: 500
         height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1abe4fd2ab3007c4bac4c04d99683715
-      internalID: 8902457887073167332
+      spriteID: a8f40a2f57084e24183294cccc759cc8
+      internalID: 2013294444492048498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_2
-      rect:
-        serializedVersion: 2
-        x: 1000
-        y: 1000
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 00eb28f7179000c48a9c16f13428cd66
-      internalID: 8081635418813678720
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_3
-      rect:
-        serializedVersion: 2
-        x: 1500
-        y: 1000
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c0321d023d3242f4091d739524833197
-      internalID: -8070738880809184173
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_4
+      name: ani_ObjectPoof_8
       rect:
         serializedVersion: 2
         x: 0
         y: 500
         width: 500
         height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac8172e45ce78e9418acb52ae9bf33f0
-      internalID: 1560140400730470336
+      spriteID: 74c7e1187a7b0b94793b353f8c3303ac
+      internalID: 7500452252643074301
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_5
+      name: ani_ObjectPoof_9
       rect:
         serializedVersion: 2
         x: 500
         y: 500
         width: 500
         height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: beaaed9389ffa9f4eb5e7c092856a171
-      internalID: 7055292479770509897
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_6
-      rect:
-        serializedVersion: 2
-        x: 1000
-        y: 500
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 50c13e5e22e137a459149c9738ed1b41
-      internalID: 2056315482965409243
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_7
-      rect:
-        serializedVersion: 2
-        x: 1500
-        y: 500
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6806028c57df0914dad988c5fb99a762
-      internalID: 2069731063328127219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 08a24d1bc1a623d4baf969d911966b6f
-      internalID: 895190576014465745
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_9
-      rect:
-        serializedVersion: 2
-        x: 500
-        y: 0
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9caf51e70c368bc43a3e99626f7c8880
-      internalID: -6599444767533440101
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_10
-      rect:
-        serializedVersion: 2
-        x: 1000
-        y: 0
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f17a7d08ec4fbc94abb2203b6e993a66
-      internalID: 4622987398909955169
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_PlagueSpit_Flying_11
-      rect:
-        serializedVersion: 2
-        x: 1500
-        y: 0
-        width: 500
-        height: 500
-      alignment: 9
-      pivot: {x: 0.5, y: 0.29}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 95c6353ea8a44324e98528f0eba72783
-      internalID: 3567624843548841925
+      spriteID: c2eeeae4dbf941247b7c6c3881fa559a
+      internalID: 41730729212143303
       vertices: []
       indices: 
       edges: []
@@ -374,7 +326,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9a46b5ed46595944d80cfc1aa481df6e
+    spriteID: e8b62d6bba952954292d2858026679ed
     internalID: 0
     vertices: []
     indices: 

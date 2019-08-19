@@ -19,6 +19,8 @@ public class ThrowableObject : MonoBehaviour
 
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
     [SerializeField] private int m_throwCount = 1;
+    [SerializeField] private bool m_destructionColorGreen = false; 
+    [SerializeField] private GameObject m_destructionEffect = default; //vllt noch nicht sogut gelöst aber fürs erste reichts
 
     //******************//
     //    Properties    //
@@ -84,7 +86,14 @@ public class ThrowableObject : MonoBehaviour
                         {
                             m_throwCount--;
                             if (m_throwCount <= 0)
+                            {
+                                GameObject destructionEffect = Instantiate(m_destructionEffect, transform.position, transform.rotation);
+                                destructionEffect.transform.localScale = transform.localScale;
+                                if (m_destructionColorGreen)
+                                    destructionEffect.GetComponent<Animator>().SetFloat("ColorGreen", 1f);
+                                Destroy(destructionEffect, destructionEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
                                 Destroy(gameObject);
+                            }
                             m_hitGround = true;
                         }
                     }
