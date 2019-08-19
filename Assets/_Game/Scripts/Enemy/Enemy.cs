@@ -38,6 +38,12 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
         set { m_frozen = value; }
     }
 
+    public bool invincible
+    {
+        get { return m_invincible; }
+        set { m_invincible = value; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -47,6 +53,7 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
     private int m_currentHealth = 0;
 
     private bool m_frozen = false;
+    private bool m_invincible = false;
 
     private Coroutine m_enemyKnockBack = null;
     private Actor2D m_actor = null; // vllt reich der actor auf crawling enemy

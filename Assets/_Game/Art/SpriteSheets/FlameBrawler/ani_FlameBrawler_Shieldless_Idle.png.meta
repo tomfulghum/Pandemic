@@ -1,7 +1,49 @@
 fileFormatVersion: 2
 guid: 5d4215116341aee45a192977d915e087
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 2888883280283425087
+    second: ani_FlameBrawler_Shieldless_Idle_0
+  - first:
+      213: -5140471919114296357
+    second: ani_FlameBrawler_Shieldless_Idle_1
+  - first:
+      213: 376631828292342132
+    second: ani_FlameBrawler_Shieldless_Idle_2
+  - first:
+      213: -6338241883974360596
+    second: ani_FlameBrawler_Shieldless_Idle_3
+  - first:
+      213: -3071221542049367977
+    second: ani_FlameBrawler_Shieldless_Idle_4
+  - first:
+      213: -959209708868769642
+    second: ani_FlameBrawler_Shieldless_Idle_5
+  - first:
+      213: 6117915561378237937
+    second: ani_FlameBrawler_Shieldless_Idle_6
+  - first:
+      213: 7636448527541194635
+    second: ani_FlameBrawler_Shieldless_Idle_7
+  - first:
+      213: -3372950874149320693
+    second: ani_FlameBrawler_Shieldless_Idle_8
+  - first:
+      213: 3684041227450685835
+    second: ani_FlameBrawler_Shieldless_Idle_9
+  - first:
+      213: 3699883232818895678
+    second: ani_FlameBrawler_Shieldless_Idle_10
+  - first:
+      213: 4461877832760952351
+    second: ani_FlameBrawler_Shieldless_Idle_11
+  - first:
+      213: 2937300564985517696
+    second: ani_FlameBrawler_Shieldless_Idle_12
+  - first:
+      213: 7093401034966109087
+    second: ani_FlameBrawler_Shieldless_Idle_13
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +82,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -60,7 +102,18 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -71,7 +124,301 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcdbe0b813eef714893cf851494efcf3
+      internalID: 2888883280283425087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_1
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ffdeccc57145d24f8c0e4b0f8969c02
+      internalID: -5140471919114296357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 856a44582f6b77941aa3c50ec0be100e
+      internalID: 376631828292342132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62ca1bcd90d1abf4b9c482bac690f495
+      internalID: -6338241883974360596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_4
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3959b8f1537e13d4588003d22ff5cfe7
+      internalID: -3071221542049367977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_5
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9b7acbe47647f7459b2839b6f88b288
+      internalID: -959209708868769642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef54f772c1607eb4b9281ce316e52c14
+      internalID: 6117915561378237937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_7
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22a6b2b9147dbe64092f29ba439e690e
+      internalID: 7636448527541194635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_8
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 164c21a28bfbd4d4ca6a8ea236ac4581
+      internalID: -3372950874149320693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af3f0a18fbac0b5478fe8aaee5abe231
+      internalID: 3684041227450685835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_10
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7590b9f52f752ff4cbd85f90b22f278d
+      internalID: 3699883232818895678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_11
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d822fab1b59abce45b4e4d7f7224e54e
+      internalID: 4461877832760952351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22011ecef55104f44965c9e1d5dd59d7
+      internalID: 2937300564985517696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Shieldless_Idle_13
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7724efc60830c743b09f08b10cec257
+      internalID: 7093401034966109087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

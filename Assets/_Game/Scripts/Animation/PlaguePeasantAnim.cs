@@ -4,29 +4,38 @@ using UnityEngine;
 
 public class PlaguePeasantAnim : MonoBehaviour
 {
-    PlaguePeasant enemy;
-    Animator anim;
-    Actor2D actor;
-    bool TriggeredDeath = false;
+    //**********************//
+    //    Private Fields    //
+    //**********************//
 
-    Vector3 ObjectScale;
-    // Start is called before the first frame update
+    private bool m_triggeredDeath = false;
+
+    private Vector3 m_objectScale;
+
+    private PlaguePeasant m_pp;
+    private Enemy m_enemy;
+    private Animator m_anim;
+
+    //*******************************//
+    //    MonoBehaviour Functions    //
+    //*******************************//
+
     void Start()
     {
-        anim = GetComponent<Animator>();
-        enemy = GetComponent<PlaguePeasant>();
-        actor = GetComponent<Actor2D>();
-        ObjectScale = transform.localScale;
+        m_anim = GetComponent<Animator>();
+        m_enemy = GetComponent<Enemy>();
+        m_pp = GetComponent<PlaguePeasant>();
+        m_objectScale = transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
         FlipObject();
-        if (GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Dead && TriggeredDeath == false)
+        if (m_enemy.currentEnemyState == Enemy.EnemyState.Dead && m_triggeredDeath == false)
         {
-            anim.SetTrigger("Death");
-            TriggeredDeath = true;
+            m_anim.SetTrigger("Death");
+            m_triggeredDeath = true;
         }
         /*
         UpdateCollider(GetComponent<SpriteRenderer>().flipX);
@@ -35,32 +44,36 @@ public class PlaguePeasantAnim : MonoBehaviour
         else
             GetComponent<SpriteRenderer>().flipX = true;
         */
-        if (enemy.currentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
-            anim.SetBool("Moving", true);
+        if (m_pp.currentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
+            m_anim.SetBool("Moving", true);
         else
-            anim.SetBool("Moving", false);
+            m_anim.SetBool("Moving", false);
 
-        if (enemy.currentMovementState == PlaguePeasant.MovementState.Sit) //ist das mit dem float so eine gute idee?
-            anim.SetBool("Sitting", true);
+        if (m_pp.currentMovementState == PlaguePeasant.MovementState.Sit) //ist das mit dem float so eine gute idee?
+            m_anim.SetBool("Sitting", true);
         else
-            anim.SetBool("Sitting", false);
+            m_anim.SetBool("Sitting", false);
 
-        if (GetComponent<Enemy>().currentEnemyState == Enemy.EnemyState.Hit)
-            anim.SetBool("Hit", true); //später evtl trigger
+        if (m_enemy.currentEnemyState == Enemy.EnemyState.Hit)
+            m_anim.SetBool("Hit", true); //später evtl trigger
         else
-            anim.SetBool("Hit", false);
+            m_anim.SetBool("Hit", false);
     }
 
 
-    void FlipObject() //vllt besser in plague peasant?
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private void FlipObject() //vllt besser in plague peasant?
     {
-        if(enemy.currentMovementDirection == PlaguePeasant.MovementDirection.Left)
-            transform.localScale = new Vector3(-ObjectScale.x, ObjectScale.y, ObjectScale.z);
+        if(m_pp.currentMovementDirection == PlaguePeasant.MovementDirection.Left)
+            transform.localScale = new Vector3(-m_objectScale.x, m_objectScale.y, m_objectScale.z);
         else
-            transform.localScale = new Vector3(ObjectScale.x, ObjectScale.y, ObjectScale.z);
+            transform.localScale = new Vector3(m_objectScale.x, m_objectScale.y, m_objectScale.z);
     }
 
-    void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
+    private void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
     {
         if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);

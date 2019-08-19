@@ -12,7 +12,7 @@ public class PlayerKnockback : MonoBehaviour
     {
         if (m_enabled && collision.CompareTag("Enemy"))
         {
-            if (collision.GetComponent<Enemy>().currentEnemyState != Enemy.EnemyState.Dead)
+            if (collision.GetComponent<Enemy>().currentEnemyState != Enemy.EnemyState.Dead && collision.GetComponent<Enemy>().invincible == false)
             {
                 collision.GetComponent<Enemy>().GetHit(transform.position, m_force, 4);
             }
