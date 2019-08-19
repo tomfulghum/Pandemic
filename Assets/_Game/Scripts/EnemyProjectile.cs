@@ -62,7 +62,8 @@ public class EnemyProjectile : MonoBehaviour
         if (m_isLethal && collision.CompareTag("Player"))
         {
             m_anim.SetFloat("HitPlayer", 1f);
-            if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Invincible)
+            PlayerAnim pa = collision.GetComponent<PlayerAnim>();
+            if (pa.currentPlayerState != PlayerAnim.PlayerState.Disabled && pa.currentPlayerState != PlayerAnim.PlayerState.Invincible)
             {
                 collision.GetComponent<PlayerCombat>().GetHit(transform.position, m_knockBackForce);
             }

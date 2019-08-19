@@ -6,10 +6,36 @@ using UnityEngine;
 //current player state hier rein mit puclic function set / get player state
 public class PlayerAnim : MonoBehaviour
 {
+    //**********************//
+    //    Internal Types    //
+    //**********************//
+
+    public enum PlayerState
+    {
+        Waiting,
+        Hook,
+        Attacking,
+        Moving,
+        Disabled,
+        Invincible,
+        Dead
+    }
+
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public PlayerState currentPlayerState
+    {
+        get { return m_currentPlayerState; }
+        set { m_currentPlayerState = value; }
+    }
 
     //**********************//
     //    Private Fields    //
     //**********************//
+
+    public PlayerState m_currentPlayerState = PlayerState.Waiting;
 
     private bool m_facingLeft;
 
@@ -39,17 +65,17 @@ public class PlayerAnim : MonoBehaviour
         m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
         m_anim.SetBool("Grounded", m_actor.contacts.below);
 
-        if (m_actor.contacts.below || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled || m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
+        if (m_actor.contacts.below || m_currentPlayerState == PlayerState.Disabled || m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
         {
             m_anim.SetBool("JumpActive", false);
         }
 
-        if (m_pm.inputState.movement != Vector2.zero && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled)
+        if (m_pm.inputState.movement != Vector2.zero && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && m_currentPlayerState != PlayerState.Disabled)
             m_anim.SetBool("Moving", true);
         else
             m_anim.SetBool("Moving", false);
 
-        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Disabled)
+        if (m_currentPlayerState == PlayerState.Disabled)
             m_anim.SetBool("Hit", true);
         else
             m_anim.SetBool("Hit", false);
@@ -60,7 +86,7 @@ public class PlayerAnim : MonoBehaviour
             m_anim.SetBool("Dash", false);
 
         UpdateCollider(m_facingLeft); //evtl auch ! facing left
-        if (m_pc.currentAttackState != PlayerCombat.AttackState.Dash && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled)
+        if (m_pc.currentAttackState != PlayerCombat.AttackState.Dash && m_currentPlayerState != PlayerState.Disabled)
         {
             SetFacingDirection();
             if (m_facingLeft)

@@ -14,7 +14,8 @@ public class EnemyKnockback : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (m_enabled && collision.CompareTag("Player")) {
-            if (PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Disabled && PlayerHook.CurrentPlayerState != PlayerHook.PlayerState.Invincible) { //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
+            PlayerAnim pa = collision.GetComponent<PlayerAnim>();
+            if (pa.currentPlayerState != PlayerAnim.PlayerState.Disabled && pa.currentPlayerState != PlayerAnim.PlayerState.Invincible) { //collider.gameObject.GetComponent<PlayerCombat>().CurrentlyHit == false
                 collision.gameObject.GetComponent<PlayerCombat>().GetHit(transform.parent.position, m_force, m_enemy); //10 --> besseren fix finden
                 m_onSuccesfulHit?.Invoke();
                 if (m_anim != null) {

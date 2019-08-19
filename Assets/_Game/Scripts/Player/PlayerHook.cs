@@ -51,17 +51,6 @@ public class PlayerHook : MonoBehaviour
     //    Internal Types    //
     //**********************//
 
-    public enum PlayerState //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
-    {
-        Waiting,
-        Hook,
-        Attacking,
-        Moving,
-        Disabled,
-        Invincible,
-        Dead
-    }
-
     public enum TimeSlow
     {
         NoSlow,
@@ -88,12 +77,6 @@ public class PlayerHook : MonoBehaviour
         Hook,
         BigEnemy
     }
-
-    //***********//
-    //    ???    //
-    //***********//
-
-    public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
 
     //************************//
     //    Inspector Fields    //
@@ -170,6 +153,7 @@ public class PlayerHook : MonoBehaviour
     private Actor2D m_actor;
     private PlayerMovement m_pm;
     private Rigidbody2D m_rb;
+    private PlayerAnim m_pa;
 
 
     //experimental
@@ -192,6 +176,7 @@ public class PlayerHook : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_pa = GetComponent<PlayerAnim>();
 
         if (m_hookPointVisualization != null)
             m_hookPointVisualization.GetComponent<HookPointVisualization>().SetObjectScale(m_hookRadius);
@@ -199,8 +184,7 @@ public class PlayerHook : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(CurrentPlayerState);
-        if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
+        if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Waiting || m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();
 
@@ -307,13 +291,13 @@ public class PlayerHook : MonoBehaviour
     {
         if (m_currentHookState != HookState.Inactive)
         { // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?                                        //oder globale function check player state die den aktuellen state überprüft
-            CurrentPlayerState = PlayerState.Hook;
+            m_pa.currentPlayerState = PlayerAnim.PlayerState.Hook;
         }
         else
         {
-            if (CurrentPlayerState == PlayerState.Hook && m_currentHookState == HookState.Inactive)
+            if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook && m_currentHookState == HookState.Inactive)
             {
-                CurrentPlayerState = PlayerState.Waiting;
+                m_pa.currentPlayerState = PlayerAnim.PlayerState.Waiting;
             }
         }
     }
