@@ -231,7 +231,6 @@ public class PlaguePeasant : MonoBehaviour
                 }
                 else
                     m_currentMovementState = MovementState.Move;
-
             }
         }
     }

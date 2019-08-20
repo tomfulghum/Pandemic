@@ -64,9 +64,12 @@ public class FlameBrawler : MonoBehaviour
     private int m_blockCounter;
     private float m_flameCounter;
 
+    private float m_flameSpawnXOffset = 1f;
+
     private Transform m_objectToChase;
     private Transform m_lethalObject;
 
+    private Actor2D m_actor;
     private Enemy m_enemy;
     private Rigidbody2D m_rb;
 
@@ -76,6 +79,7 @@ public class FlameBrawler : MonoBehaviour
 
     void Start()
     {
+        m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
     }
@@ -195,7 +199,13 @@ public class FlameBrawler : MonoBehaviour
             }
             else if(m_currentMovementState != MovementState.Idle)
             {
-                m_currentMovementState = MovementState.Move;
+                if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
+                {
+                    ChangeDirection();
+                    m_currentMovementState = MovementState.Move;
+                }
+                else
+                    m_currentMovementState = MovementState.Move;
             }
         }
     }
@@ -240,8 +250,23 @@ public class FlameBrawler : MonoBehaviour
 
     private void SpawnFlame()
     {
-        Vector2 spawnPosition = new Vector2(transform.position.x, transform.position.y + GetComponent<BoxCollider2D>().bounds.max.y / 2);
+        float xOffset = m_flameSpawnXOffset;
+        if (m_currentMovementDirection == MovementDirection.Right)
+            xOffset *= -1f; 
+        Vector2 spawnPosition = new Vector2(transform.position.x + xOffset, transform.position.y + GetComponent<BoxCollider2D>().bounds.max.y / 2);
         GameObject flame = Instantiate(m_flamePrefab, spawnPosition, transform.rotation);
         Destroy(flame, m_flameLifeTime);
+    }
+
+    private bool CheckGroundAhead()
+    {
+        RaycastHit2D hit;
+        if (currentMovementDirection == MovementDirection.Left)
+            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+        else
+            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+        if (hit.collider != null)
+            return true;
+        return false;
     }
 }
