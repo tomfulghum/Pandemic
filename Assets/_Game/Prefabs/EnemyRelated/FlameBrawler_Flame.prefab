@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7275469779538149178}
   - component: {fileID: 7275469779538149177}
   - component: {fileID: 7275469779538149176}
-  - component: {fileID: 4092457966811792554}
   - component: {fileID: 7095626004481361990}
   - component: {fileID: 4236646637290113136}
   m_Layer: 0
@@ -71,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -6600107028744850630, guid: c326c4a371c071345867b371a0b81038,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6666667}
@@ -103,19 +102,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4092457966811792554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7275469779538149183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25e033ba82e2876459651b646b7b959c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_lifeTime: 10
 --- !u!61 &7095626004481361990
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -132,7 +118,7 @@ BoxCollider2D:
   m_Offset: {x: 0.028577328, y: -0.42866033}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 8, y: 4}
     newSize: {x: 8, y: 4}
     adaptiveTilingThreshold: 0.5

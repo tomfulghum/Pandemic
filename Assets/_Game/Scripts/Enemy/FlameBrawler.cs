@@ -34,6 +34,7 @@ public class FlameBrawler : MonoBehaviour
     [SerializeField] private LayerMask m_lethalObjects = default;
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
     [SerializeField] private float m_timeBetweenFlames = 2f;
+    [SerializeField] private float m_flameLifeTime = 10f;
     [SerializeField] private GameObject m_flamePrefab = default;
 
     //******************//
@@ -239,8 +240,8 @@ public class FlameBrawler : MonoBehaviour
 
     private void SpawnFlame()
     {
-        Vector2 spawnPosition = new Vector2(transform.position.x - GetComponent<BoxCollider2D>().bounds.extents.x, transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y);
+        Vector2 spawnPosition = new Vector2(transform.position.x, transform.position.y + GetComponent<BoxCollider2D>().bounds.max.y / 2);
         GameObject flame = Instantiate(m_flamePrefab, spawnPosition, transform.rotation);
-        //flame.transform.position = new Vector2(transform.position.x, transform.position.y + flame.GetComponent<BoxCollider2D>().bounds.extents.y / 2);
+        Destroy(flame, m_flameLifeTime);
     }
 }
