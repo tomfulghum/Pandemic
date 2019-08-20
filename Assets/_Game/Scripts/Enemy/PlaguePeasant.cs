@@ -40,6 +40,7 @@ public class PlaguePeasant : MonoBehaviour
 
     [SerializeField] private GameObject m_projectile = default;
     [SerializeField] private GameObject m_pickUpProjectile = default;
+    [SerializeField] [Range(0, 2)] private float m_projectileSpeedMultiplier = 0.5f; //später per object type einstellen
 
     [SerializeField] private Transform m_projectileStartPos = default;
     //[SerializeField] private GameObject m_attackHitBox = default;
@@ -139,6 +140,7 @@ public class PlaguePeasant : MonoBehaviour
                     }
                 case MovementState.Chase:
                     {
+                        m_directionCounter = 150 + Random.Range(0, 150);
                         if (m_objectToChase.position.x > transform.position.x)
                         {
                             m_currentMovementDirection = MovementDirection.Right;
@@ -253,17 +255,22 @@ public class PlaguePeasant : MonoBehaviour
         //projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
 
       
-        if (Random.Range(0f, 1f) < 0.85f)
+        if (Random.Range(0f, 1f) < 0.85f) //sollte auf keinen fall so bleiben --> verena sollte wenn zeit ist die sprites nochmal überarbeiten //schon besser
         {
             GameObject projectile = Instantiate(m_projectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
             projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition));
-            projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier();
-            //if (m_currentMovementDirection == MovementDirection.Left)
-                //projectile.GetComponent<SpriteRenderer>().flipX = true;
+            projectile.GetComponent<EnemyProjectile>().ApplySpeedMultiplier(m_projectileSpeedMultiplier);
+            if (m_currentMovementDirection == MovementDirection.Left)
+            {
+                projectile.GetComponent<SpriteRenderer>().flipY = true;
+                projectile.GetComponent<EnemyProjectile>().rotationOffset *= -1;
+            }
         }
         else
         {
-            Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation).GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition));
+            GameObject projectile = Instantiate(m_pickUpProjectile, m_projectileStartPos.position, m_projectileStartPos.rotation);
+            projectile.GetComponent<Rigidbody2D>().velocity = CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition));
+            projectile.GetComponent<ThrowableObject>().Throw(CaculateInitialVelocity(SetRandomTargetPoint(m_projectileTargetPosition)), false, m_projectileSpeedMultiplier, true);
         }
        
         m_rangedAttackActive = false;

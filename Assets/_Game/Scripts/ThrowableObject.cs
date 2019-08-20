@@ -19,6 +19,7 @@ public class ThrowableObject : MonoBehaviour
 
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
     [SerializeField] private int m_throwCount = 1;
+    [SerializeField] private float m_rotationOffset = 0;
     [SerializeField] private bool m_destructionColorGreen = false; 
     [SerializeField] private GameObject m_destructionEffect = default; //vllt noch nicht sogut gelöst aber fürs erste reichts
 
@@ -31,11 +32,23 @@ public class ThrowableObject : MonoBehaviour
         get { return m_currentObjectState; }
     }
 
+    public float rotationOffset
+    {
+        get { return m_rotationOffset; }
+        set { m_rotationOffset = value; }
+    }
+
+    public bool pickable
+    {
+        get { return m_pickable; }
+    }
+
     //**********************//
     //    Private Fields    //
     //**********************//
 
     private ThrowableState m_currentObjectState = ThrowableState.Inactive;
+    private bool m_pickable = true;
 
     private Transform m_objectToFollow;
     private float m_speed;
@@ -50,7 +63,14 @@ public class ThrowableObject : MonoBehaviour
     //    MonoBehaviour Functions    //
     //*******************************//
 
-    void Start()
+    //void Start()
+    //{
+    //    m_actor = GetComponent<Actor2D>();
+    //    m_rb = GetComponent<Rigidbody2D>();
+    //    m_okb = GetComponentInChildren<ObjectKnockBack>();
+    //}
+
+    private void Awake() //could be better for instantiate
     {
         m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
@@ -79,7 +99,7 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Inactive:
                 {
-                    if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
+                    if (m_actor.contacts.any)
                     {
                         m_rb.velocity = Vector2.zero; //könnte das object dadurch an der decke kleben?
                         if(m_hitGround == false) //facotored den drop nicht mit ein / schlimm?
@@ -101,13 +121,47 @@ public class ThrowableObject : MonoBehaviour
                 }
             case ThrowableState.Thrown:
                 {
+                    CorrectRotation();
                     GetComponent<SpriteRenderer>().color = Color.yellow;
-                    if (m_actor.contacts.above || m_actor.contacts.below || m_actor.contacts.left || m_actor.contacts.right)
+                    if (m_actor.contacts.any)
                     {
-                        SetInactive();
+                        SetInactive(); //abbprallen bei den leben mit einberechnen
                     }
                     break;
                 }
+        }
+    }
+
+    //*************************//
+    //    Private Functions    //
+    //*************************//
+
+    private void CorrectRotation()
+    {
+        Vector2 moveDirection = m_rb.velocity;
+        if (moveDirection != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle + m_rotationOffset, Vector3.forward);
+        }
+    }
+
+    private void ResetRotation()
+    {
+        transform.rotation = Quaternion.identity;
+        GetComponent<SpriteRenderer>().flipY = false; 
+    }
+
+    private void AdjustSprite(Vector2 _velocity)
+    {
+        if (_velocity.x < 0)
+        {
+            GetComponent<SpriteRenderer>().flipY = true;
+            m_rotationOffset = -Mathf.Abs(m_rotationOffset);
+        } else
+        {
+            GetComponent<SpriteRenderer>().flipY = false;
+            m_rotationOffset = Mathf.Abs(m_rotationOffset);
         }
     }
 
@@ -125,14 +179,18 @@ public class ThrowableObject : MonoBehaviour
         m_rb.isKinematic = true;
     }
 
-    public void Throw(Vector2 _velocity, bool _isLethal) // nur ein parameter 
+    public void Throw(Vector2 _velocity, bool _isLethal, float _customSpeedMultiplier = -1, bool _pickableInAir = false) // nur ein parameter 
     {
-        m_rb.velocity = _velocity * m_speedMultiplier;
-        m_rb.gravityScale *= Mathf.Pow(m_speedMultiplier, 2);
+        if (_customSpeedMultiplier < 0)
+            _customSpeedMultiplier = m_speedMultiplier;
+        m_rb.velocity = _velocity * _customSpeedMultiplier;
+        m_rb.gravityScale = 1 * Mathf.Pow(_customSpeedMultiplier, 2);
         m_currentObjectState = ThrowableState.Thrown;
         m_rb.isKinematic = false;
         m_hitGround = false;
+        m_pickable = _pickableInAir;
         m_okb.IsLethal(_isLethal);
+        AdjustSprite(_velocity);
     }
 
     public void Drop()
@@ -140,6 +198,7 @@ public class ThrowableObject : MonoBehaviour
         m_currentObjectState = ThrowableState.Inactive;
         m_rb.isKinematic = false;
         m_objectToFollow = null;
+        m_pickable = true;
         m_rb.velocity = Vector2.zero;
     }
 
@@ -150,5 +209,7 @@ public class ThrowableObject : MonoBehaviour
         m_rb.gravityScale = 1f;
         m_currentObjectState = ThrowableState.Inactive;
         GetComponent<SpriteRenderer>().color = Color.blue;
+        m_pickable = true;
+        ResetRotation();
     }
 }

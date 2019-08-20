@@ -8,10 +8,18 @@ public class EnemyProjectile : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] [Range(0, 2)] private float m_speedMultiplier = 0.5f; //später per object type einstellen
     [SerializeField] private float m_knockBackForce = 10f;
     [SerializeField] private float m_lifetime = 5f;
     [SerializeField] private float m_rotationOffset = 0;
+
+    //******************//
+    //    Properties    //
+    //******************//
+    public float rotationOffset
+    {
+        get { return m_rotationOffset; }
+        set { m_rotationOffset = value; }
+    }
 
     //**********************//
     //    Private Fields    //
@@ -79,10 +87,10 @@ public class EnemyProjectile : MonoBehaviour
     //    Public Functions    //
     //************************//
 
-    public void ApplySpeedMultiplier()
+    public void ApplySpeedMultiplier(float _speedMultiplier)
     {
-        GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity * m_speedMultiplier;
-        GetComponent<Rigidbody2D>().gravityScale *= Mathf.Pow(m_speedMultiplier, 2);
+        GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity * _speedMultiplier;
+        GetComponent<Rigidbody2D>().gravityScale *= Mathf.Pow(_speedMultiplier, 2);
     }
 
 }

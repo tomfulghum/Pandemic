@@ -753,7 +753,7 @@ public class PlayerHook : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (hookPointsInRange[i].transform.position - transform.position), rayCastLength, m_hookPointFilter);
             if (hit == false)
             {
-                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive) //noch keine sogute lösung
+                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().pickable == true) //noch keine sogute lösung
                 {
                     hookPointsInSight.Add(hookPointsInRange[i]);
                 }
