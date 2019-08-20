@@ -304,3 +304,6 @@ MonoBehaviour:
   m_sightBlockingLayers:
     serializedVersion: 2
     m_Bits: 256
+  m_timeBetweenFlames: 2
+  m_flamePrefab: {fileID: 7275469779538149183, guid: 8d4eb468e1edfa9469da549ffe8eb6c2,
+    type: 3}

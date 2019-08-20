@@ -33,6 +33,8 @@ public class FlameBrawler : MonoBehaviour
     [SerializeField] private float m_blockRange = 3f;
     [SerializeField] private LayerMask m_lethalObjects = default;
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
+    [SerializeField] private float m_timeBetweenFlames = 2f;
+    [SerializeField] private GameObject m_flamePrefab = default;
 
     //******************//
     //    Properties    //
@@ -59,6 +61,7 @@ public class FlameBrawler : MonoBehaviour
     private int m_directionCounter;
     private int m_idleCounter;
     private int m_blockCounter;
+    private float m_flameCounter;
 
     private Transform m_objectToChase;
     private Transform m_lethalObject;
@@ -86,6 +89,7 @@ public class FlameBrawler : MonoBehaviour
             {
                 case MovementState.Move:
                     {
+                        m_flameCounter += Time.deltaTime;
                         if (currentMovementDirection == MovementDirection.Right)
                             m_rb.velocity = Vector2.right * m_movementSpeed;
                         else
@@ -109,6 +113,7 @@ public class FlameBrawler : MonoBehaviour
                     }
                 case MovementState.Chase:
                     {
+                        m_flameCounter += Time.deltaTime;
                         if (Mathf.Abs(m_objectToChase.position.x - transform.position.x) > 0.15f) //evtl 0.15f als variable ? oder auch größer machen
                         {
                             m_directionCounter = 150 + Random.Range(0, 150);
@@ -129,6 +134,7 @@ public class FlameBrawler : MonoBehaviour
                     }
                 case MovementState.Idle:
                     {
+                        m_flameCounter += Time.deltaTime;
                         m_idleCounter--;
                         if (m_idleCounter < 0)
                         {
@@ -153,6 +159,12 @@ public class FlameBrawler : MonoBehaviour
                     //        m_rb.velocity = Vector2.zero;
                     //        break;
                     //    }
+            }
+
+            if(m_flameCounter > m_timeBetweenFlames)
+            {
+                m_flameCounter = 0;
+                SpawnFlame();
             }
         }
     }
@@ -223,5 +235,12 @@ public class FlameBrawler : MonoBehaviour
         else
             m_currentMovementDirection = MovementDirection.Left;
         m_directionCounter = 150 + Random.Range(0, 150);
+    }
+
+    private void SpawnFlame()
+    {
+        Vector2 spawnPosition = new Vector2(transform.position.x - GetComponent<BoxCollider2D>().bounds.extents.x, transform.position.y - GetComponent<BoxCollider2D>().bounds.extents.y);
+        GameObject flame = Instantiate(m_flamePrefab, spawnPosition, transform.rotation);
+        //flame.transform.position = new Vector2(transform.position.x, transform.position.y + flame.GetComponent<BoxCollider2D>().bounds.extents.y / 2);
     }
 }
