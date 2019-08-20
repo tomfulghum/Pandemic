@@ -84,6 +84,7 @@ public class ThrowableObject : MonoBehaviour
         {
             case ThrowableState.TravellingToPlayer:
                 {
+                    CorrectRotation(180);
                     Vector2 objectVelocity = (m_objectToFollow.transform.position - transform.position).normalized * m_speed;
                     m_rb.velocity = objectVelocity;
                     if (Vector2.Distance(transform.position, m_objectToFollow.transform.position) < m_targetReachedTolerance)
@@ -127,13 +128,13 @@ public class ThrowableObject : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private void CorrectRotation()
+    private void CorrectRotation(float _additionalRotation = 0)
     {
         Vector2 moveDirection = m_rb.velocity;
         if (moveDirection != Vector2.zero)
         {
             float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle + m_rotationOffset, Vector3.forward);
+            transform.rotation = Quaternion.AngleAxis(angle + m_rotationOffset + _additionalRotation, Vector3.forward);
         }
     }
 
