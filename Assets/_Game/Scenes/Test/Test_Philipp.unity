@@ -1105,7 +1105,7 @@ GameObject:
   - component: {fileID: 442284019}
   - component: {fileID: 442284018}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: KnockBackTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1139,7 +1139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_enemy: {fileID: 5888328630619058484}
   m_enabled: 1
-  m_force: 30
+  m_force: 12
   m_anim: {fileID: 0}
   m_onSuccesfulHit:
     m_PersistentCalls:
@@ -5145,10 +5145,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_movementSpeed: 1
+  m_chaseRadius: 3
   m_blockRange: 3
   m_lethalObjects:
     serializedVersion: 2
     m_Bits: 512
+  m_sightBlockingLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &5888328630619058484 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 474321565863776757, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
@@ -5199,7 +5203,7 @@ PrefabInstance:
     - target: {fileID: 474321565863776744, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 474321565863776757, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}

@@ -44,7 +44,7 @@ public class PlaguePeasantAnim : MonoBehaviour
         else
             GetComponent<SpriteRenderer>().flipX = true;
         */
-        if (m_pp.currentMovementState == PlaguePeasant.MovementState.Move) //ist das mit dem float so eine gute idee?
+        if (m_pp.currentMovementState == PlaguePeasant.MovementState.Move || m_pp.currentMovementState == PlaguePeasant.MovementState.Chase) //ist das mit dem float so eine gute idee?
             m_anim.SetBool("Moving", true);
         else
             m_anim.SetBool("Moving", false);

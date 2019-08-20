@@ -31,10 +31,10 @@ public class ObjectKnockBack : MonoBehaviour //only for enemies atm
     {
         if (m_enabled && collision.CompareTag("Enemy"))
         {
+            m_onSuccesfulHit?.Invoke();
             if (collision.GetComponent<Enemy>().currentEnemyState != Enemy.EnemyState.Dead && collision.GetComponent<Enemy>().invincible == false)
             {
                 collision.GetComponent<Enemy>().GetHit(transform.position, m_force, 4);
-                m_onSuccesfulHit?.Invoke();
             }
         }
     }

@@ -140,17 +140,22 @@ public class PlaguePeasant : MonoBehaviour
                     }
                 case MovementState.Chase:
                     {
-                        m_directionCounter = 150 + Random.Range(0, 150);
-                        if (m_objectToChase.position.x > transform.position.x)
+                        if (Mathf.Abs(m_objectToChase.position.x - transform.position.x) > 0.15f) //evtl 0.15f als variable ? oder auch größer machen
                         {
-                            m_currentMovementDirection = MovementDirection.Right;
-                            m_rb.velocity = Vector2.right * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                            m_directionCounter = 150 + Random.Range(0, 150);
+                            if (m_objectToChase.position.x > transform.position.x)
+                            {
+                                m_currentMovementDirection = MovementDirection.Right;
+                                m_rb.velocity = Vector2.right * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                            }
+                            else
+                            {
+                                m_currentMovementDirection = MovementDirection.Left;
+                                m_rb.velocity = Vector2.left * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
+                            }
                         }
                         else
-                        {
-                            m_currentMovementDirection = MovementDirection.Left;
-                            m_rb.velocity = Vector2.left * m_movementSpeed + new Vector2(0, m_rb.velocity.y);
-                        }
+                            m_rb.velocity = Vector2.zero;
                         break;
                     }
                 case MovementState.Idle:

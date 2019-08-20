@@ -35,17 +35,37 @@ public class FlameBrawlerAnim : MonoBehaviour
             m_anim.SetTrigger("Death");
             m_triggeredDeath = true;
         }
+        if (m_fb.currentMovementState == FlameBrawler.MovementState.Block)
+            m_anim.SetBool("Blocking", true);
+        else
+            m_anim.SetBool("Blocking", false);
+
+        if (m_fb.currentMovementState == FlameBrawler.MovementState.Move || m_fb.currentMovementState == FlameBrawler.MovementState.Chase)
+            m_anim.SetBool("Moving", true);
+        else
+            m_anim.SetBool("Moving", false);
+
+        if (m_fb.currentMovementDirection == FlameBrawler.MovementDirection.Left)
+        {
+            UpdateCollider(false);
+            m_anim.SetFloat("FacingLeft", 1f);
+        }
+        else
+        {
+            UpdateCollider(true);
+            m_anim.SetFloat("FacingLeft", 0f);
+        }
     }
 
     //*************************//
     //    Private Functions    //
     //*************************//
 
-    private void UpdateCollider(bool _facingLeft) //sieh andere scripte //nochmal direction checken
+    private void UpdateCollider(bool _facingRight) //sieh andere scripte //nochmal direction checken
     {
-        if (_facingLeft && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
+        if (_facingRight && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
-        else if (!_facingLeft && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
+        else if (!_facingRight && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
     }
 }
