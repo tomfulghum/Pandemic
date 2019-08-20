@@ -67,6 +67,23 @@ public class EnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        CheckPlayerHit(collision);
+
+        m_isLethal = false;
+        m_rb.isKinematic = true;
+        transform.rotation = Quaternion.identity;
+        m_rb.velocity = Vector2.zero;
+        m_anim.SetTrigger("Destroy");
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        CheckPlayerHit(collision);
+    }
+
+
+    private void CheckPlayerHit(Collider2D collision)
+    {
         if (m_isLethal && collision.CompareTag("Player"))
         {
             m_anim.SetFloat("HitPlayer", 1f);
@@ -76,11 +93,6 @@ public class EnemyProjectile : MonoBehaviour
                 collision.GetComponent<PlayerCombat>().GetHit(transform.position, m_knockBackForce);
             }
         }
-        m_isLethal = false;
-        m_rb.isKinematic = true;
-        transform.rotation = Quaternion.identity;
-        m_rb.velocity = Vector2.zero;
-        m_anim.SetTrigger("Destroy");
     }
 
     //************************//
