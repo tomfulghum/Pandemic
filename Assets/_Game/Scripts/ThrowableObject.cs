@@ -122,7 +122,7 @@ public class ThrowableObject : MonoBehaviour
             case ThrowableState.Thrown:
                 {
                     CorrectRotation();
-                    GetComponent<SpriteRenderer>().color = Color.yellow;
+                    //GetComponent<SpriteRenderer>().color = Color.yellow;
                     if (m_actor.contacts.any)
                     {
                         SetInactive(); //abbprallen bei den leben mit einberechnen
@@ -208,7 +208,7 @@ public class ThrowableObject : MonoBehaviour
         m_rb.velocity = Vector2.zero;
         m_rb.gravityScale = 1f;
         m_currentObjectState = ThrowableState.Inactive;
-        GetComponent<SpriteRenderer>().color = Color.blue;
+        //GetComponent<SpriteRenderer>().color = Color.blue;
         m_pickable = true;
         ResetRotation();
     }
