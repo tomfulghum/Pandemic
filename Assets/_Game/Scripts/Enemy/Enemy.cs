@@ -147,11 +147,15 @@ public class Enemy : MonoBehaviour //vllt anstatt enemy ein allgemeines script s
             if (test < 0) {
                 test = 0;
             }
-            int additionalPosition = 0;
-            if (Mathf.Abs(transform.position.x - _knockBackOrigin.x) < 0.15f) { //KnockBacktolerance or so
-                additionalPosition = 10;
-            }
-            Vector2 KnockBackDirection = ((Vector2)transform.position - new Vector2(_knockBackOrigin.x + additionalPosition, _knockBackOrigin.y)).normalized;
+            int additionalPosition = 0; //brauch ich wahrscheinlich nicht --> sieh on trigger enter
+            //if (Mathf.Abs(GetComponent<BoxCollider2D>().bounds.center.x - _knockBackOrigin.x) < 0.15f)
+            //{ //sollte eigentlich nicht so ablaufen
+            //    if (GetComponent<BoxCollider2D>().bounds.center.x < _knockBackOrigin.x)
+            //        additionalPosition = -10;
+            //    else
+            //        additionalPosition = 10;
+            //}
+            Vector2 KnockBackDirection = ((Vector2)GetComponent<BoxCollider2D>().bounds.center - new Vector2(_knockBackOrigin.x + additionalPosition, _knockBackOrigin.y)).normalized;
             m_rb.velocity = KnockBackDirection * test * _knockBackForce; //currently no gravity? --> wahrscheinlich ne gute idee
             if (m_actor.contacts.above || m_actor.contacts.below) {
                 m_rb.velocity = new Vector2(m_rb.velocity.x, 0);

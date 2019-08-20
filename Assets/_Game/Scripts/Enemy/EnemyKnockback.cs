@@ -11,7 +11,7 @@ public class EnemyKnockback : MonoBehaviour
     [SerializeField] private Animator m_anim = default;
     [SerializeField] private UnityEvent m_onSuccesfulHit = default;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision) //enter?
     {
         if (m_enabled && collision.CompareTag("Player")) {
             PlayerAnim pa = collision.GetComponent<PlayerAnim>();

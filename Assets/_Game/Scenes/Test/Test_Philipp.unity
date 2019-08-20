@@ -4919,6 +4919,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlameBrawler
       objectReference: {fileID: 0}
+    - target: {fileID: 474321565863776744, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 474321565863776757, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
+        type: 3}
+      propertyPath: m_maxHealth
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 474321565863776758, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4978,11 +4988,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FlipX
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 474321565863776757, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
-        type: 3}
-      propertyPath: m_maxHealth
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 474321565863776756, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
@@ -5351,12 +5356,12 @@ PrefabInstance:
     - target: {fileID: 8267296876648001095, guid: 609341781e9cf9042a67b4e548a5fc37,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8267296876648001117, guid: 609341781e9cf9042a67b4e548a5fc37,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -44.75
+      value: -51.32
       objectReference: {fileID: 0}
     - target: {fileID: 8267296876648001117, guid: 609341781e9cf9042a67b4e548a5fc37,
         type: 3}
