@@ -104,16 +104,7 @@ public class ThrowableObject : MonoBehaviour
                         m_rb.velocity = Vector2.zero; //könnte das object dadurch an der decke kleben?
                         if(m_hitGround == false) //facotored den drop nicht mit ein / schlimm?
                         {
-                            m_throwCount--;
-                            if (m_throwCount <= 0)
-                            {
-                                GameObject destructionEffect = Instantiate(m_destructionEffect, transform.position, transform.rotation);
-                                destructionEffect.transform.localScale = transform.localScale;
-                                if (m_destructionColorGreen)
-                                    destructionEffect.GetComponent<Animator>().SetFloat("ColorGreen", 1f);
-                                Destroy(destructionEffect, destructionEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
-                                Destroy(gameObject);
-                            }
+                            SubstractDurability();
                             m_hitGround = true;
                         }
                     }
@@ -165,6 +156,32 @@ public class ThrowableObject : MonoBehaviour
         }
     }
 
+    private void SubstractDurability()
+    {
+        m_throwCount--;
+        if (m_throwCount <= 0)
+        {
+            GameObject destructionEffect = Instantiate(m_destructionEffect, transform.position, transform.rotation);
+            destructionEffect.transform.localScale = transform.localScale;
+            if (m_destructionColorGreen)
+                destructionEffect.GetComponent<Animator>().SetFloat("ColorGreen", 1f);
+            Destroy(destructionEffect, destructionEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+            Destroy(gameObject);
+        }
+    }
+
+    private void SetInactive()
+    {
+        m_okb.IsLethal(false);
+        m_rb.velocity = Vector2.zero;
+        m_rb.gravityScale = 1f;
+        m_currentObjectState = ThrowableState.Inactive;
+        //GetComponent<SpriteRenderer>().color = Color.blue;
+        m_pickable = true;
+        ResetRotation();
+        SubstractDurability();
+    }
+
     //************************//
     //    Public Functions    //
     //************************//
@@ -200,16 +217,5 @@ public class ThrowableObject : MonoBehaviour
         m_objectToFollow = null;
         m_pickable = true;
         m_rb.velocity = Vector2.zero;
-    }
-
-    public void SetInactive()
-    {
-        m_okb.IsLethal(false);
-        m_rb.velocity = Vector2.zero;
-        m_rb.gravityScale = 1f;
-        m_currentObjectState = ThrowableState.Inactive;
-        //GetComponent<SpriteRenderer>().color = Color.blue;
-        m_pickable = true;
-        ResetRotation();
     }
 }
