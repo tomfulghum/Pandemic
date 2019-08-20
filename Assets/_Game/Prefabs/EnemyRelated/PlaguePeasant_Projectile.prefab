@@ -75,7 +75,7 @@ SpriteRenderer:
   m_Sprite: {fileID: -3072356200634725353, guid: 91ecb1b6830c1674593ede1a099f5d6f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 10, y: 10}
@@ -125,9 +125,7 @@ MonoBehaviour:
   m_speedMultiplier: 0.5
   m_knockBackForce: 10
   m_lifetime: 5
-  m_collidingLayers:
-    serializedVersion: 2
-    m_Bits: 1280
+  m_rotationOffset: 18
   m_isLethal: 1
   m_rb: {fileID: 0}
   m_anim: {fileID: 0}

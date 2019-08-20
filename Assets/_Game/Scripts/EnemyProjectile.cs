@@ -11,7 +11,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] [Range(0, 2)] private float m_speedMultiplier = 0.5f; //später per object type einstellen
     [SerializeField] private float m_knockBackForce = 10f;
     [SerializeField] private float m_lifetime = 5f;
-    [SerializeField] private LayerMask m_collidingLayers = default;
+    [SerializeField] private float m_rotationOffset = 0;
 
     //**********************//
     //    Private Fields    //
@@ -53,7 +53,7 @@ public class EnemyProjectile : MonoBehaviour
         if (moveDirection != Vector2.zero)
         {
             float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.AngleAxis(angle + m_rotationOffset, Vector3.forward);
         }
     }
 

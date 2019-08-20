@@ -125,14 +125,14 @@ public class ThrowableObject : MonoBehaviour
         m_rb.isKinematic = true;
     }
 
-    public void Throw(Vector2 _velocity) // nur ein parameter 
+    public void Throw(Vector2 _velocity, bool _isLethal) // nur ein parameter 
     {
         m_rb.velocity = _velocity * m_speedMultiplier;
         m_rb.gravityScale *= Mathf.Pow(m_speedMultiplier, 2);
         m_currentObjectState = ThrowableState.Thrown;
         m_rb.isKinematic = false;
         m_hitGround = false;
-        m_okb.IsLethal(true);
+        m_okb.IsLethal(_isLethal);
     }
 
     public void Drop()

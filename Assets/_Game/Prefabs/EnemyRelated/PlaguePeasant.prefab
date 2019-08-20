@@ -194,7 +194,7 @@ MonoBehaviour:
   m_targetPositionRadius: 5
   m_projectile: {fileID: 8443810355807091158, guid: 7c2b5c59711a93b4c9007bc369277c38,
     type: 3}
-  m_pickUpProjectile: {fileID: 3439243078841247861, guid: 1438589cb62993e439734bf8dfcaff38,
+  m_pickUpProjectile: {fileID: 3439243078841247861, guid: 56560bb6118a5ae44aef42fc99ac9a56,
     type: 3}
   m_projectileStartPos: {fileID: 1537124148537606514}
   m_sightBlockingLayers:

@@ -305,7 +305,7 @@ public class PlayerHook : MonoBehaviour
     private void ThrowObject(Vector2 _throwVelocity)
     {
         GetComponent<VisualizeTrajectory>().RemoveVisualDots();
-        m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity);
+        m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity, true);
         m_pickedUpObject = null;
         DeactivateHook();
     }
