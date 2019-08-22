@@ -31,6 +31,7 @@ public class FlameBrawler : MonoBehaviour
     [SerializeField] private float m_movementSpeed = 1f;
     [SerializeField] private float m_chaseRadius = 3f;
     [SerializeField] private float m_blockRange = 3f;
+    [SerializeField] private float m_attackRange = 2f;
     [SerializeField] private LayerMask m_lethalObjects = default;
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
     [SerializeField] private float m_timeBetweenFlames = 2f;
@@ -64,7 +65,7 @@ public class FlameBrawler : MonoBehaviour
     private int m_blockCounter;
     private float m_flameCounter;
 
-    private float m_flameSpawnXOffset = 1f;
+    private float m_flameSpawnXOffset = 2f;
 
     private Transform m_objectToChase;
     private Transform m_lethalObject;
@@ -151,7 +152,7 @@ public class FlameBrawler : MonoBehaviour
                     {
                         m_rb.velocity = Vector2.zero;
                         m_blockCounter++;
-                        if(m_blockCounter > 60)
+                        if (m_blockCounter > 60)
                         {
                             m_currentMovementState = MovementState.Decide;
                             m_enemy.invincible = false;
@@ -159,14 +160,14 @@ public class FlameBrawler : MonoBehaviour
                         }
                         break;
                     }
-                    //case MovementState.Attack:
-                    //    {
-                    //        m_rb.velocity = Vector2.zero;
-                    //        break;
-                    //    }
+                case MovementState.Attack:
+                    {
+                        m_rb.velocity = Vector2.zero;
+                        break;
+                    }
             }
 
-            if(m_flameCounter > m_timeBetweenFlames)
+            if (m_flameCounter > m_timeBetweenFlames)
             {
                 m_flameCounter = 0;
                 SpawnFlame();
@@ -182,30 +183,40 @@ public class FlameBrawler : MonoBehaviour
     {
         m_objectToChase = PlayerInSight();
         m_lethalObject = LethalObjectInRange();
-        if (m_lethalObject != null)
+        if (m_currentMovementState != MovementState.Attack)
         {
-            if (m_lethalObject.position.x < GetComponent<BoxCollider2D>().bounds.center.x)
-                m_currentMovementDirection = MovementDirection.Left;
-            else
-                m_currentMovementDirection = MovementDirection.Right;
-            m_enemy.invincible = true;
-            m_currentMovementState = MovementState.Block;
-        }
-        else if(m_currentMovementState != MovementState.Block)
-        {
-            if (m_objectToChase != null)
+            if (m_lethalObject != null)
             {
-                m_currentMovementState = MovementState.Chase;
-            }
-            else if(m_currentMovementState != MovementState.Idle)
-            {
-                if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
-                {
-                    ChangeDirection();
-                    m_currentMovementState = MovementState.Move;
-                }
+                if (m_lethalObject.position.x < GetComponent<BoxCollider2D>().bounds.center.x)
+                    m_currentMovementDirection = MovementDirection.Left;
                 else
-                    m_currentMovementState = MovementState.Move;
+                    m_currentMovementDirection = MovementDirection.Right;
+                m_enemy.invincible = true;
+                m_currentMovementState = MovementState.Block;
+            }
+            else if (m_currentMovementState != MovementState.Block)
+            {
+                if (m_objectToChase != null)
+                {
+                    if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange)
+                    {
+                        m_currentMovementState = MovementState.Attack;
+                    }
+                    else
+                    {
+                        m_currentMovementState = MovementState.Chase;
+                    }
+                }
+                else if (m_currentMovementState != MovementState.Idle)
+                {
+                    if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
+                    {
+                        ChangeDirection();
+                        m_currentMovementState = MovementState.Move;
+                    }
+                    else
+                        m_currentMovementState = MovementState.Move;
+                }
             }
         }
     }
@@ -241,10 +252,12 @@ public class FlameBrawler : MonoBehaviour
 
     private void ChangeDirection()
     {
+        Debug.Log("current direction: " + m_currentMovementDirection);
         if (currentMovementDirection == MovementDirection.Left)
             m_currentMovementDirection = MovementDirection.Right;
         else
             m_currentMovementDirection = MovementDirection.Left;
+        Debug.Log("next direction: " + m_currentMovementDirection);
         m_directionCounter = 150 + Random.Range(0, 150);
     }
 
@@ -252,7 +265,7 @@ public class FlameBrawler : MonoBehaviour
     {
         float xOffset = m_flameSpawnXOffset;
         if (m_currentMovementDirection == MovementDirection.Right)
-            xOffset *= -1f; 
+            xOffset *= -1f;
         Vector2 spawnPosition = new Vector2(transform.position.x + xOffset, transform.position.y + GetComponent<BoxCollider2D>().bounds.max.y / 2);
         GameObject flame = Instantiate(m_flamePrefab, spawnPosition, transform.rotation);
         Destroy(flame, m_flameLifeTime);
@@ -260,11 +273,12 @@ public class FlameBrawler : MonoBehaviour
 
     private bool CheckGroundAhead()
     {
+        //Debug.DrawRay(GetComponent<BoxCollider2D>().bounds.center + Vector3.left, -Vector3.up * ((GetComponent<Collider2D>().bounds.extents.y) + 0.2f), Color.green);
         RaycastHit2D hit;
         if (currentMovementDirection == MovementDirection.Left)
-            hit = Physics2D.Raycast(transform.position + Vector3.left, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+            hit = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center + Vector3.left, Vector2.down, GetComponent<Collider2D>().bounds.extents.y + 0.2f); //warum nicht Vector2.down?
         else
-            hit = Physics2D.Raycast(transform.position + Vector3.right, -Vector2.up, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+            hit = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center + Vector3.right, Vector2.down, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         if (hit.collider != null)
             return true;
         return false;

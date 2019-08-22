@@ -45,6 +45,9 @@ public class FlameBrawlerAnim : MonoBehaviour
         else
             m_anim.SetBool("Moving", false);
 
+        if (m_fb.currentMovementState == FlameBrawler.MovementState.Attack) //trigger wird öfter gesetzt --> aufpasssen
+            m_anim.SetTrigger("Attack");
+
         if (m_fb.currentMovementDirection == FlameBrawler.MovementDirection.Left)
         {
             UpdateCollider(false);

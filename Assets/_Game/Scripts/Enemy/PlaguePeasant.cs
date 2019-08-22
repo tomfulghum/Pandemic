@@ -109,6 +109,8 @@ public class PlaguePeasant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("extends max: " + GetComponent<Collider2D>().bounds.max.y);
+        Debug.Log("extends: " + GetComponent<Collider2D>().bounds.extents.y);
         if (m_enemy.currentEnemyState == Enemy.EnemyState.Moving)
         {
             SetMovementState();
