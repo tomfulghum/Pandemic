@@ -150,7 +150,7 @@ MonoBehaviour:
   m_speedMultiplier: 1.3
   m_throwCount: 1
   m_rotationOffset: 48
-  m_destructionColorGreen: 1
+  m_destructionColor: 1
   m_destructionEffect: {fileID: 9086232130830864787, guid: 980f908412139794cb7ddbdb68075b13,
     type: 3}
 --- !u!50 &5959807051975829530

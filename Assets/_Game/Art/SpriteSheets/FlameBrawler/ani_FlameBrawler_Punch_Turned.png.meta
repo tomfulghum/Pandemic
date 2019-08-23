@@ -1,67 +1,49 @@
 fileFormatVersion: 2
-guid: 0dba9b5282397b14da6dd4bf22d63f2a
+guid: 47f2c11d1f6e876408ad87615124b170
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1105810020485847671
-    second: ani_FlameBrawler_StuckSuccess_0
+      213: 9221880469322709632
+    second: ani_FlameBrawler_Punch_Turned_0
   - first:
-      213: 4884536882460677129
-    second: ani_FlameBrawler_StuckSuccess_1
+      213: -3387758164915072106
+    second: ani_FlameBrawler_Punch_Turned_1
   - first:
-      213: -5431104981591686011
-    second: ani_FlameBrawler_StuckSuccess_2
+      213: -2628408413423823024
+    second: ani_FlameBrawler_Punch_Turned_2
   - first:
-      213: 7406898262205362951
-    second: ani_FlameBrawler_StuckSuccess_3
+      213: 6074856983540448541
+    second: ani_FlameBrawler_Punch_Turned_3
   - first:
-      213: -3185796009296621249
-    second: ani_FlameBrawler_StuckSuccess_4
+      213: 1623132724445907520
+    second: ani_FlameBrawler_Punch_Turned_4
   - first:
-      213: 1348884600174127240
-    second: ani_FlameBrawler_StuckSuccess_5
+      213: -2424236162379240309
+    second: ani_FlameBrawler_Punch_Turned_5
   - first:
-      213: 780428051283872142
-    second: ani_FlameBrawler_StuckSuccess_6
+      213: 505421582063002509
+    second: ani_FlameBrawler_Punch_Turned_6
   - first:
-      213: 38379079159953257
-    second: ani_FlameBrawler_StuckSuccess_7
+      213: -5029578734250569672
+    second: ani_FlameBrawler_Punch_Turned_7
   - first:
-      213: -1087476305491277215
-    second: ani_FlameBrawler_StuckSuccess_8
+      213: 4245048415883329384
+    second: ani_FlameBrawler_Punch_Turned_8
   - first:
-      213: 5554742286672727599
-    second: ani_FlameBrawler_StuckSuccess_9
+      213: 5796437767480278262
+    second: ani_FlameBrawler_Punch_Turned_9
   - first:
-      213: 3666746766068655374
-    second: ani_FlameBrawler_StuckSuccess_10
+      213: 3467461302202326105
+    second: ani_FlameBrawler_Punch_Turned_10
   - first:
-      213: -397614007289071817
-    second: ani_FlameBrawler_StuckSuccess_11
+      213: -2242531312894013230
+    second: ani_FlameBrawler_Punch_Turned_11
   - first:
-      213: -6194796240422015799
-    second: ani_FlameBrawler_StuckSuccess_12
+      213: -6636346026378416532
+    second: ani_FlameBrawler_Punch_Turned_12
   - first:
-      213: -3513473846836804586
-    second: ani_FlameBrawler_StuckSuccess_13
-  - first:
-      213: 173779934750601391
-    second: ani_FlameBrawler_StuckSuccess_14
-  - first:
-      213: 5999849430920312456
-    second: ani_FlameBrawler_StuckSuccess_15
-  - first:
-      213: 3267361409178160476
-    second: ani_FlameBrawler_StuckSuccess_16
-  - first:
-      213: -4065664111377223094
-    second: ani_FlameBrawler_StuckSuccess_17
-  - first:
-      213: 184668487349582240
-    second: ani_FlameBrawler_StuckSuccess_18
-  - first:
-      213: -7146617866259401740
-    second: ani_FlameBrawler_StuckSuccess_19
+      213: 6459323160423374866
+    second: ani_FlameBrawler_Punch_Turned_13
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -144,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_0
+      name: ani_FlameBrawler_Punch_Turned_0
       rect:
         serializedVersion: 2
         x: 0
@@ -158,14 +140,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8a26f02075ea604d9d8c8a2c4aaf25e
-      internalID: -1105810020485847671
+      spriteID: 1413718ea38174c4b90253156418f37b
+      internalID: 9221880469322709632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_1
+      name: ani_FlameBrawler_Punch_Turned_1
       rect:
         serializedVersion: 2
         x: 1100
@@ -179,14 +161,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c4e77b69bce9bb469c55a1bbc67152f
-      internalID: 4884536882460677129
+      spriteID: cc1fde00c4fff7a43b39a34a20baa0db
+      internalID: -3387758164915072106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_2
+      name: ani_FlameBrawler_Punch_Turned_2
       rect:
         serializedVersion: 2
         x: 2200
@@ -200,35 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb6b070174a962c4d92652dd49a0c2bf
-      internalID: -5431104981591686011
+      spriteID: 8bd938d5df791c04797e4e7d62592a59
+      internalID: -2628408413423823024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_3
-      rect:
-        serializedVersion: 2
-        x: 3300
-        y: 3600
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3565eba18ad39874986e2b002c95be6b
-      internalID: 7406898262205362951
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_4
+      name: ani_FlameBrawler_Punch_Turned_3
       rect:
         serializedVersion: 2
         x: 0
@@ -242,14 +203,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5df8c5c8f756d6a40bc8710f5dfebcb6
-      internalID: -3185796009296621249
+      spriteID: 83be99f4f3ea7f248804a4b5304383ea
+      internalID: 6074856983540448541
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_5
+      name: ani_FlameBrawler_Punch_Turned_4
       rect:
         serializedVersion: 2
         x: 1100
@@ -263,14 +224,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52a30ff2cc1d5b249b5129a889008f34
-      internalID: 1348884600174127240
+      spriteID: 519d2b2c904305848b40353cfb78b9d0
+      internalID: 1623132724445907520
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_6
+      name: ani_FlameBrawler_Punch_Turned_5
       rect:
         serializedVersion: 2
         x: 2200
@@ -284,35 +245,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4f3679de8bb69fb46a4a5c51a2d6fa73
-      internalID: 780428051283872142
+      spriteID: 00feb3109fe37074eb751289f33231f1
+      internalID: -2424236162379240309
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_7
-      rect:
-        serializedVersion: 2
-        x: 3300
-        y: 2700
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f1a4deb9a1d94e43bf457e44c560329
-      internalID: 38379079159953257
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_8
+      name: ani_FlameBrawler_Punch_Turned_6
       rect:
         serializedVersion: 2
         x: 0
@@ -326,14 +266,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b503a50744057f4eb19b037e5488f39
-      internalID: -1087476305491277215
+      spriteID: e8c87aa5978b53a4b9ad30cb42f1f4ca
+      internalID: 505421582063002509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_9
+      name: ani_FlameBrawler_Punch_Turned_7
       rect:
         serializedVersion: 2
         x: 1100
@@ -347,14 +287,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b990c7f5d5872154b9ca7297d5ac93eb
-      internalID: 5554742286672727599
+      spriteID: ecc86b615f5a560489172bdf3cc64cc3
+      internalID: -5029578734250569672
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_10
+      name: ani_FlameBrawler_Punch_Turned_8
       rect:
         serializedVersion: 2
         x: 2200
@@ -368,35 +308,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f12c7299fe811c745998c1fb12f99530
-      internalID: 3666746766068655374
+      spriteID: f463443de99f39f4b8c17962315300e4
+      internalID: 4245048415883329384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_11
-      rect:
-        serializedVersion: 2
-        x: 3300
-        y: 1800
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a313e3fbe0397d048b172cdeb18a4de7
-      internalID: -397614007289071817
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_12
+      name: ani_FlameBrawler_Punch_Turned_9
       rect:
         serializedVersion: 2
         x: 0
@@ -410,14 +329,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6322be672847eb24c90d5590d6ab9869
-      internalID: -6194796240422015799
+      spriteID: 07edb1e48faa92942a054cf2222371db
+      internalID: 5796437767480278262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_13
+      name: ani_FlameBrawler_Punch_Turned_10
       rect:
         serializedVersion: 2
         x: 1100
@@ -431,14 +350,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a79abc86ad4723d4e91975ce333e1a5f
-      internalID: -3513473846836804586
+      spriteID: 3747b4602ca932e478e8eed2210d3f10
+      internalID: 3467461302202326105
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_14
+      name: ani_FlameBrawler_Punch_Turned_11
       rect:
         serializedVersion: 2
         x: 2200
@@ -452,35 +371,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: afc48232048b3404e890336430ba2930
-      internalID: 173779934750601391
+      spriteID: 1d9b8109c4de55b429eb15bd5b792cbf
+      internalID: -2242531312894013230
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_15
-      rect:
-        serializedVersion: 2
-        x: 3300
-        y: 900
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6dde66b77293b1448a528b6c4b24e964
-      internalID: 5999849430920312456
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_16
+      name: ani_FlameBrawler_Punch_Turned_12
       rect:
         serializedVersion: 2
         x: 0
@@ -494,14 +392,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7546154049f96b04fa44220254b9d099
-      internalID: 3267361409178160476
+      spriteID: c5d946f24b3cc344cbc46bd3d1a36d84
+      internalID: -6636346026378416532
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_17
+      name: ani_FlameBrawler_Punch_Turned_13
       rect:
         serializedVersion: 2
         x: 1100
@@ -515,50 +413,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 393967d6e22d9bd4693cb28b2cb848d1
-      internalID: -4065664111377223094
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_18
-      rect:
-        serializedVersion: 2
-        x: 2200
-        y: 0
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 51726c0d892e52a47bd419553809a6ee
-      internalID: 184668487349582240
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckSuccess_19
-      rect:
-        serializedVersion: 2
-        x: 3300
-        y: 0
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9263af3c91ca9764fad4e66eed345ea7
-      internalID: -7146617866259401740
+      spriteID: 2454e318c0f2d2547938160f0dc92a80
+      internalID: 6459323160423374866
       vertices: []
       indices: 
       edges: []
@@ -566,7 +422,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: d077bb0a50387bc459a54aa89b6fde8a
+    spriteID: a996f9b7be8814c4ebbf2ed55de4d0ef
     internalID: 0
     vertices: []
     indices: 

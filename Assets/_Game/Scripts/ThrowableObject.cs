@@ -13,6 +13,8 @@ public class ThrowableObject : MonoBehaviour
 
     public enum ThrowableState { Inactive, TravellingToPlayer, PickedUp, Thrown }
 
+    public enum DestructionColor { Grey, Green, Black }
+
     //************************//
     //    Inspector Fields    //
     //************************//
@@ -20,7 +22,7 @@ public class ThrowableObject : MonoBehaviour
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
     [SerializeField] private int m_throwCount = 1;
     [SerializeField] private float m_rotationOffset = 0;
-    [SerializeField] private bool m_destructionColorGreen = false; 
+    [SerializeField] private DestructionColor m_destructionColor = DestructionColor.Grey; 
     [SerializeField] private GameObject m_destructionEffect = default; //vllt noch nicht sogut gelöst aber fürs erste reichts
 
     //******************//
@@ -162,12 +164,7 @@ public class ThrowableObject : MonoBehaviour
         m_throwCount--;
         if (m_throwCount <= 0)
         {
-            GameObject destructionEffect = Instantiate(m_destructionEffect, transform.position, transform.rotation);
-            destructionEffect.transform.localScale = transform.localScale;
-            if (m_destructionColorGreen)
-                destructionEffect.GetComponent<Animator>().SetFloat("ColorGreen", 1f);
-            Destroy(destructionEffect, destructionEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
-            Destroy(gameObject);
+            DestroyThrowableObject();
         }
     }
 
@@ -218,5 +215,27 @@ public class ThrowableObject : MonoBehaviour
         m_objectToFollow = null;
         m_pickable = true;
         m_rb.velocity = Vector2.zero;
+    }
+
+    public void DestroyThrowableObject()
+    {
+        //check if player currently holds this and if yes then remove from playerthrow script
+        GameObject destructionEffect = Instantiate(m_destructionEffect, transform.position, transform.rotation);
+        destructionEffect.transform.localScale = transform.localScale;
+        switch(m_destructionColor)
+        {
+            case DestructionColor.Green:
+                {
+                    destructionEffect.GetComponent<Animator>().SetFloat("ColorGreen", 0.5f);
+                    break;
+                }
+            case DestructionColor.Black:
+                {
+                    destructionEffect.GetComponent<Animator>().SetFloat("ColorGreen", 1f);
+                    break;
+                }
+        }
+        Destroy(destructionEffect, destructionEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject);
     }
 }

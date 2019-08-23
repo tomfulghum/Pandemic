@@ -45,7 +45,7 @@ public class FlameBrawlerAnim : MonoBehaviour
         else
             m_anim.SetBool("Moving", false);
 
-        if (m_fb.currentMovementState == FlameBrawler.MovementState.Attack) //trigger wird öfter gesetzt --> aufpasssen
+        if (m_fb.currentMovementState == FlameBrawler.MovementState.Attack && !m_anim.GetCurrentAnimatorStateInfo(0).IsName("FlameBrawler_Attack") && m_fb.currentMovementState != FlameBrawler.MovementState.Stuck) //trigger wird öfter gesetzt --> aufpasssen
             m_anim.SetTrigger("Attack");
 
         if (m_fb.currentMovementDirection == FlameBrawler.MovementDirection.Left)
@@ -58,6 +58,16 @@ public class FlameBrawlerAnim : MonoBehaviour
             UpdateCollider(true);
             m_anim.SetFloat("FacingLeft", 0f);
         }
+
+        if (m_enemy.currentEnemyState == Enemy.EnemyState.Hit)
+            m_anim.SetBool("Hit", true); //später evtl trigger
+        else
+            m_anim.SetBool("Hit", false);
+
+        if (m_fb.shieldStolen)
+            m_anim.SetFloat("Shieldless", 1f);
+        else
+            m_anim.SetFloat("Shieldless", 0);
     }
 
     //*************************//
@@ -70,5 +80,14 @@ public class FlameBrawlerAnim : MonoBehaviour
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
         else if (!_facingRight && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void StuckSuccesful()
+    {
+        m_anim.SetTrigger("SuccesfulPickup");
     }
 }

@@ -34,9 +34,12 @@ public class FlameBrawler : MonoBehaviour
     [SerializeField] private float m_attackRange = 2f;
     [SerializeField] private LayerMask m_lethalObjects = default;
     [SerializeField] private LayerMask m_sightBlockingLayers = default;
+    [SerializeField] private bool m_leaveFlameTrail = true;
     [SerializeField] private float m_timeBetweenFlames = 2f;
     [SerializeField] private float m_flameLifeTime = 10f;
+    [SerializeField] private float m_timeToRegainShield = 2f;
     [SerializeField] private GameObject m_flamePrefab = default;
+    [SerializeField] private GameObject m_shieldPrefab = default;
 
     //******************//
     //    Properties    //
@@ -45,11 +48,17 @@ public class FlameBrawler : MonoBehaviour
     public MovementState currentMovementState
     {
         get { return m_currentMovementState; }
+        set { m_currentMovementState = value; }
     }
 
     public MovementDirection currentMovementDirection
     {
         get { return m_currentMovementDirection; }
+    }
+
+    public bool shieldStolen
+    {
+        get { return m_shieldStolen; }
     }
 
     //**********************//
@@ -63,12 +72,20 @@ public class FlameBrawler : MonoBehaviour
     private int m_directionCounter;
     private int m_idleCounter;
     private int m_blockCounter;
+    private int m_stuckCounter;
     private float m_flameCounter;
+    private float m_regainCounter;
 
     private float m_flameSpawnXOffset = 2f;
 
+    private bool m_shieldStolen = false;
+
     private Transform m_objectToChase;
     private Transform m_lethalObject;
+
+    private Vector2 m_droppedShieldPosition;
+
+    private GameObject m_shield;
 
     private Actor2D m_actor;
     private Enemy m_enemy;
@@ -83,6 +100,7 @@ public class FlameBrawler : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_enemy = GetComponent<Enemy>();
         m_rb = GetComponent<Rigidbody2D>();
+        //m_droppedShieldPosition = m_shield.transform.position;
     }
 
     // Update is called once per frame
@@ -165,12 +183,38 @@ public class FlameBrawler : MonoBehaviour
                         m_rb.velocity = Vector2.zero;
                         break;
                     }
+                case MovementState.Stuck:
+                    {
+                        m_stuckCounter--;
+                        if(m_stuckCounter < 0)
+                        {
+                           // m_currentMovementState = MovementState.Decide;
+                            GetComponent<FlameBrawlerAnim>().StuckSuccesful();
+                            m_stuckCounter = 90; // temporary to fix stuck succes bug 
+                            //TryPickUpShield();
+                        }
+                        if(m_shield .GetComponent<ThrowableObject>().currentObjectState != ThrowableObject.ThrowableState.Inactive)
+                        {
+                            m_shieldStolen = true;
+                        }
+                        break;
+                    }
             }
 
             if (m_flameCounter > m_timeBetweenFlames)
             {
                 m_flameCounter = 0;
-                SpawnFlame();
+                if (m_leaveFlameTrail) //to prevent number overflow
+                    SpawnFlame();
+            }
+            if(m_shieldStolen)
+            {
+                m_regainCounter += Time.deltaTime;
+                if(m_regainCounter > m_timeToRegainShield)
+                {
+                    RegainShield();
+                    m_regainCounter = 0;
+                }
             }
         }
     }
@@ -183,40 +227,39 @@ public class FlameBrawler : MonoBehaviour
     {
         m_objectToChase = PlayerInSight();
         m_lethalObject = LethalObjectInRange();
-        if (m_currentMovementState != MovementState.Attack)
+
+        if (m_lethalObject != null && m_shieldStolen == false)
         {
-            if (m_lethalObject != null)
+            if (m_lethalObject.position.x < GetComponent<BoxCollider2D>().bounds.center.x)
+                m_currentMovementDirection = MovementDirection.Left;
+            else
+                m_currentMovementDirection = MovementDirection.Right;
+            m_enemy.invincible = true;
+            m_currentMovementState = MovementState.Block;
+            RegainShield();
+        }
+        else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck)
+        {
+            if (m_objectToChase != null)
             {
-                if (m_lethalObject.position.x < GetComponent<BoxCollider2D>().bounds.center.x)
-                    m_currentMovementDirection = MovementDirection.Left;
+                if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange)
+                {
+                    m_currentMovementState = MovementState.Attack;
+                }
                 else
-                    m_currentMovementDirection = MovementDirection.Right;
-                m_enemy.invincible = true;
-                m_currentMovementState = MovementState.Block;
+                {
+                    m_currentMovementState = MovementState.Chase;
+                }
             }
-            else if (m_currentMovementState != MovementState.Block)
+            else if (m_currentMovementState != MovementState.Idle)
             {
-                if (m_objectToChase != null)
+                if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
                 {
-                    if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange)
-                    {
-                        m_currentMovementState = MovementState.Attack;
-                    }
-                    else
-                    {
-                        m_currentMovementState = MovementState.Chase;
-                    }
+                    ChangeDirection();
+                    m_currentMovementState = MovementState.Move;
                 }
-                else if (m_currentMovementState != MovementState.Idle)
-                {
-                    if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
-                    {
-                        ChangeDirection();
-                        m_currentMovementState = MovementState.Move;
-                    }
-                    else
-                        m_currentMovementState = MovementState.Move;
-                }
+                else
+                    m_currentMovementState = MovementState.Move;
             }
         }
     }
@@ -252,12 +295,10 @@ public class FlameBrawler : MonoBehaviour
 
     private void ChangeDirection()
     {
-        Debug.Log("current direction: " + m_currentMovementDirection);
         if (currentMovementDirection == MovementDirection.Left)
             m_currentMovementDirection = MovementDirection.Right;
         else
             m_currentMovementDirection = MovementDirection.Left;
-        Debug.Log("next direction: " + m_currentMovementDirection);
         m_directionCounter = 150 + Random.Range(0, 150);
     }
 
@@ -282,5 +323,37 @@ public class FlameBrawler : MonoBehaviour
         if (hit.collider != null)
             return true;
         return false;
+    }
+
+    private void RegainShield()
+    {
+        if(m_shield != null) //muss noch gedroppt werden für den spieler
+        {
+            m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject();
+        }
+        m_shieldStolen = false;
+        //player regain anim
+    }
+
+    //private void TryPickUpShield()
+    //{
+    //    //m_shield.SetActive(false);
+    //    //m_shieldStolen = false;
+    //}
+
+    private void DropShield()
+    {
+        m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
+    }
+
+    //************************//
+    //    Public Functions    //
+    //************************//
+
+    public void Stuck()
+    {
+        DropShield();
+        m_currentMovementState = MovementState.Stuck;
+        m_stuckCounter = 90;
     }
 }
