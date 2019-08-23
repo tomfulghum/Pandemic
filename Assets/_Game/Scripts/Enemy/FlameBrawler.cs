@@ -37,7 +37,7 @@ public class FlameBrawler : MonoBehaviour
     [SerializeField] private bool m_leaveFlameTrail = true;
     [SerializeField] private float m_timeBetweenFlames = 2f;
     [SerializeField] private float m_flameLifeTime = 10f;
-    [SerializeField] private float m_timeToRegainShield = 2f;
+    [SerializeField] private float m_timeToRegainShield = 5f;
     [SerializeField] private GameObject m_flamePrefab = default;
     [SerializeField] private GameObject m_shieldPrefab = default;
 
@@ -56,9 +56,9 @@ public class FlameBrawler : MonoBehaviour
         get { return m_currentMovementDirection; }
     }
 
-    public bool shieldStolen
+    public bool vulnerable
     {
-        get { return m_shieldStolen; }
+        get { return m_vulnerable; }
     }
 
     //**********************//
@@ -78,7 +78,8 @@ public class FlameBrawler : MonoBehaviour
 
     private float m_flameSpawnXOffset = 2f;
 
-    private bool m_shieldStolen = false;
+    private bool m_vulnerable = false;
+    private bool m_shieldDropped = false;
 
     private Transform m_objectToChase;
     private Transform m_lethalObject;
@@ -193,9 +194,9 @@ public class FlameBrawler : MonoBehaviour
                             m_stuckCounter = 90; // temporary to fix stuck succes bug 
                             //TryPickUpShield();
                         }
-                        if(m_shield .GetComponent<ThrowableObject>().currentObjectState != ThrowableObject.ThrowableState.Inactive)
+                        if(m_shield != null && m_shield .GetComponent<ThrowableObject>().currentObjectState != ThrowableObject.ThrowableState.Inactive)
                         {
-                            m_shieldStolen = true;
+                            m_vulnerable = true;
                         }
                         break;
                     }
@@ -207,7 +208,7 @@ public class FlameBrawler : MonoBehaviour
                 if (m_leaveFlameTrail) //to prevent number overflow
                     SpawnFlame();
             }
-            if(m_shieldStolen)
+            if(m_shieldDropped)
             {
                 m_regainCounter += Time.deltaTime;
                 if(m_regainCounter > m_timeToRegainShield)
@@ -228,7 +229,7 @@ public class FlameBrawler : MonoBehaviour
         m_objectToChase = PlayerInSight();
         m_lethalObject = LethalObjectInRange();
 
-        if (m_lethalObject != null && m_shieldStolen == false)
+        if (m_lethalObject != null && m_vulnerable == false)
         {
             if (m_lethalObject.position.x < GetComponent<BoxCollider2D>().bounds.center.x)
                 m_currentMovementDirection = MovementDirection.Left;
@@ -331,7 +332,8 @@ public class FlameBrawler : MonoBehaviour
         {
             m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject();
         }
-        m_shieldStolen = false;
+        m_vulnerable = false;
+        m_shieldDropped = false;
         //player regain anim
     }
 
@@ -343,7 +345,13 @@ public class FlameBrawler : MonoBehaviour
 
     private void DropShield()
     {
+        Debug.Log(m_shield);
+        if (m_shield != null)
+        {
+            m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject();
+        }
         m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
+        m_shieldDropped = true;
     }
 
     //************************//

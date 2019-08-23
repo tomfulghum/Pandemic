@@ -5218,6 +5218,11 @@ PrefabInstance:
       propertyPath: m_shield
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5888328630619058475, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
+        type: 3}
+      propertyPath: m_timeToRegainShield
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 442284016, guid: 5f5cd6bbe25dcf84ba2b366754f005f7, type: 3}
       propertyPath: m_IsActive
       value: 1

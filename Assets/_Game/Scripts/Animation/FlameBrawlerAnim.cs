@@ -64,7 +64,7 @@ public class FlameBrawlerAnim : MonoBehaviour
         else
             m_anim.SetBool("Hit", false);
 
-        if (m_fb.shieldStolen)
+        if (m_fb.vulnerable)
             m_anim.SetFloat("Shieldless", 1f);
         else
             m_anim.SetFloat("Shieldless", 0);
