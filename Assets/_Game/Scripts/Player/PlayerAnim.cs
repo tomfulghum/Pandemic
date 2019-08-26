@@ -35,7 +35,7 @@ public class PlayerAnim : MonoBehaviour
     //    Private Fields    //
     //**********************//
 
-    public PlayerState m_currentPlayerState = PlayerState.Waiting;
+    private PlayerState m_currentPlayerState = PlayerState.Waiting;
 
     private bool m_facingLeft;
 
@@ -116,7 +116,7 @@ public class PlayerAnim : MonoBehaviour
     {
         if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
-        else if (!_flipX  && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
+        else if (!_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
     }
 
@@ -128,5 +128,35 @@ public class PlayerAnim : MonoBehaviour
     {
         m_anim.SetBool("JumpActive", true);
         m_anim.SetTrigger("Jump");
+    }
+
+    public void SetDashDirection(Vector2 _dashVelocity)
+    {
+        float angle;
+        if (m_facingLeft)
+            angle = Vector2.SignedAngle(_dashVelocity, Vector2.left);
+        else
+            angle = -Vector2.SignedAngle(_dashVelocity, Vector2.right);
+
+        //Debug.Log("angle: " + angle);
+        //Debug.Log("facing left: " + m_facingLeft);
+
+        if (angle <= 22.5f && angle >= -22.5f) //dash left / right
+        {
+            m_anim.SetFloat("DashAngle", 0.5f);
+        } else if(angle > 22.5f && angle <= 67.5f) //up 45
+        {
+            m_anim.SetFloat("DashAngle", 0.25f);
+        } else if (angle > 67.5f && angle <= 111.5f) //up 90
+        {
+            m_anim.SetFloat("DashAngle", 0f);
+        } else if (angle < -22.5f && angle >= -67.5f) //down 45
+        {
+            m_anim.SetFloat("DashAngle", 0.75f);
+        }
+        else if (angle < -67.5f && angle >= -111.5f) //down 90
+        {
+            m_anim.SetFloat("DashAngle", 1f);
+        }
     }
 }

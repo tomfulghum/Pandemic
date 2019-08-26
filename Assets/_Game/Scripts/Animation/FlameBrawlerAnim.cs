@@ -45,7 +45,7 @@ public class FlameBrawlerAnim : MonoBehaviour
         else
             m_anim.SetBool("Moving", false);
 
-        if (m_fb.currentMovementState == FlameBrawler.MovementState.Attack && !m_anim.GetCurrentAnimatorStateInfo(0).IsName("FlameBrawler_Attack") && m_fb.currentMovementState != FlameBrawler.MovementState.Stuck) //trigger wird öfter gesetzt --> aufpasssen
+        if (m_fb.currentMovementState == FlameBrawler.MovementState.Attack && !m_anim.GetCurrentAnimatorStateInfo(0).IsName("FlameBrawler_Attack") && m_fb.currentMovementState != FlameBrawler.MovementState.AttackFinished) //trigger wird öfter gesetzt --> aufpasssen
             m_anim.SetTrigger("Attack");
 
         if (m_fb.currentMovementDirection == FlameBrawler.MovementDirection.Left)

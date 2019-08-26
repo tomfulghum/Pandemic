@@ -13,6 +13,7 @@ public class FlameBrawler : MonoBehaviour
         Idle,
         Move,
         Attack,
+        AttackFinished,
         Stuck,
         Block,
         Chase
@@ -208,7 +209,7 @@ public class FlameBrawler : MonoBehaviour
                 if (m_leaveFlameTrail) //to prevent number overflow
                     SpawnFlame();
             }
-            if(m_shieldDropped)
+            if(m_shieldDropped) //regain shield time muss noch resettet werden (bei drop shield)
             {
                 m_regainCounter += Time.deltaTime;
                 if(m_regainCounter > m_timeToRegainShield)
@@ -239,7 +240,7 @@ public class FlameBrawler : MonoBehaviour
             m_currentMovementState = MovementState.Block;
             RegainShield();
         }
-        else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck)
+        else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck && m_currentMovementState != MovementState.AttackFinished)
         {
             if (m_objectToChase != null)
             {
@@ -339,13 +340,13 @@ public class FlameBrawler : MonoBehaviour
 
     //private void TryPickUpShield()
     //{
-    //    //m_shield.SetActive(false);
-    //    //m_shieldStolen = false;
+    //    if shield not stolen
+           // destroy old shield
+    //    
     //}
 
     private void DropShield()
     {
-        Debug.Log(m_shield);
         if (m_shield != null)
         {
             m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject();

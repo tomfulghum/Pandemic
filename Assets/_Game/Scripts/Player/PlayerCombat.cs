@@ -180,6 +180,8 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator HookDash(Vector2 _velocity, float time) //only experimental //damage enemies
     {
+        m_pa.SetDashDirection(_velocity);
+
         m_hookDashActive = true;
         m_invincible = true;
         GetComponentInChildren<PlayerKnockback>().IsLethal(true);
