@@ -193,7 +193,6 @@ public class FlameBrawler : MonoBehaviour
                            // m_currentMovementState = MovementState.Decide;
                             GetComponent<FlameBrawlerAnim>().StuckSuccesful();
                             m_stuckCounter = 90; // temporary to fix stuck succes bug 
-                            //TryPickUpShield();
                         }
                         if(m_shield != null && m_shield .GetComponent<ThrowableObject>().currentObjectState != ThrowableObject.ThrowableState.Inactive)
                         {
@@ -338,21 +337,18 @@ public class FlameBrawler : MonoBehaviour
         //player regain anim
     }
 
-    //private void TryPickUpShield()
-    //{
-    //    if shield not stolen
-           // destroy old shield
-    //    
-    //}
-
     private void DropShield()
     {
         if (m_shield != null)
         {
             m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject();
         }
-        m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
+        Vector2 shieldPosition = GetComponent<BoxCollider2D>().bounds.center;
+        shieldPosition.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
+        //m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
+        m_shield = Instantiate(m_shieldPrefab, shieldPosition, transform.rotation);
         m_shieldDropped = true;
+        m_regainCounter = 0;
     }
 
     //************************//
@@ -364,5 +360,16 @@ public class FlameBrawler : MonoBehaviour
         DropShield();
         m_currentMovementState = MovementState.Stuck;
         m_stuckCounter = 90;
+    }
+
+    public void TryPickUpShield()
+    {
+        if (m_vulnerable == false && m_shield != null)
+        {
+            //m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject(); //destroy with destruction effect
+            Destroy(m_shield);
+            m_vulnerable = false;
+            m_shieldDropped = false;
+        }
     }
 }

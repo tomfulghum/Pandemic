@@ -1,106 +1,106 @@
 fileFormatVersion: 2
-guid: 4493a89321adad446aca5cf64810bc40
+guid: aada2bc39d936ae438ad35404487c7cf
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5437833137431723570
-    second: ani_FlameBrawler_StuckPull_0
+      213: 367136051673458066
+    second: ani_FlameBrawler_StuckPull_new_0
   - first:
-      213: 1149245772114214278
-    second: ani_FlameBrawler_StuckPull_1
+      213: -2117792653351813885
+    second: ani_FlameBrawler_StuckPull_new_1
   - first:
-      213: -6783282061006376184
-    second: ani_FlameBrawler_StuckPull_2
+      213: -8554498787124915968
+    second: ani_FlameBrawler_StuckPull_new_2
   - first:
-      213: 2367839778837179963
-    second: ani_FlameBrawler_StuckPull_3
+      213: 6705597210394350053
+    second: ani_FlameBrawler_StuckPull_new_3
   - first:
-      213: -3992709441141122364
-    second: ani_FlameBrawler_StuckPull_4
+      213: -6674736411323316903
+    second: ani_FlameBrawler_StuckPull_new_4
   - first:
-      213: 8570950408152031044
-    second: ani_FlameBrawler_StuckPull_5
+      213: -7955482765694372718
+    second: ani_FlameBrawler_StuckPull_new_5
   - first:
-      213: 641564147046750524
-    second: ani_FlameBrawler_StuckPull_6
+      213: -4948741285170175104
+    second: ani_FlameBrawler_StuckPull_new_6
   - first:
-      213: -1117824076389352046
-    second: ani_FlameBrawler_StuckPull_7
+      213: 8494828747017364389
+    second: ani_FlameBrawler_StuckPull_new_7
   - first:
-      213: 4437226427271580462
-    second: ani_FlameBrawler_StuckPull_8
+      213: -880938190727811535
+    second: ani_FlameBrawler_StuckPull_new_8
   - first:
-      213: 9046683640982490510
-    second: ani_FlameBrawler_StuckPull_9
+      213: -3552488191502622292
+    second: ani_FlameBrawler_StuckPull_new_9
   - first:
-      213: 8684007973879400297
-    second: ani_FlameBrawler_StuckPull_10
+      213: -2274658407537045265
+    second: ani_FlameBrawler_StuckPull_new_10
   - first:
-      213: -3029280251044051829
-    second: ani_FlameBrawler_StuckPull_11
+      213: 9056469898704039594
+    second: ani_FlameBrawler_StuckPull_new_11
   - first:
-      213: -6581041739529766310
-    second: ani_FlameBrawler_StuckPull_12
+      213: -7418591929810094743
+    second: ani_FlameBrawler_StuckPull_new_12
   - first:
-      213: -2302795086033065910
-    second: ani_FlameBrawler_StuckPull_13
+      213: 374456743398882088
+    second: ani_FlameBrawler_StuckPull_new_13
   - first:
-      213: -2903909152587975275
-    second: ani_FlameBrawler_StuckPull_14
+      213: -5350755696458932708
+    second: ani_FlameBrawler_StuckPull_new_14
   - first:
-      213: 6407184459385327678
-    second: ani_FlameBrawler_StuckPull_15
+      213: 1167654167436614997
+    second: ani_FlameBrawler_StuckPull_new_15
   - first:
-      213: 4104504729478810472
-    second: ani_FlameBrawler_StuckPull_16
+      213: -346122561035695832
+    second: ani_FlameBrawler_StuckPull_new_16
   - first:
-      213: 2172246052053079720
-    second: ani_FlameBrawler_StuckPull_17
+      213: -2727714325221346470
+    second: ani_FlameBrawler_StuckPull_new_17
   - first:
-      213: -6530599796420140076
-    second: ani_FlameBrawler_StuckPull_18
+      213: -7601221951517734617
+    second: ani_FlameBrawler_StuckPull_new_18
   - first:
-      213: 4121876391573938719
-    second: ani_FlameBrawler_StuckPull_19
+      213: -3367839970551662931
+    second: ani_FlameBrawler_StuckPull_new_19
   - first:
-      213: 7817379570901712674
-    second: ani_FlameBrawler_StuckPull_20
+      213: 3093268097659336653
+    second: ani_FlameBrawler_StuckPull_new_20
   - first:
-      213: 9197427473308972184
-    second: ani_FlameBrawler_StuckPull_21
+      213: 539120868454750122
+    second: ani_FlameBrawler_StuckPull_new_21
   - first:
-      213: -8628599692820167513
-    second: ani_FlameBrawler_StuckPull_22
+      213: 1339544063035831122
+    second: ani_FlameBrawler_StuckPull_new_22
   - first:
-      213: -6518964853423284355
-    second: ani_FlameBrawler_StuckPull_23
+      213: -1400251622894221764
+    second: ani_FlameBrawler_StuckPull_new_23
   - first:
-      213: 4901865583361897559
-    second: ani_FlameBrawler_StuckPull_24
+      213: -181850255667092442
+    second: ani_FlameBrawler_StuckPull_new_24
   - first:
-      213: -5791516370464783491
-    second: ani_FlameBrawler_StuckPull_25
+      213: -5987907737089528644
+    second: ani_FlameBrawler_StuckPull_new_25
   - first:
-      213: -6971546648478064187
-    second: ani_FlameBrawler_StuckPull_26
+      213: -5785483169937890872
+    second: ani_FlameBrawler_StuckPull_new_26
   - first:
-      213: -2558392161801036353
-    second: ani_FlameBrawler_StuckPull_27
+      213: 6362117744014452908
+    second: ani_FlameBrawler_StuckPull_new_27
   - first:
-      213: 6105961792963020547
-    second: ani_FlameBrawler_StuckPull_28
+      213: -7978910705800815580
+    second: ani_FlameBrawler_StuckPull_new_28
   - first:
-      213: 1048456850458226509
-    second: ani_FlameBrawler_StuckPull_29
+      213: -4603580416204054049
+    second: ani_FlameBrawler_StuckPull_new_29
   - first:
-      213: -3845520799988133927
-    second: ani_FlameBrawler_StuckPull_30
+      213: -4675675957444214310
+    second: ani_FlameBrawler_StuckPull_new_30
   - first:
-      213: -5909732993013317593
-    second: ani_FlameBrawler_StuckPull_31
+      213: 4297950267957734791
+    second: ani_FlameBrawler_StuckPull_new_31
   - first:
-      213: 5141218738346186598
-    second: ani_FlameBrawler_StuckPull_32
+      213: -9178173938118764820
+    second: ani_FlameBrawler_StuckPull_new_32
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -183,112 +183,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 5400
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 03096d34c5012cf42a3d0bca902e0ea9
-      internalID: 5437833137431723570
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_1
-      rect:
-        serializedVersion: 2
-        x: 1100
-        y: 5400
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7cd40d0994039e8409e85706e4f63b05
-      internalID: 1149245772114214278
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_2
-      rect:
-        serializedVersion: 2
-        x: 2200
-        y: 5400
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1553c3045e9c21a40967a9f0ee4fc4dc
-      internalID: -6783282061006376184
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_3
-      rect:
-        serializedVersion: 2
-        x: 3300
-        y: 5400
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b43cf25e3aaecf64fa6ebe4636fc333f
-      internalID: 2367839778837179963
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_4
-      rect:
-        serializedVersion: 2
-        x: 4400
-        y: 5400
-        width: 1100
-        height: 900
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 36f9e615ca9a94b42bae3b7ca056416d
-      internalID: -3992709441141122364
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_5
+      name: ani_FlameBrawler_StuckPull_new_0
       rect:
         serializedVersion: 2
         x: 0
@@ -302,14 +197,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6620cc759590afd45b6550beea2c1d85
-      internalID: 8570950408152031044
+      spriteID: ecc21759c3a605d4f869e74233fbaf12
+      internalID: 367136051673458066
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_6
+      name: ani_FlameBrawler_StuckPull_new_1
       rect:
         serializedVersion: 2
         x: 1100
@@ -323,14 +218,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6bdc17188d8da8b4d8d59bd3937f5140
-      internalID: 641564147046750524
+      spriteID: ba11e40cf2e6a9e49aeb069cac2d9012
+      internalID: -2117792653351813885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_7
+      name: ani_FlameBrawler_StuckPull_new_2
       rect:
         serializedVersion: 2
         x: 2200
@@ -344,14 +239,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8f4d9e6eb030988479a93c8224410c9c
-      internalID: -1117824076389352046
+      spriteID: bc3f219cad603dc419836fad7b3b5343
+      internalID: -8554498787124915968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_8
+      name: ani_FlameBrawler_StuckPull_new_3
       rect:
         serializedVersion: 2
         x: 3300
@@ -365,14 +260,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e906c9bc5651e9419cd0c4a20a7cdeb
-      internalID: 4437226427271580462
+      spriteID: 60c561cd3e5bde34e8e4d600690b65ed
+      internalID: 6705597210394350053
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_9
+      name: ani_FlameBrawler_StuckPull_new_4
       rect:
         serializedVersion: 2
         x: 4400
@@ -386,14 +281,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b0d7477ee9672f48b68faa90c55e341
-      internalID: 9046683640982490510
+      spriteID: 9f9e84595cbc6394cbc76f0251d6634d
+      internalID: -6674736411323316903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_10
+      name: ani_FlameBrawler_StuckPull_new_5
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41e14cfea5f767847a07061dd002f2ef
+      internalID: -7955482765694372718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_StuckPull_new_6
       rect:
         serializedVersion: 2
         x: 0
@@ -407,14 +323,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e344aaaaeec414a4080137da47c70a9d
-      internalID: 8684007973879400297
+      spriteID: f8733247819c1cf41806e5f47cdf0a38
+      internalID: -4948741285170175104
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_11
+      name: ani_FlameBrawler_StuckPull_new_7
       rect:
         serializedVersion: 2
         x: 1100
@@ -428,14 +344,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 401a1b86103e1f14a83adc5565130816
-      internalID: -3029280251044051829
+      spriteID: 224aa7b47732c1c479df166f49abcfae
+      internalID: 8494828747017364389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_12
+      name: ani_FlameBrawler_StuckPull_new_8
       rect:
         serializedVersion: 2
         x: 2200
@@ -449,14 +365,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1de8374483554f142b744b44103c1004
-      internalID: -6581041739529766310
+      spriteID: b5a907e41ffc43c46b804fe929c0a80d
+      internalID: -880938190727811535
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_13
+      name: ani_FlameBrawler_StuckPull_new_9
       rect:
         serializedVersion: 2
         x: 3300
@@ -470,14 +386,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca0184c1ab8d04541a0e6c71814c773a
-      internalID: -2302795086033065910
+      spriteID: e84aa5025df875046990b6684f723fc0
+      internalID: -3552488191502622292
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_14
+      name: ani_FlameBrawler_StuckPull_new_10
       rect:
         serializedVersion: 2
         x: 4400
@@ -491,14 +407,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed169e906657cb046a727a03ec8d245e
-      internalID: -2903909152587975275
+      spriteID: 9badf368ca4dc624dba6d27648b7b7a3
+      internalID: -2274658407537045265
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_15
+      name: ani_FlameBrawler_StuckPull_new_11
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a2de43a431b2d74d84d9f71f1a1ca4b
+      internalID: 9056469898704039594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_StuckPull_new_12
       rect:
         serializedVersion: 2
         x: 0
@@ -512,14 +449,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c5c6d76e2903374db9bcb4f9e889ac2
-      internalID: 6407184459385327678
+      spriteID: 06bc4038b67e1154aa93830e58e1a3fc
+      internalID: -7418591929810094743
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_16
+      name: ani_FlameBrawler_StuckPull_new_13
       rect:
         serializedVersion: 2
         x: 1100
@@ -533,14 +470,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8baf840e85b38774daed1b08d8663d1a
-      internalID: 4104504729478810472
+      spriteID: 62131850eddf76a4f97fa679162e9584
+      internalID: 374456743398882088
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_17
+      name: ani_FlameBrawler_StuckPull_new_14
       rect:
         serializedVersion: 2
         x: 2200
@@ -554,14 +491,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2aaff7e15e769ae4ebe0300025f53fa2
-      internalID: 2172246052053079720
+      spriteID: af714a1e1e96baa49a032ce1998d13da
+      internalID: -5350755696458932708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_18
+      name: ani_FlameBrawler_StuckPull_new_15
       rect:
         serializedVersion: 2
         x: 3300
@@ -575,14 +512,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c12d2ad662978d42a9f334fbb0adf48
-      internalID: -6530599796420140076
+      spriteID: 470d2b67575ba1145a1bd6a9a839cedd
+      internalID: 1167654167436614997
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_19
+      name: ani_FlameBrawler_StuckPull_new_16
       rect:
         serializedVersion: 2
         x: 4400
@@ -596,14 +533,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0874b594347251247892c2cec22a7b30
-      internalID: 4121876391573938719
+      spriteID: fc0133e20dd3ee14bac6f620d10a0c14
+      internalID: -346122561035695832
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_20
+      name: ani_FlameBrawler_StuckPull_new_17
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba5e2c585272c2c43908cb308f878faa
+      internalID: -2727714325221346470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_StuckPull_new_18
       rect:
         serializedVersion: 2
         x: 0
@@ -617,14 +575,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 892aa2e7e978ec740b9a86d734e13d7e
-      internalID: 7817379570901712674
+      spriteID: 70225bc3284d05141936a7a8b1b3c1d4
+      internalID: -7601221951517734617
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_21
+      name: ani_FlameBrawler_StuckPull_new_19
       rect:
         serializedVersion: 2
         x: 1100
@@ -638,14 +596,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f1bff43caf56b2498937cfb5a8d7ec4
-      internalID: 9197427473308972184
+      spriteID: 2ba4082f9293a6a44979c25957f76640
+      internalID: -3367839970551662931
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_22
+      name: ani_FlameBrawler_StuckPull_new_20
       rect:
         serializedVersion: 2
         x: 2200
@@ -659,14 +617,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2b4f8f9a43cff04fbf32400fba2f41e
-      internalID: -8628599692820167513
+      spriteID: a1bb1d94895699a4298d09a774aa1b0d
+      internalID: 3093268097659336653
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_23
+      name: ani_FlameBrawler_StuckPull_new_21
       rect:
         serializedVersion: 2
         x: 3300
@@ -680,14 +638,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68db6e765769dcc43a7cb79790800cce
-      internalID: -6518964853423284355
+      spriteID: 60991878a6f18d94895bd49e1585e6eb
+      internalID: 539120868454750122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_24
+      name: ani_FlameBrawler_StuckPull_new_22
       rect:
         serializedVersion: 2
         x: 4400
@@ -701,14 +659,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 115cf94f9dee19a4a818d9a95c0febe0
-      internalID: 4901865583361897559
+      spriteID: 8d8f96bce494781419752c1b5fdbfb73
+      internalID: 1339544063035831122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_25
+      name: ani_FlameBrawler_StuckPull_new_23
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d27b43ddf1ad5794daca2baf11232de3
+      internalID: -1400251622894221764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_StuckPull_new_24
       rect:
         serializedVersion: 2
         x: 0
@@ -722,14 +701,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 774dc726e7027b14e83fce071cc3da87
-      internalID: -5791516370464783491
+      spriteID: 7ce1ce5b002e7bf4996c19b6858ca1c6
+      internalID: -181850255667092442
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_26
+      name: ani_FlameBrawler_StuckPull_new_25
       rect:
         serializedVersion: 2
         x: 1100
@@ -743,14 +722,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2f119a06b2c6644f87470a2317017c0
-      internalID: -6971546648478064187
+      spriteID: b34ebf2a365d31b4f9f8b9d7dd4cb645
+      internalID: -5987907737089528644
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_27
+      name: ani_FlameBrawler_StuckPull_new_26
       rect:
         serializedVersion: 2
         x: 2200
@@ -764,14 +743,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d0e447a83d4c3bd4994c661f4127b257
-      internalID: -2558392161801036353
+      spriteID: 1f832eb3d81c4204f9a0fb27822a1a0e
+      internalID: -5785483169937890872
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_28
+      name: ani_FlameBrawler_StuckPull_new_27
       rect:
         serializedVersion: 2
         x: 3300
@@ -785,14 +764,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45684ac2d4d8f844aaea053cf110daaf
-      internalID: 6105961792963020547
+      spriteID: 82170ff8741848441913091bf261b3c3
+      internalID: 6362117744014452908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_29
+      name: ani_FlameBrawler_StuckPull_new_28
       rect:
         serializedVersion: 2
         x: 4400
@@ -806,14 +785,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b57790ac1af19f448e610d3cc2f76b4
-      internalID: 1048456850458226509
+      spriteID: a59fd869c88572749b4e966a3291dbb6
+      internalID: -7978910705800815580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_30
+      name: ani_FlameBrawler_StuckPull_new_29
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c82758b156c47c14c9993bf72e2b00c5
+      internalID: -4603580416204054049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_StuckPull_new_30
       rect:
         serializedVersion: 2
         x: 0
@@ -827,14 +827,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2fc526cdeebef274188e6bf55d65c477
-      internalID: -3845520799988133927
+      spriteID: cd57eba751a505a4a824867e69a5802f
+      internalID: -4675675957444214310
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_31
+      name: ani_FlameBrawler_StuckPull_new_31
       rect:
         serializedVersion: 2
         x: 1100
@@ -848,14 +848,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86f5317b2d5c9e14a9f3339cebc3c9b7
-      internalID: -5909732993013317593
+      spriteID: 36369d2dafa779642b0b44eac564470c
+      internalID: 4297950267957734791
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ani_FlameBrawler_StuckPull_32
+      name: ani_FlameBrawler_StuckPull_new_32
       rect:
         serializedVersion: 2
         x: 2200
@@ -869,8 +869,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70e7e68611ccd6b48a4f6c9a1464d45d
-      internalID: 5141218738346186598
+      spriteID: 0a9105d3ad89c9c459bf061335c45320
+      internalID: -9178173938118764820
       vertices: []
       indices: 
       edges: []
@@ -878,7 +878,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9153b81116afff6448a77a5de91a42bf
+    spriteID: 085e020f7c63e80448165f4da36e501d
     internalID: 0
     vertices: []
     indices: 

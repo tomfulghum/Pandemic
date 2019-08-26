@@ -20,6 +20,7 @@ public class FlameBrawler_StuckSucces : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<FlameBrawler>().currentMovementState = FlameBrawler.MovementState.Decide;
+        animator.GetComponent<FlameBrawler>().TryPickUpShield();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

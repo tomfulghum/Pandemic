@@ -104,7 +104,7 @@ public class PlayerAnim : MonoBehaviour
         else
             m_anim.SetBool("Dash", false);
 
-        UpdateCollider(m_facingLeft); //evtl auch ! facing left
+        UpdateCollider(m_facingLeft); //später updaten --> siehe wochenbericht
         if (m_pc.currentAttackState != PlayerCombat.AttackState.Dash && m_currentPlayerState != PlayerState.Disabled)
         {
             SetFacingDirection();
