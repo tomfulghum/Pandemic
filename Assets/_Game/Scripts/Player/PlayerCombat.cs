@@ -308,6 +308,8 @@ public class PlayerCombat : MonoBehaviour
                 StopCoroutine(m_knockbackCoroutine);
             }
             m_knockbackCoroutine = StartCoroutine(KnockBack(_knockBackOrigin, _knockBackForce, _enemy));
+
+            CameraManager.Instance.ImpactScreenShake();
         }
     }
 
