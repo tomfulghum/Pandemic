@@ -14,6 +14,7 @@ public class FlameBrawler : MonoBehaviour
         Move,
         Attack,
         AttackFinished,
+        ShieldRegain,
         Stuck,
         Block,
         Chase
@@ -200,6 +201,11 @@ public class FlameBrawler : MonoBehaviour
                         }
                         break;
                     }
+                case MovementState.ShieldRegain:
+                    {
+                        m_rb.velocity = Vector2.zero;
+                        break;
+                    }
             }
 
             if (m_flameCounter > m_timeBetweenFlames)
@@ -239,7 +245,7 @@ public class FlameBrawler : MonoBehaviour
             m_currentMovementState = MovementState.Block;
             RegainShield();
         }
-        else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck && m_currentMovementState != MovementState.AttackFinished)
+        else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck && m_currentMovementState != MovementState.AttackFinished && m_currentMovementState != MovementState.ShieldRegain)
         {
             if (m_objectToChase != null)
             {
@@ -334,7 +340,8 @@ public class FlameBrawler : MonoBehaviour
         }
         m_vulnerable = false;
         m_shieldDropped = false;
-        //player regain anim
+        m_currentMovementState = MovementState.ShieldRegain;
+        GetComponent<FlameBrawlerAnim>().RegainShield();
     }
 
     private void DropShield()

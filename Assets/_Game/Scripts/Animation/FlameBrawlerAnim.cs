@@ -90,4 +90,9 @@ public class FlameBrawlerAnim : MonoBehaviour
     {
         m_anim.SetTrigger("SuccesfulPickup");
     }
+
+    public void RegainShield()
+    {
+        m_anim.SetTrigger("RegainShield");
+    }
 }
