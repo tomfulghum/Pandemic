@@ -21,6 +21,12 @@ public class PlayerAnim : MonoBehaviour
         Dead
     }
 
+    //************************//
+    //    Inspector Fields    //
+    //************************//
+
+    [SerializeField] private GameObject m_landingAnimPrefab;
+
     //******************//
     //    Properties    //
     //******************//
@@ -45,6 +51,8 @@ public class PlayerAnim : MonoBehaviour
     private PlayerCombat m_pc;
     private PlayerMovement m_pm;
 
+    private bool m_startedMoving;
+    private bool m_landing;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -63,7 +71,15 @@ public class PlayerAnim : MonoBehaviour
     private void Update()
     {
         m_anim.SetFloat("VerticalVelocity", m_rb.velocity.y);
-        m_anim.SetBool("Grounded", m_actor.contacts.below);
+        if(m_anim.GetBool("Grounded") != m_actor.contacts.below)
+        {
+            m_anim.SetBool("Grounded", m_actor.contacts.below);
+            if(m_anim.GetBool("Grounded") == true)
+            {
+                InstantiateLandingEffect();
+            }
+        }
+        //m_anim.SetBool("Grounded", m_actor.contacts.below);
 
         if (m_actor.contacts.below || m_currentPlayerState == PlayerState.Disabled || m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
         {
@@ -81,7 +97,10 @@ public class PlayerAnim : MonoBehaviour
             m_anim.SetBool("Hit", false);
 
         if (m_pc.currentAttackState == PlayerCombat.AttackState.Dash)
+        {
+            m_anim.SetFloat("DashAngle", 0.5f);
             m_anim.SetBool("Dash", true);
+        }
         else
             m_anim.SetBool("Dash", false);
 
@@ -102,6 +121,14 @@ public class PlayerAnim : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
+    private void InstantiateLandingEffect()
+    {
+        Vector2 effectPosition = GetComponent<BoxCollider2D>().bounds.center;
+        effectPosition.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
+        GameObject landingEffect = Instantiate(m_landingAnimPrefab, effectPosition, gameObject.transform.rotation);
+        Destroy(landingEffect, landingEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+    }
+
 
     private void SetFacingDirection() //only for anim //can differ from facing direc in player combat //should change later 
     {
@@ -112,7 +139,7 @@ public class PlayerAnim : MonoBehaviour
             m_facingLeft = false;
     }
 
-    private void UpdateCollider(bool _flipX) //könnte problematisch werden wenn der offset am anfang schon negativ ist
+    private void UpdateCollider(bool _flipX) //update collider for running --> umändern
     {
         if (_flipX && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
@@ -144,13 +171,16 @@ public class PlayerAnim : MonoBehaviour
         if (angle <= 22.5f && angle >= -22.5f) //dash left / right
         {
             m_anim.SetFloat("DashAngle", 0.5f);
-        } else if(angle > 22.5f && angle <= 67.5f) //up 45
+        }
+        else if (angle > 22.5f && angle <= 67.5f) //up 45
         {
             m_anim.SetFloat("DashAngle", 0.25f);
-        } else if (angle > 67.5f && angle <= 111.5f) //up 90
+        }
+        else if (angle > 67.5f && angle <= 111.5f) //up 90
         {
             m_anim.SetFloat("DashAngle", 0f);
-        } else if (angle < -22.5f && angle >= -67.5f) //down 45
+        }
+        else if (angle < -22.5f && angle >= -67.5f) //down 45
         {
             m_anim.SetFloat("DashAngle", 0.75f);
         }
