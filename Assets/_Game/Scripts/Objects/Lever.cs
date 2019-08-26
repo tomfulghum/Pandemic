@@ -19,6 +19,8 @@ public class Lever : MonoBehaviour
 
     private LeverState m_state;
     private Interactable m_interactable;
+    private Animator m_anim;
+    private int m_animParamPulled;
 
     //*******************************//
     //    MonoBehaviour Functions    //
@@ -28,6 +30,8 @@ public class Lever : MonoBehaviour
     {
         m_state = new LeverState();
         m_interactable = GetComponent<Interactable>();
+        m_anim = GetComponent<Animator>();
+        m_animParamPulled = Animator.StringToHash("Pulled");
     }
 
     private void Start()
@@ -55,6 +59,8 @@ public class Lever : MonoBehaviour
 
     public void Use()
     {
+        m_anim.SetBool(m_animParamPulled, !m_anim.GetBool(m_animParamPulled));
+
         if (m_oneTimeUse) {
             m_state.used = true;
             m_interactable.enabled = false;

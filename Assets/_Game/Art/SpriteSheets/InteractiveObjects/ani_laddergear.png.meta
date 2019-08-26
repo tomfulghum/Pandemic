@@ -1,7 +1,25 @@
 fileFormatVersion: 2
 guid: 5bfd5b70ec0643343a91bed3a74b22e4
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 2449084605642771780
+    second: ani_laddergear_0
+  - first:
+      213: -5345880406772428234
+    second: ani_laddergear_1
+  - first:
+      213: 4738826616588804128
+    second: ani_laddergear_2
+  - first:
+      213: -1104772754788546880
+    second: ani_laddergear_3
+  - first:
+      213: 7729007505775848942
+    second: ani_laddergear_4
+  - first:
+      213: 2498956022016671537
+    second: ani_laddergear_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -40,7 +58,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -60,7 +78,18 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 2
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -71,11 +100,95 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: ani_laddergear_1
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 225
+        width: 687
+        height: 550
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29d76a4f2f814fb459d5c6166b52b716
+      internalID: -5345880406772428234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_laddergear_2
+      rect:
+        serializedVersion: 2
+        x: 1127
+        y: 225
+        width: 687
+        height: 550
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4de3530bc3100248bb1f7073b9616da
+      internalID: 4738826616588804128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_laddergear_3
+      rect:
+        serializedVersion: 2
+        x: 2097
+        y: 225
+        width: 687
+        height: 550
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc07df06a337d34382b766c6df3d957
+      internalID: -1104772754788546880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_laddergear_5
+      rect:
+        serializedVersion: 2
+        x: 3129
+        y: 214
+        width: 687
+        height: 550
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 644228b91b1323d4abac3027bf9355da
+      internalID: 2498956022016671537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 2cd04c88bbc61a34ab44cd823a506897
+    spriteID: 7e0a0cd3b2ee0b948aaa40887ed9d88a
     internalID: 0
     vertices: []
     indices: 
