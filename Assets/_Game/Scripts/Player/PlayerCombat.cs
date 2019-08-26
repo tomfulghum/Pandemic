@@ -183,8 +183,8 @@ public class PlayerCombat : MonoBehaviour
         m_pa.SetDashDirection(_velocity);
 
         m_hookDashActive = true;
-        m_invincible = true;
-        GetComponentInChildren<PlayerKnockback>().IsLethal(true);
+        //m_invincible = true;
+        //GetComponentInChildren<PlayerKnockback>().IsLethal(true);
 
         Vector2 velocity = Vector2.zero;
         m_currentAttackState = AttackState.Dash;
@@ -195,8 +195,8 @@ public class PlayerCombat : MonoBehaviour
         m_pm.DisableUserInput(false);
         m_currentAttackState = AttackState.None;
 
-        GetComponentInChildren<PlayerKnockback>().IsLethal(false);
-        m_invincible = false;
+        //GetComponentInChildren<PlayerKnockback>().IsLethal(false);
+        //m_invincible = false;
         m_hookDashActive = false;
     }
 
