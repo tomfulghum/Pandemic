@@ -22,8 +22,9 @@ public class ThrowableObject : MonoBehaviour
     [SerializeField] [Range(1, 2)] private float m_speedMultiplier = 1.3f; //später per object type einstellen
     [SerializeField] private int m_throwCount = 1;
     [SerializeField] private float m_rotationOffset = 0;
-    [SerializeField] private DestructionColor m_destructionColor = DestructionColor.Grey; 
-    [SerializeField] private GameObject m_destructionEffect = default; //vllt noch nicht sogut gelöst aber fürs erste reichts
+    [SerializeField] private DestructionColor m_destructionColor = DestructionColor.Grey;
+    [SerializeField] private GameObject m_destructionEffect = default;
+    [SerializeField] private GameObject m_selectionGlow = default;
 
     //******************//
     //    Properties    //
@@ -105,7 +106,7 @@ public class ThrowableObject : MonoBehaviour
                     if (m_actor.contacts.any)
                     {
                         m_rb.velocity = Vector2.zero; //könnte das object dadurch an der decke kleben?
-                        if(m_hitGround == false) //facotored den drop nicht mit ein / schlimm?
+                        if (m_hitGround == false) //facotored den drop nicht mit ein / schlimm?
                         {
                             SubstractDurability();
                             m_hitGround = true;
@@ -143,7 +144,7 @@ public class ThrowableObject : MonoBehaviour
     private void ResetRotation()
     {
         transform.rotation = Quaternion.identity;
-        GetComponent<SpriteRenderer>().flipY = false; 
+        GetComponent<SpriteRenderer>().flipY = false;
     }
 
     private void AdjustSprite(Vector2 _velocity)
@@ -152,7 +153,8 @@ public class ThrowableObject : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipY = true;
             m_rotationOffset = -Mathf.Abs(m_rotationOffset);
-        } else
+        }
+        else
         {
             GetComponent<SpriteRenderer>().flipY = false;
             m_rotationOffset = Mathf.Abs(m_rotationOffset);
@@ -222,7 +224,7 @@ public class ThrowableObject : MonoBehaviour
         //check if player currently holds this and if yes then remove from playerthrow script
         GameObject destructionEffect = Instantiate(m_destructionEffect, transform.position, transform.rotation);
         destructionEffect.transform.localScale = transform.localScale;
-        switch(m_destructionColor)
+        switch (m_destructionColor)
         {
             case DestructionColor.Green:
                 {
@@ -237,5 +239,11 @@ public class ThrowableObject : MonoBehaviour
         }
         Destroy(destructionEffect, destructionEffect.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
         Destroy(gameObject);
+    }
+
+    public void SelectionGlow(bool _active)
+    {
+        if (m_selectionGlow != null)
+            m_selectionGlow.SetActive(_active);
     }
 }

@@ -33,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537124147410351526}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.6, y: -3.56, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.2}
   m_Children:
   - {fileID: 1537124148537606514}
@@ -144,16 +144,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     right:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     below:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     above:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
 --- !u!95 &1537124147410351546
 Animator:
   serializedVersion: 3
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_projectileStartPos: {fileID: 1537124148537606514}
   m_sightBlockingLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 805306624
   m_rangedAnimBaseSpeed: 2
   m_rangedAnimSpeedMultiplier: 1
 --- !u!114 &1537124147194040485

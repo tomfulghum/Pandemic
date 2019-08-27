@@ -187,7 +187,7 @@ MonoBehaviour:
   m_useJump: 1
   m_sightBlockingLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 805306624
 --- !u!114 &8267296876648001090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,16 +242,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     right:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     below:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     above:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
 --- !u!114 &8267296876648001118
 MonoBehaviour:
   m_ObjectHideFlags: 0

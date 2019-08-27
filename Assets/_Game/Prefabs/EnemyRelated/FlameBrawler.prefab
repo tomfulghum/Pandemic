@@ -301,16 +301,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     right:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     below:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     above:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
 --- !u!95 &474321565863776756
 Animator:
   serializedVersion: 3
@@ -387,7 +387,7 @@ MonoBehaviour:
     m_Bits: 512
   m_sightBlockingLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 805306624
   m_leaveFlameTrail: 0
   m_timeBetweenFlames: 2
   m_flameLifeTime: 6

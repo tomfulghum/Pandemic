@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1355609258341042291}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.296, y: -4.864, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.35, y: 0.35, z: 0.2}
   m_Children:
   - {fileID: 4185298354301198249}
@@ -241,6 +241,7 @@ MonoBehaviour:
   m_destructionColor: 2
   m_destructionEffect: {fileID: 9086232130830864787, guid: 980f908412139794cb7ddbdb68075b13,
     type: 3}
+  m_selectionGlow: {fileID: 0}
 --- !u!50 &8061389200933029916
 Rigidbody2D:
   serializedVersion: 4

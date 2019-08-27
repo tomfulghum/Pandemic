@@ -122,7 +122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693525880915519416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.24, y: 3.93, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 944225326}
@@ -233,16 +233,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     right:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     below:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     above:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
 --- !u!95 &1693525880915519392
 Animator:
   serializedVersion: 3
@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_chaseRange: 3
+  m_circleRadius: 10
   m_coneAngle: 35
   m_movementSpeed: 3
   m_diveSpeed: 20
@@ -298,7 +299,7 @@ MonoBehaviour:
   m_visualizeChaseRange: 0
   m_sightBlockingLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 805306624
 --- !u!50 &6626893083885945748
 Rigidbody2D:
   serializedVersion: 4

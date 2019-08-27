@@ -58,6 +58,10 @@ public class PlayerCombat : MonoBehaviour
         set { m_currentHealth = value; }
     }
 
+    public int maxHealth
+    {
+        get { return m_attributes.maxHealth; }
+    }
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -126,7 +130,7 @@ public class PlayerCombat : MonoBehaviour
         m_sr = GetComponent<SpriteRenderer>();
         m_pa = GetComponent<PlayerAnim>();
 
-        UpdateHealthVisual();
+        //UpdateHealthVisual();
     }
 
     private void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken
@@ -228,14 +232,14 @@ public class PlayerCombat : MonoBehaviour
     private void TakeDamage()
     {
         m_currentHealth--;
-        UpdateHealthVisual();
+        //UpdateHealthVisual();
     }
 
-    void UpdateHealthVisual()
-    {
-        if (m_healthVisualization != null)
-            m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_attributes.maxHealth;
-    }
+    //void UpdateHealthVisual()
+    //{
+    //    if (m_healthVisualization != null)
+    //        m_healthVisualization.text = "Health: " + m_currentHealth + " / " + m_attributes.maxHealth;
+    //}
 
     private IEnumerator KnockBack(Vector2 _knockBackOrigin, float _knockBackForce, Enemy _enemy = null) //knock back direction als Parameter übergeben //vllt cancel all movement (hook usw.) einbauen
     {
@@ -280,7 +284,7 @@ public class PlayerCombat : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.yellow;
 
         if (m_currentHealth <= 0) {
-            UpdateHealthVisual();
+            //UpdateHealthVisual();
             GameManager.Instance.Respawn();
         }
 
@@ -322,7 +326,7 @@ public class PlayerCombat : MonoBehaviour
             m_currentHealth += _healValue;
         else
             m_currentHealth = m_attributes.maxHealth;
-        UpdateHealthVisual();
+        //UpdateHealthVisual();
     }
 
     public void DashInDirection(Vector2 _velocity, float time)
