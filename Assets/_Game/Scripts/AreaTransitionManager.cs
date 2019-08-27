@@ -20,6 +20,13 @@ public class AreaTransitionManager : MonoBehaviour
 
     public static AreaTransitionManager Instance { get; private set; }
 
+    //*********************//
+    //    Public Fields    //
+    //*********************//
+
+    public delegate void OnAreaLoadedDelegate();
+    public static OnAreaLoadedDelegate onAreaLoaded;
+
     //**********************//
     //    Private Fields    //
     //**********************//
@@ -103,6 +110,7 @@ public class AreaTransitionManager : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(0));
 
         _callback?.Invoke();
+        onAreaLoaded?.Invoke();
     }
 
     private IEnumerator SetbackCoroutine(GameObject _player, Vector2 _position)

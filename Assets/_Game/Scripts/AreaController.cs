@@ -23,6 +23,7 @@ public class AreaController : MonoBehaviour
     //******************//
 
     public AreaData area { get { return m_area; } }
+    public List<NormalKey> keys { get { return m_normalKeys; } }
 
     //**********************//
     //    Private Fields    //
