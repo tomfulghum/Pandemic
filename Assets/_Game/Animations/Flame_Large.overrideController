@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Flame_Large
+  m_Controller: {fileID: 9100000, guid: c1996e333ed1b1d41aaf902c5fc1871a, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 8445cfcf5ff0f81458191b26b8d558fa, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8a03861f2fe938e47a5e6212de9b0456, type: 2}

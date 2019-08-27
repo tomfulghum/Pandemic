@@ -51,17 +51,6 @@ public class PlayerHook : MonoBehaviour
     //    Internal Types    //
     //**********************//
 
-    public enum PlayerState //Später in das Player Anim Script --> bzw. an einem besseren Ort managen
-    {
-        Waiting,
-        Hook,
-        Attacking,
-        Moving,
-        Disabled,
-        Invincible,
-        Dead
-    }
-
     public enum TimeSlow
     {
         NoSlow,
@@ -77,8 +66,7 @@ public class PlayerHook : MonoBehaviour
         Aiming,
         SwitchTarget,
         Active,
-        Cooldown,
-        JumpBack
+        Cooldown
     }
 
     enum HookType
@@ -89,12 +77,6 @@ public class PlayerHook : MonoBehaviour
         Hook,
         BigEnemy
     }
-
-    //***********//
-    //    ???    //
-    //***********//
-
-    public static PlayerState CurrentPlayerState = PlayerState.Waiting; //s. oben //nicht vergessen den playerstate auch zu benutzen
 
     //************************//
     //    Inspector Fields    //
@@ -171,6 +153,7 @@ public class PlayerHook : MonoBehaviour
     private Actor2D m_actor;
     private PlayerMovement m_pm;
     private Rigidbody2D m_rb;
+    private PlayerAnim m_pa;
 
 
     //experimental
@@ -193,6 +176,7 @@ public class PlayerHook : MonoBehaviour
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_pa = GetComponent<PlayerAnim>();
 
         if (m_hookPointVisualization != null)
             m_hookPointVisualization.GetComponent<HookPointVisualization>().SetObjectScale(m_hookRadius);
@@ -200,7 +184,7 @@ public class PlayerHook : MonoBehaviour
 
     void Update()
     {
-        if (CurrentPlayerState == PlayerState.Waiting || CurrentPlayerState == PlayerState.Hook) //darauf achten das es auch den player state moving gibt
+        if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Waiting || m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook) //darauf achten das es auch den player state moving gibt
         {
             SetPlayerState();
 
@@ -227,7 +211,7 @@ public class PlayerHook : MonoBehaviour
                 m_contDirWithoutDeadzone.y = m_input.player.GetAxis(m_input.aimVerticalAxis);
             }
 
-            if ((m_currentHookState != HookState.Active && m_currentHookState != HookState.Cooldown || CanUseHook()) && m_currentHookState != HookState.JumpBack)
+            if ((m_currentHookState != HookState.Active && m_currentHookState != HookState.Cooldown || CanUseHook()))
             { //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
                 if (m_input.player.GetButton(m_input.hookButton))
                 {
@@ -247,6 +231,12 @@ public class PlayerHook : MonoBehaviour
                         ActivateHook();
                     }
                     ResetValues();
+                }
+
+
+                if(m_input.player.GetButton(m_input.throwButton) && m_pickedUpObject != null && m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
+                {
+                    AimThrow();
                 }
             }
 
@@ -279,10 +269,6 @@ public class PlayerHook : MonoBehaviour
                 }
                 if (cancelCondition)
                 {
-                    //if (m_reachedTarget && m_currentTargetType == HookType.BigEnemy)
-                    //{
-                    //    StartCoroutine(JumpBack());
-                    //}
                     if(m_reachedTarget && m_activatedAfterHookDash && m_currentTargetType == HookType.Hook)
                     {
                         DeactivateHook();
@@ -305,13 +291,13 @@ public class PlayerHook : MonoBehaviour
     {
         if (m_currentHookState != HookState.Inactive)
         { // funktioniert noch nicht ganz --> nicht jedes frame auf wating setzen //vllt in eigene globale set playerstate function --> die auch nur an einer stelle aufgerufen werden sollte?                                        //oder globale function check player state die den aktuellen state überprüft
-            CurrentPlayerState = PlayerState.Hook;
+            m_pa.currentPlayerState = PlayerAnim.PlayerState.Hook;
         }
         else
         {
-            if (CurrentPlayerState == PlayerState.Hook && m_currentHookState == HookState.Inactive)
+            if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook && m_currentHookState == HookState.Inactive)
             {
-                CurrentPlayerState = PlayerState.Waiting;
+                m_pa.currentPlayerState = PlayerAnim.PlayerState.Waiting;
             }
         }
     }
@@ -319,7 +305,7 @@ public class PlayerHook : MonoBehaviour
     private void ThrowObject(Vector2 _throwVelocity)
     {
         GetComponent<VisualizeTrajectory>().RemoveVisualDots();
-        m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity);
+        m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity, true);
         m_pickedUpObject = null;
         DeactivateHook();
     }
@@ -389,15 +375,15 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private bool PullObject() //hier wahrscheinlihc picked up object setzen sobald throwable object = travelling to player und oben dann nur aim erlauben wenn picked up
+    private bool PullObject() //noch für die trennung abändern --> auf mpickedupobject ändern
     {
         bool cancelCondition = false;
         GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
 
-        if (m_currentSelectedTarget.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
+        if (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
         {
             cancelCondition = true;
-            m_pickedUpObject = m_currentSelectedTarget.gameObject;
+            //m_pickedUpObject = m_currentSelectedTarget.gameObject;
         }
         return cancelCondition;
     }
@@ -600,6 +586,7 @@ public class PlayerHook : MonoBehaviour
                         }
                     case HookType.Throw:
                         {
+                            m_pickedUpObject = m_currentSelectedTarget.gameObject;
                             m_currentSelectedTarget.GetComponent<ThrowableObject>().PickUp(transform, m_pullSpeed, m_targetReachedTolerance);
                             break;
                         }
@@ -735,27 +722,6 @@ public class PlayerHook : MonoBehaviour
         return totalDistance;
     }
 
-    private IEnumerator JumpBack() //--> gibt noch bugs 
-    {
-        int x = 1;
-        if (transform.position.x > m_currentSelectedTarget.transform.parent.transform.position.x)
-        {
-            x = 1;
-        }
-        else
-        {
-            x = -1;
-        }
-
-        DeactivateHook();
-        m_pm.DisableUserInput(true);
-        m_currentHookState = HookState.JumpBack;
-        Vector2 jumpBackvelocity = new Vector2(0.5f * x, 0.5f).normalized * m_hookSpeed; //evtl jump speed
-        m_pm.externalVelocity = jumpBackvelocity;
-        yield return new WaitForSeconds(0.4f * 10 / m_hookSpeed); //bessere lösung finden --> passt fürs erste
-        DeactivateHook();
-    }
-
     private void SetVelocityTowardsTarget(Vector2 _targetPoint, float _speed) //rename //evlt speed auch als parameter übergeben
     {
         Vector2 newCharacterVelocity = (_targetPoint - (Vector2)transform.position).normalized * _speed;
@@ -787,7 +753,7 @@ public class PlayerHook : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, (hookPointsInRange[i].transform.position - transform.position), rayCastLength, m_hookPointFilter);
             if (hit == false)
             {
-                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.Inactive) //noch keine sogute lösung
+                if (hookPointsInRange[i].CompareTag("Throwable") && hookPointsInRange[i].GetComponent<ThrowableObject>().pickable == true) //noch keine sogute lösung
                 {
                     hookPointsInSight.Add(hookPointsInRange[i]);
                 }
@@ -852,7 +818,7 @@ public class PlayerHook : MonoBehaviour
 
         if (nearestTargetPoint != null)
         {
-            nearestTargetPoint.GetComponent<SpriteRenderer>().color = Color.green;
+            nearestTargetPoint.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0.8588235f, 1); //00FFDB
         }
         return nearestTargetPoint;
     }

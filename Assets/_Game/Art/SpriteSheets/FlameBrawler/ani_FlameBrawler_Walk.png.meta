@@ -1,0 +1,677 @@
+fileFormatVersion: 2
+guid: 3dbe4ab7f2b73d8438f8ecc5dee49d25
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8950680958860469359
+    second: ani_FlameBrawler_Walk_0
+  - first:
+      213: -6866657645900220939
+    second: ani_FlameBrawler_Walk_1
+  - first:
+      213: -4986866002847507978
+    second: ani_FlameBrawler_Walk_2
+  - first:
+      213: -6530332538488091176
+    second: ani_FlameBrawler_Walk_3
+  - first:
+      213: -8568632844315045541
+    second: ani_FlameBrawler_Walk_4
+  - first:
+      213: -8375675722310668747
+    second: ani_FlameBrawler_Walk_5
+  - first:
+      213: -8241441081024968326
+    second: ani_FlameBrawler_Walk_6
+  - first:
+      213: 7032381589887183650
+    second: ani_FlameBrawler_Walk_7
+  - first:
+      213: 8719613914335392282
+    second: ani_FlameBrawler_Walk_8
+  - first:
+      213: 1701463885619277171
+    second: ani_FlameBrawler_Walk_9
+  - first:
+      213: -2978830736629233553
+    second: ani_FlameBrawler_Walk_10
+  - first:
+      213: 4040774066425396475
+    second: ani_FlameBrawler_Walk_11
+  - first:
+      213: 2559720172646815827
+    second: ani_FlameBrawler_Walk_12
+  - first:
+      213: -3934711020192390347
+    second: ani_FlameBrawler_Walk_13
+  - first:
+      213: 5210824263649024069
+    second: ani_FlameBrawler_Walk_14
+  - first:
+      213: 7758433798621544770
+    second: ani_FlameBrawler_Walk_15
+  - first:
+      213: 5340748021622721426
+    second: ani_FlameBrawler_Walk_16
+  - first:
+      213: 3362655382513988309
+    second: ani_FlameBrawler_Walk_17
+  - first:
+      213: 813021116514014900
+    second: ani_FlameBrawler_Walk_18
+  - first:
+      213: -1132321357041200899
+    second: ani_FlameBrawler_Walk_19
+  - first:
+      213: -561111536336722695
+    second: ani_FlameBrawler_Walk_20
+  - first:
+      213: -8743637226884034343
+    second: ani_FlameBrawler_Walk_21
+  - first:
+      213: 822983552703804984
+    second: ani_FlameBrawler_Walk_22
+  - first:
+      213: -5469609634972758710
+    second: ani_FlameBrawler_Walk_23
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e30a21ef5d26f4e4fabbc55e5d957345
+      internalID: 8950680958860469359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_1
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fe92d5470ab23c45a249b90a2ed3aea
+      internalID: -6866657645900220939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_2
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a8939b6e560fca4290a5cc12e6a5f05
+      internalID: -4986866002847507978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_3
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87eb5fac00fe75f4396492797789cde2
+      internalID: -6530332538488091176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55bd0e5e0a26c314f9b4ea42bafa515e
+      internalID: -8568632844315045541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_5
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 434975d64f0b77b4aaca67175eb932d4
+      internalID: -8375675722310668747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_6
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38373fc6fce2faa4a96513e12c80624c
+      internalID: -8241441081024968326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_7
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a26b3129ed07b864a9e585ec9260e49e
+      internalID: 7032381589887183650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad3f2563dbd0624f8075ad4c832eae2
+      internalID: 8719613914335392282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_9
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0132fc1677ab40347a45f37ca8a5e779
+      internalID: 1701463885619277171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_10
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74d3305d135628248ada6dd463595373
+      internalID: -2978830736629233553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_11
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68b727fec1540d04c89bd5ce92874c48
+      internalID: 4040774066425396475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 394d9537f1b00af4ab97ebd61ca1a046
+      internalID: 2559720172646815827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_13
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e72c33d03f2830418e5d9fbc370288f
+      internalID: -3934711020192390347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_14
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3754b7a59a2ae0c42a7f6c2011d60859
+      internalID: 5210824263649024069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_15
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e11e6e0bfff35e642a071fd435a2dcf3
+      internalID: 7758433798621544770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 008897495e6acfc41b098bd82c29060a
+      internalID: 5340748021622721426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_17
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec8e5514d3c80b44dbca7c1e8f365d48
+      internalID: 3362655382513988309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_18
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c47e4639db73564987918b180cb0dc4
+      internalID: 813021116514014900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_19
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1aefd9788baa1e4c846c7019afa1623
+      internalID: -1132321357041200899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d679598cf77ccde44a668c75f181314c
+      internalID: -561111536336722695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_21
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1570d6e2f57b2904fa3543044260c085
+      internalID: -8743637226884034343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_22
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de722b0c92a4a34449af4e5452b098c1
+      internalID: 822983552703804984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Walk_23
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 272a62aa2a899c044855d363f8252306
+      internalID: -5469609634972758710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: f4343e04c3f1d94409346311caea121a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

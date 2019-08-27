@@ -83,10 +83,10 @@ public class PlayerCombat : MonoBehaviour
     //private float m_currentAngle;
     //private bool m_alreadyAttacked;
     //private bool m_attackCoolDownActive; //--> evlt später eigenen state für cooldown einbauzne
-    private bool m_dashCoolDownActive; //--> irgendwie besser lösen
+    private bool m_dashCoolDownActive = false; //--> irgendwie besser lösen
     //private bool m_comboActive;
 
-    private bool m_invincible;
+    private bool m_invincible = false;
 
     //private int m_currentHitPriority = 1;
 
@@ -98,16 +98,17 @@ public class PlayerCombat : MonoBehaviour
     private PlayerInput m_input;
     private Actor2D m_actor;
     private PlayerMovement m_pm;
-    private SpriteRenderer m_spriteRenderer;
+    private SpriteRenderer m_sr;
+    private PlayerAnim m_pa;
 
     //*******************************//
     //    MonoBehaviour Functions    //
     //*******************************//
 
-    private void Awake()
-    {
-
-    }
+    //private void Awake()
+    //{
+    //   //?
+    //}
 
     //cooldown on melee attack? --> allgemein nach jedem angriff kurz 0.4f sec oder so wartezeit?
     private void Start()
@@ -119,14 +120,15 @@ public class PlayerCombat : MonoBehaviour
         m_input = GetComponent<PlayerInput>();
         m_actor = GetComponent<Actor2D>();
         m_pm = GetComponent<PlayerMovement>();
-        m_spriteRenderer = GetComponent<SpriteRenderer>();
+        m_sr = GetComponent<SpriteRenderer>();
+        m_pa = GetComponent<PlayerAnim>();
 
         UpdateHealthVisual();
     }
 
     private void Update() //evlt switch case für attack einbauen --> man kann nicht gleichzeitig meteor smash machen und attacken
     {
-        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Waiting || PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Attacking)
+        if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Waiting || m_pa.currentPlayerState == PlayerAnim.PlayerState.Attacking)
         {
             SetPlayerState();
             SetFacingDirection(); //ist es klug jedes frame zu setzen? --> wenn ja so einbauen das es auch funktioniert 
@@ -145,13 +147,13 @@ public class PlayerCombat : MonoBehaviour
     {
         if (m_currentAttackState != AttackState.None)
         {
-            PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Attacking;
+            m_pa.currentPlayerState = PlayerAnim.PlayerState.Attacking;
         }
         else
         {
-            if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Attacking && m_currentAttackState == AttackState.None)
+            if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Attacking && m_currentAttackState == AttackState.None)
             {
-                PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
+                m_pa.currentPlayerState = PlayerAnim.PlayerState.Waiting;
             }
         }
     }
@@ -178,9 +180,11 @@ public class PlayerCombat : MonoBehaviour
 
     private IEnumerator HookDash(Vector2 _velocity, float time) //only experimental //damage enemies
     {
+        m_pa.SetDashDirection(_velocity);
+
         m_hookDashActive = true;
-        m_invincible = true;
-        GetComponentInChildren<PlayerKnockback>().IsLethal(true);
+        //m_invincible = true;
+        //GetComponentInChildren<PlayerKnockback>().IsLethal(true);
 
         Vector2 velocity = Vector2.zero;
         m_currentAttackState = AttackState.Dash;
@@ -191,8 +195,8 @@ public class PlayerCombat : MonoBehaviour
         m_pm.DisableUserInput(false);
         m_currentAttackState = AttackState.None;
 
-        GetComponentInChildren<PlayerKnockback>().IsLethal(false);
-        m_invincible = false;
+        //GetComponentInChildren<PlayerKnockback>().IsLethal(false);
+        //m_invincible = false;
         m_hookDashActive = false;
     }
 
@@ -234,11 +238,11 @@ public class PlayerCombat : MonoBehaviour
     {
         if (m_currentAttackState == AttackState.Dash)
             CancelDash();
-        if (PlayerHook.CurrentPlayerState == PlayerHook.PlayerState.Hook)
+        if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook)
             GetComponent<PlayerHook>().CancelHook();
 
         TakeDamage();
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Disabled; //playerstate invincible?
+        m_pa.currentPlayerState = PlayerAnim.PlayerState.Disabled; //playerstate invincible?
         m_pm.DisableUserInput(true);
         m_invincible = true;
         GetComponent<SpriteRenderer>().color = Color.red; //for visualization
@@ -268,7 +272,7 @@ public class PlayerCombat : MonoBehaviour
         m_pm.momentum = m_pm.externalVelocity;
         m_pm.DisableUserInput(false);
 
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Invincible;
+        m_pa.currentPlayerState = PlayerAnim.PlayerState.Invincible; //brauchen wir das?
 
         GetComponent<SpriteRenderer>().color = Color.yellow;
 
@@ -280,7 +284,7 @@ public class PlayerCombat : MonoBehaviour
         yield return new WaitForSeconds(m_invincibilityTime);
 
         m_invincible = false; //extra invincibility in den knock back einbauen mit extra yield return wait
-        PlayerHook.CurrentPlayerState = PlayerHook.PlayerState.Waiting;
+        m_pa.currentPlayerState = PlayerAnim.PlayerState.Waiting;
 
         GetComponent<SpriteRenderer>().color = Color.white; // for visualization
     }

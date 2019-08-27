@@ -125,16 +125,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 2304
+      m_Bits: 256
     right:
       serializedVersion: 2
-      m_Bits: 2304
+      m_Bits: 256
     below:
       serializedVersion: 2
-      m_Bits: 2304
+      m_Bits: 256
     above:
       serializedVersion: 2
-      m_Bits: 2304
+      m_Bits: 256
 --- !u!114 &3439243078841247849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +149,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speedMultiplier: 1.3
   m_throwCount: 2
+  m_rotationOffset: 30
+  m_destructionColorGreen: 0
+  m_destructionEffect: {fileID: 9086232130830864787, guid: 980f908412139794cb7ddbdb68075b13,
+    type: 3}
 --- !u!50 &5959807051975829530
 Rigidbody2D:
   serializedVersion: 4

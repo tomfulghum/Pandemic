@@ -1,0 +1,1397 @@
+fileFormatVersion: 2
+guid: 3860fcce14936404ba5e4778737fbfae
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8491268378318833050
+    second: ani_FlameBrawler_Attack_Turned_0
+  - first:
+      213: 2796776383706382906
+    second: ani_FlameBrawler_Attack_Turned_1
+  - first:
+      213: -8711168503578704592
+    second: ani_FlameBrawler_Attack_Turned_2
+  - first:
+      213: 6435337267741623841
+    second: ani_FlameBrawler_Attack_Turned_3
+  - first:
+      213: 212625403029472821
+    second: ani_FlameBrawler_Attack_Turned_4
+  - first:
+      213: -2033925346726421158
+    second: ani_FlameBrawler_Attack_Turned_5
+  - first:
+      213: -4465846904905869804
+    second: ani_FlameBrawler_Attack_Turned_6
+  - first:
+      213: 5283392300297327597
+    second: ani_FlameBrawler_Attack_Turned_7
+  - first:
+      213: -6779821062550946112
+    second: ani_FlameBrawler_Attack_Turned_8
+  - first:
+      213: 196774348156105933
+    second: ani_FlameBrawler_Attack_Turned_9
+  - first:
+      213: 3807319896221092692
+    second: ani_FlameBrawler_Attack_Turned_10
+  - first:
+      213: -3863808511684024536
+    second: ani_FlameBrawler_Attack_Turned_11
+  - first:
+      213: 6570680609882907328
+    second: ani_FlameBrawler_Attack_Turned_12
+  - first:
+      213: -6254329821269324896
+    second: ani_FlameBrawler_Attack_Turned_13
+  - first:
+      213: -4502124539987337423
+    second: ani_FlameBrawler_Attack_Turned_14
+  - first:
+      213: 6257530804552442739
+    second: ani_FlameBrawler_Attack_Turned_15
+  - first:
+      213: 6465963533985708891
+    second: ani_FlameBrawler_Attack_Turned_16
+  - first:
+      213: 7658178406833605702
+    second: ani_FlameBrawler_Attack_Turned_17
+  - first:
+      213: 2053459990368258480
+    second: ani_FlameBrawler_Attack_Turned_18
+  - first:
+      213: 6555823109484271609
+    second: ani_FlameBrawler_Attack_Turned_19
+  - first:
+      213: -5621716338151001186
+    second: ani_FlameBrawler_Attack_Turned_20
+  - first:
+      213: -3507787391453329819
+    second: ani_FlameBrawler_Attack_Turned_21
+  - first:
+      213: -1683914199312475084
+    second: ani_FlameBrawler_Attack_Turned_22
+  - first:
+      213: 2798680990664054864
+    second: ani_FlameBrawler_Attack_Turned_23
+  - first:
+      213: -5683442754282613246
+    second: ani_FlameBrawler_Attack_Turned_24
+  - first:
+      213: 886434402299833924
+    second: ani_FlameBrawler_Attack_Turned_25
+  - first:
+      213: 4602882637606558642
+    second: ani_FlameBrawler_Attack_Turned_26
+  - first:
+      213: 7181882713190741363
+    second: ani_FlameBrawler_Attack_Turned_27
+  - first:
+      213: 9046766821982083253
+    second: ani_FlameBrawler_Attack_Turned_28
+  - first:
+      213: -7882723697507450051
+    second: ani_FlameBrawler_Attack_Turned_29
+  - first:
+      213: 5638166866311924123
+    second: ani_FlameBrawler_Attack_Turned_30
+  - first:
+      213: -3984115791358769508
+    second: ani_FlameBrawler_Attack_Turned_31
+  - first:
+      213: 7012491367624269195
+    second: ani_FlameBrawler_Attack_Turned_32
+  - first:
+      213: 1762208973810686530
+    second: ani_FlameBrawler_Attack_Turned_33
+  - first:
+      213: -2444812094803807895
+    second: ani_FlameBrawler_Attack_Turned_34
+  - first:
+      213: -9143809526786838788
+    second: ani_FlameBrawler_Attack_Turned_35
+  - first:
+      213: 3944859934807611105
+    second: ani_FlameBrawler_Attack_Turned_36
+  - first:
+      213: -4353117202066668114
+    second: ani_FlameBrawler_Attack_Turned_37
+  - first:
+      213: 1967232226964439444
+    second: ani_FlameBrawler_Attack_Turned_38
+  - first:
+      213: -137516046616560515
+    second: ani_FlameBrawler_Attack_Turned_39
+  - first:
+      213: -2545625193467733302
+    second: ani_FlameBrawler_Attack_Turned_40
+  - first:
+      213: -5227637009432447602
+    second: ani_FlameBrawler_Attack_Turned_41
+  - first:
+      213: 753408931159411311
+    second: ani_FlameBrawler_Attack_Turned_42
+  - first:
+      213: 1051432970374672265
+    second: ani_FlameBrawler_Attack_Turned_43
+  - first:
+      213: 2716413870622235361
+    second: ani_FlameBrawler_Attack_Turned_44
+  - first:
+      213: -7752097863104321860
+    second: ani_FlameBrawler_Attack_Turned_45
+  - first:
+      213: -1715613893984357194
+    second: ani_FlameBrawler_Attack_Turned_46
+  - first:
+      213: -7220818882204899566
+    second: ani_FlameBrawler_Attack_Turned_47
+  - first:
+      213: -1578237199123586914
+    second: ani_FlameBrawler_Attack_Turned_48
+  - first:
+      213: 1183316546109779437
+    second: ani_FlameBrawler_Attack_Turned_49
+  - first:
+      213: -7277061026600021383
+    second: ani_FlameBrawler_Attack_Turned_50
+  - first:
+      213: -5904707716625091874
+    second: ani_FlameBrawler_Attack_Turned_51
+  - first:
+      213: -6591749423987938073
+    second: ani_FlameBrawler_Attack_Turned_52
+  - first:
+      213: 6784970439218414744
+    second: ani_FlameBrawler_Attack_Turned_53
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e56bca79085c7945bc788c1d885da28
+      internalID: 8491268378318833050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_1
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc66a7f1214305b4ab80eb520427125c
+      internalID: 2796776383706382906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_2
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bb13ab64dafd9c4d8faf5172461ad64
+      internalID: -8711168503578704592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_3
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0da6cf73d0aad3c42a1f73b99d475787
+      internalID: 6435337267741623841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_4
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d57229e5fddb1c4eaaf2955b07e6e2b
+      internalID: 212625403029472821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_5
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7a7d78b5a25e764d81d99a42ad7ec7a
+      internalID: -2033925346726421158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_6
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 6300
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bbc703377e59794e9d044c97cc44463
+      internalID: -4465846904905869804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14ed347d031f7244c8445b0ff5c51a06
+      internalID: 5283392300297327597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_8
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfe01fa19ce2b6548a090a06342bd80d
+      internalID: -6779821062550946112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_9
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a171e16fe6056e947b042ef20d5de318
+      internalID: 196774348156105933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_10
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3ba561123b555448968542aadf1a2fd
+      internalID: 3807319896221092692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_11
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ff6d338daeed6943b030bd3852afccd
+      internalID: -3863808511684024536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_12
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94a72e4a7d27e4e4f884adb49c0cf9c4
+      internalID: 6570680609882907328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_13
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 5400
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2ce23eb3085c184d900cbc926ae106b
+      internalID: -6254329821269324896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c903e6d7099c6604382941d0ba8b76af
+      internalID: -4502124539987337423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_15
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95220166828ea904392847dccd7678d5
+      internalID: 6257530804552442739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_16
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ca21b9d1263d7046aed8d5e1174f297
+      internalID: 6465963533985708891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_17
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6805e0854853b19449d34dcb7a0440d4
+      internalID: 7658178406833605702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_18
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dff93592e9aaaeb4d9a55736205dc6fe
+      internalID: 2053459990368258480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_19
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96cd197aa010d854981c93fcb7123c19
+      internalID: 6555823109484271609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_20
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 4500
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff45c6205e9288347a05f03c535717f4
+      internalID: -5621716338151001186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 165c3e39f9c249f43b6e6ef9dc2022f0
+      internalID: -3507787391453329819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_22
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5805123a0bfa5ea4db7437bab2027725
+      internalID: -1683914199312475084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_23
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 053095e5c1a797447aeb6ec664d3cb01
+      internalID: 2798680990664054864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_24
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6866fc8d2a45e434db3267d20c1b64f0
+      internalID: -5683442754282613246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_25
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44f064def65e26b41a6152b9d03b1f34
+      internalID: 886434402299833924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_26
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34b9c141f1582574f97a0b0dc5a49baf
+      internalID: 4602882637606558642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_27
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 3600
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98472459b2f640e4d8b422d674315048
+      internalID: 7181882713190741363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67b26ed3be60c78459fb7921df14d974
+      internalID: 9046766821982083253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_29
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5121fbcc329942a419b56d57e80dcb31
+      internalID: -7882723697507450051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_30
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 701829fd367fc4f4283e1acefa75b5bc
+      internalID: 5638166866311924123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_31
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da01ba602eae50346a0e81cdfd8eb7a1
+      internalID: -3984115791358769508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_32
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38ae9f2da89779e47ba9a539ddc2847f
+      internalID: 7012491367624269195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_33
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e739eeb08d34e049af12ba201a09b7b
+      internalID: 1762208973810686530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_34
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 2700
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66f6f4530bfdc87449700577be0a5f3f
+      internalID: -2444812094803807895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69c4d0ed9dd7817488f735ba2a71ef32
+      internalID: -9143809526786838788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_36
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b43acaeb732c144a88efd863722693d
+      internalID: 3944859934807611105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_37
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f241805851d64f04895dcbe846ad8cf9
+      internalID: -4353117202066668114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_38
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a05e19a754adcf341bf4c132a90cc648
+      internalID: 1967232226964439444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_39
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96f1123c03096ec42b9615a17448eb8f
+      internalID: -137516046616560515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_40
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e736a4d717391d04f9c939a6d90b0031
+      internalID: -2545625193467733302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_41
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 1800
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e22a1e200e2c29542a6eb1dd37c8e2d6
+      internalID: -5227637009432447602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 157914c4e4d80144a89800d9270b650b
+      internalID: 753408931159411311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_43
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 839ccc735426f644face98f99fcebcda
+      internalID: 1051432970374672265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_44
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56c4d5d766463da4daf3e1608eed384d
+      internalID: 2716413870622235361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_45
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53a9990e77a69ba4bbd635979fa725db
+      internalID: -7752097863104321860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_46
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8fe2a4145b158545b4118942a86961a
+      internalID: -1715613893984357194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_47
+      rect:
+        serializedVersion: 2
+        x: 5500
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1580fd32c7dfaee46908b3999d2063de
+      internalID: -7220818882204899566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_48
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 900
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90831ca635029a24c9ee815d2d38a854
+      internalID: -1578237199123586914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_49
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72fad6247412f3749bd2e09107337992
+      internalID: 1183316546109779437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_50
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0e5c6f0ad74320499b8fb0c8da1e0a4
+      internalID: -7277061026600021383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_51
+      rect:
+        serializedVersion: 2
+        x: 2200
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2148eb735209de4dafb14ea25210f46
+      internalID: -5904707716625091874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_52
+      rect:
+        serializedVersion: 2
+        x: 3300
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b8bcefaf15daab44a2ea63d9d8abc4a
+      internalID: -6591749423987938073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_FlameBrawler_Attack_Turned_53
+      rect:
+        serializedVersion: 2
+        x: 4400
+        y: 0
+        width: 1100
+        height: 900
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 516e03c3cc49dd34a92f65dd03865e68
+      internalID: 6784970439218414744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: f352838f12c0bd3498d9278040da41c8
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
