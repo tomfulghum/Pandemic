@@ -247,6 +247,7 @@ public class PlayerCombat : MonoBehaviour
             CancelDash();
         if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook)
             GetComponent<PlayerHook>().CancelHook();
+        GetComponent<PlayerThrow>().CancelAim();
 
         TakeDamage();
         m_pa.currentPlayerState = PlayerAnim.PlayerState.Disabled; //playerstate invincible?
@@ -283,7 +284,8 @@ public class PlayerCombat : MonoBehaviour
 
         GetComponent<SpriteRenderer>().color = Color.yellow;
 
-        if (m_currentHealth <= 0) {
+        if (m_currentHealth <= 0)
+        {
             //UpdateHealthVisual();
             GameManager.Instance.Respawn();
         }

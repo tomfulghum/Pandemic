@@ -5152,6 +5152,7 @@ GameObject:
   - component: {fileID: 8809830066968737587}
   - component: {fileID: 5293281134618775217}
   - component: {fileID: 191007883}
+  - component: {fileID: 7684140274231106358}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -5431,7 +5432,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861de59ba0146a943a4f13c0cf36e5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_keysVisualization: {fileID: 0}
   m_normalKeyCount: 0
 --- !u!114 &8809830066968737587
 MonoBehaviour:
@@ -5482,6 +5482,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_landingAnimPrefab: {fileID: 8271949513082787837, guid: ed93864a2fc6d1b4786f00b2f38b4663,
     type: 3}
+--- !u!114 &7684140274231106358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5293281134618775227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6866cb38fbe69c143b7801a996f63e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_slowTimeWhileAiming: 1
+  m_minThrowVelocity: 15
+  m_maxThrowVelocity: 30
 --- !u!1 &5293281135746816196
 GameObject:
   m_ObjectHideFlags: 0

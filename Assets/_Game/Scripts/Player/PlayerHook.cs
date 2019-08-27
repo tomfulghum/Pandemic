@@ -59,11 +59,11 @@ public class PlayerHook : MonoBehaviour
         FastSlow
     }
 
-    enum HookState //brauch ich starting überhaupt, brauch ich evtl aiming?
+    public enum HookState //brauch ich starting überhaupt, brauch ich evtl aiming?
     {
         Inactive,
         SearchTarget,
-        Aiming,
+        //Aiming,
         SwitchTarget,
         Active,
         Cooldown
@@ -117,6 +117,19 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private float m_hitScreenShakeDuration = 0.2f;
     [SerializeField] private float m_hitScreenShakeStrength = 0.4f;
 
+    //******************//
+    //    Properties    //
+    //******************//
+
+    public HookState currentHookState
+    {
+        get { return m_currentHookState; }
+    }
+
+    public float maxTimeSlow
+    {
+        get { return m_maxTimeSlow; }
+    }
 
     //**********************//
     //    Private Fields    //
@@ -150,13 +163,14 @@ public class PlayerHook : MonoBehaviour
 
     private Coroutine m_hookCooldown = null;
 
-    private GameObject m_pickedUpObject;
+    //private GameObject m_pickedUpObject;
 
     private PlayerInput m_input;
     private Actor2D m_actor;
     private PlayerMovement m_pm;
     private Rigidbody2D m_rb;
     private PlayerAnim m_pa;
+    private PlayerThrow m_pt;
 
 
     //experimental
@@ -180,6 +194,7 @@ public class PlayerHook : MonoBehaviour
         m_pm = GetComponent<PlayerMovement>();
         m_rb = GetComponent<Rigidbody2D>();
         m_pa = GetComponent<PlayerAnim>();
+        m_pt = GetComponent<PlayerThrow>();
 
         if (m_hookPointVisualization != null)
             m_hookPointVisualization.GetComponent<HookPointVisualization>().SetObjectScale(m_hookRadius);
@@ -218,29 +233,29 @@ public class PlayerHook : MonoBehaviour
             { //in CanUseHook alle anderen sachen abfragen //--> vllt nur CanUseHook() //CurrentHookState == HookState.Inactive || 
                 if (m_input.player.GetButton(m_input.hookButton))
                 {
-                    if (m_pickedUpObject != null && (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp || m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.TravellingToPlayer))
-                        AimThrow();
-                    else
+                    //if (m_pickedUpObject != null && (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp || m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.TravellingToPlayer))
+                        //AimThrow();
+                    //else
                         SearchTargetPoint();
                 }
-                else if ((m_input.player.GetButtonUp(m_input.hookButton)) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || m_currentHookState == HookState.Aiming || (m_currentHookState == HookState.Active && CanUseHook())))
+                else if ((m_input.player.GetButtonUp(m_input.hookButton)) && (m_currentHookState == HookState.SearchTarget || m_currentHookState == HookState.SwitchTarget || (m_currentHookState == HookState.Active && CanUseHook())))
                 {
-                    if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null)
-                    {
-                        ThrowObject(m_throwVelocity);
-                    }
-                    else
-                    {
+                    //if (m_currentHookState == HookState.Aiming && m_pickedUpObject != null)
+                    //{
+                    //    ThrowObject(m_throwVelocity);
+                    //}
+                    //else
+                    //{
                         ActivateHook();
-                    }
+                    //}
                     ResetValues();
                 }
 
 
-                if (m_input.player.GetButton(m_input.throwButton) && m_pickedUpObject != null && m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
-                {
-                    AimThrow();
-                }
+                //if (m_input.player.GetButton(m_input.throwButton) && m_pickedUpObject != null && m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
+                //{
+                //    AimThrow();
+                //}
             }
 
             if (m_currentHookState == HookState.Active) // || (CurrentHookState == HookState.SwitchTarget && CurrentSelectedTarget != null)
@@ -305,50 +320,50 @@ public class PlayerHook : MonoBehaviour
         }
     }
 
-    private void ThrowObject(Vector2 _throwVelocity)
-    {
-        GetComponent<VisualizeTrajectory>().RemoveVisualDots();
-        m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity, true);
-        m_pickedUpObject = null;
-        DeactivateHook();
-    }
+    //private void ThrowObject(Vector2 _throwVelocity)
+    //{
+    //    GetComponent<VisualizeTrajectory>().RemoveVisualDots();
+    //    m_pickedUpObject.GetComponent<ThrowableObject>().Throw(_throwVelocity, true);
+    //    m_pickedUpObject = null;
+    //    DeactivateHook();
+    //}
 
-    private void AimThrow()
-    {
-        m_currentHookState = HookState.Aiming;
-        //Vector2 MomentumVelocity = m_rb.velocity; //freddie fragen
-        m_pm.DisableUserInput(true);
-        m_pm.externalVelocity = Physics2D.gravity * 0.5f;
-        //m_pm.momentum = MomentumVelocity;
+    //private void AimThrow()
+    //{
+    //    m_currentHookState = HookState.Aiming;
+    //    //Vector2 MomentumVelocity = m_rb.velocity; //freddie fragen
+    //    m_pm.DisableUserInput(true);
+    //    m_pm.externalVelocity = Physics2D.gravity * 0.5f;
+    //    //m_pm.momentum = MomentumVelocity;
+    //
+    //    if (m_slowTimeWhileAiming)
+    //    {
+    //        SlowTime();
+    //    }
+    //    if (m_usingController)
+    //    {
+    //        m_throwVelocity = GetAimDirection(m_contDirWithoutDeadzone);
+    //    }
+    //    else
+    //    {
+    //        m_throwVelocity = GetAimDirection(m_mouseDirection); //wird das funktionieren? // wenn ja wie gut? --> funktioniert ganz ok --> bei maus wird immer mit maximaler kraft geworfen
+    //    }
+    //    if (m_input.player.GetButtonDown(m_input.jumpButton))
+    //    {
+    //        m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
+    //        m_pickedUpObject = null;
+    //        DeactivateHook();
+    //        GetComponent<VisualizeTrajectory>().RemoveVisualDots();
+    //    }
+    //}
 
-        if (m_slowTimeWhileAiming)
-        {
-            SlowTime();
-        }
-        if (m_usingController)
-        {
-            m_throwVelocity = GetAimDirection(m_contDirWithoutDeadzone);
-        }
-        else
-        {
-            m_throwVelocity = GetAimDirection(m_mouseDirection); //wird das funktionieren? // wenn ja wie gut? --> funktioniert ganz ok --> bei maus wird immer mit maximaler kraft geworfen
-        }
-        if (m_input.player.GetButtonDown(m_input.jumpButton))
-        {
-            m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
-            m_pickedUpObject = null;
-            DeactivateHook();
-            GetComponent<VisualizeTrajectory>().RemoveVisualDots();
-        }
-    }
-
-    private Vector2 GetAimDirection(Vector2 _direction) //evlt während aim den spieler anhalten oder bewegung verlangsamen //schauen ob man die deadzone lassen kann ansonsten als parameter übergeben
-    {
-        float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
-        Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity; //falls wir nicht lerpen --> public float ThrowSpeed
-        GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity);
-        return throwVelocity;
-    }
+    //private Vector2 GetAimDirection(Vector2 _direction) //evlt während aim den spieler anhalten oder bewegung verlangsamen //schauen ob man die deadzone lassen kann ansonsten als parameter übergeben
+    //{
+    //    float velocity = Mathf.Lerp(m_minThrowVelocity, m_maxThrowVelocity, (Mathf.Abs(_direction.x) + Mathf.Abs(_direction.y)));
+    //    Vector2 throwVelocity = new Vector2(_direction.x, _direction.y).normalized * velocity; //falls wir nicht lerpen --> public float ThrowSpeed
+    //    GetComponent<VisualizeTrajectory>().VisualizeDots(transform.position, throwVelocity);
+    //    return throwVelocity;
+    //}
 
     private void SlowTime()
     {
@@ -383,7 +398,7 @@ public class PlayerHook : MonoBehaviour
         bool cancelCondition = false;
         GetComponentInChildren<DrawLine>().VisualizeLine(transform.position, m_currentSelectedTarget.transform.position);
 
-        if (m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
+        if (m_currentSelectedTarget.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
         {
             cancelCondition = true;
             //m_pickedUpObject = m_currentSelectedTarget.gameObject;
@@ -592,8 +607,8 @@ public class PlayerHook : MonoBehaviour
                         }
                     case HookType.Throw:
                         {
-                            m_pickedUpObject = m_currentSelectedTarget.gameObject;
                             m_currentSelectedTarget.GetComponent<ThrowableObject>().PickUp(transform, m_pullSpeed, m_targetReachedTolerance);
+                            m_pt.pickedUpObject = m_currentSelectedTarget.gameObject;
                             break;
                         }
                 }
@@ -900,12 +915,12 @@ public class PlayerHook : MonoBehaviour
     public void CancelHook()
     {
         DeactivateHook(true);
-        GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
-        if (m_pickedUpObject != null)
-        {
-            m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
-            m_pickedUpObject = null;
-        }
+        //GetComponent<VisualizeTrajectory>().RemoveVisualDots(); //vllt auch in deactivate hook?
+        //if (m_pickedUpObject != null)
+        //{
+        //    m_pickedUpObject.GetComponent<ThrowableObject>().Drop();
+        //    m_pickedUpObject = null;
+        //}
     }
 
     public void Reset()
