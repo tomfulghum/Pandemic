@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class PlayerUI : MonoBehaviour
     private void Update()
     {
         UpdateKeyVisuals();
-        UpdateHealth();
+        //UpdateHealth();
         UpdateCompassNeedle();
     }
 
@@ -54,9 +55,9 @@ public class PlayerUI : MonoBehaviour
         GameObject player = GameManager.Instance.player;
         int numOfKeys = player.GetComponent<PlayerInventory>().normalKeyCount;
         if (numOfKeys <= 8) //8 == max num of keys
-            m_keyChain.GetComponent<SpriteRenderer>().sprite = m_keyChainSprites[numOfKeys];
+            m_keyChain.GetComponent<Image>().sprite = m_keyChainSprites[numOfKeys];
         else
-            m_keyChain.GetComponent<SpriteRenderer>().sprite = m_keyChainSprites[8];
+            m_keyChain.GetComponent<Image>().sprite = m_keyChainSprites[8];
     }
 
     private void UpdateHealth()
@@ -93,7 +94,7 @@ public class PlayerUI : MonoBehaviour
             if(facingDirection != Vector2.zero)
             {
                 float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
-                closestKey.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                m_compassNeedle.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
             }
         }
     }
