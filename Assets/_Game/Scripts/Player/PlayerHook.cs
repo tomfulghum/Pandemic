@@ -818,7 +818,7 @@ public class PlayerHook : MonoBehaviour
 
         if (nearestTargetPoint != null)
         {
-            nearestTargetPoint.GetComponent<SpriteRenderer>().color = Color.green;
+            nearestTargetPoint.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0.8588235f, 1); //00FFDB
         }
         return nearestTargetPoint;
     }
