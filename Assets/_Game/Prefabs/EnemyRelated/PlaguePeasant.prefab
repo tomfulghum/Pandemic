@@ -144,16 +144,16 @@ MonoBehaviour:
   m_contactFilter:
     left:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     right:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     below:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
     above:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 805306624
 --- !u!95 &1537124147410351546
 Animator:
   serializedVersion: 3
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_projectileStartPos: {fileID: 1537124148537606514}
   m_sightBlockingLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 805306624
   m_rangedAnimBaseSpeed: 2
   m_rangedAnimSpeedMultiplier: 1
 --- !u!114 &1537124147194040485
