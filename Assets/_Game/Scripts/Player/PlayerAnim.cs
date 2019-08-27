@@ -15,6 +15,7 @@ public class PlayerAnim : MonoBehaviour
         Waiting,
         Hook,
         Attacking,
+        Aiming,
         Moving,
         Disabled,
         Invincible,
