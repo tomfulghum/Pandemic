@@ -1,0 +1,581 @@
+fileFormatVersion: 2
+guid: 903208909c4a1f3438b92c98c559a945
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4358518906568441609
+    second: spr_background_stonetiles_5pxborder_0
+  - first:
+      213: 5333509880953146612
+    second: spr_background_stonetiles_5pxborder_1
+  - first:
+      213: 6814676123609593720
+    second: spr_background_stonetiles_5pxborder_2
+  - first:
+      213: -8590404883137625510
+    second: spr_background_stonetiles_5pxborder_3
+  - first:
+      213: 4099589511516308031
+    second: spr_background_stonetiles_5pxborder_4
+  - first:
+      213: -4186251334865279071
+    second: spr_background_stonetiles_5pxborder_5
+  - first:
+      213: 2495881976504168054
+    second: spr_background_stonetiles_5pxborder_6
+  - first:
+      213: 7401543422704422843
+    second: spr_background_stonetiles_5pxborder_7
+  - first:
+      213: 3480855455074929928
+    second: spr_background_stonetiles_5pxborder_8
+  - first:
+      213: 8183098354190398782
+    second: spr_background_stonetiles_5pxborder_9
+  - first:
+      213: 3708665303139289175
+    second: spr_background_stonetiles_5pxborder_10
+  - first:
+      213: -2817129224513993348
+    second: spr_background_stonetiles_5pxborder_11
+  - first:
+      213: -964502915186715200
+    second: spr_background_stonetiles_5pxborder_12
+  - first:
+      213: 2402669972681445046
+    second: spr_background_stonetiles_5pxborder_13
+  - first:
+      213: -403312223818950098
+    second: spr_background_stonetiles_5pxborder_14
+  - first:
+      213: 1865487233779490122
+    second: spr_background_stonetiles_5pxborder_15
+  - first:
+      213: 2712168546501845651
+    second: spr_background_stonetiles_5pxborder_16
+  - first:
+      213: -7652338408509435421
+    second: spr_background_stonetiles_5pxborder_17
+  - first:
+      213: 8971347156709210230
+    second: spr_background_stonetiles_5pxborder_18
+  - first:
+      213: 5387119072064578012
+    second: spr_background_stonetiles_5pxborder_19
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 0
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 500
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1520
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e6abab6559aa642a0a18635a8db01c
+      internalID: 4358518906568441609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_1
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 1520
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14a9f17e60ef74e43b3a05ba1318d755
+      internalID: 5333509880953146612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_2
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 1520
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 487f97d2084e0184c827d0966e7fdd04
+      internalID: 6814676123609593720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_3
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 1520
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dee8727055e5144085b97511ef91828
+      internalID: -8590404883137625510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_4
+      rect:
+        serializedVersion: 2
+        x: 2025
+        y: 1520
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5eac02fb2184124695465d3529bd71e
+      internalID: 4099589511516308031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_5
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1015
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 018b200f9ffdd4f45a621e11428b7b73
+      internalID: -4186251334865279071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_6
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 1015
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5742989925d6d064e8c5a5d59edcb03e
+      internalID: 2495881976504168054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_7
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 1015
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f257286f4f526874cb4445953619a765
+      internalID: 7401543422704422843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_8
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 1015
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebc48d47a628dd9468e519647a70861e
+      internalID: 3480855455074929928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_9
+      rect:
+        serializedVersion: 2
+        x: 2025
+        y: 1015
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf11f661ac3ef094ea912f571a1fd5de
+      internalID: 8183098354190398782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_10
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 510
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16162f660edc9343a8faef88b7ea810
+      internalID: 3708665303139289175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_11
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 510
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27642f41354af6b4586426e93e595d61
+      internalID: -2817129224513993348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_12
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 510
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9999ede716156f84a9e3efb852cbf764
+      internalID: -964502915186715200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_13
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 510
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e98d09968970384e830f94e4f4bf741
+      internalID: 2402669972681445046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_14
+      rect:
+        serializedVersion: 2
+        x: 2025
+        y: 510
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 423a09b31cd5cd844b31eb7ce2c2c469
+      internalID: -403312223818950098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_15
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 5
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9993d897d67bc264991252eb280c8033
+      internalID: 1865487233779490122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_16
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 5
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9eb4ba49fc10114dbb3263f5e756d3c
+      internalID: 2712168546501845651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_17
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 5
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cfe45f53b9cae047b2b1689d9879908
+      internalID: -7652338408509435421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_18
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 5
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8082b3f19926ed24d95d9a081c202441
+      internalID: 8971347156709210230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_background_stonetiles_5pxborder_19
+      rect:
+        serializedVersion: 2
+        x: 2025
+        y: 5
+        width: 500
+        height: 500
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d2d147ebbb0b3441b0f6fd357b7e6d8
+      internalID: 5387119072064578012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 326c3a07fe9cacc41955f04301710edd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
