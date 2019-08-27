@@ -60,6 +60,9 @@ TagManager:
   - name: Background
     uniqueID: 693606343
     locked: 0
+  - name: Environment VFX Background
+    uniqueID: 3950998315
+    locked: 0
   - name: PlatformBackground
     uniqueID: 1267284147
     locked: 0
