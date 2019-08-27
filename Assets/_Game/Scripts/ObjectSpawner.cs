@@ -13,6 +13,7 @@ public class ObjectSpawner : MonoBehaviour
 
     [SerializeField] private bool m_spawn = true;
     [SerializeField] private int m_maxNumOfActiveItems = 5;
+    [SerializeField] [Range(0,25)] private float m_secondsBetweenSpawns = 15f;
     [SerializeField] private GameObject m_objectToSpawn = default;
 
     //**********************//
@@ -46,7 +47,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         while (m_spawn)
         {
-            yield return new WaitForSeconds(5 + Random.Range(0f, 4f));
+            yield return new WaitForSeconds(m_secondsBetweenSpawns + Random.Range(0f, 4f));
             if (m_activeObjects.Count < m_maxNumOfActiveItems)
             {
                 GameObject obj = Instantiate(m_objectToSpawn, transform.position, transform.rotation);
