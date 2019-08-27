@@ -890,6 +890,11 @@ public class PlayerHook : MonoBehaviour
             m_pickedUpObject = null;
         }
     }
+
+    public void Reset()
+    {
+        DeactivateHook(false);
+    }
 }
 
 

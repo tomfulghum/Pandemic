@@ -113,7 +113,7 @@ public class AreaTransitionManager : MonoBehaviour
         onAreaLoaded?.Invoke();
     }
 
-    private IEnumerator SetbackCoroutine(GameObject _player, Vector2 _position)
+    private IEnumerator SetbackCoroutine(GameObject _player, Vector2 _position, Action _callback = null)
     {
         m_transitioning = true;
         float halfTransitionTime = m_transitionTime / 2f;
@@ -131,6 +131,8 @@ public class AreaTransitionManager : MonoBehaviour
 
         m_fader.FadeOut(halfTransitionTime);
         m_transitioning = false;
+
+        _callback?.Invoke();
     }
 
     //************************//
@@ -191,13 +193,13 @@ public class AreaTransitionManager : MonoBehaviour
         StartCoroutine(TransitionCoroutine(_menuScene, player, null, _callback));
     }
 
-    public void Setback(GameObject _player, Vector2 _position)
+    public void Setback(GameObject _player, Vector2 _position, Action _callback = null)
     {
         if (m_transitioning) {
             Debug.LogWarningFormat("{0}: Transition already in progress!", name);
             return;
         }
 
-        StartCoroutine(SetbackCoroutine(_player, _position));
+        StartCoroutine(SetbackCoroutine(_player, _position, _callback));
     }
 }
