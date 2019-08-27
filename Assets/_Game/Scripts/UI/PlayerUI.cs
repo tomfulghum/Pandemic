@@ -13,6 +13,11 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private GameObject m_compassNeedleInactive = default;
     [SerializeField] private GameObject m_keyChain = default;
     [SerializeField] private List<Sprite> m_keyChainSprites = default;
+    [SerializeField] private GameObject m_healthBar = default;
+    [SerializeField] private GameObject m_healthGlow = default;
+    [SerializeField] private Color m_firstColor = default;
+    [SerializeField] private Color m_secondColor = default;
+    [SerializeField] private Color m_thirdColor = default;
 
     //**********************//
     //    Private Fields    //
@@ -33,7 +38,7 @@ public class PlayerUI : MonoBehaviour
     private void Update()
     {
         UpdateKeyVisuals();
-        //UpdateHealth();
+        UpdateHealth();
         UpdateCompassNeedle();
     }
 
@@ -62,13 +67,31 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateHealth()
     {
+        GameObject player = GameManager.Instance.player;
+        float currentHealthFloat = player.GetComponent<PlayerCombat>().currentHealth; //converting to float to prevent integer rounding
+        float maxHealthFloat = player.GetComponent<PlayerCombat>().maxHealth;
+        float fillAmount = currentHealthFloat / maxHealthFloat;
+        m_healthBar.GetComponent<Image>().fillAmount = fillAmount;
 
+        if (fillAmount == 1)
+        {
+            m_healthGlow.GetComponent<Image>().color = m_firstColor;
+            m_healthGlow.SetActive(true);
+        }
+        else
+            m_healthGlow.SetActive(false);
+
+        m_healthBar.GetComponent<Image>().color = m_firstColor;
+        if (fillAmount <= 0.5)
+            m_healthBar.GetComponent<Image>().color = m_secondColor;
+        if (fillAmount <= 0.25f)
+            m_healthBar.GetComponent<Image>().color = m_thirdColor;
     }
 
     private void UpdateCompassNeedle()
     {
         List<GameObject> activeKeys = new List<GameObject>();
-        foreach(NormalKey key in m_keysInGame)
+        foreach(NormalKey key in m_keysInGame) //fehler überprüfen
         {
             if(key.gameObject.activeInHierarchy)
             {
