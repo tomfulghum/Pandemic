@@ -40,6 +40,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float m_hitKnockbackTime = 0.2f;
     [SerializeField] private float m_invincibilityTime = 1f;
 
+    [SerializeField] private float m_hitScreenShakeDuration = 0.5f;
+    [SerializeField] private float m_hitScreenShakeStrength = 1.0f;
+
     //******************//
     //    Properties    //
     //******************//
@@ -308,6 +311,8 @@ public class PlayerCombat : MonoBehaviour
                 StopCoroutine(m_knockbackCoroutine);
             }
             m_knockbackCoroutine = StartCoroutine(KnockBack(_knockBackOrigin, _knockBackForce, _enemy));
+
+            CameraManager.Instance.ImpactScreenShake(m_hitScreenShakeDuration, m_hitScreenShakeStrength);
         }
     }
 

@@ -497,7 +497,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.36937886, y: -0.5465807}
+  m_Offset: {x: 0.2315121, y: -0.5465807}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -508,7 +508,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3531471, y: 3.778433}
+  m_Size: {x: 1.6288807, y: 3.778433}
   m_EdgeRadius: 0
 --- !u!50 &5293281134618775229
 Rigidbody2D:
@@ -653,6 +653,8 @@ MonoBehaviour:
   m_hitFreezeTime: 0.5
   m_hitKnockbackTime: 0.2
   m_invincibilityTime: 1
+  m_hitScreenShakeDuration: 0.5
+  m_hitScreenShakeStrength: 1
 --- !u!114 &102156905579829246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,7 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d63e7b2c99638840a038ab53c00a008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_landingAnimPrefab: {fileID: 0}
+  m_landingAnimPrefab: {fileID: 8271949513082787837, guid: ed93864a2fc6d1b4786f00b2f38b4663,
+    type: 3}
 --- !u!1 &5293281135746816196
 GameObject:
   m_ObjectHideFlags: 0
