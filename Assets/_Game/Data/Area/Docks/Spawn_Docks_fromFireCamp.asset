@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
-  m_Name: FireCamp
+  m_Script: {fileID: 11500000, guid: e31d8ac6a3aba4c468028eb1b2960075, type: 3}
+  m_Name: Spawn_Docks_fromFireCamp
   m_EditorClassIdentifier: 
-  m_id: a526ef5c6b1da4f49b6761d50034cda6
-  m_sceneName: 
-  m_spawnPoints: []
+  m_id: a50b64029d724cc4b8df59b6c692ffdf
+  m_area: {fileID: 11400000, guid: 25f7e166f5ac26f4e88fbf123a50446f, type: 2}
