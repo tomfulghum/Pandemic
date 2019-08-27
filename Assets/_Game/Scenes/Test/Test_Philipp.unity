@@ -439,6 +439,12 @@ MonoBehaviour:
   MovementPattern: 0
   speed: 1
   height: 3
+--- !u!61 &147416123 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 442284019, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6278769132180709569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &162499437
 GameObject:
   m_ObjectHideFlags: 0
@@ -5311,6 +5317,11 @@ PrefabInstance:
       propertyPath: m_maxHealth
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5888328630619058474, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
+        type: 3}
+      propertyPath: m_knockBackCollider
+      value: 
+      objectReference: {fileID: 147416123}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f5cd6bbe25dcf84ba2b366754f005f7, type: 3}
 --- !u!1001 &6374442911634767649
