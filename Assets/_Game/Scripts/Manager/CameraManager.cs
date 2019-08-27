@@ -9,7 +9,6 @@ public class CameraManager : MonoBehaviour
     //    Inspector Fields    //
     //************************//
 
-    [SerializeField] private float m_impactScreenShakeDuration = 1f;
     [SerializeField] private AnimationCurve m_impactScreenShakeAmplitude = default;
 
     //******************//
@@ -62,14 +61,14 @@ public class CameraManager : MonoBehaviour
     //    Private Functions    //
     //*************************//
 
-    private IEnumerator ImpactScreenShakeCoroutine()
+    private IEnumerator ImpactScreenShakeCoroutine(float _duration, float _strength)
     {
         m_activeCameraNoise.m_AmplitudeGain = 1f;
-        float step = 1f / m_impactScreenShakeDuration;
+        float step = 1f / _duration;
         float progress = 0;
 
         while (progress < 1f) {
-            m_activeCameraNoise.m_AmplitudeGain = m_impactScreenShakeAmplitude.Evaluate(progress);
+            m_activeCameraNoise.m_AmplitudeGain = m_impactScreenShakeAmplitude.Evaluate(progress) * _strength;
             progress += step * Time.deltaTime;
             yield return null;
         }
@@ -81,8 +80,8 @@ public class CameraManager : MonoBehaviour
     //    Public Functions    //
     //************************//
 
-    public void ImpactScreenShake()
+    public void ImpactScreenShake(float _duration, float _strength)
     {
-        StartCoroutine(ImpactScreenShakeCoroutine());
+        StartCoroutine(ImpactScreenShakeCoroutine(_duration, _strength));
     }
 }

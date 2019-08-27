@@ -114,6 +114,9 @@ public class PlayerHook : MonoBehaviour
     [SerializeField] private float m_dashBoostActiveTime = 0.3f;
     [SerializeField] [Range(0, 2)] private float m_dashSpeedMultiplier = 1f;
 
+    [SerializeField] private float m_hitScreenShakeDuration = 0.2f;
+    [SerializeField] private float m_hitScreenShakeStrength = 0.4f;
+
 
     //**********************//
     //    Private Fields    //
@@ -552,6 +555,9 @@ public class PlayerHook : MonoBehaviour
                 //Debug.Log("hier"); //resettet alle values wenn auch wenn man nicht switched --> evtl nur if hookstate != active und active erst am ende der funktion setzen
                 m_targetPosition = m_currentSelectedTarget.transform.position;
                 CheckTargetType(m_currentSelectedTarget);
+
+                CameraManager.Instance.ImpactScreenShake(m_hitScreenShakeDuration, m_hitScreenShakeStrength);
+
                 switch (m_currentTargetType)
                 {
                     case HookType.Hook:
