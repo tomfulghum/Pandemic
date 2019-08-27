@@ -88,12 +88,12 @@ public class PlayerAnim : MonoBehaviour
 
         if (m_pm.inputState.movement != Vector2.zero && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && m_currentPlayerState != PlayerState.Disabled)
         {
-            UpdateCollider(m_facingLeft);
+            //UpdateCollider(m_facingLeft);
             m_anim.SetBool("Moving", true);
         }
         else
         {
-            UpdateCollider(false);
+            //UpdateCollider(false);
             m_anim.SetBool("Moving", false);
         }
 
