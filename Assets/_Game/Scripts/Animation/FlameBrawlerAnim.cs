@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlameBrawlerAnim : MonoBehaviour
 {
 
-    [SerializeField] private BoxCollider2D m_knockBackCollider = default;
+    [SerializeField] private List<BoxCollider2D> m_knockBackColliders = default;
 
     //**********************//
     //    Private Fields    //
@@ -82,12 +82,18 @@ public class FlameBrawlerAnim : MonoBehaviour
         if (_facingRight && Mathf.Sign(GetComponent<Collider2D>().offset.x) == 1)
         {
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
-            m_knockBackCollider.offset = new Vector2(m_knockBackCollider.offset.x * -1, m_knockBackCollider.offset.y);
+            foreach (BoxCollider2D col in m_knockBackColliders)
+            {
+                col.offset = new Vector2(col.offset.x * -1, col.offset.y);
+            }
         }
         else if (!_facingRight && Mathf.Sign(GetComponent<Collider2D>().offset.x) == -1)
         {
             GetComponent<Collider2D>().offset = new Vector2(GetComponent<Collider2D>().offset.x * -1, GetComponent<Collider2D>().offset.y);
-            m_knockBackCollider.offset = new Vector2(m_knockBackCollider.offset.x * -1, m_knockBackCollider.offset.y);
+            foreach (BoxCollider2D col in m_knockBackColliders)
+            {
+                col.offset = new Vector2(col.offset.x * -1, col.offset.y);
+            }
         }
     }
 

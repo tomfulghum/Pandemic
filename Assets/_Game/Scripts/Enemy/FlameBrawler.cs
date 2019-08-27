@@ -42,6 +42,7 @@ public class FlameBrawler : MonoBehaviour
     [SerializeField] private float m_timeToRegainShield = 5f;
     [SerializeField] private GameObject m_flamePrefab = default;
     [SerializeField] private GameObject m_shieldPrefab = default;
+    [SerializeField] private GameObject m_attackCollider = default;
 
     //******************//
     //    Properties    //
@@ -189,13 +190,13 @@ public class FlameBrawler : MonoBehaviour
                 case MovementState.Stuck:
                     {
                         m_stuckCounter--;
-                        if(m_stuckCounter < 0)
+                        if (m_stuckCounter < 0)
                         {
-                           // m_currentMovementState = MovementState.Decide;
+                            // m_currentMovementState = MovementState.Decide;
                             GetComponent<FlameBrawlerAnim>().StuckSuccesful();
                             m_stuckCounter = 90; // temporary to fix stuck succes bug 
                         }
-                        if(m_shield != null && m_shield .GetComponent<ThrowableObject>().currentObjectState != ThrowableObject.ThrowableState.Inactive)
+                        if (m_shield != null && m_shield.GetComponent<ThrowableObject>().currentObjectState != ThrowableObject.ThrowableState.Inactive)
                         {
                             m_vulnerable = true;
                         }
@@ -214,10 +215,10 @@ public class FlameBrawler : MonoBehaviour
                 if (m_leaveFlameTrail) //to prevent number overflow
                     SpawnFlame();
             }
-            if(m_shieldDropped) //regain shield time muss noch resettet werden (bei drop shield)
+            if (m_shieldDropped) //regain shield time muss noch resettet werden (bei drop shield)
             {
                 m_regainCounter += Time.deltaTime;
-                if(m_regainCounter > m_timeToRegainShield)
+                if (m_regainCounter > m_timeToRegainShield)
                 {
                     RegainShield();
                     m_regainCounter = 0;
@@ -314,7 +315,7 @@ public class FlameBrawler : MonoBehaviour
         float xOffset = m_flameSpawnXOffset;
         if (m_currentMovementDirection == MovementDirection.Right)
             xOffset *= -1f;
-        Vector2 spawnPosition = new Vector2(transform.position.x + xOffset, transform.position.y + GetComponent<BoxCollider2D>().bounds.max.y / 2);
+        Vector2 spawnPosition = new Vector2(transform.position.x + xOffset, GetComponent<BoxCollider2D>().bounds.center.y - GetComponent<BoxCollider2D>().bounds.extents.y - 0.03f);
         GameObject flame = Instantiate(m_flamePrefab, spawnPosition, transform.rotation);
         Destroy(flame, m_flameLifeTime);
     }
@@ -334,7 +335,7 @@ public class FlameBrawler : MonoBehaviour
 
     private void RegainShield()
     {
-        if(m_shield != null) //muss noch gedroppt werden für den spieler
+        if (m_shield != null) //muss noch gedroppt werden für den spieler
         {
             m_shield.GetComponent<ThrowableObject>().DestroyThrowableObject();
         }
@@ -356,6 +357,14 @@ public class FlameBrawler : MonoBehaviour
         m_shield = Instantiate(m_shieldPrefab, shieldPosition, transform.rotation);
         m_shieldDropped = true;
         m_regainCounter = 0;
+    }
+
+    private void ActivateAttackCollider(int _activate) //using int cause animation events dont allow bool parameters
+    {
+        if (_activate == 0)
+            m_attackCollider.GetComponent<EnemyKnockback>().IsEnemyLethal(false);
+        else if (_activate == 1)
+            m_attackCollider.GetComponent<EnemyKnockback>().IsEnemyLethal(true);
     }
 
     //************************//
