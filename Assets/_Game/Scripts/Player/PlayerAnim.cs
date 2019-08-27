@@ -87,9 +87,15 @@ public class PlayerAnim : MonoBehaviour
         }
 
         if (m_pm.inputState.movement != Vector2.zero && m_actor.contacts.below && m_pc.currentAttackState != PlayerCombat.AttackState.Dash && m_currentPlayerState != PlayerState.Disabled)
+        {
+            UpdateCollider(m_facingLeft);
             m_anim.SetBool("Moving", true);
+        }
         else
+        {
+            UpdateCollider(false);
             m_anim.SetBool("Moving", false);
+        }
 
         if (m_currentPlayerState == PlayerState.Disabled)
             m_anim.SetBool("Hit", true);
@@ -104,7 +110,7 @@ public class PlayerAnim : MonoBehaviour
         else
             m_anim.SetBool("Dash", false);
 
-        UpdateCollider(m_facingLeft); //später updaten --> siehe wochenbericht
+        //UpdateCollider(m_facingLeft); //später updaten --> siehe wochenbericht
         if (m_pc.currentAttackState != PlayerCombat.AttackState.Dash && m_currentPlayerState != PlayerState.Disabled)
         {
             SetFacingDirection();
