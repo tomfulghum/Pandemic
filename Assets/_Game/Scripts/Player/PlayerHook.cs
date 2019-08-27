@@ -774,7 +774,7 @@ public class PlayerHook : MonoBehaviour
         for (int i = 0; i < hookPointsInSight.Count; i++) //wie am besten den extra filter applyen?
         {
             VisualizeLine(transform.position, hookPointsInSight[i].transform.position);
-            hookPointsInSight[i].GetComponent<SpriteRenderer>().color = Color.red;
+            //hookPointsInSight[i].GetComponent<SpriteRenderer>().color = Color.red;
             Vector2 playerToColliderDirection = (hookPointsInSight[i].transform.position - transform.position).normalized;
             float angleInDeg = Vector2.Angle(playerToColliderDirection, _searchDirection);
 
@@ -824,9 +824,12 @@ public class PlayerHook : MonoBehaviour
 
         if (nearestTargetPoint != null)
         {
-            nearestTargetPoint.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0.8588235f, 1); //00FFDB
+            if (!nearestTargetPoint.CompareTag("Throwable"))
+                nearestTargetPoint.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0.8588235f, 1); //00FFDB
             if (nearestTargetPoint.GetComponent<Animator>() != null)
                 nearestTargetPoint.GetComponent<Animator>().SetBool("Selected", true);
+            if (nearestTargetPoint.GetComponent<ThrowableObject>() != null)
+                nearestTargetPoint.GetComponent<ThrowableObject>().SelectionGlow(true);
         }
         return nearestTargetPoint;
     }
@@ -850,6 +853,8 @@ public class PlayerHook : MonoBehaviour
                 m_totalHookPoints[i].GetComponent<SpriteRenderer>().color = Color.white;
                 if (m_totalHookPoints[i].GetComponent<Animator>() != null)
                     m_totalHookPoints[i].GetComponent<Animator>().SetBool("Selected", false);
+                if (m_totalHookPoints[i].GetComponent<ThrowableObject>() != null)
+                    m_totalHookPoints[i].GetComponent<ThrowableObject>().SelectionGlow(false);
             }
         }
     }
