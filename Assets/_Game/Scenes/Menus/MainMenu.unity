@@ -2876,6 +2876,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546727495}
   m_CullTransparentMesh: 0
+--- !u!1 &547449283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 547449284}
+  - component: {fileID: 547449286}
+  - component: {fileID: 547449285}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [Valentina-Regular SDF Material + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &547449284
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547449283}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 995576737}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &547449285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547449283}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 1.25
+  m_canvasRenderer: {fileID: 547449286}
+  m_TextComponent: {fileID: 995576739}
+  m_materialReferenceIndex: 1
+--- !u!222 &547449286
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547449283}
+  m_CullTransparentMesh: 0
 --- !u!1 &558925968
 GameObject:
   m_ObjectHideFlags: 0
@@ -5686,8 +5760,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 127}
-  m_SizeDelta: {x: 2800, y: 1300}
+  m_AnchoredPosition: {x: 0, y: 280.4}
+  m_SizeDelta: {x: 2800, y: 1606.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &770390335
 MonoBehaviour:
@@ -6758,7 +6832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -5711}
+  m_AnchoredPosition: {x: 0, y: -2432}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &929529860
@@ -6905,6 +6979,7 @@ RectTransform:
   - {fileID: 1904544458}
   - {fileID: 1556228727}
   - {fileID: 929529859}
+  - {fileID: 547449284}
   m_Father: {fileID: 770390334}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6925,8 +7000,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a4e46e9df54c84689f8716846e5daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeedPerSecond: 200
-  startPosY: -9300
+  scrollSpeedPerSecond: 250
+  startPosY: -9000
 --- !u!114 &995576739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6955,13 +7030,21 @@ MonoBehaviour:
     CREATION\r\nKatharina Franz\r\n\r\nENVIRONMENT ART\r\nThora Waldmann\r\nMichelle
     \"Myo\" Sonntag\r\nPorseng Klara Kisa\r\nFlorian Mazreku\r\nVerena Geilfus\r\n\r\n2D
     ART\r\nVerena Geilfus\r\nFlorian Mazreku\r\n\r\nCHARACTER ANIMATION\r\nKatharina
-    Franz\r\n\r\nANIMATION\r\nVerena Geilfus\r\n\r\n\r\nTECH ART\r\nPhilipp Glas\r\nAlex
-    Kuth\r\n\r\nVISUAL EFFECTS\r\nAlex Kuth\r\n\r\n\r\nLEVEL DESIGN\r\nDaniel Probst\r\nYannick
-    Arndt\r\n\r\n\r\nPRODUCING\r\nDaniel Probst\r\n\r\n\r\nMADE WITH\r\n\n\n\n\n\n\n\n\r\n\r\nSTUDENTS
-    PROJECT AT\r\n\n\n\n\n\n\n\n\r\n\r\nSUPPORTING INSTRUCTORS\r\nProf. Dominik Mieth\r\nProf.
-    Henning Janssen\r\nProf. Dr. Christoph Minnameier\r\nJakob Thomsen\r\nUtz Wagner\r\n\r\n\r\nSPECIAL
-    THANKS\r\nAll our Playtesters\r\nOur Families and Friends\r\nTeam Cherry \r\nRubber
-    Duck\r\nJulian Betz\r\nMD.I\r\nFreddy\r\nAttila (Hannibal)\r\n"
+    Franz\r\n\r\nENEMY ANIMATION\r\nVerena Geilfus\r\n\r\nANIMATION\r\nFlorian Mazreku\r\n\r\n\r\nTECH
+    ART\r\nPhilipp Glas\r\nAlex Kuth\r\n\r\n\nVISUAL EFFECTS\r\nAlex Kuth\r\n\r\n\nMENU
+    DESIGN\r\nAlex Kuth\r\n\r\n\r\nLEVEL DESIGN\r\nDaniel Probst\r\nYannick Arndt\r\n\r\n\r\nPRODUCING\r\nDaniel
+    Probst\r\n\r\n\r\nMADE WITH\r\n\n\r\n\n\n\n\n\r\nA STUDENTS PROJECT AT\r\n\n\r\n\n\n\n\n\r\nSUPPORTING
+    INSTRUCTORS\r\nProf. Dominik Mieth\r\nProf. Henning Janssen\r\nProf. Dr. Christoph
+    Minnameier\r\nJakob Thomsen\r\nUtz Wagner\r\n\r\n\n\r\nSPECIAL THANKS TO\r\n\nOur
+    Families and Friends\r\nTeam Cherry \r\nRubber Duck\r\nMD.I\r\nFreddy\r\nPaulaner
+    Spezi\r\nCoffee\r\n\r\nAND THANKS TO ALL OUR PLAYTESTERS\r\n\nMario \u201CCrystalBeast\u201D
+    Ambrosio\r\nSimon \u201C#HashtagAssassin\u201D Bortnik\r\nTobi\r\nSebmarster\r\nSven\r\nChris
+    \u201COh mein Gott wie lang ist dieser Spitzname\u201D Schneider\r\nFabian \u201EOmlett\u201C
+    Topel\r\nJakob\r\nToni Vogel\r\nLuis Wiedenmann\r\nMaximilian Wallach\r\nGregor
+    Sch\xFCtz\r\nArdilla der Nusserer/Attila\r\nAlisa Latic\r\nMaximilian Mieczalok\r\nBarack
+    Obama\r\nKsenia\r\nJulian\r\nLucas\r\nLeonhard Mentzel\r\nEliza Ghanbar\r\nMichael
+    Berndl\r\nDominik Bauer\r\nMarcel M\xF6ller\r\nDave\r\netor4k\r\nJuliettA\r\n\u2026and
+    many more!\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 777d777c5a9a4b14390eb4eeb452e886, type: 2}
   m_sharedMaterial: {fileID: 5183739587154819703, guid: 777d777c5a9a4b14390eb4eeb452e886,
@@ -6990,8 +7073,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 120
-  m_fontSizeBase: 120
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7007,7 +7090,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 2
-  m_firstOverflowCharacterIndex: 21
+  m_firstOverflowCharacterIndex: 63
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -7031,21 +7114,21 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -3.209237, w: -148.86536}
   m_textInfo:
     textComponent: {fileID: 995576739}
-    characterCount: 1060
+    characterCount: 1602
     spriteCount: 0
-    spaceCount: 184
-    wordCount: 130
+    spaceCount: 259
+    wordCount: 202
     linkCount: 0
-    lineCount: 114
+    lineCount: 150
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 547449285}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -11447,14 +11530,14 @@ RectTransform:
   m_GameObject: {fileID: 1556228726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 21.167055, y: 21.167055, z: 21.167055}
+  m_LocalScale: {x: 17.51447, y: 17.51447, z: 17.51447}
   m_Children: []
   m_Father: {fileID: 995576737}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -4023}
+  m_AnchoredPosition: {x: 0, y: -1553}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1556228728
@@ -15159,7 +15242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 8529}
+  m_AnchoredPosition: {x: 0, y: 7521}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1904544459
