@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_speedMultiplier: 1.3
-  m_throwCount: 1000
+  m_throwCount: 6
   m_rotationOffset: 90
   m_destructionColor: 0
   m_destructionEffect: {fileID: 9086232130830864787, guid: 980f908412139794cb7ddbdb68075b13,
