@@ -6,6 +6,45 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Game/Scenes/GameManagement.unity
+    guid: e58988e7e89112f4d88f2bfb7c099b9d
+  - enabled: 1
+    path: Assets/_Game/Scenes/Menus/MainMenu.unity
+    guid: 9938a6063d2badc47a4a4a62f8af4db1
+  - enabled: 0
     path: Assets/_Game/Scenes/Test/Test_Dani.unity
     guid: 5cdd3f5e4153f5a47822127ce4c084ad
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/Test_Freddy.unity
+    guid: a0f52356655f7474ea18747123397b32
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_Rooftops.unity
+    guid: afc75509293a0314ab65fe371f3dd0d3
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_Docks.unity
+    guid: 690e607e4087b064b844d5125b7b7eba
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_Waterways.unity
+    guid: bf208adecad92824c8b6e1ba58db0d31
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/GameManagement_Test.unity
+    guid: bd9035c8af8596f44bacc84e6666be23
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/Test_Daniel_ArtStyle.unity
+    guid: 8fb1fd099790eb14c9535e251e137bc5
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/Test_Freddy_2.unity
+    guid: b49f6dd49bbda4c43ab6e1e46697e41a
+  - enabled: 1
+    path: Assets/_Game/Scenes/Test/Test_Freddy_3.unity
+    guid: d73be84981125264a8cd06cdd1b6eb99
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_Rooftops2.unity
+    guid: 1b5e8f73d9b523542bb904a608b9f0a2
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_FireCamp.unity
+    guid: 7894a64ae8ede1842ae27544dcdad09b
+  - enabled: 1
+    path: Assets/_Game/Scenes/Levels/Blockout_LighthouseAndWorkshop.unity
+    guid: f7ca8c452e431154ebf88a35f30d275d
   m_configObjects: {}

@@ -5,6 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - HookPoint
+  - Enemy
+  - BigEnemy
+  - Throwable
+  - RopePoint
+  - MovingObject
+  - NormalKey
+  - BossKey
+  - KeyDoor
+  - BossDoor
   layers:
   - Default
   - TransparentFX
@@ -16,6 +25,16 @@ TagManager:
   - 
   - Ground
   - HookPoint
+  - Player
+  - Enemy
+  - Pickup
+  - EnemyProjectile
+  - 
+  - 
+  - 
+  - 
+  - Platform
+  - MovingPlatform
   - 
   - 
   - 
@@ -24,30 +43,35 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - SolidObject
+  - Wall
+  - PostProcessing
   - Background
   m_SortingLayers:
+  - name: ParallaxLevel3
+    uniqueID: 1402944261
+    locked: 0
+  - name: ParallaxLevel2
+    uniqueID: 440290151
+    locked: 0
+  - name: ParallaxLevel1
+    uniqueID: 2324558739
+    locked: 0
   - name: Background
     uniqueID: 693606343
     locked: 0
-  - name: Platform
+  - name: Environment VFX Background
+    uniqueID: 3950998315
+    locked: 0
+  - name: PlatformBackground
+    uniqueID: 1267284147
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: PlatformForeground
     uniqueID: 3119722303
     locked: 0
   - name: Foreground
     uniqueID: 2613267703
-    locked: 0
-  - name: Default
-    uniqueID: 0
     locked: 0

@@ -1,0 +1,317 @@
+fileFormatVersion: 2
+guid: 2c7cc2488d20a1d44a7690edab657d5c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7536453295850979395
+    second: ani_dissolving_clouds_01_0
+  - first:
+      213: -6671108555845832810
+    second: ani_dissolving_clouds_01_1
+  - first:
+      213: -3290182714920784958
+    second: ani_dissolving_clouds_01_2
+  - first:
+      213: 5291106047653354405
+    second: ani_dissolving_clouds_01_3
+  - first:
+      213: 1566697469533965227
+    second: ani_dissolving_clouds_01_4
+  - first:
+      213: 6533308996015771268
+    second: ani_dissolving_clouds_01_5
+  - first:
+      213: -8433269906663181874
+    second: ani_dissolving_clouds_01_6
+  - first:
+      213: -4245556860900099292
+    second: ani_dissolving_clouds_01_7
+  - first:
+      213: -1557569664208533111
+    second: ani_dissolving_clouds_01_8
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 266.6667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99a4aeb3db013134783a9e74df02892e
+      internalID: -7536453295850979395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_1
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 266.6667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b237ecf3774b77140818fadde3b63a65
+      internalID: -6671108555845832810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_2
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 266.6667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58316164656765d4285cdbe0e62945f2
+      internalID: -3290182714920784958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 133.66667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7894d0d110d139b44b1758c738651106
+      internalID: 5291106047653354405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_4
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 133.66667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c101b78c5b9e8c34cb86ffa918071347
+      internalID: 1566697469533965227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_5
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 133.66667
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59c85e51a1fd90f45b5ea273352342cb
+      internalID: 6533308996015771268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0.66667175
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ee1793e88116b147bfb70e3e9503761
+      internalID: -8433269906663181874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_7
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 0.66667175
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3766ebc481a6494087642d265c73ea8
+      internalID: -4245556860900099292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_dissolving_clouds_01_8
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 0.66667175
+        width: 133.33333
+        height: 133.33333
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b206a7713366cd541a023ae9ec0f6f9a
+      internalID: -1557569664208533111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 6d197e1024acf8d41912eaecbe0339e0
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,293 @@
+fileFormatVersion: 2
+guid: 1879c8d2f54f8e24691475d44cf60a1c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4027966520933836092
+    second: ani_lever_0
+  - first:
+      213: 3849750247587555925
+    second: ani_lever_1
+  - first:
+      213: 4816414867046206487
+    second: ani_lever_2
+  - first:
+      213: 636100466398599325
+    second: ani_lever_3
+  - first:
+      213: 4752708892573436305
+    second: ani_lever_4
+  - first:
+      213: 8877397960410718377
+    second: ani_lever_5
+  - first:
+      213: 1106778034216964740
+    second: ani_lever_6
+  - first:
+      213: -2334334051480370943
+    second: ani_lever_7
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ani_lever_0
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 799
+        height: 695
+      alignment: 9
+      pivot: {x: 0.8248083, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 491050bc13e495940b5462abdaedd4df
+      internalID: -4027966520933836092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_1
+      rect:
+        serializedVersion: 2
+        x: 1145
+        y: 0
+        width: 709
+        height: 726
+      alignment: 9
+      pivot: {x: 0.93094885, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9b9a1ebd07d18441ae57840e89c2cc0
+      internalID: 3849750247587555925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_2
+      rect:
+        serializedVersion: 2
+        x: 2170
+        y: 0
+        width: 659
+        height: 755
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45fc3a6d5624cf945a62286fe4854e15
+      internalID: 4816414867046206487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_3
+      rect:
+        serializedVersion: 2
+        x: 3165
+        y: 0
+        width: 670
+        height: 710
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8685a377e4ec7d14e88813b06a2d32b9
+      internalID: 636100466398599325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_4
+      rect:
+        serializedVersion: 2
+        x: 4084
+        y: 0
+        width: 832
+        height: 606
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10f661bf58f4dec4b9351ff833fe8ead
+      internalID: 4752708892573436305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_5
+      rect:
+        serializedVersion: 2
+        x: 5084
+        y: 0
+        width: 832
+        height: 606
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb8506cde4776494ca02dd24fb3c4ec1
+      internalID: 8877397960410718377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_6
+      rect:
+        serializedVersion: 2
+        x: 6084
+        y: 0
+        width: 832
+        height: 606
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70b9b6e93655d8b4580487b85d91c50a
+      internalID: 1106778034216964740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ani_lever_7
+      rect:
+        serializedVersion: 2
+        x: 7084
+        y: 0
+        width: 832
+        height: 606
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe84872acab43f24d9c6724fa85c1032
+      internalID: -2334334051480370943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: c54f298b4c74b00479307c1141caa385
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

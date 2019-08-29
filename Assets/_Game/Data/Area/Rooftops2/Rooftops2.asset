@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
+  m_Name: Rooftops2
+  m_EditorClassIdentifier: 
+  m_id: 49278e3d575846c408b6f974149ada5c
+  m_sceneName: Blockout_Rooftops2
+  m_spawnPoints:
+  - {fileID: 11400000, guid: 52171eabe1ab9c145aa2926494d2785f, type: 2}
+  - {fileID: 11400000, guid: afeb674f9927e3c4c81107f760aba401, type: 2}
