@@ -16,3 +16,4 @@ MonoBehaviour:
   m_sceneName: Blockout_FireCamp
   m_spawnPoints:
   - {fileID: 11400000, guid: 433c08042c8159a488de76b83e3a410b, type: 2}
+  - {fileID: 11400000, guid: f58fedf2e09108e429ace7421bf6f401, type: 2}

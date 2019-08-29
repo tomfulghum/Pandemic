@@ -2349,7 +2349,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_areas.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: f82e120b1d310de4eba5f326fd83651b,
+      objectReference: {fileID: 11400000, guid: 8e126bfdb36ee9e4089241d72b736d7e,
         type: 2}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}

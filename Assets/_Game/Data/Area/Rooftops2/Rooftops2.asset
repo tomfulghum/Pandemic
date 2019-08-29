@@ -17,3 +17,4 @@ MonoBehaviour:
   m_spawnPoints:
   - {fileID: 11400000, guid: 52171eabe1ab9c145aa2926494d2785f, type: 2}
   - {fileID: 11400000, guid: afeb674f9927e3c4c81107f760aba401, type: 2}
+  - {fileID: 11400000, guid: 4e9ca4f387d7cd9418938e88ff65f7f1, type: 2}

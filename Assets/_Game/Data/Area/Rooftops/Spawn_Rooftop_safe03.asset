@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31d8ac6a3aba4c468028eb1b2960075, type: 3}
+  m_Name: Spawn_Rooftop_safe03
+  m_EditorClassIdentifier: 
+  m_id: cda02a42db9e64e479ae0ef4a9b202c2
+  m_area: {fileID: 11400000, guid: 8e126bfdb36ee9e4089241d72b736d7e, type: 2}
