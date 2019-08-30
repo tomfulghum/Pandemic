@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Spawn_FireCamp_safe05
   m_EditorClassIdentifier: 
   m_id: f58fedf2e09108e429ace7421bf6f401
-  m_area: {fileID: 0}
+  m_area: {fileID: 11400000, guid: a526ef5c6b1da4f49b6761d50034cda6, type: 2}
