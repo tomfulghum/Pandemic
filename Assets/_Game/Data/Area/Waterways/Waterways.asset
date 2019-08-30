@@ -16,3 +16,4 @@ MonoBehaviour:
   m_sceneName: Blockout_Waterways
   m_spawnPoints:
   - {fileID: 11400000, guid: b76c4c6b5b75d4546bcc90a1f429508e, type: 2}
+  - {fileID: 11400000, guid: 19a6b521dfd31fc43b50c22365e518ad, type: 2}
