@@ -25,7 +25,7 @@ public class CrawlingEnemyAnim : MonoBehaviour
             anim.SetTrigger("Death");
             TriggeredDeath = true;
         }
-        UpdateCollider(GetComponent<SpriteRenderer>().flipX);
+        //UpdateCollider(GetComponent<SpriteRenderer>().flipX);
         if (enemy.currentMovementDirection == CrawlingEnemy.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
         else

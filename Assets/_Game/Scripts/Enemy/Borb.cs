@@ -202,6 +202,7 @@ public class Borb : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(_position, Vector2.down, Mathf.Infinity, m_sightBlockingLayers); //evtl eigene layermask //hier nur für ground layer benötigt
         if (hit.collider != null)
             Distance = hit.distance;
+        //Debug.Log(Distance);
         return Distance;
     }
 
@@ -219,7 +220,7 @@ public class Borb : MonoBehaviour
         {
             m_objectToChase = PlayerInSight();
             if (m_objectToChase != null && ChasePlayer() && (transform.position.y == m_flightHeight || CheckCeilingHit()))
-                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange)
+                if (Mathf.Abs(transform.position.x - m_objectToChase.position.x) < m_diveTriggerRange) //nochmal debuggen warum der borb manchmal nicht triggert
                 {
                     m_currentMovementState = MovementState.Nosedive;
                     //m_ekb.IsEnemyLethal(true);

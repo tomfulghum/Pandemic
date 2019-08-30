@@ -244,13 +244,14 @@ public class FlameBrawler : MonoBehaviour
                 m_currentMovementDirection = MovementDirection.Right;
             m_enemy.invincible = true;
             m_currentMovementState = MovementState.Block;
-            RegainShield();
+            if (m_shieldDropped)
+                RegainShield();
         }
         else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck && m_currentMovementState != MovementState.AttackFinished && m_currentMovementState != MovementState.ShieldRegain)
         {
             if (m_objectToChase != null)
             {
-                if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange)
+                if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange && m_vulnerable == false)
                 {
                     m_currentMovementState = MovementState.Attack;
                 }
@@ -326,7 +327,7 @@ public class FlameBrawler : MonoBehaviour
 
         RaycastHit2D hitMiddle;
         if (currentMovementDirection == MovementDirection.Left)
-            hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+            hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         else
             hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         if (hitMiddle.collider != null)
@@ -338,7 +339,7 @@ public class FlameBrawler : MonoBehaviour
         rayCastStartPosTop.y += GetComponent<BoxCollider2D>().bounds.extents.y;
 
         if (currentMovementDirection == MovementDirection.Left)
-            hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+            hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         else
             hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         if (hitTop.collider != null)
@@ -350,7 +351,7 @@ public class FlameBrawler : MonoBehaviour
         rayCastStartPosTop.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
 
         if (currentMovementDirection == MovementDirection.Left)
-            hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+            hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         else
             hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         if (hitBottom.collider != null)
@@ -392,11 +393,11 @@ public class FlameBrawler : MonoBehaviour
         }
         Vector2 shieldPosition = GetComponent<BoxCollider2D>().bounds.center;
         shieldPosition.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
-        Debug.Log("shield pos before correction: " + shieldPosition.y);
+        //Debug.Log("shield pos before correction: " + shieldPosition.y);
         shieldPosition.y += 1.185701f; //normally 2 just for bug testing
-        Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y);
-        Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y * 10);
-        Debug.Log("shield pos after correction: " + shieldPosition.y);
+        //Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y);
+        //Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y * 10);
+        //Debug.Log("shield pos after correction: " + shieldPosition.y);
         //m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
         m_shield = Instantiate(m_shieldPrefab, shieldPosition, transform.rotation);
         m_shieldDropped = true;
@@ -430,6 +431,14 @@ public class FlameBrawler : MonoBehaviour
             Destroy(m_shield);
             m_vulnerable = false;
             m_shieldDropped = false;
+        }
+    }
+
+    public void Attack()
+    {
+        if (m_vulnerable)
+        {
+            GetComponent<Animator>().SetTrigger("Attack");
         }
     }
 }
