@@ -16,7 +16,6 @@ public class AreaController : MonoBehaviour
 
     [SerializeField] private List<NormalKey> m_normalKeys = default;
     [SerializeField] private List<Lever> m_levers = default;
-    [SerializeField] private List<Enemy> m_enemies = default;
 
     //******************//
     //    Properties    //
@@ -58,11 +57,6 @@ public class AreaController : MonoBehaviour
         for (int i = 0; i < m_state.leverStates.Count; i++) {
             m_levers[i].SetState(m_state.leverStates[i]);
         }
-    }
-
-    private void InitializeEnemies()
-    {
-        
     }
 
     //************************//

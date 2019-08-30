@@ -2397,7 +2397,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_startPoint
       value: 
-      objectReference: {fileID: 11400000, guid: ef6d878a632d82f4c917a21b1bbc8ec7,
+      objectReference: {fileID: 11400000, guid: 26cba73a52ed1fa46ab461cc86b0331d,
         type: 2}
     - target: {fileID: 7606593944876497957, guid: c11fa1eff3defda468637526b629958d,
         type: 3}

@@ -26,7 +26,7 @@ public class CanvasGroupFader : MonoBehaviour
             float change = step * Time.deltaTime;
             canvasGroup.alpha += change;
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
         canvasGroup.alpha = _target;

@@ -85,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput m_input;
     private Actor2D m_actor;
     private Rigidbody2D m_rb;
+    private PlayerAnim m_anim;
 
     private Vector2 m_externalVelocity = Vector2.zero;
     public Vector2 m_momentum = Vector2.zero;
@@ -102,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
         m_input = GetComponent<PlayerInput>();
         m_actor = GetComponent<Actor2D>();
         m_rb = GetComponent<Rigidbody2D>();
+        m_anim = GetComponent<PlayerAnim>();
 
         m_inputState = new InputState();
     }
@@ -147,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
             m_inputState.jumpTimer = accelerationTime;
             m_inputState.jumpCancelTimer = accelerationTime + floatingTime;
 
-            GetComponent<PlayerAnim>().TriggerJumpAnim();
+            m_anim.TriggerJumpAnim();
         }
 
         // Cancel jump if the player releases the jump button
