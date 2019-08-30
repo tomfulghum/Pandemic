@@ -58,7 +58,7 @@ public class PlagueFlyerAnim : MonoBehaviour
         else
             m_anim.SetBool("Stuck", false);
 
-        UpdateCollider(GetComponent<SpriteRenderer>().flipX);
+        //UpdateCollider(GetComponent<SpriteRenderer>().flipX);
         if (m_enemy.currentMovementDirection == Borb.MovementDirection.Left)
             GetComponent<SpriteRenderer>().flipX = false;
         else

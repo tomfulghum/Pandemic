@@ -392,11 +392,11 @@ public class FlameBrawler : MonoBehaviour
         }
         Vector2 shieldPosition = GetComponent<BoxCollider2D>().bounds.center;
         shieldPosition.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
-        Debug.Log("shield pos before correction: " + shieldPosition.y);
+        //Debug.Log("shield pos before correction: " + shieldPosition.y);
         shieldPosition.y += 1.185701f; //normally 2 just for bug testing
-        Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y);
-        Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y * 10);
-        Debug.Log("shield pos after correction: " + shieldPosition.y);
+        //Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y);
+        //Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y * 10);
+        //Debug.Log("shield pos after correction: " + shieldPosition.y);
         //m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
         m_shield = Instantiate(m_shieldPrefab, shieldPosition, transform.rotation);
         m_shieldDropped = true;
