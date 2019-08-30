@@ -261,7 +261,7 @@ public class FlameBrawler : MonoBehaviour
             }
             else if (m_currentMovementState != MovementState.Idle)
             {
-                if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left)
+                if (CheckGroundAhead() == false || m_actor.contacts.right || m_actor.contacts.left || WallAhead())
                 {
                     ChangeDirection();
                     m_currentMovementState = MovementState.Move;
@@ -320,14 +320,53 @@ public class FlameBrawler : MonoBehaviour
         Destroy(flame, m_flameLifeTime);
     }
 
+    private bool WallAhead()
+    {
+        bool hitSmth = false;
+
+        RaycastHit2D hitMiddle;
+        if (currentMovementDirection == MovementDirection.Left)
+            hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+        else
+            hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
+        if (hitMiddle.collider != null)
+            hitSmth = true;
+
+        RaycastHit2D hitTop;
+
+        Vector2 rayCastStartPosTop = GetComponent<BoxCollider2D>().bounds.center;
+        rayCastStartPosTop.y += GetComponent<BoxCollider2D>().bounds.extents.y;
+
+        if (currentMovementDirection == MovementDirection.Left)
+            hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+        else
+            hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
+        if (hitTop.collider != null)
+            hitSmth = true;
+
+        RaycastHit2D hitBottom;
+
+        Vector2 rayCastStartPosBottom = GetComponent<BoxCollider2D>().bounds.center;
+        rayCastStartPosTop.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
+
+        if (currentMovementDirection == MovementDirection.Left)
+            hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+        else
+            hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
+        if (hitBottom.collider != null)
+            hitSmth = true;
+
+        return hitSmth;
+    }
+
     private bool CheckGroundAhead()
     {
         //Debug.DrawRay(GetComponent<BoxCollider2D>().bounds.center + Vector3.left, -Vector3.up * ((GetComponent<Collider2D>().bounds.extents.y) + 0.2f), Color.green);
         RaycastHit2D hit;
         if (currentMovementDirection == MovementDirection.Left)
-            hit = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center + Vector3.left, Vector2.down, GetComponent<Collider2D>().bounds.extents.y + 0.2f); //warum nicht Vector2.down?
+            hit = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center + (Vector3.left * 2), Vector2.down, GetComponent<Collider2D>().bounds.extents.y + 0.2f); //warum nicht Vector2.down?
         else
-            hit = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center + Vector3.right, Vector2.down, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
+            hit = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center + (Vector3.right * 2), Vector2.down, GetComponent<Collider2D>().bounds.extents.y + 0.2f);
         if (hit.collider != null)
             return true;
         return false;
@@ -353,6 +392,11 @@ public class FlameBrawler : MonoBehaviour
         }
         Vector2 shieldPosition = GetComponent<BoxCollider2D>().bounds.center;
         shieldPosition.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
+        Debug.Log("shield pos before correction: " + shieldPosition.y);
+        shieldPosition.y += 1.185701f; //normally 2 just for bug testing
+        Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y);
+        Debug.Log("shieldpos collider extends: " + m_shieldPrefab.GetComponent<BoxCollider2D>().bounds.extents.y * 10);
+        Debug.Log("shield pos after correction: " + shieldPosition.y);
         //m_shield = Instantiate(m_shieldPrefab, transform.position, transform.rotation);
         m_shield = Instantiate(m_shieldPrefab, shieldPosition, transform.rotation);
         m_shieldDropped = true;

@@ -492,7 +492,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 693606343
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2da0cb37f978d6947ae9af7f71941fbd, type: 3}
   m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
@@ -2021,11 +2021,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7796129281509331321, guid: c3a676172e8c22e41b964254ada6f272,
-        type: 3}
-      propertyPath: m_enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5293281134618775224, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: m_attributes
@@ -2037,6 +2032,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8271949513082787837, guid: ed93864a2fc6d1b4786f00b2f38b4663,
         type: 3}
+    - target: {fileID: 7796129281509331321, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3a676172e8c22e41b964254ada6f272, type: 3}
 --- !u!1 &980633236
@@ -2573,6 +2573,36 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &1088059577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7664628583786878675}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1088059578}
+  m_Layer: 0
+  m_Name: Compass (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1088059578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 7664628583786878675}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088059577}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1094200690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3593,6 +3623,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1801270760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 8696336591276656493}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801270761}
+  m_Layer: 0
+  m_Name: Keychain (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1801270761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 8696336591276656493}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801270760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 29
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1859315333
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3825,17 +3885,17 @@ PrefabInstance:
     - target: {fileID: 474321565863776744, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 474321565863776758, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -38.94
+      value: -15.3
       objectReference: {fileID: 0}
     - target: {fileID: 474321565863776758, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.68
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 474321565863776758, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
         type: 3}
@@ -3886,6 +3946,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_leaveFlameTrail
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 474321565863776759, guid: 5f5cd6bbe25dcf84ba2b366754f005f7,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f5cd6bbe25dcf84ba2b366754f005f7, type: 3}
