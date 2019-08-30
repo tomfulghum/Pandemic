@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Spawn_Rooftops2_safe04
   m_EditorClassIdentifier: 
   m_id: 4e9ca4f387d7cd9418938e88ff65f7f1
-  m_area: {fileID: 0}
+  m_area: {fileID: 11400000, guid: 49278e3d575846c408b6f974149ada5c, type: 2}
