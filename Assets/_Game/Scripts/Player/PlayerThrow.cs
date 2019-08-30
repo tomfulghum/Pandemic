@@ -78,7 +78,7 @@ public class PlayerThrow : MonoBehaviour
             {
                 if (m_pickedUpObject != null && m_pickedUpObject.GetComponent<ThrowableObject>().currentObjectState == ThrowableObject.ThrowableState.PickedUp)
                 {
-                    if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook && m_ph.currentHookState != PlayerHook.HookState.Inactive)
+                    if (m_pa.currentPlayerState == PlayerAnim.PlayerState.Hook || m_ph.currentHookState != PlayerHook.HookState.Inactive)
                     {
                         m_ph.CancelHook();
                     }

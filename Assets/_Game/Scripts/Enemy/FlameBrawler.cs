@@ -244,7 +244,8 @@ public class FlameBrawler : MonoBehaviour
                 m_currentMovementDirection = MovementDirection.Right;
             m_enemy.invincible = true;
             m_currentMovementState = MovementState.Block;
-            RegainShield();
+            if (m_shieldDropped)
+                RegainShield();
         }
         else if (m_currentMovementState != MovementState.Block && m_currentMovementState != MovementState.Attack && m_currentMovementState != MovementState.Stuck && m_currentMovementState != MovementState.AttackFinished && m_currentMovementState != MovementState.ShieldRegain)
         {
@@ -326,7 +327,7 @@ public class FlameBrawler : MonoBehaviour
 
         RaycastHit2D hitMiddle;
         if (currentMovementDirection == MovementDirection.Left)
-            hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+            hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         else
             hitMiddle = Physics2D.Raycast(GetComponent<BoxCollider2D>().bounds.center, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         if (hitMiddle.collider != null)
@@ -338,7 +339,7 @@ public class FlameBrawler : MonoBehaviour
         rayCastStartPosTop.y += GetComponent<BoxCollider2D>().bounds.extents.y;
 
         if (currentMovementDirection == MovementDirection.Left)
-            hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+            hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         else
             hitTop = Physics2D.Raycast(rayCastStartPosTop, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         if (hitTop.collider != null)
@@ -350,7 +351,7 @@ public class FlameBrawler : MonoBehaviour
         rayCastStartPosTop.y -= GetComponent<BoxCollider2D>().bounds.extents.y;
 
         if (currentMovementDirection == MovementDirection.Left)
-            hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers); 
+            hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.left, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         else
             hitBottom = Physics2D.Raycast(rayCastStartPosBottom, Vector2.right, GetComponent<Collider2D>().bounds.extents.x * 3, m_sightBlockingLayers);
         if (hitBottom.collider != null)
@@ -435,7 +436,7 @@ public class FlameBrawler : MonoBehaviour
 
     public void Attack()
     {
-        if(m_vulnerable)
+        if (m_vulnerable)
         {
             GetComponent<Animator>().SetTrigger("Attack");
         }
