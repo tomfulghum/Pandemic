@@ -133,7 +133,7 @@ public class CrawlingEnemy : MonoBehaviour
         else if (CheckGroundAhead() == false)
         {
             float rnd = Random.Range(0f, 1f);
-            if ((rnd > 0.9f || (m_useIntelligentJump && CheckIfAnyJumpPossible())) && m_useJump)
+            if ((rnd > 0.9f && m_useJump) || (m_useIntelligentJump && CheckIfAnyJumpPossible()))
             { //rnd > 0.9f || //--> for better testing without random
                 m_currentMovementState = MovementState.Jump;
             }

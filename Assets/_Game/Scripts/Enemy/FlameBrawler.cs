@@ -250,7 +250,7 @@ public class FlameBrawler : MonoBehaviour
         {
             if (m_objectToChase != null)
             {
-                if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange)
+                if (Vector2.Distance(m_objectToChase.position, transform.position) < m_attackRange && m_vulnerable == false)
                 {
                     m_currentMovementState = MovementState.Attack;
                 }
@@ -430,6 +430,14 @@ public class FlameBrawler : MonoBehaviour
             Destroy(m_shield);
             m_vulnerable = false;
             m_shieldDropped = false;
+        }
+    }
+
+    public void Attack()
+    {
+        if(m_vulnerable)
+        {
+            GetComponent<Animator>().SetTrigger("Attack");
         }
     }
 }
