@@ -27,8 +27,8 @@ public class EnemyProjectile : MonoBehaviour
 
     [SerializeField] private bool m_isLethal = true;
 
-    [SerializeField] private Rigidbody2D m_rb;
-    [SerializeField] private Animator m_anim;
+    private Rigidbody2D m_rb;
+    private Animator m_anim;
 
     //*******************************//
     //    MonoBehaviour Functions    //
