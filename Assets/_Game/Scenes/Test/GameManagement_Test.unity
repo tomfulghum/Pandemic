@@ -287,15 +287,20 @@ PrefabInstance:
       propertyPath: m_targetReachedTolerance
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5821141842305213151, guid: c3a676172e8c22e41b964254ada6f272,
+    - target: {fileID: 5293281134618775225, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 3
+      propertyPath: m_usingController
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7688922770931256692, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821141842305213151, guid: c3a676172e8c22e41b964254ada6f272,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3613530043743714593, guid: c3a676172e8c22e41b964254ada6f272,
         type: 3}
