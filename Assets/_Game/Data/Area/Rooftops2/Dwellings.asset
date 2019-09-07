@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd00f74123db24d45b5da873c0241744, type: 3}
-  m_Name: Rooftops2
+  m_Name: Dwellings
   m_EditorClassIdentifier: 
   m_id: 49278e3d575846c408b6f974149ada5c
   m_sceneName: Blockout_Rooftops2
